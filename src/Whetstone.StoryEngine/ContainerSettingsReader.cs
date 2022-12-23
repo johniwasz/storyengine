@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using Amazon;
-using Amazon.S3.Model.Internal.MarshallTransformations;
 using Microsoft.Extensions.Logging;
 using Whetstone.StoryEngine.ConfigurationExtensions;
 using Whetstone.StoryEngine.Models.Configuration;
