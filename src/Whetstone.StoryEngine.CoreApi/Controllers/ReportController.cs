@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -8,6 +9,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using CsvHelper;
+using CsvHelper.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -179,11 +181,16 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
             using (MemoryStream stream = new MemoryStream())
             {
 
-                using (StreamWriter writer = new StreamWriter(stream))
-                using (var csv = new CsvWriter(writer, System.Globalization.CultureInfo.CurrentCulture))
+
+                var config = new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
-                    csv.Configuration.ShouldQuote = (x, cont) => { return false; };
-                    csv.Configuration.RegisterClassMap<MessageConsentReportRecordMap>();
+                    ShouldQuote = (args) => { return false; }
+                };
+
+                using (StreamWriter writer = new StreamWriter(stream))
+                using (var csv = new CsvWriter(writer, config))
+                {                   
+                    csv.Context.RegisterClassMap<MessageConsentReportRecordMap>();
                     csv.WriteRecords(messageRecords);
                     writer.Flush();
                 }

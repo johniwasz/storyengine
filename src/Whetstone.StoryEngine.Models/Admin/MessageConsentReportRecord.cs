@@ -84,28 +84,14 @@ namespace Whetstone.StoryEngine.Models.Admin
     {
         public MessageConsentReportRecordMap()
         {
-            Map(m => m.Status).ConvertUsing(x => x.Status ? "true" : "false").Name("successstatus").Index(0);
+            Map(m => m.Status ? "true" : "false").Name("successstatus").Index(0);
             Map(m => m.UserId).Name("userid").Index(1);
             Map(m => m.PhoneNumber).Name("phonenumber").Index(2); //.ConvertUsing(row => JsonConvert.DeserializeObject<Json>(row.GetField("Json")));
-            Map(m => m.SendTime).ConvertUsing(x =>
-            {
-                if (!x.SendTime.HasValue)
-                    return null;
-
-                return x.SendTime.Value.ToString("yyyy-MM-ddThh:mm:ss.fffffff");
-            }).Name("sendtime").Index(3);
+            Map(m => m.SendTime.HasValue ? m.SendTime.Value.ToString("yyyy-MM-ddThh:mm:ss.fffffff") : null).Name("sendtime").Index(3);
             Map(m => m.ProviderMessageId).Name("providermessageid").Index(4);
             Map(m => m.Message).Name("code").Index(5);
             Map(m => m.SessionId).Name("sessionid").Index(6);
-            Map(m => m.SmsConsentDate).ConvertUsing(x =>
-            {
-                if (!x.SmsConsentDate.HasValue)
-                    return null;
-
-                return x.SmsConsentDate.Value.ToString("yyyy-MM-ddThh:mm:ss.fffffff");
-            }).Name("smsconsentdate").Index(7);
-
-
+            Map(m => m.SmsConsentDate.HasValue ? m.SmsConsentDate.Value.ToString("yyyy-MM-ddThh:mm:ss.fffffff") : null).Name("smsconsentdate").Index(7);
 
 
 

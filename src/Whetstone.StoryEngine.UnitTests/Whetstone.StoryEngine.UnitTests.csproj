@@ -6,6 +6,12 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Twitter\**" />
+    <EmbeddedResource Remove="Twitter\**" />
+    <None Remove="Twitter\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <None Remove="Alexa\launchsymbicortrequest.json" />
@@ -35,9 +41,6 @@
     <None Remove="TitleFiles\whetstonetechnologies\0.3\whetstonetechnologies.yaml" />
     <None Remove="TitleFiles\whetstonetechnologies\0.4\whetstonetechnologies.yaml" />
     <None Remove="TitleFiles\whetstonetechnologies\0.5\whetstonetechnologies.yaml" />
-    <None Remove="Twitter\activityunfollow.json" />
-    <None Remove="Twitter\twitterfollowevent.json" />
-    <None Remove="Twitter\twitterusersample.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -143,15 +146,6 @@
     <Content Include="TitleFiles\whetstonetechnologies\0.5\whetstonetechnologies.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Twitter\activityunfollow.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Twitter\twitterfollowevent.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Twitter\twitterusersample.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -163,9 +157,9 @@
     <PackageReference Include="Amazon.Lambda.Core" Version="1.2.0" />
     <PackageReference Include="Amazon.Lambda.TestUtilities" Version="1.2.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
-    <PackageReference Include="Moq" Version="4.13.1" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
-    <PackageReference Include="Serilog.Sinks.Debug" Version="1.0.1" />
+    <PackageReference Include="Moq" Version="4.18.3" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+    <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
       <PrivateAssets>all</PrivateAssets>

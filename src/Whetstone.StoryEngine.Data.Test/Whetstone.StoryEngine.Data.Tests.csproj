@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.3.105.30" />
     <PackageReference Include="AWSSDK.RDS" Version="3.3.120.3" />
-    <PackageReference Include="CsvHelper" Version="19.0.0" />
+    <PackageReference Include="CsvHelper" Version="30.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.0" />
     <PackageReference Include="xunit" Version="2.4.1" />

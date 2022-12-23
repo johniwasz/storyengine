@@ -17,6 +17,7 @@ using Whetstone.StoryEngine.Reporting.ReportGenerator;
 using Whetstone.StoryEngine.Repository;
 using Whetstone.StoryEngine.Repository.Amazon;
 using SftpClient = Whetstone.StoryEngine.Repository.SftpClient;
+using ISftpClient = Whetstone.StoryEngine.Repository.ISftpClient;
 using Microsoft.Extensions.Logging;
 
 namespace Whetstone.StoryEngine.Reporting.ReportGenerator.Tests
