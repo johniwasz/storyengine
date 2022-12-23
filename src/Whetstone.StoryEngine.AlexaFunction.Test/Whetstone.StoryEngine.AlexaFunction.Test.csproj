@@ -207,7 +207,7 @@
 
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.Core" Version="1.2.0" />
-    <PackageReference Include="Amazon.Lambda.SQSEvents" Version="1.2.0" />
+    <PackageReference Include="Amazon.Lambda.SQSEvents" Version="2.1.0" />
     <PackageReference Include="Amazon.Lambda.TestUtilities" Version="1.2.0" />
     <PackageReference Include="MartinCostello.Testing.AwsLambdaTestServer" Version="0.3.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.8.0" />

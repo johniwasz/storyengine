@@ -23,7 +23,7 @@
 
     <PackageReference Include="Amazon.Lambda.Core" Version="1.2.0" />
     <PackageReference Include="Amazon.Lambda.TestUtilities" Version="1.2.0" />
-    <PackageReference Include="Amazon.Lambda.SQSEvents" Version="1.2.0" />
+    <PackageReference Include="Amazon.Lambda.SQSEvents" Version="2.1.0" />
 
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
