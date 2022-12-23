@@ -1,0 +1,109 @@
+﻿{
+  "Comment": "Generate Report",
+  "StartAt": "IsScheduled",
+  "States": {
+
+    "IsScheduled": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "And": [
+            {
+              "Variable": "$.isScheduled",
+              "BooleanEquals": true
+            }
+          ],
+          "Next": "WaitUntilDelivery"
+        }
+      ],
+      "Default": "GenerateReport"
+    },
+    "WaitUntilDelivery": {
+      "Type": "Wait",
+      "TimestampPath": "$.deliveryTime",
+      "Next": "GenerateReport"
+    },
+    "GenerateReport": {
+      "Type": "Task",
+      "Resource": "${GenerateReportTask.Arn}:LIVE",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "AggregateException",
+            "Lambda.Unknown",
+            "Lambda.ServiceException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "SendReport"
+    },
+    "IsSentOrNoMoreRetries": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "And": [
+            {
+              "Variable": "$.allSent",
+              "BooleanEquals": false
+            },
+            {
+              "Variable": "$.sendAttempts",
+              "NumericLessThan": 3
+            }
+          ],
+          "Next": "WaitTenSeconds"
+        },
+        {
+          "And": [
+            {
+              "Variable": "$.allSent",
+              "BooleanEquals": false
+            },
+            {
+              "Variable": "$.sendAttempts",
+              "NumericGreaterThan": 2
+            }
+          ],
+          "Next": "FailState"
+        }
+      ],
+      "Default": "NoOp"
+    },
+    "WaitTenSeconds": {
+      "Type": "Wait",
+      "Seconds": 10,
+      "Next": "SendReport"
+    },
+    "FailState": {
+      "Type": "Fail",
+      "Cause": "Report(s) could not be sent after three tries.",
+      "Error": "ReportsNotSent"
+    },
+    "SendReport": {
+      "Type": "Task",
+      "Resource": "${SendReportTask.Arn}:LIVE",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "AggregateException",
+            "Lambda.Unknown",
+            "Lambda.ServiceException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "IsSentOrNoMoreRetries"
+    },
+    "NoOp": {
+      "Type": "Pass",
+      "End": true
+    }
+  }
+}

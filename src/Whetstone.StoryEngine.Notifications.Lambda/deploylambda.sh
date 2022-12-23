@@ -1,0 +1,1 @@
+dotnet lambda deploy-serverless -sn Whetstone-Notifications-Dev -sb whetstone-utility -sp Whetstone.StoryEngine.Notifications.Lambda/ --region us-east-1 -t notificationsserverless.dev.template --profile default

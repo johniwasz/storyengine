@@ -1,0 +1,68 @@
+using System.Threading.Tasks;
+using Amazon;
+using Amazon.S3;
+using Whetstone.StoryEngine.Data.Caching;
+using Whetstone.StoryEngine.Data.EntityFramework.EntityManager;
+using Whetstone.StoryEngine.Models.Configuration;
+using Whetstone.StoryEngine.Models.Story;
+using Xunit;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Whetstone.StoryEngine.Data.Amazon;
+
+namespace Whetstone.StoryEngine.Data.Tests
+{
+    public class CreateStoryTests : DataTestBase
+    {
+        [Fact]
+        public async Task  CreateSampleStory()
+        {
+
+            var inMemoryCache = GetInMemoryCache();
+
+            var distCacheDict = GetMemoryCache();
+
+            ILogger<TitleCacheRepository> titleLogger = CreateLogger<TitleCacheRepository>();
+
+            ILogger<S3FileStore> fileStoreLogger = CreateLogger<S3FileStore>();
+
+
+            EnvironmentConfig envConfig = new EnvironmentConfig();
+            envConfig.BucketName = "whetstonebucket-dev-s3bucket-1nridm382p5vm";
+            envConfig.Region = RegionEndpoint.USEast1;
+
+            IOptions<EnvironmentConfig> envConfigOpts = Options.Create<EnvironmentConfig>(envConfig);
+
+            IUserContextRetriever userContextRetriever = GetUserContextRetriever(DBConnectionRetreiverType.Direct);
+            IAmazonS3 s3Client = GetS3Client();
+
+            IFileRepository fileRep = new S3FileStore(envConfigOpts, userContextRetriever, s3Client, fileStoreLogger);
+
+            ITitleCacheRepository titleCacheRep = new TitleCacheRepository(fileRep, distCacheDict, inMemoryCache, titleLogger);
+
+
+         
+            DataTitleRepository dataRep = new DataTitleRepository(userContextRetriever, titleCacheRep, null, null);
+
+            StoryTitle newTitle = new StoryTitle();
+
+            newTitle.Id = "newtitle123";
+            newTitle.Title = "New Title 123";
+            newTitle.Description = "Sample Title added during unit test";
+            newTitle.Version = "0.1";
+
+            StoryTitle retTitle = await dataRep.CreateOrUpdateTitleAsync(newTitle);
+
+            // remove the title 
+
+            await dataRep.DeleteTitleAsync(retTitle);
+
+
+        }
+
+
+       
+
+
+    }
+}

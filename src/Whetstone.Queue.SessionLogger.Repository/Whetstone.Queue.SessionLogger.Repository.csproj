@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>Whetstone.Queue.SessionLogger.Repository</AssemblyName>
+    <RootNamespace>Whetstone.Queue.SessionLogger.Repository</RootNamespace>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.Core" Version="1.2.0" />
+    <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.8.0" />
+    <PackageReference Include="Amazon.Lambda.SQSEvents" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whetstone.StoryEngine.Data.DependencyInjection\Whetstone.StoryEngine.Data.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Data.EntityFramework\Whetstone.StoryEngine.Data.EntityFramework.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.DependencyInjection\Whetstone.StoryEngine.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Models\Whetstone.StoryEngine.Models.csproj" />
+  </ItemGroup>
+
+</Project>

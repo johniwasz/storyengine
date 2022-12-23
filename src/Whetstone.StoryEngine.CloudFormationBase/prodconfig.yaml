@@ -1,0 +1,33 @@
+bucket: whetstone-bucket-prod-s3bucket-w892kdu1rn1r
+cacheConfig:
+  dynamoDBTableName: Whetstone-CacheTable-Prod-CacheTable-P33K8YG9V6QY
+  defaultSlidingExpirationSeconds: 900
+  isEnabled: true
+logLevel: Debug
+enforceAlexaPolicy: true
+sessionLoggerType: Queue
+sessionAuditQueue: Whetstone-SessionQueue-Prod-SessionAuditQueueDeadLetter-13VTAP60J4KTL
+databaseSettings:
+  settings:
+    Application Name: SoniBridge-Prod
+    Database: storyengine
+    Host: wdq3degdxda1ho.c1bwirqmfgwe.us-west-2.rds.amazonaws.com
+    SSL Mode: Require
+    Trust Server Certificate: true
+  engineUser: lambda_proxy
+  adminUser: lambda_proxy
+  sessionLoggingUser: lambda_sessionaudit
+  smsUser: lambda_proxy
+  enableSensitiveLogging: false
+smsConfig:
+  messageSendRetryLimit: 3
+  notificationStepFunctionArn: arn:aws:states:us-west-2:940085449815:stateMachine:MessageSenderStateMachine-AknkflNvYaUR
+  engineSmsHandler: StepFunctionSender
+  smsSenderType: Twilio
+  sourceNumber: 1215551212
+  twilioConfig:
+    accountSid: SID
+    statusCallbackUrl: "https://reeaf6p08d.execute-api.us-east-1.amazonaws.com/Prod/v1/smsmessagestatus"
+    token: NOPE
+dynamoDBTables:
+  userTable: Whetstone-UserTable-Prod-UserTable-RJQAXZU85Y5K

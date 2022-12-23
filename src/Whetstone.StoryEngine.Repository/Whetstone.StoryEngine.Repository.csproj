@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Description>This is the Whetstone Technologies StoryEngine respository.</Description>
+    <PackageId>Whetstone.StoryEngine.Repository</PackageId>
+    <Authors>John Iwasz</Authors>
+    <Company>Whetstone Technologies, Inc.</Company>
+    <Product>Whetstone.StoryEngine.Repository</Product>
+    <AssemblyName>Whetstone.StoryEngine.Repository</AssemblyName>
+    <RootNamespace>Whetstone.StoryEngine.Repository</RootNamespace>
+    <LangVersion>7.3</LangVersion>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="StoryExtensions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+
+    <PackageReference Include="AWSSDK.SecretsManager" Version="3.3.102.28" />
+
+    <PackageReference Include="AWSSDK.StepFunctions" Version="3.3.104.28" />
+
+    <PackageReference Include="AWSXRayRecorder.Core" Version="2.9.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="SSH.NET" Version="2016.1.0" />
+    <PackageReference Include="System.Net.NameResolution" Version="4.3.0" />
+    <PackageReference Include="System.Net.Primitives" Version="4.3.1" />
+    <PackageReference Include="System.Threading.ThreadPool" Version="4.3.0" />
+    <PackageReference Include="TweetinviAPI" Version="5.0.3" />
+    <PackageReference Include="Twilio" Version="5.39.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whetstone.StoryEngine.Data\Whetstone.StoryEngine.Data.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Models\Whetstone.StoryEngine.Models.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine\Whetstone.StoryEngine.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="NETStandard.Library" Version="2.0.3" />
+  </ItemGroup>
+
+</Project>

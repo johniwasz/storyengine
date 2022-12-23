@@ -1,0 +1,465 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "insurance agent",
+            "intents": [
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StartOverIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AddNewDriverIntent",
+                    "slots": [],
+                    "samples": [
+                        "add a new driver",
+                        "put another driver on my policy",
+                        "add a driver",
+                        "add another driver",
+                        "add driver",
+                        "add driver to policy"
+                    ]
+                },
+                {
+                    "name": "EndAgentIntent",
+                    "slots": [],
+                    "samples": [
+                        "stop",
+                        "stop agent",
+                        "stop insurance agent",
+                        "end",
+                        "end agent",
+                        "end insurance agent",
+                        "exit",
+                        "exit agent",
+                        "exit insurance agent"
+                    ]
+                },
+                {
+                    "name": "NameIntent",
+                    "slots": [
+                        {
+                            "name": "letter",
+                            "type": "Letter"
+                        }
+                    ],
+                    "samples": [
+                        "{letter}",
+                        "{letter} {letter}",
+                        "{letter} {letter} {letter}",
+                        "{letter} {letter} {letter} {letter} {letter}",
+                        "{letter} {letter} {letter} {letter} {letter} {letter}",
+                        "{letter} {letter} {letter} {letter} {letter} {letter} {letter}",
+                        "{letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter}",
+                        "{letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter}",
+                        "{letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter}",
+                        "{letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter}",
+                        "{letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter}"
+                    ]
+                },
+                {
+                    "name": "AMAZON.NoIntent",
+                    "samples": []
+                },
+                {
+                    "name": "PhoneNumberIntent",
+                    "slots": [
+                        {
+                            "name": "phonenumber",
+                            "type": "AMAZON.PhoneNumber"
+                        }
+                    ],
+                    "samples": [
+                        "{phonenumber}",
+                        "my number is {phonenumber}",
+                        "it is {phonenumber}",
+                        "it's {phonenumber}"
+                    ]
+                },
+                {
+                    "name": "AMAZON.RepeatIntent",
+                    "samples": []
+                },
+                {
+                    "name": "RequestPolicyReviewIntent",
+                    "slots": [],
+                    "samples": [
+                        "request policy review",
+                        "request review",
+                        "review policy",
+                        "policy review",
+                        "request review of policy"
+                    ]
+                },
+                {
+                    "name": "AMAZON.ResumeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "TryAgainIntent",
+                    "slots": [],
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.YesIntent",
+                    "samples": []
+                },
+                {
+                    "name": "MakeModelIntent",
+                    "slots": [
+                        {
+                            "name": "carmake",
+                            "type": "CarMake",
+                            "samples": [
+                                "{carmake}"
+                            ]
+                        },
+                        {
+                            "name": "carmodel",
+                            "type": "CarModel"
+                        }
+                    ],
+                    "samples": [
+                        "My car is a {carmodel} {carmake}"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "Letter",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "a"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "b"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "c"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "d"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "e"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "f"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "g"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "h"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "i"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "j"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "k"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "l"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "m"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "n"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "o"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "p"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "q"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "r"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "s"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "t"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "u"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "v"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "w"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "x"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "y"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "z"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "CarMake",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "Subaru"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Mercedes"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Buick"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Ford"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Chevy"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Toyota"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "BMW"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Saturn"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Kia"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Honda"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "CarModel",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "Land Cruiser"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Camry"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "RAV4"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Yaris"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Prius"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Corolla"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Insight"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Pilot"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "CRV"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Civic"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Accord"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "dialog": {
+            "intents": [
+                {
+                    "name": "MakeModelIntent",
+                    "delegationStrategy": "ALWAYS",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "carmake",
+                            "type": "CarMake",
+                            "confirmationRequired": true,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "confirmation": "Confirm.Slot.392703068024.1104831015541",
+                                "elicitation": "Elicit.Slot.392703068024.1104831015541"
+                            },
+                            "validations": [
+                                {
+                                    "type": "hasEntityResolutionMatch",
+                                    "prompt": "Slot.Validation.392703068024.1104831015541.606810533294"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "carmodel",
+                            "type": "CarModel",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        }
+                    ]
+                }
+            ],
+            "delegationStrategy": "ALWAYS"
+        },
+        "prompts": [
+            {
+                "id": "Elicit.Slot.392703068024.1104831015541",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "What is the make of the car?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "What is the car make?"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Slot.392703068024.1104831015541",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "I heard you say it's a {carmake} . Is that correct?"
+                    }
+                ]
+            },
+            {
+                "id": "Slot.Validation.392703068024.1104831015541.606810533294",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Sorry, I don't recognize {carmake} . Examples of valid makes are Honda, Toyota, and Ford."
+                    }
+                ]
+            }
+        ]
+    }
+}

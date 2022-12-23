@@ -1,0 +1,82 @@
+FROM amazonlinux:2
+LABEL maintainer="john@whetstonetechnologies.io"
+
+#ARG PAT
+COPY ./sshkeys/. /root/.ssh/.
+
+
+# install baseline command tools
+RUN yum update -y 
+
+RUN chmod 600 /root/.ssh/id_rsa && \
+    chmod 600 /root/.ssh/id_rsa.pub && \
+    rpm -Uvh https://packages.microsoft.com/config/centos/7/packages-microsoft-prod.rpm  && \
+    yum install git yum-utils which tar gcc awscli zip powershell dotnet-sdk-3.1 aspnetcore-runtime-3.1 -y && \
+    ssh-keyscan ssh.dev.azure.com,20.44.80.98 >> ~/.ssh/known_hosts && \
+    dotnet tool install --tool-path /usr/local/bin Amazon.Lambda.Tools  && \
+    curl -H "Accept: application/octet-stream" \
+    -s \
+    -S \
+    -L \
+    "https://github.com/Microsoft/artifacts-credprovider/releases/latest/download/Microsoft.NuGet.CredentialProvider.tar.gz" | tar xz -C "$HOME/.nuget/" "plugins/netcore" && \     
+    mkdir build 
+
+
+
+#RUN chmod 600 /root/.ssh/id_rsa && \
+#    chmod 600 /root/.ssh/id_rsa.pub 
+
+#RUN  rpm -Uvh https://packages.microsoft.com/config/centos/7/packages-microsoft-prod.rpm
+
+#RUN yum install git yum-utils which tar awscli zip powershell dotnet-sdk-3.1 -y
+#RUN ssh-keyscan ssh.dev.azure.com,20.44.80.98 >> ~/.ssh/known_hosts
+#RUN dotnet tool install --tool-path /usr/local/bin Amazon.Lambda.Tools  
+#RUN curl -H "Accept: application/octet-stream" \
+#    -s \
+#    -S \
+#    -L \
+#    "https://github.com/Microsoft/artifacts-credprovider/releases/latest/download/Microsoft.NuGet.CredentialProvider.tar.gz" | tar xz -C "$HOME/.nuget/" "plugins/netcore"   
+#    RUN mkdir build
+
+
+
+COPY ["./NuGet.Config", "/root/.nuget/NuGet/NuGet.Config"]
+
+# Optional: Sometimes the http client hangs because of a .NEt issue. Setting this in dockerfile helps 
+#ENV DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0
+
+# Environment variable to enable seesion token cache. More on this here: https://github.com/Microsoft/artifacts-credprovider#help
+#ENV NUGET_CREDENTIALPROVIDER_SESSIONTOKENCACHE_ENABLED true
+
+# Environment variable for adding endpoint credentials. More on this here: https://github.com/Microsoft/artifacts-credprovider#help
+# Add "FEED_URL" AND "PAT" using --build-arg in docker build step. "endpointCredentials" field is an array, you can add multiple endpoint configurations.
+# Make sure that you *do not* hard code the "PAT" here. That is a sensitive information and must not be checked in.
+#ENV VSS_NUGET_EXTERNAL_FEED_ENDPOINTS {\"endpointCredentials\": [{\"endpoint\":\"https://pkgs.dev.azure.com/whetstonetechnologies/_packaging/WhetstoneEngine/nuget/v3/index.json\", \"username\":\"john@whetstonetechnologies.io\", \"password\":\"52oclwulwvwszapmokozsibau2r2qdmuyl7qrsrycddkdzej55ba\"}]}
+#RUN source /etc/profile
+
+
+
+#EXPOSE 22
+#EXPOSE 8080
+
+#nuget source: https://pkgs.dev.azure.com/whetstonetechnologies/_packaging/WhetstoneEngine/nuget/v3/index.json
+
+#RUN rpmkeys --import "http://pool.sks-keyservers.net/pks/lookup?op=get&search=0x3fa7e0328081bff6a14da29aa6a19b38d3d831ef"
+#RUN curl https://download.mono-project.com/repo/centos8-stable.repo | tee /etc/yum.repos.d/mono-centos8-stable.repo
+#RUN yum install mono-devel -y
+#RUN curl -o /usr/local/bin/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+#RUN alias nuget="mono /usr/local/bin/nuget.exe"
+# docker container run -d --name layerbuilder01 -p 22:22 layerbuilder
+# yum-config-manager --add-repo http://packages.psychotic.ninja/7/base/x86_64/RPMS/repodata/repomd.xml
+# http://packages.psychotic.ninja/7/base/x86_64/RPMS/repodata/repomd.xml
+# Info on installing Azure CLI:
+#    https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-yum?view=azure-cli-latest
+
+# cd build
+# git clone gigit@ssh.dev.azure.com:v3/whetstonetechnologies/Whetstone.StoryEngine/Whetstone.StoryEngine
+# cd Whetstone.StoryEngine
+# git checkout development
+# cd layerprojects
+# bash build.sh
+
+

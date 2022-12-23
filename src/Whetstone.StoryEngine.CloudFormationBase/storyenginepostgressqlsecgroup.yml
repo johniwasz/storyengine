@@ -1,0 +1,75 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: 'CloudFormation Template to create PostgreSQL DB Instance'
+
+###############################################################################
+# Parameters 
+###############################################################################   
+
+Parameters:
+
+  ParentVpcStack:
+    Description: >-
+      Name of stack used to create the VPN and/or subnets. Example:
+      WhetstoneVpc-Dev
+    Type: String
+    Default: WhetstoneVpc-Dev
+    AllowedPattern: '^[a-zA-Z]+[0-9a-zA-Z\-]*$'
+
+  DBPort:
+    Description: TCP/IP Port for the Database Instance
+    Type: Number
+    Default: '5432'
+    ConstraintDescription: 'Must be in the range [1115-65535]'
+    MinValue: '1115'
+    MaxValue: '65535'              
+
+###############################################################################
+# Resources 
+###############################################################################   
+    
+Resources:
+
+       
+  DBInstanceSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: !Ref 'AWS::StackName'
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: !Ref DBPort
+          ToPort: !Ref DBPort
+          CidrIp: {'Fn::ImportValue': !Sub '${ParentVpcStack}-SubnetAPrivateCIDR'}
+          Description: 'Access to VPC'
+        - IpProtocol: tcp
+          FromPort: !Ref DBPort
+          ToPort: !Ref DBPort
+          CidrIp: {'Fn::ImportValue': !Sub '${ParentVpcStack}-SubnetBPrivateCIDR'}
+          Description: 'Access to VPC'
+        - IpProtocol: tcp
+          FromPort: !Ref DBPort
+          ToPort: !Ref DBPort
+          CidrIp: {'Fn::ImportValue': !Sub '${ParentVpcStack}-SubnetCPrivateCIDR'}
+          Description: 'Access to VPC'
+      VpcId: {'Fn::ImportValue': !Sub '${ParentVpcStack}-VPC'}
+      Tags:
+      - Key: Name
+        Value: !Sub '${AWS::StackName}-PostgreSQLSecurityGroup'
+        
+  DBInstanceSecurityGroupIngress:
+    Type: 'AWS::EC2::SecurityGroupIngress'
+    Properties:
+      GroupId: !GetAtt 'DBInstanceSecurityGroup.GroupId'
+      IpProtocol: '-1'
+      SourceSecurityGroupId: !Ref DBInstanceSecurityGroup
+      Description: 'Self Reference'        
+       
+###############################################################################
+# Outputs 
+###############################################################################   
+Outputs:
+  DBSecurityGroup:
+    Description: Database security Group
+    Value: !Ref DBInstanceSecurityGroup
+    Export:
+      Name: !Sub '${AWS::StackName}-SecurityGroup'

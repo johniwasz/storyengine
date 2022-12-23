@@ -1,0 +1,95 @@
+
+  {
+    "responseId": "c15a3ed5-eb3f-416f-8089-fca03f8638af-ad9426ce",
+    "queryResult": {
+      "queryText": "GOOGLE_ASSISTANT_WELCOME",
+      "parameters": {},
+      "allRequiredParamsPresent": true,
+      "fulfillmentMessages": [
+        {
+          "text": {
+            "text": [
+              ""
+            ]
+          }
+        }
+      ],
+      "outputContexts": [
+        {
+          "name": "projects/eyeoftheeldergods-11112/agent/environments/__aog-7/users/-/sessions/1568560489043206326715/contexts/actions_capability_audio_output"
+        },
+        {
+          "name": "projects/eyeoftheeldergods-11112/agent/environments/__aog-7/users/-/sessions/1568560489043206326715/contexts/actions_capability_media_response_audio"
+        },
+        {
+          "name": "projects/eyeoftheeldergods-11112/agent/environments/__aog-7/users/-/sessions/1568560489043206326715/contexts/actions_capability_account_linking"
+        },
+        {
+          "name": "projects/eyeoftheeldergods-11112/agent/environments/__aog-7/users/-/sessions/1568560489043206326715/contexts/google_assistant_input_type_voice"
+        },
+        {
+          "name": "projects/eyeoftheeldergods-11112/agent/environments/__aog-7/users/-/sessions/1568560489043206326715/contexts/google_assistant_welcome"
+        }
+      ],
+      "intent": {
+        "name": "projects/eyeoftheeldergods-11112/agent/intents/067767e6-4da8-4d93-b794-caf076b8ddb6",
+        "displayName": "WelcomeIntent"
+      },
+      "intentDetectionConfidence": 1,
+      "languageCode": "en"
+    },
+    "originalDetectIntentRequest": {
+      "source": "google",
+      "version": "2",
+      "payload": {
+        "user": {
+          "locale": "en-GB",
+          "userVerificationStatus": "GUEST"
+        },
+        "conversation": {
+          "conversationId": "1568560489043206326715",
+          "type": "NEW"
+        },
+        "inputs": [
+          {
+            "intent": "actions.intent.MAIN",
+            "rawInputs": [
+              {
+                "inputType": "VOICE",
+                "query": "I want to talk to the Eye of The Elder gods"
+              }
+            ]
+          }
+        ],
+        "surface": {
+          "capabilities": [
+            {
+              "name": "actions.capability.AUDIO_OUTPUT"
+            },
+            {
+              "name": "actions.capability.MEDIA_RESPONSE_AUDIO"
+            },
+            {
+              "name": "actions.capability.ACCOUNT_LINKING"
+            }
+          ]
+        },
+        "availableSurfaces": [
+          {
+            "capabilities": [
+              {
+                "name": "actions.capability.AUDIO_OUTPUT"
+              },
+              {
+                "name": "actions.capability.SCREEN_OUTPUT"
+              },
+              {
+                "name": "actions.capability.WEB_BROWSER"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "session": "projects/eyeoftheeldergods-11112/agent/environments/__aog-7/users/-/sessions/1568560489043206326715"
+  }

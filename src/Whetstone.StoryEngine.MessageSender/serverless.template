@@ -1,0 +1,878 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Transform": "AWS::Serverless-2016-10-31",
+  "Description": "Creates the MessageSender step function to send outbound SMS messages",
+  "Parameters": {
+    "ParentVpcStack": {
+      "Description": "Name of stack used to create the VPN and/or subnets. Example: WhetstoneVpc-Dev",
+      "Type": "String",
+      "Default": "WhetstoneVpc-Dev",
+      "AllowedPattern": "^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+    },
+    "KeyStack": {
+      "Description": "Name of stack used to create environment key for decryption. Example: WhetstoneKey-Dev",
+      "Type": "String",
+      "Default": "WhetstoneKey-Dev",
+      "AllowedPattern": "^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+    },
+	"ApiSecretsStack": {
+	      "Description": "Name of stack used to create API Secret settings for Twilio. Example: Whetstone-APISecrets-Dev",
+      "Type": "String",
+      "Default": "Whetstone-APISecrets-Dev",
+      "AllowedPattern": "^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+
+	},
+    "PolicyStack": {
+      "Description": "Name of stack used to create supplemental policies. Example: WhetstoneSharedPolicies-Dev",
+      "Type": "String",
+      "Default": "WhetstoneSharedPolicies-Dev",
+      "AllowedPattern": "^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+    },
+    "DatabaseStack": {
+      "Description": "Name of stack used to create the database or provide a security group. Example: Whetstone-Aurora-Dev",
+      "Type": "String",
+      "Default": "Whetstone-Aurora-Dev",
+      "AllowedPattern": "^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+    },
+	"CacheStack": {
+      "Description": "Name of stack used to create the cache table. Example: Whetstone-Cache-Dev",
+      "Type": "String",
+      "Default": "Whetstone-CacheTable-Dev",
+      "AllowedPattern": "^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+    },
+    "LambdaNetSerializerDebug": {
+      "Type": "String",
+      "AllowedValues": [
+        "true",
+        "false"
+      ],
+      "Description": "Indicates if the lambda serialization is enabled or not.",
+      "Default": "false"
+    },
+    "DynamoTableStack": {
+      "Description": "Name of stack used to create user dynamodb table stores. Example: Whetstone-DynamoDbStore-Dev",
+      "Type": "String",
+      "Default": "Whetstone-DynamoDbStore-Dev",
+      "AllowedPattern": "^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+    },
+    "VersionDescription": {
+      "Type": "String",
+      "Description": "Associate the deployed version with the build",
+      "Default": "Out of band"
+    },
+    "DurationThreshold": {
+      "Type": "Number",
+      "Description": "If the lambda execution duration exceeds this maximum, then an alarm is raised. Value is in milliseconds.",
+      "Default": "7000"
+    },
+    "CodeDeployRule": {
+      "AllowedValues": [
+        "AllAtOnce",
+        "Linear10PercentEvery1Minute",
+        "Linear10PercentEvery2Minutes",
+        "Linear10PercentEvery3Minutes",
+        "Linear10PercentEvery10Minutes",
+        "Canary10Percent5Minutes",
+        "Canary10Percent10Minutes"
+      ],
+      "Default": "Linear10PercentEvery1Minute",
+      "Description": "Determine whether or not to use a blue/green deployment when pushing out this lambda",
+      "Type": "String"
+    },
+    "CustomActionLambdaStack": {
+      "Description": "Stack that defines lambdas for custom resources",
+      "Type": "String",
+      "Default": "Whetstone-LambdaCustomActions-Dev"
+    },
+    "SourcePhoneNumber": {
+            "Description": "This is the default phone number to use when sending a Twilio SMS message",
+            "Type": "String"
+        },
+	"DefaultSmsSenderType": {
+            "Description": "Determine how to send SMS Messages.",
+            "Type": "String",
+            "Default": "Twilio",
+            "AllowedValues": [
+                "Unassigned",
+                "Pinpoint",
+                "Sns",
+                "Twilio"
+            ]
+        },
+    "MessageSendRetryLimit": {
+            "Type": "Number",
+            "Description": "Number of times to resend the message before giving up.",
+            "Default": 3
+        },
+	"MessageSenderFuncBucket": {
+	    "Description": "S3 Bucket of tthe Message Sender zip deployment",
+	   "Type":"String"
+	  },
+	"MessageSenderFuncBucketKey": {
+	    "Description": "S3 Bucket key of the Message Sender zip deployment",
+	   "Type":"String"
+	  },
+	"MessageSaveFuncBucketKey": {
+	    "Description": "S3 Bucket key of the Message Save deployment",
+	   "Type":"String"
+	  }
+  },
+  "Resources": {
+    "KeyPolicyUpdate": {
+      "Type": "AWS::CloudFormation::CustomResource",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::ImportValue": {
+            "Fn::Sub": "${CustomActionLambdaStack}-KeyPolicyUpdateArn"
+          }
+        },
+        "Key": {
+          "Fn::ImportValue": {
+            "Fn::Sub": "${KeyStack}-EnvironmentKeyArn"
+          }
+        },
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "LambdaRole",
+            "Arn"
+          ]
+        },
+        "GrantType": "Decrypt"
+      }
+    },
+    "SendMessageTaskErrorAlarm": {
+      "Type": "AWS::CloudWatch::Alarm",
+      "Properties": {
+        "AlarmDescription": "Error alert alarm for the send message task in the Message Dispatcher step function",
+        "Namespace": "AWS/Lambda",
+        "MetricName": "Error",
+        "Dimensions": [
+          {
+            "Name": "Resource",
+            "Value": {
+              "Fn::Join": [
+                ":",
+                [
+                  {
+                    "Ref": "SendMessageTask"
+                  },
+                  "LIVE"
+                ]
+              ]
+            }
+          },
+          {
+            "Name": "FunctionName",
+            "Value": {
+              "Ref": "SendMessageTask"
+            }
+          }
+        ],
+        "ActionsEnabled": true,
+        "Statistic": "Sum",
+        "Period": 300,
+        "EvaluationPeriods": 1,
+        "Threshold": 0,
+        "ComparisonOperator": "GreaterThanThreshold",
+        "TreatMissingData": "ignore",
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": {
+              "Fn::Sub": "${KeyStack}-ErrorTopicArn"
+            }
+          }
+        ]
+      }
+    },
+    "SendMessageTaskDurationAlarm": {
+      "Type": "AWS::CloudWatch::Alarm",
+      "Properties": {
+        "AlarmDescription": "Duration alert alarm for the send message task in the Message Dispatcher step function",
+        "Namespace": "AWS/Lambda",
+        "MetricName": "Duration",
+        "Dimensions": [
+          {
+            "Name": "Resource",
+            "Value": {
+              "Fn::Join": [
+                ":",
+                [
+                  {
+                    "Ref": "SendMessageTask"
+                  },
+                  "LIVE"
+                ]
+              ]
+            }
+          },
+          {
+            "Name": "FunctionName",
+            "Value": {
+              "Ref": "SendMessageTask"
+            }
+          }
+        ],
+        "ActionsEnabled": true,
+        "Statistic": "Maximum",
+        "Period": 300,
+        "EvaluationPeriods": 1,
+        "Threshold": {
+          "Ref": "DurationThreshold"
+        },
+        "ComparisonOperator": "GreaterThanThreshold",
+        "TreatMissingData": "ignore",
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": {
+              "Fn::Sub": "${KeyStack}-ErrorTopicArn"
+            }
+          }
+        ]
+      }
+    },
+    "SendMessageTaskThrottleAlarm": {
+      "Type": "AWS::CloudWatch::Alarm",
+      "Properties": {
+        "AlarmDescription": "Throttle alert alarm for the send message task in the Message Dispatcher step function",
+        "Namespace": "AWS/Lambda",
+        "MetricName": "Throttle",
+        "Dimensions": [
+          {
+            "Name": "Resource",
+            "Value": {
+              "Fn::Join": [
+                ":",
+                [
+                  {
+                    "Ref": "SendMessageTask"
+                  },
+                  "LIVE"
+                ]
+              ]
+            }
+          },
+          {
+            "Name": "FunctionName",
+            "Value": {
+              "Ref": "SendMessageTask"
+            }
+          }
+        ],
+        "ActionsEnabled": true,
+        "Statistic": "Sum",
+        "Period": 300,
+        "EvaluationPeriods": 1,
+        "Threshold": 0,
+        "ComparisonOperator": "GreaterThanThreshold",
+        "TreatMissingData": "ignore",
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": {
+              "Fn::Sub": "${KeyStack}-ErrorTopicArn"
+            }
+          }
+        ]
+      }
+    },
+    "SaveMessageTaskErrorAlarm": {
+      "Type": "AWS::CloudWatch::Alarm",
+      "Properties": {
+        "AlarmDescription": "Error alert alarm for the save message task in the Message Dispatcher step function",
+        "Namespace": "AWS/Lambda",
+        "MetricName": "Error",
+        "Dimensions": [
+          {
+            "Name": "Resource",
+            "Value": {
+              "Fn::Join": [
+                ":",
+                [
+                  {
+                    "Ref": "SaveMessageTask"
+                  },
+                  "LIVE"
+                ]
+              ]
+            }
+          },
+          {
+            "Name": "FunctionName",
+            "Value": {
+              "Ref": "SaveMessageTask"
+            }
+          }
+        ],
+        "ActionsEnabled": true,
+        "Statistic": "Sum",
+        "Period": 300,
+        "EvaluationPeriods": 1,
+        "Threshold": 0,
+        "ComparisonOperator": "GreaterThanThreshold",
+        "TreatMissingData": "ignore",
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": {
+              "Fn::Sub": "${KeyStack}-ErrorTopicArn"
+            }
+          }
+        ]
+      }
+    },
+    "SaveMessageTaskDurationAlarm": {
+      "Type": "AWS::CloudWatch::Alarm",
+      "Properties": {
+        "AlarmDescription": "Duration alert alarm for the save message task in the Message Dispatcher step function",
+        "Namespace": "AWS/Lambda",
+        "MetricName": "Duration",
+        "Dimensions": [
+          {
+            "Name": "Resource",
+            "Value": {
+              "Fn::Join": [
+                ":",
+                [
+                  {
+                    "Ref": "SaveMessageTask"
+                  },
+                  "LIVE"
+                ]
+              ]
+            }
+          },
+          {
+            "Name": "FunctionName",
+            "Value": {
+              "Ref": "SaveMessageTask"
+            }
+          }
+        ],
+        "ActionsEnabled": true,
+        "Statistic": "Maximum",
+        "Period": 300,
+        "EvaluationPeriods": 1,
+        "Threshold": {
+          "Ref": "DurationThreshold"
+        },
+        "ComparisonOperator": "GreaterThanThreshold",
+        "TreatMissingData": "ignore",
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": {
+              "Fn::Sub": "${KeyStack}-ErrorTopicArn"
+            }
+          }
+        ]
+      }
+    },
+    "SaveMessageTaskThrottleAlarm": {
+      "Type": "AWS::CloudWatch::Alarm",
+      "Properties": {
+        "AlarmDescription": "Throttle alert alarm for the save message task in the Message Dispatcher step function",
+        "Namespace": "AWS/Lambda",
+        "MetricName": "Throttle",
+        "Dimensions": [
+          {
+            "Name": "Resource",
+            "Value": {
+              "Fn::Join": [
+                ":",
+                [
+                  {
+                    "Ref": "SaveMessageTask"
+                  },
+                  "LIVE"
+                ]
+              ]
+            }
+          },
+          {
+            "Name": "FunctionName",
+            "Value": {
+              "Ref": "SaveMessageTask"
+            }
+          }
+        ],
+        "ActionsEnabled": true,
+        "Statistic": "Sum",
+        "Period": 300,
+        "EvaluationPeriods": 1,
+        "Threshold": 0,
+        "ComparisonOperator": "GreaterThanThreshold",
+        "TreatMissingData": "ignore",
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": {
+              "Fn::Sub": "${KeyStack}-ErrorTopicArn"
+            }
+          }
+        ]
+      }
+    },
+    "MessageDispatchStepFunctionAlarm": {
+      "Type": "AWS::CloudWatch::Alarm",
+      "Properties": {
+        "AlarmDescription": "Message Dispatcher Step Function execution failed",
+        "Namespace": "AWS/StateMachine",
+        "MetricName": "ExecutionsFailed",
+        "Dimensions": [
+          {
+            "Name": "FunctionName",
+            "Value": {
+              "Ref": "MessageSenderStateMachine"
+            }
+          }
+        ],
+        "ActionsEnabled": true,
+        "Statistic": "Sum",
+        "Period": 300,
+        "EvaluationPeriods": 1,
+        "Threshold": 0,
+        "ComparisonOperator": "GreaterThanThreshold",
+        "TreatMissingData": "ignore",
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": {
+              "Fn::Sub": "${KeyStack}-ErrorTopicArn"
+            }
+          }
+        ]
+      }
+    },
+    "SendMessageTask": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Role": {
+          "Fn::GetAtt": [
+            "LambdaRole",
+            "Arn"
+          ]
+        },
+        "MemorySize": 1024,
+        "Timeout": 30,
+		"Handler": "not-required",
+        "Runtime": "provided",
+            "CodeUri":{ "Bucket":  { "Ref": "MessageSenderFuncBucket" },
+			"Key": { "Ref": "MessageSenderFuncBucketKey"  } },
+        "AutoPublishAlias": "LIVE",
+        "DeploymentPreference": {
+          "Enabled": true,
+          "Type": {
+            "Ref": "CodeDeployRule"
+          }
+        },
+        "VersionDescription": {
+          "Fn::Sub": "${VersionDescription}"
+        },
+        "Environment": {
+          "Variables": {
+            "DOTNET_SHARED_STORE": "/opt/dotnetcore/store/",
+            "BOOTSTRAP": {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${PolicyStack}-BootstrapParameter"
+              }
+            },
+            "LAMBDA_NET_SERIALIZER_DEBUG": {
+              "Ref": "LambdaNetSerializerDebug"
+            },
+            "DBUSERTYPE": "StoryEngineUser"
+          }
+        },
+        "VpcConfig": {
+          "SubnetIds": [
+            {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${ParentVpcStack}-SubnetAPrivate"
+              }
+            },
+            {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${ParentVpcStack}-SubnetBPrivate"
+              }
+            },
+            {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${ParentVpcStack}-SubnetCPrivate"
+              }
+            }
+          ],
+          "SecurityGroupIds": [
+            {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${DatabaseStack}-SecurityGroup"
+              }
+            },
+			{
+              "Fn::ImportValue": {
+                "Fn::Sub": "${ParentVpcStack}-SecretReaderSecurityGroup"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "SaveMessageTask": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Role": {
+          "Fn::GetAtt": [
+            "LambdaRole",
+            "Arn"
+          ]
+        },
+		"Handler": "not-required",
+        "Runtime": "provided",
+            "CodeUri":{ "Bucket":  { "Ref": "MessageSenderFuncBucket" },
+			"Key": { "Ref": "MessageSaveFuncBucketKey"  } },
+        "MemorySize": 1024,
+        "Timeout": 30,
+        "AutoPublishAlias": "LIVE",
+        "DeploymentPreference": {
+          "Enabled": true,
+          "Type": {
+            "Ref": "CodeDeployRule"
+          }
+        },
+        "VersionDescription": {
+          "Fn::Sub": "${VersionDescription}"
+        },
+        "Environment": {
+          "Variables": {
+            "DOTNET_SHARED_STORE": "/opt/dotnetcore/store/",
+            "BOOTSTRAP": {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${PolicyStack}-BootstrapParameter"
+              }
+            },
+            "LAMBDA_NET_SERIALIZER_DEBUG": {
+              "Ref": "LambdaNetSerializerDebug"
+            },
+            "DBUSERTYPE": "StoryEngineUser"
+          }
+        },
+        "VpcConfig": {
+          "SubnetIds": [
+            {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${ParentVpcStack}-SubnetAPrivate"
+              }
+            },
+            {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${ParentVpcStack}-SubnetBPrivate"
+              }
+            },
+            {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${ParentVpcStack}-SubnetCPrivate"
+              }
+            }
+          ],
+          "SecurityGroupIds": [
+            {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${DatabaseStack}-SecurityGroup"
+              }
+            },
+            {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${ParentVpcStack}-SSMSecurityGroup"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "MessageSenderStateMachine": {
+      "Type": "AWS::StepFunctions::StateMachine",
+      "Properties": {
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "MessageSenderStateMachineRole",
+            "Arn"
+          ]
+        },
+        "DefinitionString": {
+          "Fn::Sub": "{\r\n  \"Comment\": \"MessageDispatcherStateMachine\",\r\n  \"StartAt\": \"SaveMessage\",\r\n  \"States\": {\r\n    \"SaveMessage\": {\r\n      \"Type\": \"Task\",\r\n      \"Resource\": \"${SaveMessageTask.Arn}:LIVE\",\r\n      \"TimeoutSeconds\":  29,\r\n      \"Retry\": [\r\n        {\r\n          \"ErrorEquals\": [\r\n            \"Lambda.Unknown\",\r\n            \"Lambda.ServiceException\",\r\n            \"Lambda.SdkClientException\",\r\n            \"AggregateException\"\r\n          ],\r\n          \"IntervalSeconds\": 2,\r\n          \"MaxAttempts\": 6,\r\n          \"BackoffRate\": 2\r\n        },\r\n        {\r\n          \"ErrorEquals\": [\r\n            \"DbUpdateException\"\r\n          ],\r\n          \"IntervalSeconds\": 15,\r\n          \"MaxAttempts\": 6,\r\n          \"BackoffRate\": 2\r\n        },\r\n        {\r\n          \"ErrorEquals\": [\r\n            \"States.Timeout\"\r\n          ],\r\n          \"IntervalSeconds\": 15,\r\n          \"MaxAttempts\": 3,\r\n          \"BackoffRate\": 2\r\n        }\r\n      ],\r\n      \"Next\": \"SendOutboundMessage\"\r\n    },\r\n    \"SendOutboundMessage\": {\r\n      \"Type\": \"Task\",\r\n      \"Resource\": \"${SendMessageTask.Arn}:LIVE\",\r\n      \"Next\": \"IsSentOrNoMoreRetries\",\r\n      \"Retry\": [\r\n        {\r\n          \"ErrorEquals\": [\r\n            \"Lambda.Unknown\",\r\n            \"Lambda.ServiceException\",\r\n            \"Lambda.SdkClientException\",\r\n            \"AggregateException\"\r\n          ],\r\n          \"IntervalSeconds\": 2,\r\n          \"MaxAttempts\": 6,\r\n          \"BackoffRate\": 2\r\n        }\r\n      ]\r\n    },\r\n    \"IsSentOrNoMoreRetries\": {\r\n      \"Type\": \"Choice\",\r\n      \"Choices\": [\r\n        {\r\n          \"And\": [\r\n            {\r\n              \"Variable\": \"$.allSent\",\r\n              \"BooleanEquals\": false\r\n            },\r\n            {\r\n              \"Variable\": \"$.sendAttemptsCount\",\r\n              \"NumericEquals\": 1\r\n            }\r\n          ],\r\n          \"Next\": \"WaitTenSeconds\"\r\n        },\r\n        {\r\n          \"And\": [\r\n            {\r\n              \"Variable\": \"$.allSent\",\r\n              \"BooleanEquals\": false\r\n            },\r\n            {\r\n              \"Variable\": \"$.sendAttemptsCount\",\r\n              \"NumericEquals\": 2\r\n            }\r\n          ],\r\n          \"Next\": \"WaitThirtySeconds\"\r\n        }\r\n      ],\r\n      \"Default\": \"NoOp\"\r\n    },\r\n    \"WaitTenSeconds\": {\r\n      \"Type\": \"Wait\",\r\n      \"Seconds\": 10,\r\n      \"Next\": \"SendOutboundMessage\"\r\n    },\r\n    \"WaitThirtySeconds\": {\r\n      \"Type\": \"Wait\",\r\n      \"Seconds\": 30,\r\n      \"Next\": \"SendOutboundMessage\"\r\n    },\r\n    \"NoOp\": {\r\n      \"Type\": \"Pass\",\r\n      \"End\": true\r\n    }\r\n  }\r\n}"
+        }
+      }
+    },
+    "LambdaRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "Path": {
+          "Fn::Join": [
+            "",
+            [
+              "/",
+              {
+                "Fn::ImportValue": {
+                  "Fn::Sub": "${KeyStack}-EnvironmentName"
+                }
+              },
+              "/"
+            ]
+          ]
+        },
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": [
+                "sts:AssumeRole"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com"
+                ]
+              }
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::ImportValue": {
+              "Fn::Sub": "${PolicyStack}-BootstrapConfigPolicy"
+            }
+          },
+          {
+            "Fn::ImportValue": {
+              "Fn::Sub": "${PolicyStack}-EngineDbAuthPolicy"
+            }
+          },
+          {
+            "Fn::ImportValue": {
+              "Fn::Sub": "${DynamoTableStack}-UserTableAccessPolicyArn"
+            }
+          },
+			{
+            "Fn::ImportValue": {
+              "Fn::Sub": "${ApiSecretsStack}-TwilioLiveReaderPolicy"
+            }
+          },
+		  	{
+            "Fn::ImportValue": {
+              "Fn::Sub": "${ApiSecretsStack}-TwilioTestReaderPolicy"
+            }
+          },
+		     {
+            "Fn::ImportValue": {
+              "Fn::Sub": "${CacheStack}-CacheTableAccessPolicyArn"
+            }
+          },
+
+
+          "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+        ]
+      }
+    },
+    "MessageSenderStepFunctionExecutionPolicy": {
+      "Type": "AWS::IAM::ManagedPolicy",
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "Path": {
+          "Fn::Join": [
+            "",
+            [
+              "/",
+              {
+                "Fn::ImportValue": {
+                  "Fn::Sub": "${KeyStack}-EnvironmentName"
+                }
+              },
+              "/"
+            ]
+          ]
+        },
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": {
+            "Effect": "Allow",
+            "Action": [
+              "states:StartExecution"
+            ],
+            "Resource": {
+              "Fn::Join": [
+                ":",
+                [
+                  {
+                    "Fn::Sub": "arn:aws:states:${AWS::Region}"
+                  },
+                  {
+                    "Fn::Sub": "${AWS::AccountId}:stateMachine"
+                  },
+                  {
+                    "Fn::GetAtt": [
+                      "MessageSenderStateMachine",
+                      "Name"
+                    ]
+                  }
+                ]
+              ]
+            }
+          }
+        }
+      }
+    },
+    "MessageSenderStateMachineRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "Path": {
+          "Fn::Join": [
+            "",
+            [
+              "/",
+              {
+                "Fn::ImportValue": {
+                  "Fn::Sub": "${KeyStack}-EnvironmentName"
+                }
+              },
+              "/"
+            ]
+          ]
+        },
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": {
+                  "Fn::Sub": "states.${AWS::Region}.amazonaws.com"
+                }
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": "StepFunctionLambdaInvoke",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "lambda:InvokeFunction"
+                  ],
+                  "Resource": [
+
+				   {
+            "Fn::Sub": "${SaveMessageTask.Arn}:LIVE"},
+			  {
+            "Fn::Sub": "${SendMessageTask.Arn}:LIVE"}
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+	"BootstrapConfigUpdate": {
+            "Type": "AWS::CloudFormation::CustomResource",
+            "Properties": {
+                "ServiceToken": {
+                    "Fn::ImportValue": {
+                        "Fn::Sub": "${CustomActionLambdaStack}-BootstrapConfigUpdateArn"
+                    }
+                },
+                "KeyId": {
+                    "Fn::ImportValue": {
+                        "Fn::Sub": "${KeyStack}-EnvironmentKeyAlias"
+                    }
+                },
+                "Parameter": {
+                    "Fn::ImportValue": {
+                        "Fn::Sub": "${PolicyStack}-BootstrapParameter"
+                    }
+                },
+                "ConfigEntries": [
+                    {
+                        "ConfigType": "TwilioSourceNumber",
+                        "Value": {
+                            "Ref": "SourcePhoneNumber"
+                        }
+                    },
+                    {
+                        "ConfigType": "DefaultSmsSenderType",
+                        "Value": {
+                            "Ref": "DefaultSmsSenderType"
+                        }
+                    },
+                    {
+                        "ConfigType": "MessageSendRetryLimit",
+                        "Value": {
+                            "Ref": "MessageSendRetryLimit"
+                        }
+                    }
+                ]
+            }
+        }
+  },
+  "Outputs": {
+    "AlexaFunctionRoleArn": {
+      "Description": "ARN of the role used by this API",
+      "Value": {
+        "Fn::GetAtt": [
+          "LambdaRole",
+          "Arn"
+        ]
+      }
+    },
+    "StateMachineName": {
+      "Description": "Name of the state machine",
+      "Value": {
+        "Fn::GetAtt": [
+          "MessageSenderStateMachine",
+          "Name"
+        ]
+      }
+    },
+    "ExecutionPolicy": {
+      "Description": "Used to grand lambda functions execute rights to the step function",
+      "Value": {
+        "Ref": "MessageSenderStepFunctionExecutionPolicy"
+      },
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-MessageDispatcherStepFunctionPolicyArn"
+        }
+      }
+    },
+    "StepFunctionArn": {
+      "Description": "Arn of the Message Sender step function",
+      "Value": {
+        "Ref": "MessageSenderStateMachine"
+      },
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-MessageSenderStepFunctionArn"
+        }
+      }
+    },
+        "SourcePhoneNumber": {
+            "Description": "Default phone number for the source of the Twilio SMS text message",
+            "Value": {
+                "Ref": "SourcePhoneNumber"
+            },
+            "Export": {
+                "Name": {
+                    "Fn::Sub": "${AWS::StackName}-SourcePhoneNumber"
+                }
+            }
+        },
+        "MessageSendRetryLimit": {
+            "Description": "Number of times to resend the message before giving up.",
+            "Value": {
+                "Ref": "MessageSendRetryLimit"
+            },
+            "Export": {
+                "Name": {
+                    "Fn::Sub": "${AWS::StackName}-MessageSendRetryLimit"
+                }
+            }
+        } 
+  }
+}

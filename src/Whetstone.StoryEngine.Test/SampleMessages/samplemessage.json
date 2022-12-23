@@ -1,0 +1,65 @@
+﻿{
+  "request": {
+    "sessionId": "amzn1.echo-api.session.23E63E68-B4C4-422F-A57F-0AFC82850618",
+    "applicationId": "BAC0A41E-3A8F-4E69-AC82-6F707B1AD18A",
+    "userId": "amzn1.ask.account.34A8FF7E-C867-4414-89D6-5037D7D020A7",
+    "intent": "Resume",
+    "requestId": "EdwRequestId.7fb8392e-81ad-4c55-b7bf-de1d4208a5b9",
+    "requestType": "Resume",
+    "client": "Alexa",
+    "locale": "en-US",
+    "isNewSession": false,
+    "titleId": "personaldatachecker",
+    "requestTime": "2018-10-05T14:46:12.1367796Z"
+  },
+  "response": {
+    "localizedResponse": {
+      "cardTitle": "Personal Data Check Welcome Message",
+      "sendCardResponse": false,
+      "clientResponses": [
+        {
+          "speechFragments": [
+            {
+              "fragmentType": "PlainText",
+              "text": "The personal data check lets you review the data that is available for use on your Echo device. When you are ready to review, you can ask for your email, address or phone number."
+            }
+          ]
+        }
+      ],
+      "clientSpeechReprompts": [
+        {
+          "speechFragments": [
+            {
+              "fragmentType": "PlainText",
+              "text": "You can ask for your email, address or phone number."
+            }
+          ]
+        }
+      ]
+    },
+    "choices": [
+      {
+        "intentName": "PhoneNumberIntent",
+        "nodeMapping": {
+          "nodeMappingType": "SingleNodeMapping",
+          "nodeName": "PhoneDiscountVerification"
+        }
+      }
+    ],
+    "forceContinueSession": true,
+    "titleId": "personaldatachecker",
+    "titleVersion": "0.1",
+    "nodeName": "WelcomeNewUser",
+    "actions": [
+      {
+        "nodeAction": "AssignValue",
+        "slotName": "phonenumber",
+        "value": "267-555-1212"
+      }
+    ],
+    "hasNextAction": false,
+    "isRequestValid": true,
+    "processDuration": 221,
+    "postNodeActionLog": "Assigned selected name phonenumber value '267-555-1212'. Prior value was 267-555-1212\r\n"
+  }
+}

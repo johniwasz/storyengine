@@ -1,0 +1,3635 @@
+id: eyeoftheeldergods
+dataTitleId: f2c51ba4-fe16-4f97-bcc1-104c7ec543cc
+dataVersionTitleId: 9efe5b9b-ddd4-4de9-ac6a-55ff3995b970
+title: Eye Of The Elder Gods
+version: 0.8
+description: Investigate a mysterious painting involving Cthulhu.
+invocationNames:
+- text: eye of the elder gods
+- locale: en-CA
+  text: eye of the elder gods
+startNodeName: A1
+newUserNodeName: WelcomeNewUser
+returningUserNodeName: ReturningUser
+resumeNodeName: Resume
+helpNodeName: Help
+stopNodeName: StopGame
+endOfGameNodeName: EndofGame
+nodes:
+- name: A1
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Dr. Jeffrey Vaughn
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: >-
+          You're Dr. Jeffrey Vaughn, professor of Art History at Miskatonic University.  Night finds you in your office on campus before a university ceremony and dinner when the phone rings.
+
+
+          Do you answer the phone or ignore the call?
+      repromptTextResponse: To take the call say answer the phone, or to let it go to voicemail say ignore the call.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-A1.mp3
+        - !sf-textfrag
+          text: To take the call say answer the phone, or to let it go to voicemail say ignore the call.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: A2
+          localizedSuggestionText:
+          - text: answer the phone
+        requiredSlotValues:
+          verb:
+          - answer
+          item:
+          - phone
+      - nodeMap: !nm-singlenode
+          nodeName: A3
+          localizedSuggestionText:
+          - text: ignore the call
+        requiredSlotValues:
+          verb:
+          - ignore
+          item:
+          - phone
+- name: A2
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Answer The Phone
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: >-
+          Your ex-wife Aimee is calling to tell you that your teenage daughter, Kelly, is grounded for a month.  This is important since next week is your custody week and she wants to make sure you both are co-parenting on the same page.
+
+
+          It's time now to go to the ceremony and dinner.
+      repromptTextResponse: To go to the ceremony say go to the ceremony.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-A2.mp3
+        - !sf-textfrag
+          text: To go to the ceremony say go to the ceremony.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GotoLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: A4
+          localizedSuggestionText:
+          - text: go to the ceremony
+        requiredSlotValues:
+          location:
+          - ceremony
+- name: A3
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Voicemail
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: >-
+          Your ex-wife, Aimee leaves you a voicemail, telling you that your teenage daughter, Kelly is grounded for a month.
+
+
+          This is important since next week is your custody week and she wants to make sure you both are co-parenting on the same page.
+
+
+          It's time now to go to the ceremony and dinner.
+      repromptTextResponse: To go to the ceremony say go to the ceremony.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-A3.mp3
+        - !sf-textfrag
+          text: To go to the ceremony say go to the ceremony.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GotoLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: A4
+          localizedSuggestionText:
+          - text: go to the ceremony
+        requiredSlotValues:
+          location:
+          - ceremony
+- name: A4
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Banquet Hall
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: At the ceremony you sit next to Dr. Margaret Reeves, a professor of Astronomy. Seated nearby is Dr. Charles Pohlhaus, the chair of the Psychology Department. There's a history between the two of you - one that took a sour turn.
+      repromptTextResponse: To learn about Dr. Pohlhaus say tell me more.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-A4.mp3
+        - !sf-textfrag
+          text: To learn about Dr. Pohlhaus say tell me more.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoOnIntent
+    nodeMapping: !nm-singlenode
+      nodeName: A5
+      localizedSuggestionText:
+      - text: tell me more
+- name: A5
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Dr. Charles Pohlhaus
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: >-
+          Charles Pohlhaus used to be a friend until your wife left you for him.
+
+
+          Margaret slips you a note beneath the table, careful Charles doesn't notice.  She tells you to read it later.
+
+
+          You can wait and read it later or slip out and read it now
+      repromptTextResponse: You can say read it later to read it later or say read it now to read it now.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-A5.mp3
+        - !sf-textfrag
+          text: Would you like to read it later or read it now?
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheActionIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: A6
+          localizedSuggestionText:
+          - text: read it now
+        requiredSlotValues:
+          verb:
+          - read
+          action:
+          - now
+      - nodeMap: !nm-singlenode
+          nodeName: A7
+          localizedSuggestionText:
+          - text: read it later
+        requiredSlotValues:
+          verb:
+          - read
+          action:
+          - later
+- name: A6
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Encounter in the hallway
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You excuse yourself to the hallway to read the note - Margaret implores you to meet her in the stacks of the library afterwards.  It's a matter of life or death. Pohlhaus approaches you in the hallway to inquire about Margaret and you pocket the note, hoping he didn't notice it.
+      repromptTextResponse: Say go to the library to go to the library.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-A6.mp3
+        - !sf-textfrag
+          text: When you're ready, say go to the library.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GotoLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: A8
+          localizedSuggestionText:
+          - text: go to the library
+        requiredSlotValues:
+          location:
+          - library
+  actions:
+  - !na-recordvisit {}
+- name: A7
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Wait to read the note
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You wait until the event is over and you are alone to read the note - Margaret implores you to meet her in the stacks of the library afterwards.  It's a matter of life or death.
+      repromptTextResponse: Say go to the library to go to the library.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-A7.mp3
+        - !sf-textfrag
+          text: When you're ready, say go to the library.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GotoLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: A8
+          localizedSuggestionText:
+          - text: go to the library
+        requiredSlotValues:
+          location:
+          - library
+  actions:
+  - !na-recordvisit {}
+- name: A8
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Campus at night
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You walk through campus alone at night, nervously looking over your shoulders.  You arrive at the library and head towards the remote section of the stacks to meet Margaret.
+      repromptTextResponse: Say wait for Margaret to wait for Margaret.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-A8.mp3
+        - !sf-textfrag
+          text: To wait for her, say wait for Margaret.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: WaitForIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: A9
+          localizedSuggestionText:
+          - text: wait for Margaret
+        requiredSlotValues:
+          character:
+          - Margaret
+- name: A9
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Meeting in the Stacks
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: >-
+          Margaret appears and asks for your help. Pohlhaus and some others are planning something terrible, and it has to do with a painting called "Eye of the Elder Gods."  Since you are a professor of Art History, she asks you to look into that painting for her.
+
+
+          You can agree to assist Margaret or insist on knowing more.
+      repromptTextResponse: You can choose to assist Margaret, or insist on knowing more.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-A9.mp3
+        - !sf-textfrag
+          text: You can choose to assist Margaret, or insist on knowing more.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheCharacterIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: B3
+          localizedSuggestionText:
+          - text: assist Margaret
+        requiredSlotValues:
+          verb:
+          - assist
+          character:
+          - Margaret
+  - intentName: VerbTheActionIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: B1
+        requiredSlotValues:
+          verb:
+          - insist
+          action:
+          - knowing more
+- name: B1
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Tell me more
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: >-
+          You press Margaret on the issue, but she expresses regret for telling you anything and involving you.  She slips away and you go home, unable to stop thinking about what Pohlhaus may be up to.
+
+
+          You could just forget about it as Margaret suggested, you could research the painting anyway, or you could try to follow Margaret to learn more.
+      repromptTextResponse: You can say forget about it, research the painting, or follow Margaret.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-B1.mp3
+        - !sf-textfrag
+          text: Would you like to forget about it, research the painting, or follow Margaret?
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GiveUpIntent
+    nodeMapping: !nm-singlenode
+      nodeName: B2
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: B3
+          localizedSuggestionText:
+          - text: research the painting
+        requiredSlotValues:
+          verb:
+          - research
+          item:
+          - painting
+  - intentName: VerbTheCharacterIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: B4
+          localizedSuggestionText:
+          - text: follow Margaret
+        requiredSlotValues:
+          verb:
+          - follow
+          character:
+          - Margaret
+- name: B10
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Caught red-handed
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Just as you're looking through her underwear drawer, Olivia catches you red-handed.  She screams at you, hurls an ashtray at your head and chases you off of the property.  Once inside your car you peel out and make your escape back to the safety of your own home, convinced that this was a bad idea.
+      repromptTextResponse: To get out of here, say go home.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-B10.mp3
+        - !sf-textfrag
+          text: To get out of here, say go home.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoToLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C1
+          localizedSuggestionText:
+          - text: go home
+        requiredSlotValues:
+          location:
+          - home
+- name: B11
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Dover's Crossing
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You arrive at Dover's Crossing and are taken to the third floor by an orderly.  There, in a recreation room populated by the patients, you find Lucas Caine doodling a drawing of a bird in flight in crayon.
+      repromptTextResponse: When you're ready to talk to Lucas, say talk to Lucas.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-B11.mp3
+        - !sf-textfrag
+          text: When you're ready to talk to Lucas, say talk to Lucas.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: TalkToIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: B11a
+          localizedSuggestionText:
+          - text: talk to Lucas
+        requiredSlotValues:
+          character:
+          - lucas
+- name: B11a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Lucas Caine
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: He babbles to you about birds being messengers, and about things we were not meant to know.  When you ask about the painting, Eye of the Elder Gods, he talks about creating that painting and others in a period of fugue that lasted a couple of years.  He describes it as like being stuck in a dream and wonders if the dreamer was Cthulhu.
+      repromptTextResponse: To try and learn more say keep talking.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-B11A.mp3
+        - !sf-textfrag
+          text: To try and learn more say keep talking.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoOnIntent
+    nodeMapping: !nm-singlenode
+      nodeName: B11b
+      localizedSuggestionText:
+      - text: keep talking
+- name: B11b
+  responseSet:
+  - localizedResponses:
+    - cardTitle: The sum of all fears
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You seem to recognize that name, as if it touches on primal fears inside you. You don't get much else from Caine in terms of information, but when you get up to leave you notice you are being watched by another patient.  The patient disappears around the corner and you follow to find him further down the hallway among the patient bedrooms.  Do you exit or do you follow the patient?
+      repromptTextResponse: Say leave the hospital to leave the hospital, or follow the patient to follow the patient.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-B11B.mp3
+        - !sf-textfrag
+          text: Would you like to leave the hospital or follow the patient?
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C1
+          localizedSuggestionText:
+          - text: leave the hospital
+        requiredSlotValues:
+          verb:
+          - leave
+          location:
+          - hospital
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: B12
+          localizedSuggestionText:
+          - text: follow the patient
+        requiredSlotValues:
+          verb:
+          - follow
+          item:
+          - patient
+- name: B12
+  responseSet:
+  - localizedResponses:
+    - cardTitle: The messenger
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Against your better judgment, you decide to follow the patient down the hallway and into one of the patient rooms.  The walls are plastered with drawings of a solar eclipse.  The patient rants and raves about how Cthulhu sees into this world and how he will return to the world during the coming solar eclipse that is scheduled to occur two days from now.
+      repromptTextResponse: When you're ready to exit Dover Crossing, say go home.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-B12.mp3
+        - !sf-textfrag
+          text: When you're ready to exit Dover Crossing, say go home.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoToLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C1
+          localizedSuggestionText:
+          - text: go home
+        requiredSlotValues:
+          location:
+          - home
+- name: B2
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Apocalypse
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: It doesn't involve you.  You forget about it and go back to your life.  Later in the week a solar eclipse occurs.  But unlike a normal eclipse, this one is accompanied by a tremendous ripping sound and you're struck with an overwhelming sense of supernatural fear.
+      repromptTextResponse: To find out what you see next, say tell me more.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-B2.mp3
+        - !sf-textfrag
+          text: To find out what you see next, say tell me more.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoOnIntent
+    nodeMapping: !nm-singlenode
+      nodeName: B2a
+      localizedSuggestionText:
+      - text: tell me more
+- name: B2a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Cthulhu Rising
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: From the campus grounds nearby, the massive form of the great old one, Cthulhu rises up and stretches out his expansive wings.  Madness overcomes you first, followed by death.
+      repromptTextResponse: Would you like to restart or end game?
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-B2A.mp3
+        - !sf-textfrag
+          text: Would you like to restart or end game?
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  localizedSuggestions:
+  - - text: restart
+  - - text: end game
+- name: B3
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Research Results
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You manage to find information on the painting, "Eye of the Elder Gods".  It was painted in 2001 by local artist by the name of Lucas Caine and is currently in the possession of a private buyer.  Caine cites its inspiration as, "a series of recurring nightmares."
+      repromptTextResponse: To learn more, say look at the picture.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-B3.mp3
+        - !sf-textfrag
+          text: To learn more, say look at the picture.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: B3a
+          localizedSuggestionText:
+          - text: look at the picture
+        requiredSlotValues:
+          verb:
+          - look at
+          item:
+          - picture
+- name: B3a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: The Eye of the Elder Gods
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: The painting depicts a bizarre city being lorded over by a powerful and malevolent entity with claws, bat-like wings and an octopus-like head.  Spooked, you click off the image and decide to go visit the artist who created the painting.
+      repromptTextResponse: When you're ready, say visit the artist.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-B3A.mp3
+        - !sf-textfrag
+          text: When you're ready, say visit the artist.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheCharacterIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: B6
+          localizedSuggestionText:
+          - text: visit Lucas
+        requiredSlotValues:
+          verb:
+          - visit
+          character:
+          - lucas
+- name: B4
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Following Margaret
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You find Margaret's address and tail her in your car.  She leads you to a quiet suburban neighborhood, to a house whose property shows a mild state of neglect.
+      repromptTextResponse: To see what she does next, say watch Margaret.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-B4.mp3
+        - !sf-textfrag
+          text: To see what she does next, say watch Margaret.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheCharacterIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: B4a
+          localizedSuggestionText:
+          - text: watch Margaret
+        requiredSlotValues:
+          verb:
+          - watch
+          character:
+          - Margaret
+- name: B4a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Margaret Enters
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: A woman answers the door and invited Margaret inside.  Despite your attempt to be discreet, Margaret immediately spots you upon exiting the house and approaches your car.  She tells you to open the car door so she can get in and tell you what she's found.
+      repromptTextResponse: To let her in, say open the door.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-B4A.mp3
+        - !sf-textfrag
+          text: To let her in, say open the door.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: B4b
+          localizedSuggestionText:
+          - text: open the door
+        requiredSlotValues:
+          verb:
+          - open
+          item:
+          - door
+- name: B4b
+  responseSet:
+  - localizedResponses:
+    - cardTitle: What she's learned
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: This is the house of the artist, Lucas Caine.  The woman who answered the door is his lover and Power of Attorney.  She disclosed that Lucas has been a longtime patient at the psychiatric hospital, Dover's Crossing.  Margaret instructs you to drive the two of you to Dover's Crossing to have a chat with Lucas.
+      repromptTextResponse: To visit Lucas Caine, say go to the hospital.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-B4B.mp3
+        - !sf-textfrag
+          text: To visit Lucas Caine, say go to the hospital.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoToLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: B11
+          localizedSuggestionText:
+          - text: go to the hospital
+        requiredSlotValues:
+          location:
+          - hospital
+- name: B6
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Visit the Artist
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You travel deep into the suburbs to visit the house of the artist, Lucas Caine.  You find his house and property to be in a mild state of neglect.  The woman who answers the door invites you inside after you introduce yourself as an Art History professor.
+      repromptTextResponse: To follow her inside, say go inside.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-B6.mp3
+        - !sf-textfrag
+          text: To follow her inside, say go inside.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoToLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: B6a
+          localizedSuggestionText:
+          - text: go inside
+        requiredSlotValues:
+          location:
+          - inside
+- name: B6a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Invitation to enter
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: The woman, Olivia Baptiste, introduces herself as the lover and Power of Attorney of Lucas Caine.  She tells you that Lucas is not home and insinuates she is not expecting him back any time soon.  You get a sense she's hiding something and wonder whether you should try to keep her talking or maybe figure out a way to snoop around the house a bit.
+      repromptTextResponse: Say talk to Olivia to talk to Olivia, or search the house to search the house.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-B6A.mp3
+        - !sf-textfrag
+          text: Say talk to Olivia to keep her talking or say search the house to have a look around.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: TalkToIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: B7
+          localizedSuggestionText:
+          - text: talk to Olivia
+        requiredSlotValues:
+          character:
+          - Olivia
+  - intentName: VerbTheLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: B8
+          localizedSuggestionText:
+          - text: search the house
+        requiredSlotValues:
+          verb:
+          - search
+          location:
+          - house
+- name: B7
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Flattery will get you everywhere
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Knowing she is an artist as well, you ask to see some of her paintings and ply her with compliments.  She opens up and discloses to you that Lucas has been a longtime resident of Dover's Crossing - a psychiatric hospital.
+      repromptTextResponse: To visit Lucas Caine, say go to the hospital.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-B7.mp3
+        - !sf-textfrag
+          text: To visit Lucas Caine, say go to the hospital.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoToLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: B11
+          localizedSuggestionText:
+          - text: go to the hospital
+        requiredSlotValues:
+          location:
+          - hospital
+- name: B8
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Snooping Around
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You ask to use the bathroom and use that opportunity to slip into the bedroom and snoop around.  Quickly, carefully you sift through the messy bedroom hoping to find a clue and fearful that, at any moment, you may be caught.
+      repromptTextResponse: Say search the room to keep looking.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-B8.mp3
+        - !sf-textfrag
+          text: Say search the room to keep looking.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-multinode
+          nodeNames:
+          - B9
+          - B10
+          localizedSuggestionText:
+          - text: search the room
+        requiredSlotValues:
+          verb:
+          - search
+          location:
+          - room
+- name: B9
+  responseSet:
+  - localizedResponses:
+    - cardTitle: A clue!
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: >-
+          You discover a clue: insurance statements listing Lucas Caine as a patient at Dover's Crossing, a residential hospital for the mentally ill.
+
+
+          You leave the house and head to Dover's Crossing to visit the artist, Lucas Caine.
+      repromptTextResponse: To visit Lucas Caine say go to the hospital.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-B9.mp3
+        - !sf-textfrag
+          text: To visit Lucas Caine say go to the hospital.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoToLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: B11
+          localizedSuggestionText:
+          - text: go to the hospital
+        requiredSlotValues:
+          location:
+          - hospital
+- name: C1
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Home, sweet home
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: "You go home, but find yourself haunted by vivid dreams of a mysterious sunken city called R'lyeh.  You feel a malevolent intelligence trapped within, pulling to your mind, drawing you in.  Fish-like things swim past in the distance, sounding out a sing-song chant: Cthulhu, Cthulhu, Cthulhu!  You spend the rest of the night awake looking at an online image of the painting, the Eye of the Elder Gods."
+      repromptTextResponse: To seek answers, say go on.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C1.mp3
+        - !sf-textfrag
+          text: To seek answers, say go on.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoOnIntent
+    nodeMapping: !nm-singlenode
+      nodeName: C2
+      localizedSuggestionText:
+      - text: go on
+- name: C10
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Hide!
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You run downstairs to hide in the cellar, grabbing a hammer as a weapon.  You lock yourself in the laundry room and hear the back door get smashed in above you.  Something large and heavy moves through the house, eventually making its way to the cellar stairs.  It pauses half-way down, calls out in a shrill cry and then leaves the house completely.  Terrified to move, you wait the rest of the night in your hiding place.
+      repromptTextResponse: Say leave the cellar to leave the cellar.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C10.mp3
+        - !sf-textfrag
+          text: When you're ready to leave the cellar, say leave the cellar.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C16
+          localizedSuggestionText:
+          - text: leave the cellar
+        requiredSlotValues:
+          verb:
+          - leave
+          location:
+          - cellar
+- name: C11
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Calling Margaret
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You call Margaret, demanding to know more about what's going on with Pohlhaus.  She refuses to say anything further and you suggest going to the authorities, or maybe even the Dean.  She again refuses - do you give up, insist on helping, or go to the Dean yourself?
+      repromptTextResponse: Say give up to give up, insist on helping to insist on helping or tell the Dean to tell the Dean.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C11.mp3
+        - !sf-textfrag
+          text: You can either give up, insist on helping, or tell the Dean.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GiveUpIntent
+    nodeMapping: !nm-singlenode
+      nodeName: B2
+      localizedSuggestionText:
+      - text: give up
+  - intentName: VerbTheActionIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C12
+          localizedSuggestionText:
+          - text: insist on helping
+        requiredSlotValues:
+          verb:
+          - insist
+          action:
+          - helping
+  - intentName: VerbTheCharacterIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C20
+          localizedSuggestionText:
+          - text: tell the Dean
+        requiredSlotValues:
+          verb:
+          - tell
+          character:
+          - dean
+- name: C12
+  responseSet:
+  - localizedResponses:
+    - cardTitle: I insist
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You tell Margaret about the vivid dreams of R'lyeh and Cthulhu.  She reveals that Pohlhaus has been spending time in the restricted books section of the university library - a forbidden book known as The Necronomicon.  The goal of his cult, which includes other university professors and the Dean, have solicited Margaret to interpret star charts of celestial events, and the charts seem to have been drawn from a reference point that is not of this world.
+      repromptTextResponse: To find out more, say ask Margaret.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C12.mp3
+        - !sf-textfrag
+          text: To find out more, say ask Margaret.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheCharacterIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C12a
+          localizedSuggestionText:
+          - text: ask Margaret
+        requiredSlotValues:
+          verb:
+          - ask
+          character:
+          - Margaret
+- name: C12a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Unleashing the devil
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: The painting, The Eye of the Elder Gods is a portal.  Pohlhaus and his cult intend to use the knowledge gleamed from The Necronomicon to open that portal and summon the great old one, Cthulhu into the world.  They plan to bring about the apocalypse.  You know his summoning ritual will occur during the solar eclipse tomorrow, but you have no idea how to stop Pohlhaus.
+      repromptTextResponse: To keep Margaret talking, say go on.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C12A.mp3
+        - !sf-textfrag
+          text: To keep Margaret talking, say go on.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoOnIntent
+    nodeMapping: !nm-singlenode
+      nodeName: C12b
+      localizedSuggestionText:
+      - text: go on
+- name: C12b
+  responseSet:
+  - localizedResponses:
+    - cardTitle: An inside agent
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: It occurs to you that if you can get your hands on the painting maybe you can stop the coming apocalypse.  Your ex-wife lives with Pohlhaus, as does your daughter half of the time.  You could call your daughter, Kelly, and have her snoop around for the painting.
+      repromptTextResponse: To call your daughter say call Kelly.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C12B.mp3
+        - !sf-textfrag
+          text: To call your daughter say call Kelly.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheCharacterIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C13
+          localizedSuggestionText:
+          - text: call Kelly
+        requiredSlotValues:
+          verb:
+          - call
+          character:
+          - Kelly
+- name: C13
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Calling Kelly
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You call your daughter, Kelly and describe the painting; she indicates she's seen it.  She tells you Pohlhaus and your ex-wife are outside in the yard, so you stay on the phone with her while she slips into the study to look for the painting.
+      repromptTextResponse: To keep talking to Kelly say stay on the phone.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C13.mp3
+        - !sf-textfrag
+          text: To keep talking to Kelly say stay on the phone.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C13a
+          localizedSuggestionText:
+          - text: stay on the phone
+        requiredSlotValues:
+          verb:
+          - stay
+          item:
+          - phone
+- name: C13a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Searching the office
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Kelly can't find the painting but you ask her to keep searching for anything else that may be of use to you.  She finds a key and pockets it.  There may be more clues in the room, but the longer you have her search the more at risk she may be of getting caught.
+      repromptTextResponse: Say get out to have Kelly stop now, or say search the room to have her keep searching.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C13A.mp3
+        - !sf-textfrag
+          text: Say get out to have Kelly stop now, or say search the room to have her keep searching.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GiveUpIntent
+    nodeMapping: !nm-singlenode
+      nodeName: D9
+      localizedSuggestionText:
+      - text: get out
+  - intentName: VerbTheLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C14
+          localizedSuggestionText:
+          - text: search the room
+        requiredSlotValues:
+          verb:
+          - search
+          location:
+          - room
+- name: C14
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Pushing Your Luck
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You prompt her to keep looking and she manages to find a hand-written journal hidden in the back of the closet.  She thinks she hears someone come in through the back door worries about getting caught, but this could be your only chance to find clues to stopping the apocalypse. Do you have her keep looking or tell her to get out of there?
+      repromptTextResponse: Say get out to have Kelly stop, or say search the room to have her keep searching.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C14.mp3
+        - !sf-textfrag
+          text: Say get out to have Kelly stop, or say search the room to have her keep searching.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GiveUpIntent
+    nodeMapping: !nm-singlenode
+      nodeName: D1
+      localizedSuggestionText:
+      - text: get out
+  - intentName: VerbTheLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C15
+          localizedSuggestionText:
+          - text: search the room
+        requiredSlotValues:
+          verb:
+          - search
+          location:
+          - room
+- name: C15
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Just a little more . . .
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Oh no!  Pohlhaus catches Kelly rooting through his office! He takes the phone from her and sends her to her room.  He talks to you, suggesting that you go about your own business and forget about all of this or else something horrible will happen to Kelly.
+      repromptTextResponse: You can say give up, or say talk to Margaret.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C15.mp3
+        - !sf-textfrag
+          text: You can say give up, or say talk to Margaret to figure out your next course of action.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GiveUpIntent
+    nodeMapping: !nm-singlenode
+      nodeName: B2
+      localizedSuggestionText:
+      - text: give up
+  - intentName: TalkToIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D5
+          localizedSuggestionText:
+          - text: talk to Margaret
+        requiredSlotValues:
+          character:
+          - Margaret
+- name: C16
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Surveying the damage
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: In the morning, you ascend to survey the destruction throughout the house. You wonder if this beast had been sent for you because of your conversation with the Dean. And you wonder if it may have gotten Margaret.  You need to get your hands of the painting before tomorrow's solar eclipse, which is when Pohlhaus and his followers plan to summon Cthulhu.  It occurs to you that your daughter lives with Pohlhaus half the time -- you could call her for help.
+      repromptTextResponse: To talk to your daughter say call Kelly.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C16.mp3
+        - !sf-textfrag
+          text: To talk to your daughter say call Kelly.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheCharacterIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C17
+          localizedSuggestionText:
+          - text: call Kelly
+        requiredSlotValues:
+          verb:
+          - call
+          character:
+          - Kelly
+- name: C17
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Calling your daughter
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You call your daughter, Kelly and describe the painting; she indicates she's seen it.  She tells you Pohlhaus and your ex-wife are outside in the yard, so you stay on the phone with her while she slips into the study to look for the painting.
+      repromptTextResponse: To guide Kelly through her search, say stay on the phone.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C17.mp3
+        - !sf-textfrag
+          text: To guide Kelly through her search, say stay on the phone.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C17a
+          localizedSuggestionText:
+          - text: stay on the phone
+        requiredSlotValues:
+          verb:
+          - stay
+          item:
+          - phone
+- name: C17a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Searching the study
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Kelly can't find the painting but you ask her to keep searching for anything else that may be of use to you.  She finds a key and pockets it.  There may be more clues in the room, but the longer you have her search the more at risk she may be of getting caught.
+      repromptTextResponse: Say get out to have Kelly stop now, or say search the room to have her keep searching.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C17A.mp3
+        - !sf-textfrag
+          text: Say get out to have Kelly stop now, or say search the room to have her keep searching.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GiveUpIntent
+    nodeMapping: !nm-singlenode
+      nodeName: D14
+      localizedSuggestionText:
+      - text: get out
+  - intentName: VerbTheLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C18
+          localizedSuggestionText:
+          - text: search the room
+        requiredSlotValues:
+          verb:
+          - search
+          location:
+          - room
+- name: C18
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Another clue
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You prompt her to keep looking and she manages to find a hand-written journal hidden in the back of the closet.  She thinks she hears someone come in through the back door worries about getting caught, but this could be your only chance to find clues to stopping the apocalypse. Do you have her keep looking or tell her to get out of there?
+      repromptTextResponse: Say give up to have Kelly stop now, or say search the room to have her keep searching.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C18.mp3
+        - !sf-textfrag
+          text: Do you ask her to give up or keep searching?
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GiveUpIntent
+    nodeMapping: !nm-singlenode
+      nodeName: D21
+      localizedSuggestionText:
+      - text: give up
+  - intentName: VerbTheActionIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C19
+          localizedSuggestionText:
+          - text: keep searching
+        requiredSlotValues:
+          verb:
+          - keep
+          action:
+          - searching
+- name: C19
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Consequences
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Oh no!  Pohlhaus catches Kelly rooting through his office! He takes the phone from her and sends her to her room.  He talks to you, suggesting that you go about your own business and forget about all of this or else something horrible will happen to Kelly.
+      repromptTextResponse: To try and come up with a new plan say continue on. To give up say give up.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C19.mp3
+        - !sf-textfrag
+          text: To try and come up with a new plan say continue on. To give up say give up.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GiveUpIntent
+    nodeMapping: !nm-singlenode
+      nodeName: B2
+      localizedSuggestionText:
+      - text: give up
+  - intentName: GoOnIntent
+    nodeMapping: !nm-singlenode
+      nodeName: D25
+      localizedSuggestionText:
+      - text: continue on
+- name: C2
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Seeking Answers
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: The next day you resume your teaching duties at Miskatonic University, but you can't stop thinking about Pohlhaus and the painting, and the darker mystery that awaits.  Wanting to know more, you call Margaret.
+      repromptTextResponse: When you're ready, say call Margaret.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C2.mp3
+        - !sf-textfrag
+          text: When you're ready, say call Margaret
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheCharacterIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - CaughtByDrPolhaus
+      trueConditionResult: !nm-slotmap
+        mappings:
+        - nodeMap: !nm-singlenode
+            nodeName: C3
+            localizedSuggestionText:
+            - text: call Margaret
+          requiredSlotValues:
+            verb:
+            - call
+            character:
+            - Margaret
+      falseConditionResult: !nm-slotmap
+        mappings:
+        - nodeMap: !nm-singlenode
+            nodeName: C11
+            localizedSuggestionText:
+            - text: call Margaret
+          requiredSlotValues:
+            verb:
+            - call
+            character:
+            - Margaret
+- name: C20
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Going to the Dean
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You go to the Dean, Dr. Myron Gardner, and tell him what you know. He seems skeptical, but agrees to look into it and talk to both Margaret Reeves and Charles Pohlhaus.  He tells you to go home and relax, assuring you he will take care of the issue.
+      repromptTextResponse: When you're ready to leave, say go home.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C20.mp3
+        - !sf-textfrag
+          text: When you're ready to leave, say go home.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoToLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C20a
+          localizedSuggestionText:
+          - text: go home
+        requiredSlotValues:
+          location:
+          - home
+- name: C20a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: The visitor
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You go home, reassuring yourself you made the right decision but as night falls you can't seem to settle down.  There comes a clamoring outside your house as something thumps against the house and your patio furniture is tossed around out back.  Creeping towards the rear of the house, you enter the kitchen and grab a knife from the butcher block.
+      repromptTextResponse: When you think you're ready, say open the blinds.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C20A.mp3
+        - !sf-textfrag
+          text: When you think you're ready, say open the blinds.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C20b
+          localizedSuggestionText:
+          - text: open the blinds
+        requiredSlotValues:
+          verb:
+          - open
+          item:
+          - blinds
+- name: C20b
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Let's have a look . . .
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: With the knife poised at the ready, you approach the back door and flip the blinds open.  Waiting for you on the other side of the door is a creature made of eyeballs, tentacles and feathers.  Its tentacles smash through the glass panel of the door and ensnare you, ripping you through the opening and into it's gaping beak.  You meet your death, devoured alive by an otherworldly horror.
+      repromptTextResponse: To try helping Margaret, say go back. You can also say restart or end game.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C20B.mp3
+        - !sf-textfrag
+          text: You should have insisted on helping Margaret. To try helping Margaret, say go back. You can also say restart or end game.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoBackIntent
+    nodeMapping: !nm-singlenode
+      nodeName: C12
+      localizedSuggestionText:
+      - text: go back
+  - intentName: EndGameIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StopGame
+      localizedSuggestionText:
+      - text: end game
+- name: C3
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Margaret, are you there?
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You dial Margaret multiple times, leaving messages but she does not answer or call back.  You consider going to Margaret's house to check on her in person.  Then again, it may be best to stay uninvolved - you could just give up and pretend none of this ever happened, or maybe you could go to the Dean of the University and let him handle it.
+      repromptTextResponse: You can say give up to give up, go to Margaret's house to go to Margaret's house, or tell the dean to tell the dean.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C3.mp3
+        - !sf-textfrag
+          text: You can choose to either give up, go to Margaret's house, or tell the Dean.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GiveUpIntent
+    nodeMapping: !nm-singlenode
+      nodeName: B2
+      localizedSuggestionText:
+      - text: give up
+  - intentName: GotoLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C4
+          localizedSuggestionText:
+          - text: go to Margaret's house
+        requiredSlotValues:
+          location:
+          - Margaret's house
+  - intentName: VerbTheCharacterIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C6
+          localizedSuggestionText:
+          - text: tell the Dean
+        requiredSlotValues:
+          verb:
+          - tell
+          character:
+          - dean
+- name: C4
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Checking in on Margaret
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Out of concern, you go to Margaret's house to check on her.  The sun sets while you knock repeatedly.  With no sign of Margaret, you circle the house and find the back door smashed in.  Cautiously you enter the house and in her bedroom you find Margaret's corpse - she has been mauled violently.  A horrifying beast made of tentacles and feather and eyeballs rushes out of the house and into the yard.
+      repromptTextResponse: To try and run, say run away.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C4.mp3
+        - !sf-textfrag
+          text: Survival instinct kicks in.  To try and run, say run away.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheActionIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C5
+          localizedSuggestionText:
+          - text: run away
+        requiredSlotValues:
+          verb:
+          - run
+          action:
+          - away
+- name: C5
+  responseSet:
+  - localizedResponses:
+    - cardTitle: What you see...
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: The creature reveals its beak and emits a cry.  Your sanity falters and you flee, running and running, laughing madly as you go.  The police eventually find you and take you to Dover's Crossing - a hospital for the mentally ill.  One admitted to Dover's Crossing you share a room with a patient named Lucas Caine - the artist who painted Eye of the Elder Gods.  Later in the week, from the hospital's recreation room you witness the eclipse, the summoning of Cthulhu, and the beginning of the apocalypse.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C5.mp3
+        - !sf-condition
+          conditions:
+          - AnEventfulNight
+          trueResultFragments:
+          - !sf-textfrag
+            text: Looking out the window didn't work.  Say go back to try hiding in the cellar.  You can also say end game or restart.
+          falseResultFragments:
+          - !sf-textfrag
+            text: Say go back if you would like to try telling the Dean.  You can also say end game or restart.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-condition
+          conditions:
+          - AnEventfulNight
+          trueResultFragments:
+          - !sf-textfrag
+            text: Say go back to try hiding in the cellar.  You can also say end game or restart.
+          falseResultFragments:
+          - !sf-textfrag
+            text: Say go back if you would like to try telling the Dean.  You can also say end game or restart.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoBackIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - AnEventfulNight
+      trueConditionResult: !nm-singlenode
+        nodeName: C10
+        localizedSuggestionText:
+        - text: go back
+      falseConditionResult: !nm-singlenode
+        nodeName: C6
+        localizedSuggestionText:
+        - text: go back
+  - intentName: EndGameIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StopGame
+      localizedSuggestionText:
+      - text: end game
+- name: C6
+  responseSet:
+  - localizedResponses:
+    - cardTitle: The Dean, Dr. Myron Gardner
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You go to the Dean, Dr. Myron Gardner, and tell him what you know. He seems skeptical, but agrees to look into it and talk to both Margaret Reeves and Charles Pohlhaus.  He tells you to go home and relax, assuring you he will take care of the issue.
+      repromptTextResponse: When you're ready to leave, say go home
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C6.mp3
+        - !sf-textfrag
+          text: When you're ready to leave, say go home
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoToLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C7
+          localizedSuggestionText:
+          - text: go home
+        requiredSlotValues:
+          location:
+          - home
+- name: C7
+  responseSet:
+  - localizedResponses:
+    - cardTitle: An eventful night
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You go home, but that night you can't stop worrying about Margaret.  A clamoring comes from outside and the noise travels to your back patio.  Terrified of what you may find outside, your instinct is to hide but you wonder if it's Margaret and if she's injured or in need of help.  Do you go out to investigate, peek outside, or hide?
+      repromptTextResponse: You can say go outside, look out the window or hide in the cellar.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C7.mp3
+        - !sf-textfrag
+          text: You can say go outside, look out the window or hide in the cellar.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoToLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C8
+          localizedSuggestionText:
+          - text: go outside
+        requiredSlotValues:
+          location:
+          - outside
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C9
+          localizedSuggestionText:
+          - text: look out the window
+        requiredSlotValues:
+          verb:
+          - look out
+          item:
+          - window
+  - intentName: VerbTheLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C10
+          localizedSuggestionText:
+          - text: hide in the cellar
+        requiredSlotValues:
+          verb:
+          - hide
+          location:
+          - cellar
+  actions:
+  - !na-recordvisit {}
+- name: C8
+  responseSet:
+  - localizedResponses:
+    - cardTitle: The encounter
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You decide to investigate, taking a flashlight with you.  You find the siding of the house has been dented by and your patio furniture in disarray.  But no sign of Margaret or whoever caused the damage.  And then you are startled by a shrill, bird-like call from behind.
+      repromptTextResponse: To see what you found, say go on.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C8.mp3
+        - !sf-textfrag
+          text: To see what you found, say go on.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoOnIntent
+    nodeMapping: !nm-singlenode
+      nodeName: C8a
+      localizedSuggestionText:
+      - text: go on
+- name: C8a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Not of this world
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Pivoting towards the sound, you find a creature made of tentacles and black feathers and countless eyeballs slithering towards you!  The beast emits another shrill cry and snatches you up in its tentacles, pulling you in towards a giant, razor-sharp beak.  Your screams are the last thing you hear before your death.
+      repromptTextResponse: Say look out the window to go back and look out the window, hide in the cellar to go back and hide in the cellar, or you can say end game or restart.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C8A.mp3
+        - !sf-textfrag
+          text: Going outside didn't work.  Perhaps you would like to try to look out the window, or hide in the cellar?  You can also say end game or restart.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C9
+          localizedSuggestionText:
+          - text: look out the window
+        requiredSlotValues:
+          verb:
+          - look out
+          item:
+          - window
+  - intentName: VerbTheLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C10
+          localizedSuggestionText:
+          - text: hide in the cellar
+        requiredSlotValues:
+          verb:
+          - hide
+          location:
+          - cellar
+  - intentName: EndGameIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StopGame
+      localizedSuggestionText:
+      - text: end game
+- name: C9
+  responseSet:
+  - localizedResponses:
+    - cardTitle: A quick peek
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You move through the house, peering out each window until you reach the back door.  What you see through the blinds of the back door window panel, standing just on the other side of the door is a creature made of tentacles, eyeballs and feathers.  It notices you and spreads its tentacles to reveal an enormous, sharp beak.
+      repromptTextResponse: To try and run, say run away.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-C9.mp3
+        - !sf-textfrag
+          text: Survival instinct kicks in.  To try and run, say run away.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheActionIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: C5
+          localizedSuggestionText:
+          - text: run away
+        requiredSlotValues:
+          verb:
+          - run
+          action:
+          - away
+- name: D1
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Dangerous grounds
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You tell her to get out with what she has, and arrange to meet later to exchange the items.  Even though she's grounded, Kelly assures you she can sneak out.  You arrive with Margaret to the prearranged meeting spot a block from the house, but still no Kelly.
+      repromptTextResponse: To see what happens next say wait for Kelly.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D1.mp3
+        - !sf-textfrag
+          text: To see what happens next say wait for Kelly.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: WaitForIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D1a
+          localizedSuggestionText:
+          - text: wait for Kelly
+        requiredSlotValues:
+          character:
+          - Kelly
+- name: D10
+  responseSet:
+  - localizedResponses:
+    - cardTitle: What you know
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: For safety reasons, the two of you spend a night in a hotel room.  Margaret recognizes the key as belonging to Miskatonic University - it's the key to the rooftop access of McKnight Hall.  That building's rooftop holds the astronomy observatory, and you reason that must be where Pohlhaus is planning to hold the ritual.  You think that maybe, if you can destroy the painting, you can stop the summoning of Cthulhu.
+      repromptTextResponse: To head to the university in the morning, say go to the university.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D10.mp3
+        - !sf-textfrag
+          text: To head to the university in the morning, say go to the university.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoToLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D11
+          localizedSuggestionText:
+          - text: go to the university
+        requiredSlotValues:
+          location:
+          - university
+- name: D11
+  responseSet:
+  - localizedResponses:
+    - cardTitle: A desperate plan
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: When the time comes, you and Margaret enter McKnight Hall and access the roof where you and Margaret duck down behind a rooftop ventilation unit.  In front of the observatory dome, Pohlhaus, the Dean and some other professors encircle the painting and perform the summoning ritual.  Standing vigil over them is a large creature comprised of tentacles, eyeballs and feathers.  Margaret offers to distract the group while you go for the painting.
+      repromptTextResponse: Say follow the plan to follow the plan, or wait for an opening to wait for an opening.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D11.mp3
+        - !sf-textfrag
+          text: You can follow the plan or wait for an opening.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D13
+          localizedSuggestionText:
+          - text: follow the plan
+        requiredSlotValues:
+          verb:
+          - follow
+          item:
+          - plan
+  - intentName: WaitForItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D12
+          localizedSuggestionText:
+          - text: wait for an opening
+        requiredSlotValues:
+          item:
+          - opening
+- name: D12
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Inaction
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Not willing to take the risk, you order Margaret to hold and you wait for a better opening to go for the painting.  As the eclipse reaches its peak Cthulhu's mighty head pushes forth through the impossibly small opening of the painting.
+      repromptTextResponse: To see more of Cthulhu's rebirth, say watch the painting.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D12.mp3
+        - !sf-textfrag
+          text: To see more of Cthulhu's rebirth, say watch the painting.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D12a
+          localizedSuggestionText:
+          - text: watch the painting
+        requiredSlotValues:
+          verb:
+          - watch
+          item:
+          - painting
+- name: D12a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Cthulhu reborn
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Your sanity slips as you watch Cthulhu emerge from the painting and spill out over the rooftop to the ground below.  Rising up and unfurling his enormous wings, Cthulhu announces his reign and ushers in the apocalypse.  Chaos and destruction mark the end of the world.
+      repromptTextResponse: To try following the plan say go back. You can also say restart or end game.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D12A.mp3
+        - !sf-textfrag
+          text: You should have stuck with the plan. To try following the plan say go back. You can also say restart or end game.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoBackIntent
+    nodeMapping: !nm-singlenode
+      nodeName: D13
+      localizedSuggestionText:
+      - text: go back
+  - intentName: EndGameIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StopGame
+      localizedSuggestionText:
+      - text: end game
+- name: D13
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Margaret creates an opening
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Before you have time to change your mind, Margaret steps out and draws their attention away from you.  Pohlhaus and his group of cultists momentarily pause their ritual before resuming.  The tentacled creature among them races towards Margaret.  Now's your chance to go for the painting!
+      repromptTextResponse: To continue, say go on.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D13.mp3
+        - !sf-textfrag
+          text: Say go on.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoOnIntent
+    nodeMapping: !nm-singlenode
+      nodeName: D13ab
+      localizedSuggestionText:
+      - text: go on
+- name: D13a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Struggle!
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: With Cthulhu's tentacles pushing out from the canvas, you grab the painting and raise it over your head.  One of the cultists, the Dean of the University, grapples with you for control of the painting.
+      repromptTextResponse: To fight him off, say elbow the Dean.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D13A.mp3
+        - !sf-textfrag
+          text: To fight him off, say elbow the Dean.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheCharacterIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D13b
+          localizedSuggestionText:
+          - text: elbow the Dean
+        requiredSlotValues:
+          verb:
+          - elbow
+          character:
+          - dean
+- name: D13ab
+  responseSet:
+  - localizedResponses:
+    - cardTitle: A mad rush
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: As you rush the circle of cultists you witness Margaret's brutal death as the creature reaches her.  You barrel into the cultists, breaking their circle and disrupting the ritual.
+      repromptTextResponse: To grab the painting, say grab the painting.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D13AB.mp3
+        - !sf-textfrag
+          text: Now's your chance! Say grab the painting.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D13a
+          localizedSuggestionText:
+          - text: grab the painting
+        requiredSlotValues:
+          verb:
+          - grab
+          item:
+          - painting
+- name: D13b
+  responseSet:
+  - localizedResponses:
+    - cardTitle: A vicious elbow
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Breaking free of the Dean, you smash the painting on the rooftop.  As the eclipse passes, the tentacles of Cthulhu vanish - as does the creature that killed Margaret.  Because of Margaret's sacrifice you managed to stop Pohlhaus from summoning Cthulhu and ushering in the apocalypse.
+      repromptTextResponse: Would you like to restart or end game?
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D13B.mp3
+        - !sf-textfrag
+          text: The End.  Congratulations on saving the world.  Would you like to restart or end game?
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  localizedSuggestions:
+  - - text: restart
+  - - text: end game
+- name: D14
+  responseSet:
+  - localizedResponses:
+    - cardTitle: A mysterious key
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You tell her to get out with what she has, and arrange to meet later to exchange the key.  Even though she's grounded, Kelly assures you she can sneak out.  You arrive to the prearranged meeting spot a block from the house, but still no Kelly.
+      repromptTextResponse: To see what happens next, say wait for Kelly.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D14.mp3
+        - !sf-textfrag
+          text: You can say wait for Kelly to see what happens next.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: WaitForIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D14a
+          localizedSuggestionText:
+          - text: wait for Kelly
+        requiredSlotValues:
+          character:
+          - Kelly
+- name: D14a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Handing off the key
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: A little late, Kelly shows up and hands you the key.  You hug her for what you fear could be the last time and you watch her go.  With a mysterious key now in your possession, you leave in the hopes that this item can help you stave off the coming apocalypse.
+      repromptTextResponse: To decide where to go next, say leave the area.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D14A.mp3
+        - !sf-textfrag
+          text: To decide where to go next, say leave the area.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D15
+          localizedSuggestionText:
+          - text: leave the area
+        requiredSlotValues:
+          verb:
+          - leave
+          location:
+          - area
+- name: D15
+  responseSet:
+  - localizedResponses:
+    - cardTitle: At the hotel
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Knowing it's not safe to return home, you get a hotel room.  You realize that Pohlhaus plans to summon Cthulhu during the solar eclipse, which will occur tomorrow just past noon.  Exhaustion overtakes you; when you wake you realize it's already mid-morning and that time is running out before the eclipse!
+      repromptTextResponse: When you're ready, say study the key.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D15.mp3
+        - !sf-textfrag
+          text: When you're ready, say study the key.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D15a
+          localizedSuggestionText:
+          - text: study the key
+        requiredSlotValues:
+          verb:
+          - study
+          item:
+          - key
+- name: D15a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: In search of a lock
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Studying the silver key, you realize it belongs to Miskatonic University.  If you can figure out which lock it opens you may be able to find the painting and stop the apocalypse.  You rush over to the university and comb the campus, trying the key in every lock you can find, but you don't have much luck and time is running out.  You spot a janitor and wonder if you should ask him if he recognizes the key, but then again you fear he might be involved in Pohlhaus' cult.  Do you ask him or keep searching on your own?
+      repromptTextResponse: Say ask the janitor to ask the janitor, or to keep trying locks say search the building.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D15A.mp3
+        - !sf-textfrag
+          text: Say ask the janitor to ask the janitor, or to keep trying locks say search the building.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheCharacterIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D17
+          localizedSuggestionText:
+          - text: ask the janitor
+        requiredSlotValues:
+          verb:
+          - ask
+          character:
+          - janitor
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D16
+          localizedSuggestionText:
+          - text: search the building
+        requiredSlotValues:
+          verb:
+          - search
+          item:
+          - building
+- name: D16
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Trust no one
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You can't trust him.  You keep up your search independently, but as you move towards McKnight Hall you run out of time - the solar eclipse begins to occur!  You find yourself among a gathering crowd of observers, watching the moon pass before the sun.
+      repromptTextResponse: To hear what you see, say watch the eclipse.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D16.mp3
+        - !sf-textfrag
+          text: To hear what you see, say watch the eclipse.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D16a
+          localizedSuggestionText:
+          - text: watch the eclipse
+        requiredSlotValues:
+          verb:
+          - watch
+          item:
+          - eclipse
+- name: D16a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Cthulhu reborn!
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: As the eclipse occurs, you witness the monstrous figure of Cthulhu rise up above McKnight Hall.  The Great Old One is reborn into the world.  Madness overcomes you and you drop to your knees while the crown around you erupts into a frenzy of violence.  Your worst fears are realized - the apocalypse has come.
+      repromptTextResponse: To try asking the janitor say go back. You can also say restart or end game.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D16A.mp3
+        - !sf-textfrag
+          text: Maybe when you had the choice, you should have asked the janitor. To try asking the janitor say go back. You can also say restart or end game.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoBackIntent
+    nodeMapping: !nm-singlenode
+      nodeName: D17
+      localizedSuggestionText:
+      - text: go back
+  - intentName: EndGameIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StopGame
+      localizedSuggestionText:
+      - text: end game
+- name: D17
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Taking a risk
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You ask the janitor about the key and he tells you it will grant you rooftop access to the Astronomy building, McKnight Hall and the domed observatory that tops that building.
+      repromptTextResponse: To hurry over to the observatory say go to McKnight Hall.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D17.mp3
+        - !sf-textfrag
+          text: To hurry over to the observatory say go to McKnight Hall.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoToLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D18
+          localizedSuggestionText:
+          - text: go to McKnight Hall
+        requiredSlotValues:
+          location:
+          - McKnight Hall
+- name: D18
+  responseSet:
+  - localizedResponses:
+    - cardTitle: The coming eclipse
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: With the eclipse nearly here, you enter McKnight Hall and access the roof where you duck down behind a rooftop ventilation unit.  In front of the observatory dome, Pohlhaus, the Dean and some other professors encircle the painting and perform the summoning ritual.  Standing vigil over them is a large creature comprised of tentacles, eyeballs and feathers - the same creature that presumably invaded your home!
+      repromptTextResponse: To assess the situation, say watch the cultists.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D18.mp3
+        - !sf-textfrag
+          text: To assess the situation, say watch the cultists.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D18a
+          localizedSuggestionText:
+          - text: watch the cultists
+        requiredSlotValues:
+          verb:
+          - watch
+          item:
+          - cultist
+- name: D18a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Decisions, decisions . . .
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: The summoning ritual begun, you figure that you could rush the cultists and try to destroy the painting but you fear the creature may intercept you before you can get close enough.  Perhaps you could wait and see if you get a better opening, but time is running out and the eclipse looms.
+      repromptTextResponse: Say rush the painting to rush the painting or wait for an opening to wait for an opening.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D18A.mp3
+        - !sf-textfrag
+          text: You can say rush the painting or wait for an opening.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D20
+          localizedSuggestionText:
+          - text: rush the painting
+        requiredSlotValues:
+          verb:
+          - rush
+          item:
+          - painting
+  - intentName: WaitForItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D19
+          localizedSuggestionText:
+          - text: wait for an opening
+        requiredSlotValues:
+          item:
+          - opening
+- name: D19
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Hold tight
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You decide to hold until there's a better opportunity.  But as the eclipse reaches its peak you realize you've delayed too long.  The tentacles of Cthulhu reach out, right off the canvas and into our world, and his enormous head thrusts forth from the impossibly small opening.
+      repromptTextResponse: To see more of Cthulhu's rebirth, say watch the painting.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D19.mp3
+        - !sf-textfrag
+          text: To see more of Cthulhu's rebirth, say watch the painting.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D19a
+          localizedSuggestionText:
+          - text: watch the painting
+        requiredSlotValues:
+          verb:
+          - watch
+          item:
+          - painting
+- name: D19a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Behold! The great old one!
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Your sanity slips as you watch Cthulhu emerge from the painting and spill out over the rooftop to the ground below.  Rising up and unfurling his enormous wings, Cthulhu announces his reign and ushers in the apocalypse.  And the world is filled with dread.
+      repromptTextResponse: Say go back to be given a chance to choose again. You can also say restart or end game.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D19A.mp3
+        - !sf-textfrag
+          text: You should carefully consider whether or not to have Kelly keep searching the room.  Say go back to be given a chance to choose again. You can also say restart or end game.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoBackIntent
+    nodeMapping: !nm-singlenode
+      nodeName: C14
+      localizedSuggestionText:
+      - text: go back
+  - intentName: EndGameIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StopGame
+      localizedSuggestionText:
+      - text: end game
+- name: D1a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Rendezvous by the hedges
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: A little late, Kelly shows up and hands you a key and leather-bound journal.  You hug her for what you fear could be the last time and you watch her go.  With the two items as clues, you leave with Margaret in the hopes that these items can help you stave off the coming apocalypse.
+      repromptTextResponse: Say leave the area to leave with Margaret.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D1A.mp3
+        - !sf-textfrag
+          text: Say leave the area to leave with Margaret.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D2
+          localizedSuggestionText:
+          - text: leave the area
+        requiredSlotValues:
+          verb:
+          - leave
+          location:
+          - area
+- name: D2
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Studying the clues
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: For safety reasons, the two of you spend a night in a hotel room.  Margaret recognizes the key as belonging to Miskatonic University - it's the key to the rooftop access of McKnight Hall.  That building's rooftop holds the astronomy observatory, and you reason that must be where Pohlhaus is planning to hold the ritual.  After reading the journal you declare that you know how to stop the ritual to summon Cthulhu, but it won't be easy.
+      repromptTextResponse: Say go to McKnight Hall to continue.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D2.mp3
+        - !sf-textfrag
+          text: Say go to McKnight Hall to continue.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoToLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D3
+          localizedSuggestionText:
+          - text: go to McKnight Hall
+        requiredSlotValues:
+          location:
+          - McKnight Hall
+- name: D20
+  responseSet:
+  - localizedResponses:
+    - cardTitle: You rush in!
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You rush the circle of cultists, barreling into them, breaking their circle and disrupting the ritual.  As you turn towards the painting Pohlhaus screams for someone to stop you.
+      repromptTextResponse: To find out what happens next, say go on.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D20.mp3
+        - !sf-textfrag
+          text: Say go on.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoOnIntent
+    nodeMapping: !nm-multinode
+      nodeNames:
+      - D20a
+      - D20b
+      localizedSuggestionText:
+      - text: go on
+- name: D20a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: It's now or never!
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: The tentacled creature rushes towards you.  Grasping the painting from behind, you hold it aloft; it shifts in your hands as tentacles reach out from the canvas, grasping for purchase in our world.  Seeing that you now hold the painting, the creature takes no action against you but the Dean grapples you, vying for control of the painting.
+      repromptTextResponse: To fight him off, say elbow the Dean.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D20A.mp3
+        - !sf-textfrag
+          text: To fight him off, say elbow the Dean.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheCharacterIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D20ab
+          localizedSuggestionText:
+          - text: elbow the Dean
+        requiredSlotValues:
+          verb:
+          - elbow
+          character:
+          - dean
+- name: D20ab
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Possession of the painting
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Breaking free of the Dean, you smash the painting on the rooftop.  As the eclipse passes, the tentacles of Cthulhu vanish - as does the servitor creature.  You've managed to stop Pohlhaus from summoning Cthulhu and ushering in the apocalypse.
+      repromptTextResponse: Would you like to restart or end game?
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D20AB.mp3
+        - !sf-textfrag
+          text: The End.  Congratulations on saving the world.  Would you like to restart or end game?
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  localizedSuggestions:
+  - - text: restart
+  - - text: end game
+- name: D20b
+  responseSet:
+  - localizedResponses:
+    - cardTitle: The maw of the beast
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Before you can reach the painting, the tentacled creature ensnares you and reels you in towards its gaping hungry beak.  Mercifully, your death comes quickly and you are spared having to witness the rebirth of Cthulhu and the horrors of the apocalypse.
+      repromptTextResponse: Say go back to be given a chance to choose again. You can also say restart or end game.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D20B.mp3
+        - !sf-textfrag
+          text: You should carefully consider whether or not to have Kelly keep searching the room.  Say go back to be given a chance to choose again. You can also say restart or end game.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoBackIntent
+    nodeMapping: !nm-singlenode
+      nodeName: C14
+      localizedSuggestionText:
+      - text: go back
+  - intentName: EndGameIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StopGame
+      localizedSuggestionText:
+      - text: end game
+- name: D21
+  responseSet:
+  - localizedResponses:
+    - cardTitle: A clandestine meeting
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You tell her to get out with what she has, and arrange to meet later to exchange the items.  Even though she's grounded, Kelly assures you she can sneak out.  You arrive at the prearranged meeting spot a block from the house, but still no Kelly.
+      repromptTextResponse: To see what happens next say wait for Kelly.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D21.mp3
+        - !sf-textfrag
+          text: To see what happens next say wait for Kelly.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: WaitForIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D21a
+          localizedSuggestionText:
+          - text: wait for Kelly
+        requiredSlotValues:
+          character:
+          - Kelly
+- name: D21a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: The handoff
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: A little late, Kelly shows up and hands you a key and leather-bound journal.  You hug her for what you fear could be the last time and you watch her go.  With the two items as clues, you leave in the hopes that these items can help you stave off the coming apocalypse.
+      repromptTextResponse: To go and figure out your next course of action, say leave the area.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D21A.mp3
+        - !sf-textfrag
+          text: To go and figure out your next course of action, say leave the area.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D22
+          localizedSuggestionText:
+          - text: leave the area
+        requiredSlotValues:
+          verb:
+          - leave
+          location:
+          - area
+- name: D22
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Book or key?
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Knowing it's not safe to go home, you get a hotel room and fall asleep in exhaustion.  When you awake it's mid-morning and time is running out before the apocalypse. You study the key and recognize that it belongs to the university.  You can try to figure out which door it opens, but that could take time.  Is your time better spent by reading the hand-written journal?  You have a decision to make.
+      repromptTextResponse: Say choose the book to choose the book, or choose the key to choose the key.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D22.mp3
+        - !sf-textfrag
+          text: Would you like to choose the book or choose the key?
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D23
+          localizedSuggestionText:
+          - text: choose the book
+        requiredSlotValues:
+          verb:
+          - choose
+          item:
+          - book
+      - nodeMap: !nm-singlenode
+          nodeName: D24
+          localizedSuggestionText:
+          - text: choose the key
+        requiredSlotValues:
+          verb:
+          - choose
+          item:
+          - key
+  actions:
+  - !na-recordvisit {}
+- name: D23
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Reading the book
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You use your time to read through the handwritten journal.  As the time for the eclipse draws near, you have now learned how to stop the summoning ritual.  You need to figure out where the ritual will take place, and the key will likely lead you there.
+      repromptTextResponse: To see where the key fits say go to the university.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D23.mp3
+        - !sf-textfrag
+          text: To see where the key fits say go to the university.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoToLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D23a
+          localizedSuggestionText:
+          - text: go to the university
+        requiredSlotValues:
+          location:
+          - university
+- name: D23a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Seeking the lock
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: If you can figure out which lock the key opens you may be able to find the location of the ritual and stop the apocalypse.  You rush over to the university and comb the campus, trying the key in every lock you can find, but you don't have much luck and time is running out.  As you move towards McKnight Hall you run out of time - the solar eclipse begins to occur!  You find yourself among a gathering crowd of observers, watching the moon pass before the sun.
+      repromptTextResponse: To see what happens next, say watch the eclipse.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D23A.mp3
+        - !sf-textfrag
+          text: To see what happens next, say watch the eclipse.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D23ab
+          localizedSuggestionText:
+          - text: watch the eclipse
+        requiredSlotValues:
+          verb:
+          - watch
+          item:
+          - eclipse
+- name: D23ab
+  responseSet:
+  - localizedResponses:
+    - cardTitle: The bringer of doom
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: As the eclipse occurs, you witness the monstrous figure of Cthulhu rise up above McKnight Hall.  The Great Old One is reborn into the world.  Madness overcomes you and you drop to your knees while the crown around you erupts into a frenzy of violence.  Your worst fears are realized - the apocalypse has come.
+      repromptTextResponse: To go back and choose the key, say go back. You can also say restart or end game.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D23AB.mp3
+        - !sf-textfrag
+          text: To go back and choose the key, say go back. You can also say restart or end game.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoBackIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - BookOrKey
+      trueConditionResult: !nm-singlenode
+        nodeName: D24
+        localizedSuggestionText:
+        - text: go back
+      falseConditionResult: !nm-singlenode
+        nodeName: D27
+        localizedSuggestionText:
+        - text: go back
+  - intentName: EndGameIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StopGame
+      localizedSuggestionText:
+      - text: end game
+- name: D24
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Choosing the key
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Best to focus your efforts and time on the key. You rush over to the university and comb the campus, trying the key in every lock you can find, but you don't have much luck and time is running out.  You spot a janitor and wonder if you should ask him if he recognizes the key, but then again you fear he might be involved in Pohlhaus' cult.  Do you ask him or keep searching on your own?
+      repromptTextResponse: To ask the janitor say ask the janitor, or to keep trying locks say search the building.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D24.mp3
+        - !sf-textfrag
+          text: To ask the janitor say ask the janitor, or to keep trying locks say search the building.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheCharacterIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D17
+          localizedSuggestionText:
+          - text: ask the janitor
+        requiredSlotValues:
+          verb:
+          - ask
+          character:
+          - janitor
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D24a
+          localizedSuggestionText:
+          - text: search the building
+        requiredSlotValues:
+          verb:
+          - search
+          item:
+          - building
+- name: D24a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: He can't be trusted
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You can't trust him.  You keep up your search independently, but as you move towards McKnight Hall you run out of time - the solar eclipse begins to occur!  You find yourself among a gathering crowd of observers, watching the moon pass before the sun.
+      repromptTextResponse: To hear what you see, say watch the eclipse.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D24A.mp3
+        - !sf-textfrag
+          text: To hear what you see, say watch the eclipse.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D24ab
+          localizedSuggestionText:
+          - text: watch the eclipse
+        requiredSlotValues:
+          verb:
+          - watch
+          item:
+          - eclipse
+- name: D24ab
+  responseSet:
+  - localizedResponses:
+    - cardTitle: So many screams . . .
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: As the eclipse occurs, you witness the monstrous figure of Cthulhu rise up above McKnight Hall.  The Great Old One is reborn into the world.  Madness overcomes you and you drop to your knees while the crown around you erupts into a frenzy of violence.  Your worst fears are realized - the apocalypse has come.
+      repromptTextResponse: Maybe when you had the choice, you should have asked the janitor. Say go back to ask the janitor. You can also say restart or end game.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D24AB.mp3
+        - !sf-textfrag
+          text: Maybe when you had the choice, you should have asked the janitor. Say go back to ask the janitor. You can also say restart or end game.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoBackIntent
+    nodeMapping: !nm-singlenode
+      nodeName: D17
+  - intentName: EndGameIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StopGame
+  localizedSuggestions:
+  - - text: go back
+  - - text: restart
+  - - text: end game
+- name: D25
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Pushing on
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Pohlhaus has your daughter.  You know you still must try to stop him, but with no clear path you spend the night trying to figure out what to do next.  In the morning you are visited at your office on campus by a friend of your daughter's, who hands you a package she's asked him to deliver.
+      repromptTextResponse: To find out what's inside, say open the package.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D25.mp3
+        - !sf-textfrag
+          text: To find out what's inside, say open the package.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D26
+          localizedSuggestionText:
+          - text: open the package
+        requiredSlotValues:
+          verb:
+          - open
+          item:
+          - package
+- name: D26
+  responseSet:
+  - localizedResponses:
+    - cardTitle: An agonizing choice
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Inside the package you find a key and a journal.  You study the key and recognize that it belongs to the university.  You can try to figure out which door it opens, but that could take time.  Is your time better spent by reading the hand-written journal?  You have a decision to make.
+      repromptTextResponse: Say choose the book to choose the book, or choose the key to choose the key.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D26.mp3
+        - !sf-textfrag
+          text: Do you choose the book, or choose the key?
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D23
+          localizedSuggestionText:
+          - text: choose the book
+        requiredSlotValues:
+          verb:
+          - choose
+          item:
+          - book
+      - nodeMap: !nm-singlenode
+          nodeName: D27
+          localizedSuggestionText:
+          - text: choose the key
+        requiredSlotValues:
+          verb:
+          - choose
+          item:
+          - key
+- name: D27
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Lock and key
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Best to focus your efforts and time on the key. You rush over to the university and comb the campus, trying the key in every lock you can find, but you don't have much luck and time is running out.  You spot a janitor and wonder if you should ask him if he recognizes the key, but then again you fear he might be involved in Pohlhaus' cult.  Do you ask him or keep searching on your own?
+      repromptTextResponse: Say ask the janitor to ask the janitor, or keep going to keep going.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D27.mp3
+        - !sf-textfrag
+          text: Do you ask the janitor or keep going?
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheCharacterIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D17
+          localizedSuggestionText:
+          - text: ask the janitor
+        requiredSlotValues:
+          verb:
+          - ask
+          character:
+          - janitor
+  - intentName: VerbTheActionIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D24a
+          localizedSuggestionText:
+          - text: keep going
+        requiredSlotValues:
+          verb:
+          - keep
+          action:
+          - going
+- name: D3
+  responseSet:
+  - localizedResponses:
+    - cardTitle: McKnight Hall Observatory
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: When the time comes, you and Margaret enter McKnight Hall and access the roof where you and Margaret duck down behind a rooftop ventilation unit.  In front of the observatory dome, Pohlhaus, the Dean and some other professors encircle the painting and perform the summoning ritual.  Standing vigil over them is a large creature comprised of tentacles, eyeballs and feathers.  As the sun darkens, you start reciting the dispel ritual.
+      repromptTextResponse: In order to continue, say go on
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D3.mp3
+        - !sf-textfrag
+          text: Say go on to continue.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoOnIntent
+    nodeMapping: !nm-singlenode
+      nodeName: D3a
+      localizedSuggestionText:
+      - text: go on
+- name: D3a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Ritual chant
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: As Margaret joins in the chant grows supernaturally loud and powerful -- enough to draw the attention of Pohlhaus and his cultists. Meanwhile, you see large tentacles -- belonging to Cthulhu, no doubt -- protruding from the painting, reaching for purchase into our world.  As you continue your chant, the servitor creature slithers rapidly towards you.
+      repromptTextResponse: To try to finish the ritual, say finish the ritual.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D3A.mp3
+        - !sf-textfrag
+          text: To try to finish the ritual, say finish the ritual.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D4
+          localizedSuggestionText:
+          - text: finish the ritual
+        requiredSlotValues:
+          verb:
+          - finish
+          item:
+          - ritual
+- name: D4
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Ritual chant
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: A sweeping flash of light engulfs the world, then silence.  The servitor creature is gone, as is any sign of Cthulhu.  All that remains is the charred and smoking heap of the painting and the dejected cultists.  You have managed to save the world, but Cthulhu lies in wait for another chance when the stars are right again to return to the world.
+      repromptTextResponse: Would you like to restart or end game?
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D4.mp3
+        - !sf-textfrag
+          text: The End.  Congratulations on saving the world.  Would you like to restart or end game?
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  actions:
+  - !na-recordvisit
+    isPermanent: true
+  localizedSuggestions:
+  - - text: restart
+  - - text: end game
+- name: D5
+  responseSet:
+  - localizedResponses:
+    - cardTitle: What now?
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You spend a sleepless night worrying about what Pohlhaus could do to your daughter.  You discuss options with Margaret on how to stop Pohlhaus now, but you struggle to find a solution.  Not sure what to do next, the two of you go to your office on campus and an unexpected visitor arrives.  Although your daughter was trapped in the house, she managed to pass the items to a friend who delivers them to you.
+      repromptTextResponse: To see what's inside, say open the package.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D5.mp3
+        - !sf-textfrag
+          text: Say open the package to see what's inside.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheItemIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D6
+          localizedSuggestionText:
+          - text: open the package
+        requiredSlotValues:
+          verb:
+          - open
+          item:
+          - package
+- name: D6
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Reading the clues
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: In your possession you now have a silver key and a leather-bound journal.  Margaret recognizes the key - it will grant you rooftop access to McKnight Hall.  That rooftop holds an astronomy observatory, and you reason that must be where Pohlhaus plans to hold the ritual.  You are just hours away from the eclipse and the summoning of Cthulhu, but reading through the journal provides you with the answers you need.  You know know how to stop the summoning of Cthulhu, but attempting to do so will still be dangerous.
+      repromptTextResponse: To continue, say go to McKnight Hall.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D6.mp3
+        - !sf-textfrag
+          text: Say go to McKnight Hall to continue.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoToLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D7
+          localizedSuggestionText:
+          - text: go to McKnight Hall
+        requiredSlotValues:
+          location:
+          - McKnight Hall
+- name: D7
+  responseSet:
+  - localizedResponses:
+    - cardTitle: The rooftop observatory
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: With the eclipse nearly upon you, you make it to the rooftop of McKnight Hall where you and Margaret duck down behind a rooftop ventilation unit.  In front of the observatory dome, Pohlhaus, the Dean and some other professors encircle the painting and perform the summoning ritual.  Standing vigil over them is a large creature comprised of tentacles, eyeballs and feathers.
+      repromptTextResponse: To continue, say go on.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D7.mp3
+        - !sf-textfrag
+          text: Say go on to continue.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: GoOnIntent
+    nodeMapping: !nm-singlenode
+      nodeName: D7a
+      localizedSuggestionText:
+      - text: go on
+- name: D7a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: The dispel ritual
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: As the sun darkens, you start reciting the dispel ritual and Margaret joins in.  Your collective chant grows supernaturally loud and powerful -- enough to draw the attention of Pohlhaus and his cultists. Meanwhile, you see large tentacles -- belonging to Cthulhu, no doubt -- protruding from the painting, reaching for purchase into our world.  As you continue your chant, the servitor creature slithers rapidly towards you.
+      repromptTextResponse: To hear what happens next, say keep chanting.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D7A.mp3
+        - !sf-textfrag
+          text: To hear what happens next, say keep chanting.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheActionIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D8
+          localizedSuggestionText:
+          - text: keep chanting
+        requiredSlotValues:
+          verb:
+          - keep
+          action:
+          - chanting
+- name: D8
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Chanting, chanting!
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: A sweeping flash of light engulfs the world, then silence.  The servitor creature is gone, as is any sign of Cthulhu.  All that remains is the charred and smoking heap of the painting and the dejected cultists.  You have managed to save the world, but you find out later that it has cost you your daughter's life.  Pohlhaus is ultimately convicted of her murder and sent to prison, but you are left grieving.  And Cthulhu is left to wait for another chance, when the stars are right again, to return to the world.
+      repromptTextResponse: Would you like to restart or end game?
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D8.mp3
+        - !sf-textfrag
+          text: The End.  Congratulations on saving the world.  Would you like to restart or end game?
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  localizedSuggestions:
+  - - text: restart
+  - - text: end game
+- name: D9
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Arranging the meet
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You tell her to get out with what she has, and arrange to meet later to exchange the key.  Even though she's grounded, Kelly assures you she can sneak out.  You arrive with Margaret to the prearranged meeting spot a block from the house, but still no Kelly.
+      repromptTextResponse: To see what happens next, say wait for Kelly.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D9.mp3
+        - !sf-textfrag
+          text: You can say wait for Kelly to see what happens next.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: WaitForIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D9a
+          localizedSuggestionText:
+          - text: wait for Kelly
+        requiredSlotValues:
+          character:
+          - Kelly
+- name: D9a
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Obtaining a clue
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: A little late, Kelly shows up and hands you the key.  You hug her for what you fear could be the last time and you watch her go.  With a mysterious key now in your possession, you leave with Margaret in the hopes that this item can help you stave off the coming apocalypse.
+      repromptTextResponse: To figure out what happens next, say leave the area.
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: EyeOfTheElderGods-D9A.mp3
+        - !sf-textfrag
+          text: Say leave the area to figure out where to go next.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: VerbTheLocationIntent
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: D10
+          localizedSuggestionText:
+          - text: leave the area
+        requiredSlotValues:
+          verb:
+          - leave
+          location:
+          - area
+- name: EndofGame
+  responseSet:
+  - localizedResponses:
+    - cardTitle: End Game
+      textFragments:
+      - !tf-simple
+        text: Thank you for playing Eye of the Elder Gods! The path you took was just one of many outcomes in the story.  Play again, try different choices, and see where else the story may lead.  If you enjoyed your experience, please feel free to visit the Alexa skills page and give us a review!
+      repromptTextResponse: Restart or end game?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Thank you for playing Eye of the Elder Gods! The path you took was just one of many outcomes in the story.  Play again, try different choices, and see where else the story may lead.  If you enjoyed your experience, please feel free to visit the Alexa skills page and give us a review!
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: EndGameIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StopGame
+      localizedSuggestionText:
+      - text: end game
+- name: Help
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Eye of the Elder Gods Help
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Eye of the Elder Gods - You repeat the current location by saying repeat. End the game by saying end game or restart by saying restart.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Eye of the Elder Gods - You repeat the current location by saying repeat. End the game by saying end game or restart by saying restart.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Eye of the Elder Gods - You repeat the current location by saying repeat. End the game by saying end game or restart by saying restart.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+- name: Resume
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome Back to Eye of the Elder Gods
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Welcome back to Eye of the Elder Gods. You have a game in progress. To resume the game, say resume. To restart, say restart. You can also ask for help by saying help.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Welcome back to Eye of the Elder Gods. You have a game in progress. To resume the game, say resume. To restart, say restart. You can also ask for help by saying help.
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-textfrag
+          text: Welcome back to Eye of the Elder Gods. You have a game in progress. To resume the game, say <sub alias="rezoom">resume</sub>. To restart, say restart. You can also ask for help by saying help.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: To resume, say resume. To restart, say restart. You can also ask for help by saying help.
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-textfrag
+          text: To resume, say <sub alias="rezoom">resume</sub>. To restart, say restart. You can also ask for help by saying help.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  localizedSuggestions:
+  - - text: resume
+  - - text: restart
+  - - text: help
+- name: ReturningUser
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome Back to Eye of the Elder Gods.
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Welcome back to Eye of the Elder Gods!  When you are ready to begin the story, say begin.
+      repromptTextResponse: Say begin to begin the story.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Welcome back to Eye of the Elder Gods!  When you are ready to begin the story, say begin.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: BeginIntent
+    nodeMapping: !nm-singlenode
+      nodeName: A1
+      localizedSuggestionText:
+      - text: begin
+  - intentName: StartInvestigationIntent
+    nodeMapping: !nm-singlenode
+      nodeName: A1
+- name: StopGame
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Exiting Eye of the Elder Gods.
+      textFragments:
+      - !tf-simple
+        text: Thanks for playing!  Come back again if you dare!
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Thanks for playing!  Come back again if you dare!
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+- name: WelcomeNewUser
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome to Eye Of The Elder Gods
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Welcome to Eye of the Elder Gods. Only a brave soul would dare to enter a world of bleak and cosmic horror such as this, where your life and your sanity are at risk.  In this story you play the part of Dr. Jeffrey Vaughn, professor of Art History at Miskatonic University.  You will be prompted to make choices throughout the story that will affect the plot and the other characters around you. You can ask for help at any time by saying help. You can stop the investigation at any time by saying stop or exit. If you believe you have what it takes to survive this story and you're ready to begin, say begin.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Welcome to Eye of the Elder Gods. Only a brave soul would dare to enter a world of bleak and cosmic horror such as this, where your life and your sanity are at risk.  In this story you play the part of Dr. Jeffrey Vaughn, professor of Art History at Miskatonic University.  You will be prompted to make choices throughout the story that will affect the plot and the other characters around you. You can ask for help at any time by saying help. You can stop the investigation at any time by saying stop or exit. If you believe you have what it takes to survive this story and you're ready to begin, say begin.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Say begin to begin the story.
+      smallImageFile: eoteg-small.jpg
+      largeImageFile: eoteg-large.jpg
+  choices:
+  - intentName: BeginIntent
+    nodeMapping: !nm-singlenode
+      nodeName: A1
+      localizedSuggestionText:
+      - text: begin
+  - intentName: StartInvestigationIntent
+    nodeMapping: !nm-singlenode
+      nodeName: A1
+intents:
+- name: EndGameIntent
+  localizedIntents:
+  - plainTextPrompt: End Game
+    utterances:
+    - stop
+    - stop game
+    - stop adventure
+    - end
+    - end game
+    - end adventure
+- name: GiveUpIntent
+  localizedIntents:
+  - plainTextPrompt: give up
+    utterances:
+    - give up
+    - forget about it
+    - get out
+- name: GoBackIntent
+  localizedIntents:
+  - plainTextPrompt: go back
+    utterances:
+    - go back
+    - back up
+- name: GoOnIntent
+  localizedIntents:
+  - plainTextPrompt: go on
+    utterances:
+    - go on
+    - tell me more
+    - keep talking
+    - continue on
+- name: GotoLocationIntent
+  localizedIntents:
+  - plainTextPrompt: gotolocation
+    utterances:
+    - go to {location}
+    - go back to the {location}
+    - go back to {location}
+    - go to the {location}
+    - see {location}
+    - back to {location}
+    - to the {location}
+    - back to {location}
+    - walk to {location}
+    - walk the {location}
+    - to {location}
+    - go {location}
+    - wait {location}
+    - visit {location}
+  slotMappings:
+    location: ElderGodLocations
+- name: RepeatIntent
+  localizedIntents:
+  - plainTextPrompt: repeat
+- name: ResumeIntent
+  localizedIntents:
+  - plainTextPrompt: resume
+- name: TakeItemIntent
+  localizedIntents:
+  - plainTextPrompt: take
+    utterances:
+    - take {item}
+    - pick {item}
+    - beg for {item}
+    - take the {item}
+    - pickup the {item}
+    - pickup {item}
+  slotMappings:
+    item: ElderGodItems
+- name: TalkToIntent
+  localizedIntents:
+  - plainTextPrompt: talk
+    utterances:
+    - talk to {character}
+    - talk {character}
+    - speak to {character}
+    - speak {character}
+  slotMappings:
+    character: ElderGodCharacters
+- name: VerbTheActionIntent
+  localizedIntents:
+  - plainTextPrompt: verb the action
+    utterances:
+    - '{verb} the {action}'
+    - '{verb} it {action}'
+    - '{verb} on {action}'
+    - '{verb} {action}'
+  slotMappings:
+    verb: Verbs
+    action: Actions
+- name: VerbTheCharacterIntent
+  localizedIntents:
+  - plainTextPrompt: verb the character
+    utterances:
+    - '{verb} {character}'
+    - '{verb} a {character}'
+    - '{verb} the {character}'
+    - '{verb} for {character}'
+  slotMappings:
+    verb: Verbs
+    character: ElderGodCharacters
+- name: VerbTheItemIntent
+  localizedIntents:
+  - plainTextPrompt: verb the item
+    utterances:
+    - '{verb} the {item}'
+    - '{verb} in {item}'
+    - '{verb} inside {item}'
+    - '{verb} inside the {item}'
+    - '{verb} in the {item}'
+    - '{verb} on {item}'
+    - '{verb} on the {item}'
+    - '{verb} {item}'
+    - '{verb} your {item}'
+    - '{verb} a {item}'
+    - '{verb} an {item}'
+  slotMappings:
+    verb: Verbs
+    item: ElderGodItems
+- name: VerbTheLocationIntent
+  localizedIntents:
+  - plainTextPrompt: verb the location
+    utterances:
+    - '{verb} the {location}'
+    - '{verb} in the {location}'
+  slotMappings:
+    verb: Verbs
+    location: ElderGodLocations
+- name: WaitForIntent
+  localizedIntents:
+  - plainTextPrompt: wait
+    utterances:
+    - wait for {character}
+    - wait {character}
+    - wait for the {character}
+  slotMappings:
+    character: ElderGodCharacters
+- name: WaitForItemIntent
+  localizedIntents:
+  - plainTextPrompt: wait
+    utterances:
+    - wait for {item}
+    - wait for the {item}
+    - wait for an {item}
+  slotMappings:
+    item: ElderGodItems
+conditions:
+- !ci-nodevisit
+  requiredNodes:
+  - A6
+  conditionType: NodeVisit
+  name: CaughtByDrPolhaus
+- !ci-nodevisit
+  requiredNodes:
+  - C7
+  conditionType: NodeVisit
+  name: AnEventfulNight
+- !ci-nodevisit
+  requiredNodes:
+  - D22
+  conditionType: NodeVisit
+  name: BookOrKey
+badIntentResponses:
+- name: FirstBadIntentResponse
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Unknown Response
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I don't recognize that response.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: You can also say repeat to repeat the current story location.
+- name: SecondBadIntentResponse
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Unknown Response
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Unrecognized response. You can say repeat to repeat the current story location.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: You can say stop the end the game or say repeat to repeat the current story location.
+slotTypes:
+- name: ElderGodLocations
+  values:
+  - value: ceremony
+  - value: library
+  - value: hospital
+  - value: inside
+  - value: house
+  - value: room
+  - value: home
+  - value: Margaret's house
+  - value: outside
+  - value: cellar
+  - value: area
+  - value: McKnight Hall
+  - value: university
+- name: ElderGodItems
+  values:
+  - value: cultist
+    synonyms:
+    - cultists
+  - value: phone
+    synonyms:
+    - call
+  - value: painting
+  - value: door
+  - value: patient
+  - value: blinds
+  - value: ritual
+  - value: book
+  - value: key
+  - value: opening
+  - value: building
+  - value: eclipse
+  - value: window
+  - value: picture
+  - value: package
+    synonyms:
+    - parcel
+  - value: plan
+- name: ElderGodCharacters
+  values:
+  - value: lucas
+    synonyms:
+    - artist
+  - value: margaret
+  - value: olivia
+  - value: dean
+  - value: janitor
+  - value: kelly
+    synonyms:
+    - your daughter
+- name: Verbs
+  values:
+  - value: close
+    synonyms:
+    - shut
+  - value: answer
+  - value: call
+  - value: ignore
+  - value: read
+  - value: assist
+  - value: insist
+  - value: research
+  - value: follow
+  - value: look at
+  - value: look out
+  - value: visit
+  - value: watch
+  - value: open
+  - value: search
+  - value: leave
+  - value: tell
+  - value: hide
+  - value: stay
+  - value: study
+  - value: finish
+  - value: ask
+  - value: keep
+  - value: grab
+  - value: elbow
+  - value: rush
+  - value: choose
+  - value: run
+- name: Actions
+  values:
+  - value: later
+  - value: now
+  - value: knowing more
+  - value: away
+  - value: helping
+  - value: searching
+  - value: chanting
+  - value: going

@@ -1,0 +1,543 @@
+id: personaldatachecker
+title: Personal Data Check
+version: 0.1
+description: An app to review personal data configured on Alexa.
+invocationNames:
+- text: simba court savings
+startNodeName: WelcomeNewUser
+newUserNodeName: WelcomeNewUser
+returningUserNodeName: WelcomeNewUser
+resumeNodeName: Resume
+helpNodeName: Help
+stopNodeName: StopFinder
+endOfGameNodeName: EndofGame
+nodes:
+- name: AskForNumberNode
+  responseSet:
+  - localizedResponses:
+    - clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I'll try to listen better this time. What's your phone number?
+  choices:
+  - intentName: PhoneNumberIntent
+    nodeMapping: !nm-singlenode
+      nodeName: PhoneDiscountVerification
+- name: DiscountCouponSearch
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Savings Offers Search
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: There are savings offers for Symbicort.  Are you age 18 or older?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: There are savings offers for Symbicort.  Are you age 18 or older?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you age 18 or older?  You can say yes or no.
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: SymbicortInsuranceCheck
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FailedAgeCheck
+- name: EndofGame
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Exiting Symbicort Savings Offers
+      textFragments:
+      - !tf-simple
+        text: Thanks for using Symbicort Savings Offers
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Thanks for using Symbicort Savings Offers
+  coordinates:
+    x: -14
+    y: 806
+- name: FailedAgeCheck
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Invalid Age
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: I'm sorry, but you must be 18 or older to get savings offers for Symbicort.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I'm sorry, but you must be 18 or older to get savings offers for Symbicort.
+- name: Help
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Symbicort Savings Help
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You can start a search for savings offers for Symbicort by saying a phrase like "Find savings offers for Symbicort."  If offers are available and you are eligible, a discount code will be sent to your mobile phone.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You can start a search for savings offers for Symbicort by saying a phrase like "Find savings offers for Symbicort."  If offers are available and you are eligible, a discount code will be sent to your mobile phone.
+  coordinates:
+    x: -717
+    y: 144
+- name: PhoneDiscountVerification
+  responseSet:
+  - localizedResponses:
+    - cardTitle: No Commercial Insurance
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: I heard you say {phonenumber}. If this is correct and you agree to receive a text message with a discount code for Symbicort from an automatic telephone dialing system, say yes.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I heard you say <say-as interpret-as="telephone">{phonenumber}</say-as>. If this is correct and you agree to receive a text message with a discount code for Symbicort from an automatic telephone dialing system, say yes.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: I heard you say <say-as interpret-as="telephone">{phonenumber}</say-as>. If this is correct and you agree to receive a text message with a discount code for Symbicort from an automatic telephone dialing system, say yes.
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: SendDiscountCodeNode
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: AskForNumberNode
+- name: PhoneNumberCheck
+  responseSet:
+  - localizedResponses:
+    - cardTitle: No Commercial Insurance
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: I heard you say {phonenumber}. If this is correct and you agree to receive a text message with a discount code for Symbicort from an automatic telephone dialing system, say yes.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I heard you say <say-as interpret-as="telephone">{phonenumber}</say-as>. If this is correct and you agree to receive a text message with a discount code for Symbicort from an automatic telephone dialing system, say yes.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: I heard you say <say-as interpret-as="telephone">{phonenumber}</say-as>. If this is correct and you agree to receive a text message with a discount code for Symbicort from an automatic telephone dialing system, say yes.
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: SendDiscountCodeNode
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: AskForNumberNode
+- name: Resume
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome Back to Symbicort Savings Offers
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: There are savings offers for Symbicort.  Are you age 18 or older?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: There are savings offers for Symbicort.  Are you age 18 or older?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you age 18 or older?
+  - {}
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: SymbicortInsuranceCheck
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FailedAgeCheck
+  - intentName: FindDiscountCoupon
+    nodeMapping: !nm-singlenode
+      nodeName: DiscountCouponSearch
+  coordinates:
+    x: -715
+    y: 41
+- name: ReturningUser
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome Back to Symbicort Savings Offers
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: There are savings offers for Symbicort.  Are you age 18 or older?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: There are savings offers for Symbicort.  Are you age 18 or older?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you age 18 or older?
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: SymbicortInsuranceCheck
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FailedAgeCheck
+  - intentName: FindDiscountCoupon
+    nodeMapping: !nm-singlenode
+      nodeName: DiscountCouponSearch
+  - intentName: FindDiscountCouponForDrug
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: SymbicortAgeCheck
+        requiredSlotValues:
+          drug:
+          - Symbicort
+  coordinates:
+    x: -246
+    y: -104
+- name: SendDiscountCodeNode
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Sending Discount Codes For Symbicort
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Thank you for confirming that you would like to receive a discount code for Symbicort. I'll send you a text message shortly.  Please note that while consent to receive text messages is not a condition of purchase, you must have a valid prescription to redeem the discount code.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Great! Thank you for confirming that you would like to receive a discount code for Symbicort. I'll send you a text message shortly.  Please note that while consent to receive text messages is not a condition of purchase, you must have a valid prescription to redeem the discount code.
+  actions:
+  - !na-phonemessage
+    phoneNumberSlot: phonenumber
+    messages:
+    - >
+      Welcome to AZhelps for SYMBICORT (budesonide - formoterol fumarate dihydrate)! Commercially insured patients may pay $0 on each Rx up to a year.
+    - >
+      Please show the following discount codes to your pharmacist:
+
+
+      BIN#: 004682
+
+      PCN#: CN
+
+      GRP#: EL57003482
+
+      ID#: 415014333638
+
+
+      Pharmacist help: 877-807-4466
+    - >
+      See terms at bit.ly/2gJTu1O
+
+
+      View full PI for SYMBICORT (budesonide - formoterol fumarate dihydrate) at bit.ly/2ABiTF2
+
+
+      Reply HELP for help. Reply STOP to end.  Msg&data rates may apply.
+- name: StopFinder
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Exiting Symbicort Savings Offers
+      textFragments:
+      - !tf-simple
+        text: Thanks for using Symbicort Savings Offers
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Thanks for using Symbicort Savings Offers
+  coordinates:
+    x: 841
+    y: 776
+- name: SymbicortAgeCheck
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Verify Age (Symbicort)
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: There are savings offers for Symbicort.  Are you age 18 or older?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: There are savings offers for Symbicort.  Are you age 18 or older?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you age 18 or older?  You can say yes or no.
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: SymbicortInsuranceCheck
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FailedAgeCheck
+- name: SymbicortInsuranceCheck
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Check Insurance (Symbicort)
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Are you currently covered by commercial health insurance?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you currently covered by commercial health insurance?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you currently covered by commercial health insurance?  You can say yes or no.
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: SymbicortRegularDiscount
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: SymbicortInsuranceFailure
+- name: SymbicortInsuranceFailure
+  responseSet:
+  - localizedResponses:
+    - cardTitle: No Commercial Insurance
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: I'm sorry, you must be on commercial insurance to qualify for Symbicort savings offers.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I'm sorry, you must be on commercial insurance to qualify for Symbicort savings offers.
+- name: SymbicortRegularDiscount
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Symbicort Discount Card (12 Month)
+      sendCardResponse: false
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Savings offers for Symbicort are available. Please provide your phone number and a I'll send you a discount code.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Please provide your phone number and a I'll send you a discount code.
+  choices:
+  - intentName: PhoneNumberIntent
+    nodeMapping: !nm-singlenode
+      nodeName: PhoneDiscountVerification
+- name: WelcomeNewUser
+  actions:
+  - !na-getpersonaldata
+    slotName: postalcode
+    personalDataType: PostalCode
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Personal Data Check Welcome Message
+      sendCardResponse: false
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: The personal data check lets you review the data that is available for use on your Echo device. When you are ready to review, you can ask for your email, address or phone number.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: You can ask for your email, address or phone number.
+  choices:
+  - intentName: PhoneNumberIntent
+    nodeMapping: !nm-singlenode
+      nodeName: PhoneDiscountVerification
+intents:
+- name: EndGameIntent
+  localizedIntents:
+  - plainTextPrompt: Exit
+    utterances:
+    - stop
+    - stop finder
+    - stop coupon finder
+    - stop discount coupons finder
+    - end
+    - end finder
+    - end coupon finder
+    - end discount coupons finder
+    - exit
+    - exit finder
+    - exit coupon finder
+    - exit discount coupons finder
+- name: FindDiscountCoupon
+  localizedIntents:
+  - plainTextPrompt: find discount coupon
+    utterances:
+    - find discount coupons
+    - find discount coupon
+    - get discount coupons
+    - get discount coupon
+    - find coupons
+    - find coupon
+    - get coupons
+    - get coupon
+    - discount coupons
+    - discount coupon
+    - coupons
+    - coupon
+    - search discount coupons
+    - search discount coupon
+    - search for discount coupons
+    - search for discount coupon
+    - search coupons
+    - search coupon
+    - search for coupons
+    - search for coupon
+    - find savings offers
+    - find savings offer
+    - get savings offers
+    - get savings offer
+    - find savings
+    - find offers
+    - find savings
+    - get savings
+    - get offers
+    - get offer
+    - get savings
+    - savings offers
+    - savings offer
+    - offers
+    - offer
+    - savings
+    - search savings offers
+    - search savings offer
+    - search for savings offers
+    - search for savings offer
+    - search offers
+    - search offer
+    - search savings
+    - search for offers
+    - search for offer
+    - search for savings
+- name: FindDiscountCouponForDrug
+  localizedIntents:
+  - plainTextPrompt: find discount coupons for drug
+    utterances:
+    - find discount coupons for {drug}
+    - find discount coupon for {drug}
+    - get discount coupons for {drug}
+    - get discount coupon for {drug}
+    - find coupons for {drug}
+    - find coupon for {drug}
+    - get coupons for {drug}
+    - get coupon for {drug}
+    - discount coupons for {drug}
+    - discount coupon for {drug}
+    - coupons for {drug}
+    - coupon for {drug}
+    - search discount coupons for {drug}
+    - search discount coupon for {drug}
+    - search for discount coupons for {drug}
+    - search for discount coupon for {drug}
+    - search coupons for {drug}
+    - search coupon for {drug}
+    - search for coupons for {drug}
+    - search for coupon for {drug}
+    - find savings offers for {drug}
+    - find savings offer for {drug}
+    - get savings offers for {drug}
+    - get savings offer for {drug}
+    - find savings for {drug}
+    - find offers for {drug}
+    - find savings for {drug}
+    - get savings for {drug}
+    - get offers for {drug}
+    - get offer for {drug}
+    - get savings for {drug}
+    - savings offers for {drug}
+    - savings offer for {drug}
+    - offers for {drug}
+    - offer for {drug}
+    - savings for {drug}
+    - search savings offers for {drug}
+    - search savings offer for {drug}
+    - search for savings offers for {drug}
+    - search for savings offer for {drug}
+    - search offers for {drug}
+    - search offer for {drug}
+    - search savings for {drug}
+    - search for offers for {drug}
+    - search for offer for {drug}
+    - search for savings for {drug}
+  slotMappings:
+    drug: Drugs
+  actions:
+  - !na-recordselecteditem
+    slotNames:
+    - drug
+- name: NoIntent
+  localizedIntents:
+  - plainTextPrompt: no
+- name: PhoneNumberIntent
+  localizedIntents:
+  - plainTextPrompt: Phone Number
+    utterances:
+    - '{phonenumber}'
+    - my number is {phonenumber}
+    - it is {phonenumber}
+    - it's {phonenumber}
+  slotMappings:
+    phonenumber: WHETSTONE.US_PHONENUMBER
+  actions:
+  - !na-recordselecteditem
+    slotNames:
+    - phonenumber
+- name: RepeatIntent
+  localizedIntents:
+  - plainTextPrompt: repeat
+- name: ResumeIntent
+  localizedIntents:
+  - plainTextPrompt: resume
+- name: TryAgainIntent
+  localizedIntents:
+  - plainTextPrompt: try again
+- name: YesIntent
+  localizedIntents:
+  - plainTextPrompt: yes
+conditions:
+- !ci-nodevisit
+  requiredNodes:
+  - Opening
+  conditionType: NodeVisit
+  name: VisitedOpening
+badIntentResponses:
+- name: FirstBadIntentResponse
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Unknown Response
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I can't help you with that. You can say something like find savings offers for Symbicort.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Say something like find savings offers for Symbicort.
+- name: SecondBadIntentResponse
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Unknown Response
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Sorry, I didn't get that. If you're having trouble you can ask for help or exit by saying exit. To use Symbicort savings offers, say something like find savings offers for Symbicort.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Say something like find savings offers for Symbicort.
+slotTypes:
+- name: Drugs
+  values:
+  - value: Symbicort
+    synonyms:
+    - simba court
+    - simple court
+    - symbol court

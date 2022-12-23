@@ -1,0 +1,16 @@
+﻿{
+  "sessionId": "971af9dc0a704ffb9952443aeb318303",
+  "client": "GoogleHome",
+  "userId": "1ef2e9cb68604b388ab327c1e236c7bf",
+  "locale": "it-IT",
+  "titleId": "animalfarmpi",
+  "titleVersion": "1.2",
+  "requestId": "22189755d0784101ae5b1adcb5c43353",
+  "intentName": "NoIntent",
+  "time": "2019-03-07T13:41:04.1945087-05:00",
+  "isNewSession": false,
+  "processDuration": 255,
+  "mappedNode": "FirstErrorResponse",
+  "requestType": "Intent",
+  "engineErrorText": "Error on request from animal-farm-pi, client GoogleHome, locale it-IT mapped to animalfarmpi, version 1.2\r\nUser id: 1ef2e9cb68604b388ab327c1e236c7bf\r\nCurrent user node: ReturningUser\r\nIntent NoIntent\r\n\r\nSystem.ArgumentException: Some argument is invalid\r\n   at Whetstone.StoryEngine.Repository.StoryRequestProcessor.ProcessStoryRequestAsync(StoryRequest request) in C:\\Users\\John\\source\\repos\\Sbs.StoryEngine\\src\\Whetstone.StoryEngine.Repository\\StoryRequestProcessor.cs:line 367\r\n\r\n"
+}

@@ -1,0 +1,319 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Transform": "AWS::Serverless-2016-10-31",
+  "Description": "An AWS Serverless Application.",
+  "Parameters": {
+    "KeyStack": {
+      "Description": "Name of stack used to create environment key for decryption. Example: WhetstoneKey-Dev",
+      "Type": "String",
+      "Default": "WhetstoneKey-Dev",
+      "AllowedPattern": "^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+    },
+    "PolicyStack": {
+      "Description": "Name of stack used to create supplemental policies. Example: WhetstoneSharedPolicies-Dev",
+      "Type": "String",
+      "Default": "WhetstoneSharedPolicies-Dev",
+      "AllowedPattern": "^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+    },
+    "LambdaNetSerializerDebug": {
+      "Type": "String",
+      "AllowedValues": [
+        "true",
+        "false"
+      ],
+      "Description": "Indicates if the lambda serialization is enabled or not.",
+      "Default": "false"
+    },
+      "UtilityFuncBucket": {
+	    "Description": "S3 Bucket of the Lambda Utility zip deployment",
+	   "Type":"String"
+	  }
+  },
+  "Resources": {
+    "KeyPolicyFunction": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "FunctionName": {
+          "Fn::Join": [
+            "",
+            [
+              "KeyPolicyUpdater",
+              {
+                "Fn::ImportValue": {
+                  "Fn::Sub": "${KeyStack}-EnvironmentName"
+                }
+              }
+            ]
+          ]
+        },
+        "Description": "Handle updates to the environment encryption key.",
+        "Environment": {
+          "Variables": {
+            "LAMBDA_NET_SERIALIZER_DEBUG": {
+              "Ref": "LambdaNetSerializerDebug"
+            }
+          }
+        },
+    "CodeUri":{ "Bucket":  { "Ref": "UtilityFuncBucket" },
+			"Key": "" },
+  "Handler": "Whetstone.StoryEngine.LambdaUtilities::Whetstone.StoryEngine.LambdaUtilities.KeyPolicyCustomActionFunction::FunctionHandler",
+        "MemorySize": 1024,
+        "Runtime": "dotnetcore3.1",
+        
+        "Role": {
+          "Fn::ImportValue": {
+            "Fn::Sub": "${KeyStack}-ActionKeyPolicyFunctionRoleArn"
+          }
+        },
+        "Timeout": 30
+      }
+    },
+    "ConfigurationActionFunction": {
+      "Type": "AWS::Serverless::Function",
+      "DependsOn": "BootstrapKeyPolicyUpdate",
+      "Properties": {
+        "FunctionName": {
+          "Fn::Join": [
+            "",
+            [
+              "ConfigAction",
+              {
+                "Fn::ImportValue": {
+                  "Fn::Sub": "${KeyStack}-EnvironmentName"
+                }
+              }
+            ]
+          ]
+        },
+        "Description": "Handle updates to the bootstrap configuration.",
+        "Environment": {
+          "Variables": {
+            "LAMBDA_NET_SERIALIZER_DEBUG": {
+              "Ref": "LambdaNetSerializerDebug"
+            }
+          }
+        },
+    "CodeUri":{ "Bucket":  { "Ref": "UtilityFuncBucket" },
+			"Key": "" },
+  "Handler": "Whetstone.StoryEngine.LambdaUtilities::Whetstone.StoryEngine.LambdaUtilities.BootstrapConfigFunction::FunctionHandler",
+        "MemorySize": 1024,
+        "Runtime": "dotnetcore3.1",
+        "Role": {
+          "Fn::GetAtt": [
+            "BootstrapConfigManagerRole",
+            "Arn"
+          ]
+        },
+        "Timeout": 30
+      }
+    },
+    "BootstrapConfigManagerRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "Path": {
+          "Fn::Join": [
+            "",
+            [
+              "/",
+              {
+                "Fn::ImportValue": {
+                  "Fn::Sub": "${KeyStack}-EnvironmentName"
+                }
+              },
+              "/"
+            ]
+          ]
+        },
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::ImportValue": {
+              "Fn::Sub": "${PolicyStack}-BootstrapConfigPolicy"
+            }
+          },
+		  "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+
+        ],
+        "Policies": [
+          {
+            "PolicyName": "BootstrapConfigWriterPolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "ssm:GetParameter",
+                    "ssm:PutParameter"
+                  ],
+                  "Resource": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:aws:ssm:",
+                        {
+                          "Fn::Sub": "${AWS::Region}:${AWS::AccountId}:parameter"
+                        },
+                        {
+                          "Fn::ImportValue": {
+                            "Fn::Sub": "${PolicyStack}-BootstrapParameter"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "BootstrapKeyPolicyUpdate": {
+      "Type": "AWS::CloudFormation::CustomResource",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "KeyPolicyFunction",
+            "Arn"
+          ]
+        },
+        "Key": {
+          "Fn::ImportValue": {
+            "Fn::Sub": "${KeyStack}-EnvironmentKeyArn"
+          }
+        },
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "BootstrapConfigManagerRole",
+            "Arn"
+          ]
+        },
+        "GrantType": "EncryptDecrypt"
+      }
+    },
+        "TransformExecutionRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "lambda.amazonaws.com"
+                                ]
+                            },
+                            "Action": [
+                                "sts:AssumeRole"
+                            ]
+                        }
+                    ]
+                },
+                "Path": "/",
+                "Policies": [
+                    {
+                        "PolicyName": "root",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "logs:*"
+                                    ],
+                                    "Resource": "arn:aws:logs:*:*:*"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "TransformFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+                "Code": {
+                    "ZipFile": "import traceback\n\n\ndef handler(event, context):\n    response = {\n        \"requestId\": event[\"requestId\"],\n        \"status\": \"success\"\n    }\n    try:\n        operation = event[\"params\"][\"Operation\"]\n        input = event[\"params\"][\"InputString\"]\n        no_param_string_funcs = [\"Upper\", \"Lower\", \"Capitalize\", \"Title\", \"SwapCase\"]\n        if operation in no_param_string_funcs:\n            response[\"fragment\"] = getattr(input, operation.lower())()\n        elif operation == \"Strip\":\n            chars = None\n            if \"Chars\" in event[\"params\"]:\n                chars = event[\"params\"][\"Chars\"]\n            response[\"fragment\"] = input.strip(chars)\n        elif operation == \"Replace\":\n            old = event[\"params\"][\"Old\"]\n            new = event[\"params\"][\"New\"]\n            response[\"fragment\"] = input.replace(old, new)\n        elif operation == \"MaxLength\":\n            length = int(event[\"params\"][\"Length\"])\n            if len(input) <= length:\n                response[\"fragment\"] = input\n            elif \"StripFrom\" in event[\"params\"]:\n                if event[\"params\"][\"StripFrom\"] == \"Left\":\n                    response[\"fragment\"] = input[len(input)-length:]\n                elif event[\"params\"][\"StripFrom\"] != \"Right\":\n                    response[\"status\"] = \"failure\"\n            else:\n                response[\"fragment\"] = input[:length]\n        else:\n            response[\"status\"] = \"failure\"\n    except Exception as e:\n        traceback.print_exc()\n        response[\"status\"] = \"failure\"\n        response[\"errorMessage\"] = str(e)\n    return response\n"
+                },
+                "Handler": "index.handler",
+                "Runtime": "python3.6",
+                "Role": {
+                    "Fn::GetAtt": [
+                        "TransformExecutionRole",
+                        "Arn"
+                    ]
+                }
+            }
+        },
+        "TransformFunctionPermissions": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+                "Action": "lambda:InvokeFunction",
+                "FunctionName": {
+                    "Fn::GetAtt": [
+                        "TransformFunction",
+                        "Arn"
+                    ]
+                },
+                "Principal": "cloudformation.amazonaws.com"
+            }
+        },
+        "Transform": {
+            "Type": "AWS::CloudFormation::Macro",
+            "Properties": {
+                "Name": "String",
+                "Description": "Provides various string processing functions",
+                "FunctionName": {
+                    "Fn::GetAtt": [
+                        "TransformFunction",
+                        "Arn"
+                    ]
+                }
+            }
+        }
+
+  },
+  "Outputs": {
+    "KeyPolicyUpdateArn": {
+      "Description": "Arn of the key policy updater lambda",
+      "Value": {
+        "Fn::GetAtt": [
+          "KeyPolicyFunction",
+          "Arn"
+        ]
+      },
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-KeyPolicyUpdateArn"
+        }
+      }
+    },
+    "ConfigurationActionFunctionArn": {
+      "Description": "Arn of the bootstrap config updater",
+      "Value": {
+        "Fn::GetAtt": [
+          "ConfigurationActionFunction",
+          "Arn"
+        ]
+      },
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-BootstrapConfigUpdateArn"
+        }
+      }
+    }
+  }
+}

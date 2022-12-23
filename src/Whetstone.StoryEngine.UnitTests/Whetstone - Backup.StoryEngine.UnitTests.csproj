@@ -1,0 +1,201 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <None Remove="Alexa\launchsymbicortrequest.json" />
+    <None Remove="Alexa\newsession.json" />
+    <None Remove="Alexa\stopsymbicortrequest.json" />
+    <None Remove="DialogFlowMessages\ApiGateway-UnexpectedRequest.json" />
+    <None Remove="DialogFlowMessages\ApiTimeout.json" />
+    <None Remove="DialogFlowMessages\DialogFlow-FacebookMessengerSonibridge.json" />
+    <None Remove="DialogFlowMessages\DialogFlow-FacebookMessengerWelcome.json" />
+    <None Remove="DialogFlowMessages\DialogFlow-UnexpectedSession01.json" />
+    <None Remove="DialogFlowMessages\DialogFlow-UnexpectedSession02.json" />
+    <None Remove="DialogFlowMessages\DialogFlow-UnexpectedSession03.json" />
+    <None Remove="DialogFlowMessages\DialogFlow-UnexpectedSessionResponse01.json" />
+    <None Remove="DialogFlowMessages\DialogFlow-UserStorage.json" />
+    <None Remove="DialogFlowMessages\SymbicortLaunch.json" />
+    <None Remove="DialogFlowMessages\SymbicortNoIntentPayload.json" />
+    <None Remove="DialogFlowMessages\SymbicortYesIntentPayload.json" />
+    <None Remove="DialogFlowMessages\whetstonedialogflow_sonibridge.json" />
+    <None Remove="GoogleActionMessages\ActionLaunchMessage.json" />
+    <None Remove="SmsInboundMessages\InboundSmsMsg01.json" />
+    <None Remove="SmsInboundMessages\inboundsmsmsg02.json" />
+    <None Remove="TitleFiles\animalfarmpi\1.2\animalfarmpi.yaml" />
+    <None Remove="TitleFiles\bootstrap.yml" />
+    <None Remove="TitleFiles\clinicaltrialsgov\0.1\clinicaltrialsgov.yaml" />
+    <None Remove="TitleFiles\eyeoftheeldergods\0.8\eyeoftheeldergods.yaml" />
+    <None Remove="TitleFiles\statileansavings\0.2\statileansavings.yaml" />
+    <None Remove="TitleFiles\whetstonetechnologiessms\0.2\whetstonetechnologiessms.yaml" />
+    <None Remove="TitleFiles\whetstonetechnologies\0.1\whetstonetechnologies.yaml" />
+    <None Remove="TitleFiles\whetstonetechnologies\0.2\whetstonetechnologies.yaml" />
+    <None Remove="TitleFiles\whetstonetechnologies\0.3\whetstonetechnologies.yaml" />
+    <None Remove="TitleFiles\whetstonetechnologies\0.4\whetstonetechnologies.yaml" />
+    <None Remove="TitleFiles\whetstonetechnologies\0.5\whetstonetechnologies.yaml" />
+    <None Remove="Twitter\activityunfollow.json" />
+    <None Remove="Twitter\twitterfollowevent.json" />
+    <None Remove="Twitter\twitterusersample.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Alexa\launchsymbicortrequest.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Alexa\newsession.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Alexa\stopsymbicortrequest.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DialogFlowMessages\ApiGateway-UnexpectedRequest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DialogFlowMessages\ApiTimeout.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DialogFlowMessages\DialogFlow-BadEmpty.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DialogFlowMessages\DialogFlow-FacebookMessengerSonibridge.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DialogFlowMessages\DialogFlow-FacebookMessengerWelcome.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DialogFlowMessages\DialogFlow-QueryText.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DialogFlowMessages\DialogFlow-SimulatorStart.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DialogFlowMessages\DialogFlow-UnexpectedSession01.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DialogFlowMessages\DialogFlow-UnexpectedSession02.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DialogFlowMessages\DialogFlow-UnexpectedSession03.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DialogFlowMessages\DialogFlow-UnexpectedSessionResponse01.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DialogFlowMessages\DialogflowHealthPingMsg.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DialogFlowMessages\dialogflowresponse.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DialogFlowMessages\googlerequest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DialogFlowMessages\SymbicortNoIntentPayload.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DialogFlowMessages\SymbicortLaunch.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DialogFlowMessages\whetstoneapihealthcheck.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DialogFlowMessages\whetstonedialogflowpost.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DialogFlowMessages\SymbicortYesIntentPayload.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DialogFlowMessages\whetstonedialogflow_sonibridge.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GoogleActionMessages\Whetstone\ActionLaunchMessage.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SessionSamples\smssession.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SmsInboundMessages\inboundsmsmsg02.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TitleFiles\animalfarmpi\1.2\animalfarmpi.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TitleFiles\bootstrap.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TitleFiles\clinicaltrialsgov\0.1\clinicaltrialsgov.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TitleFiles\eyeoftheeldergods\0.8\eyeoftheeldergods.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TitleFiles\statileansavings\0.2\statileansavings.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TitleFiles\whetstonetechnologiessms\0.2\whetstonetechnologiessms.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TitleFiles\whetstonetechnologies\0.1\whetstonetechnologies.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TitleFiles\whetstonetechnologies\0.2\whetstonetechnologies.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TitleFiles\whetstonetechnologies\0.3\whetstonetechnologies.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TitleFiles\whetstonetechnologies\0.4\whetstonetechnologies.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TitleFiles\whetstonetechnologies\0.5\whetstonetechnologies.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Twitter\activityunfollow.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Twitter\twitterfollowevent.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Twitter\twitterusersample.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="DialogFlowMessages\DialogFlow-UserStorage.json" />
+    <EmbeddedResource Include="SmsInboundMessages\InboundSmsMsg01.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.Core" Version="1.2.0" />
+    <PackageReference Include="Amazon.Lambda.TestUtilities" Version="1.2.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
+    <PackageReference Include="Moq" Version="4.13.1" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="Serilog.Sinks.Debug" Version="1.0.1" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whetstone.Google.Actions\Whetstone.Google.Actions.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.AlexaProcessor\Whetstone.StoryEngine.AlexaProcessor.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Data.EntityFramework\Whetstone.StoryEngine.Data.EntityFramework.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Google.Management\Whetstone.StoryEngine.Google.Management.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Google.Repository\Whetstone.StoryEngine.Google.Repository.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.InboundSmsHandler\Whetstone.StoryEngine.InboundSmsHandler.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.InboundSmsRepository\Whetstone.StoryEngine.InboundSmsRepository.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.MessageSender\Whetstone.StoryEngine.MessageSender.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Repository\Whetstone.StoryEngine.Repository.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.SocketApi.Repository\Whetstone.StoryEngine.SocketApi.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

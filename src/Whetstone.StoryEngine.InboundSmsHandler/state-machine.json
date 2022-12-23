@@ -1,0 +1,23 @@
+﻿{
+  "StartAt": "ProcessInboundMessage",
+  "States": {
+    "ProcessInboundMessage": {
+      "Type": "Task",
+      "Resource": "${SmsHandlerTask.Arn}:LIVE",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.Unknown",
+            "Lambda.ServiceException",
+            "Lambda.SdkClientException",
+            "AggregateException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "End": true
+    }
+  }
+}

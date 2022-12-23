@@ -1,0 +1,600 @@
+id: revenoxdev
+title: Revenox Test
+version: 0.1
+description: A voice search application for savings offers for Revenox
+invocationNames:
+- text: revenox test
+startNodeName: WelcomeNewUser
+newUserNodeName: WelcomeNewUser
+returningUserNodeName: ReturningUser
+resumeNodeName: Resume
+helpNodeName: Help
+stopNodeName: StopFinder
+endOfGameNodeName: EndofGame
+nodes:
+- name: RevenoxAgeCheck
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Verify Age (Revenox)
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: There are savings offers for Revenox.  Are you age 18 or older?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: There are savings offers for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="ɹɛvə nɔks">Revenox</phoneme>
+        - !sf-textfrag
+          text: .  Are you age 18 or older?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you age 18 or older?  You can say yes or no.
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: RevenoxInsuranceCheck
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FailedAgeCheck
+- name: FailedAgeCheck
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Invalid Age
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: I'm sorry, but you must be 18 or older to get savings offers for Revenox.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I'm sorry, but you must be 18 or older to get savings offers for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="ɹɛvə nɔks">Revenox</phoneme>.
+- name: RevenoxInsuranceCheck
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Check Insurance (Revenox)
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Are you currently covered by commercial health insurance?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you currently covered by commercial health insurance?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you currently covered by commercial health insurance?  You can say yes or no.
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: RevenoxRegularDiscount
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: RevenoxInsuranceFailure
+- name: RevenoxInsuranceFailure
+  responseSet:
+  - localizedResponses:
+    - cardTitle: No Commercial Insurance
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: I'm sorry, you must be on commercial insurance to qualify for Revenox savings offers.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I'm sorry, you must be on commercial insurance to qualify for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="ɹɛvə nɔks">Revenox</phoneme>
+        - !sf-textfrag
+          text: ' Savings Offers.'
+- name: RevenoxRegularDiscount
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Revenox Discount Card (12 Month)
+      sendCardResponse: false
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Savings offers for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="ɹɛvə nɔks">Revenox</phoneme>
+        - !sf-textfrag
+          text: ' are available. Please provide your phone number and a I''ll send you a discount code.'
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Please provide your phone number and a I'll send you a discount code.
+  choices:
+  - intentName: PhoneNumberIntent
+    nodeMapping: !nm-singlenode
+      nodeName: PhoneDiscountVerification
+- name: PhoneDiscountVerification
+  responseSet:
+  - localizedResponses:
+    - cardTitle: No Commercial Insurance
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: I heard you say {phonenumber}. If this is correct and you agree to receive a text message with a discount code for Revenox from an automatic telephone dialing system, say yes.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I heard you say <say-as interpret-as="telephone">{phonenumber}</say-as>. If this is correct and you agree to receive a text message with a discount code for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="ɹɛvə nɔks">Revenox</phoneme>
+        - !sf-textfrag
+          text: ' from an automatic telephone dialing system, say yes.'
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: I heard you say <say-as interpret-as="telephone">{phonenumber}</say-as>. If this is correct and you agree to receive a text message with a discount code for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="ɹɛvə nɔks">Revenox</phoneme>
+        - !sf-textfrag
+          text: ' from an automatic telephone dialing system, say yes.'
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: SendDiscountCodeNode
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: AskForNumberNode
+- name: SendDiscountCodeNode
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Sending Discount Codes For Revenox
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Thank you for confirming that you would like to receive a discount code for Revenox. I'll send you a text message shortly.  Please note that while consent to receive text messages is not a condition of purchase, you must have a valid prescription to redeem the discount code.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Great! Thank you for confirming that you would like to receive a discount code for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="ɹɛvə nɔks">Revenox</phoneme>
+        - !sf-textfrag
+          text: .  I'll send you a text message shortly.  Please note that while consent to receive text messages is not a condition of purchase, you must have a valid prescription to redeem the discount code.
+  actions:
+  - !na-phonemessage
+    nodeAction: PhoneMessage
+    phoneNumberSlot: phonenumber
+    phoneInfo:
+      applicationId: ACd7392bfa712dd3ddf3d87dfe73d61cb7|ec8164992ca59af378b137019b0cd316
+      sourcePhone: '+12157099492'
+      smsService: Twilio
+    phoneMessages:
+    - message: >+
+              Welcome to Whetstone for REVENOX (revenox extended-release)! Commercially insured patients may pay $0 on each Rx up to a year.
+    - message: >+
+              Please show the following discount codes to your pharmacist:
+
+
+              BIN#: $BIN_CODE$
+
+              PCN#: $PCN_CODE$
+
+              GRP#: $GROUP_CODE$
+
+              ID#: $ID_CODE$
+
+
+              Pharmacist help: 800-123-4567
+      tags:
+        brand: revenox
+    - message: >+
+              See terms at bit.ly/2P0DzJh
+
+
+              View full PI for REVENOX (revenox extended-release) at bit.ly/2Rjl30z
+
+
+              Msg & data rates may apply.
+- name: AskForNumberNode
+  responseSet:
+  - localizedResponses:
+    - clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I'll try to listen better this time. What's your phone number?
+  choices:
+  - intentName: PhoneNumberIntent
+    nodeMapping: !nm-singlenode
+      nodeName: PhoneDiscountVerification
+- name: ReturningUser
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome Back to Revenox Savings Offers
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: There are savings offers for Revenox.  Are you age 18 or older?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: There are savings offers for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="ɹɛvə nɔks">Revenox</phoneme>
+        - !sf-textfrag
+          text: .  Are you age 18 or older?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you age 18 or older?
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: RevenoxInsuranceCheck
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FailedAgeCheck
+  - intentName: FindDiscountCoupon
+    nodeMapping: !nm-singlenode
+      nodeName: DiscountCouponSearch
+  - intentName: FindDiscountCouponForDrug
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: RevenoxAgeCheck
+        requiredSlotValues:
+          drug:
+          - Revenox
+  coordinates:
+    x: -246
+    y: -104
+- name: Help
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Revenox Savings Help
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You can start a search for savings offers for Revenox by saying a phrase like "Find savings offers for Revenox."  If offers are available and you are eligible, a discount code will be sent to your mobile phone.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You can start a search for savings offers for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="ɹɛvə nɔks">Revenox</phoneme>
+        - !sf-textfrag
+          text: 'by saying a phrase like "Find savings offers for Revenox."  If offers are available and you are eligible, a discount code will be sent to your mobile phone.'
+  coordinates:
+    x: -717
+    y: 144
+- name: WelcomeNewUser
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome to Revenox Savings Offers
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: There are savings offers for Revenox.  Are you age 18 or older?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: There are savings offers for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="ɹɛvə nɔks">Revenox</phoneme>
+        - !sf-textfrag
+          text: .  Are you age 18 or older?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you age 18 or older?
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: RevenoxInsuranceCheck
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FailedAgeCheck
+  - intentName: FindDiscountCoupon
+    nodeMapping: !nm-singlenode
+      nodeName: DiscountCouponSearch
+  - intentName: FindDiscountCouponForDrug
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: RevenoxAgeCheck
+        requiredSlotValues:
+          drug:
+          - Revenox
+  coordinates:
+    x: 494
+    y: -126
+- name: Resume
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome Back to Revenox Savings Offers
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: There are savings offers for Revenox.  Are you age 18 or older?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: There are savings offers for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="ɹɛvə nɔks">Revenox</phoneme>
+        - !sf-textfrag
+          text: .  Are you age 18 or older?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you age 18 or older?
+  - intentName: FindDiscountCouponForDrug
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: RevenoxAgeCheck
+        requiredSlotValues:
+          drug:
+          - Revenox
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: RevenoxInsuranceCheck
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FailedAgeCheck
+  - intentName: FindDiscountCoupon
+    nodeMapping: !nm-singlenode
+      nodeName: DiscountCouponSearch
+  coordinates:
+    x: -715
+    y: 41
+- name: DiscountCouponSearch
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Savings Offers Search
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: There are savings offers for Revenox.  Are you age 18 or older?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: There are savings offers for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="ɹɛvə nɔks">Revenox</phoneme>
+        - !sf-textfrag
+          text: . Are you age 18 or older?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you age 18 or older?  You can say yes or no.
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: RevenoxInsuranceCheck
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FailedAgeCheck
+- name: StopFinder
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Exiting Revenox Savings Offers
+      textFragments:
+      - !tf-simple
+        text: Thanks for using Revenox Savings Offers
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Thanks for using
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="ɹɛvə nɔks">Revenox</phoneme>
+        - !sf-textfrag
+          text: ' Savings Offers.'
+  coordinates:
+    x: 841
+    y: 776
+- name: EndofGame
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Exiting Revenox Savings Offers
+      textFragments:
+      - !tf-simple
+        text: Thanks for using Revenox Savings Offers
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Thanks for using
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="ɹɛvə nɔks">Revenox</phoneme>
+        - !sf-textfrag
+          text: ' Savings Offers.'
+  coordinates:
+    x: -14
+    y: 806
+intents:
+- name: ResumeIntent
+  localizedIntents:
+  - plainTextPrompt: resume
+- name: RepeatIntent
+  localizedIntents:
+  - plainTextPrompt: repeat
+- name: TryAgainIntent
+  localizedIntents:
+  - plainTextPrompt: try again
+- name: YesIntent
+  localizedIntents:
+  - plainTextPrompt: yes
+- name: NoIntent
+  localizedIntents:
+  - plainTextPrompt: no
+- name: FindDiscountCouponForDrug
+  localizedIntents:
+  - plainTextPrompt: find discount coupons for drug
+    utterances:
+    - find discount coupons for {drug}
+    - find discount coupon for {drug}
+    - get discount coupons for {drug}
+    - get discount coupon for {drug}
+    - find coupons for {drug}
+    - find coupon for {drug}
+    - get coupons for {drug}
+    - get coupon for {drug}
+    - discount coupons for {drug}
+    - discount coupon for {drug}
+    - coupons for {drug}
+    - coupon for {drug}
+    - search discount coupons for {drug}
+    - search discount coupon for {drug}
+    - search for discount coupons for {drug}
+    - search for discount coupon for {drug}
+    - search coupons for {drug}
+    - search coupon for {drug}
+    - search for coupons for {drug}
+    - search for coupon for {drug}
+    - find savings offers for {drug}
+    - find savings offer for {drug}
+    - get savings offers for {drug}
+    - get savings offer for {drug}
+    - find savings for {drug}
+    - find offers for {drug}
+    - find savings for {drug}
+    - get savings for {drug}
+    - get offers for {drug}
+    - get offer for {drug}
+    - get savings for {drug}
+    - savings offers for {drug}
+    - savings offer for {drug}
+    - offers for {drug}
+    - offer for {drug}
+    - savings for {drug}
+    - search savings offers for {drug}
+    - search savings offer for {drug}
+    - search for savings offers for {drug}
+    - search for savings offer for {drug}
+    - search offers for {drug}
+    - search offer for {drug}
+    - search savings for {drug}
+    - search for offers for {drug}
+    - search for offer for {drug}
+    - search for savings for {drug}
+  slotMappings:
+    drug: Drugs
+  actions:
+  - !na-recordselecteditem
+    slotNames:
+    - drug
+- name: FindDiscountCoupon
+  localizedIntents:
+  - plainTextPrompt: find discount coupon
+    utterances:
+    - find discount coupons
+    - find discount coupon
+    - get discount coupons
+    - get discount coupon
+    - find coupons
+    - find coupon
+    - get coupons
+    - get coupon
+    - discount coupons
+    - discount coupon
+    - coupons
+    - coupon
+    - search discount coupons
+    - search discount coupon
+    - search for discount coupons
+    - search for discount coupon
+    - search coupons
+    - search coupon
+    - search for coupons
+    - search for coupon
+    - find savings offers
+    - find savings offer
+    - get savings offers
+    - get savings offer
+    - find savings
+    - find offers
+    - find savings
+    - get savings
+    - get offers
+    - get offer
+    - get savings
+    - savings offers
+    - savings offer
+    - offers
+    - offer
+    - savings
+    - search savings offers
+    - search savings offer
+    - search for savings offers
+    - search for savings offer
+    - search offers
+    - search offer
+    - search savings
+    - search for offers
+    - search for offer
+    - search for savings
+- name: EndGameIntent
+  localizedIntents:
+  - plainTextPrompt: Exit
+    utterances:
+    - stop
+    - stop finder
+    - stop coupon finder
+    - stop discount coupons finder
+    - end
+    - end finder
+    - end coupon finder
+    - end discount coupons finder
+    - exit
+    - exit finder
+    - exit coupon finder
+    - exit discount coupons finder
+- name: PhoneNumberIntent
+  localizedIntents:
+  - plainTextPrompt: Phone Number
+    utterances:
+    - '{phonenumber}'
+    - my number is {phonenumber}
+    - it is {phonenumber}
+    - it's {phonenumber}
+  slotMappings:
+    phonenumber: WHETSTONE.US_PHONENUMBER
+  actions:
+  - !na-recordselecteditem
+    slotNames:
+    - phonenumber
+conditions:
+- !ci-nodevisit
+  requiredNodes:
+  - Opening
+  conditionType: NodeVisit
+  name: VisitedOpening
+badIntentResponses:
+- name: FirstBadIntentResponse
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Unknown Response
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I can't help you with that. You can say something like find savings offers for Revenox.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Say something like find savings offers for Revenox.
+- name: SecondBadIntentResponse
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Unknown Response
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Sorry, I didn't get that. If you're having trouble you can ask for help or exit by saying exit. To use Revenox savings offers, say something like find savings offers for Revenox.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Say something like find savings offers for Revenox.
+slotTypes:
+- name: Drugs
+  values:
+  - value: Revenox

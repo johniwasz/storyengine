@@ -1,0 +1,18 @@
+﻿{
+  "engineRequestId": "a8c58363-c51b-4fef-b704-06c72accdac8",
+  "engineSessionId": "6778fe88-4433-43a1-b60c-23b2ad3d4d65",
+  "engineUserId": "132c2721-1070-4383-95ad-4238974f68b6",
+  "sessionId": "ACd7392bfa712dd3ddf3d87dfe73d61cb7",
+  "userId": "+18572429283",
+  "locale": "en-US",
+  "deploymentId": "9a33ee08-e804-42ac-a001-f127721b37d4",
+  "requestId": "SM5e2b26584fb53103ffc1394b5adeb99d",
+  "intentName": "GrantConsentIntent",
+  "time": "2019-05-16T17:46:24.9377197Z",
+  "isNewSession": true,
+  "processDuration": 366,
+  "preNodeActionLog": "Recorded consent grant whetstonetechnologiessms as True for +18572429283\n\n",
+  "mappedNode": "SendWhitepaperLinkNode",
+  "requestType": "Launch",
+  "rawText": "YES"
+}

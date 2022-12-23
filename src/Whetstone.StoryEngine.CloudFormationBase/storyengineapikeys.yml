@@ -1,0 +1,149 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Pushes Twilio secrets and Connective Rx into a secret store
+Parameters:
+  KeyStack:
+    Description: >-
+      Name of stack used to create environment key for decryption. Example:
+      WhetstoneKey-Dev
+    Type: String
+    Default: WhetstoneKey-Dev
+  TwilioLiveAccountSid:
+    Description: Id of the Twilio account for the live account
+    Type: String
+    NoEcho: true
+  TwilioLiveToken:
+    Description: Twilio account token for the live account
+    Type: String
+    NoEcho: true
+  TwilioTestAccountSid:
+    Description: Id of the Twilio account for the test account
+    Type: String
+    NoEcho: true
+  TwilioTestToken:
+    Description: Twilio account token for the test account
+    Type: String
+    NoEcho: true
+  CustomActionLambdaStack:
+    Description: >-
+      Lambda utility stack. Example:
+      Whetstone-LambdaCustomActions-Dev
+    Type: String
+    Default: Whetstone-LambdaCustomActions-Dev
+  PolicyStack:
+    Description: >-
+      Shared policies stack. Example:
+      WhetstoneSharedPolicies-Dev
+    Type: String
+    Default: WhetstoneSharedPolicies-Dev
+Resources:
+  BootstrapConfigUpdate:
+    Type: 'AWS::CloudFormation::CustomResource'
+    Properties:
+      ServiceToken: !ImportValue 
+        'Fn::Sub': '${CustomActionLambdaStack}-BootstrapConfigUpdateArn'
+      KeyId: !ImportValue 
+        'Fn::Sub': '${KeyStack}-EnvironmentKeyAlias'
+      Parameter: !ImportValue 
+        'Fn::Sub': '${PolicyStack}-BootstrapParameter'
+      ConfigEntries:
+        - ConfigType: TwilioLiveKey
+          Value: 
+            Fn::Join:
+              - '/'
+              - - {'Fn::ImportValue': !Sub '${KeyStack}-EnvironmentName'}
+                - 'twilio/live'
+                - !Ref 'AWS::StackName'
+        - ConfigType: TwilioTestKey
+          Value:
+            Fn::Join:
+              - '/'
+              - - {'Fn::ImportValue': !Sub '${KeyStack}-EnvironmentName'}
+                - 'twilio/test'
+                - !Ref 'AWS::StackName'
+  TwilioLiveSecret:
+    Type: AWS::SecretsManager::Secret
+    DependsOn: BootstrapConfigUpdate
+    Properties:
+      Name: !GetAtt BootstrapConfigUpdate.TwilioLiveKey            
+      Description: !Join ['', ['Twilio API Live secrets ', 'for CloudFormation Stack ', !Ref 'AWS::StackName']]
+      SecretString: !Sub '{"accountSid":"${TwilioLiveAccountSid}","token":"${TwilioLiveToken}"}'
+      KmsKeyId: {'Fn::ImportValue': !Sub '${KeyStack}-EnvironmentKeyAlias'}
+      Tags:
+        - Key: StackID
+          Value: !Ref 'AWS::StackId'
+  TwilioTestSecret:
+    Type: AWS::SecretsManager::Secret
+    DependsOn: BootstrapConfigUpdate
+    Properties:
+      Name: !GetAtt BootstrapConfigUpdate.TwilioTestKey        
+      Description: !Join ['', ['Twilio API Test secrets ', 'for CloudFormation Stack ', !Ref 'AWS::StackName']]
+      SecretString: !Sub '{"accountSid":"${TwilioTestAccountSid}","token":"${TwilioTestToken}"}'
+      KmsKeyId: {'Fn::ImportValue': !Sub '${KeyStack}-EnvironmentKeyAlias'}
+      Tags:
+        - Key: StackID
+          Value: !Ref 'AWS::StackId'
+  TwilioLiveReaderPolicy:
+    Type: 'AWS::IAM::ManagedPolicy'
+    DependsOn: TwilioLiveSecret
+    Properties:
+      Path: !Join 
+        - ''
+        - - /
+          - !ImportValue 
+            'Fn::Sub': '${KeyStack}-EnvironmentName'
+          - /
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'secretsmanager:GetSecretValue'
+            Resource: !Ref TwilioLiveSecret
+  TwilioTestReaderPolicy:
+    Type: 'AWS::IAM::ManagedPolicy'
+    DependsOn: TwilioTestSecret
+    Properties:
+      Path: !Join 
+        - ''
+        - - /
+          - !ImportValue 
+            'Fn::Sub': '${KeyStack}-EnvironmentName'
+          - /
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'secretsmanager:GetSecretValue'
+            Resource: !Ref TwilioTestSecret
+Outputs:
+  TwilioLiveSecretArn:
+    Description: Twilio Live Secret
+    Value: !Ref TwilioLiveSecret
+    Export:
+      Name: !Sub '${AWS::StackName}-TwilioLiveSecretArn'
+  TwilioLiveSecretName:
+    Description: Name of the live secret
+    Value: !GetAtt BootstrapConfigUpdate.TwilioLiveKey     
+    Export:
+      Name: !Sub '${AWS::StackName}-TwilioLiveSecretName'
+  TwilioTestSecretArn:
+    Description: Twilio Test Secret
+    Value: !Ref TwilioTestSecret
+    Export:
+      Name: !Sub '${AWS::StackName}-TwilioTestSecretArn'
+  TwilioTestSecretName:
+    Description: Name of the test secret
+    Value: !GetAtt BootstrapConfigUpdate.TwilioTestKey      
+    Export:
+      Name: !Sub '${AWS::StackName}-TwilioTestSecretName'
+  TwilioLiveSecretReaderPolicy:
+    Description: Policy to grant read access to the Twilio live secret
+    Value: !Ref TwilioLiveReaderPolicy
+    Export:
+      Name: !Sub '${AWS::StackName}-TwilioLiveReaderPolicy'
+  TwilioTestSecretReaderPolicy:
+    Description: Policy to grant read access to the Twilio test secret
+    Value: !Ref TwilioTestReaderPolicy
+    Export:
+      Name: !Sub '${AWS::StackName}-TwilioTestReaderPolicy'

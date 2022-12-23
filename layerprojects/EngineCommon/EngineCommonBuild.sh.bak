@@ -1,0 +1,5 @@
+#!/bin/bash
+
+dotnet restore EngineCommon.xml
+
+dotnet lambda publish-layer EngineCommon22 --layer-type runtime-package-store --package-manifest EngineCommon.xml --s3-bucket whetstone-layers --s3-prefix EngineCommon/ --enable-package-optimization true --configuration Release --framework netcoreapp2.2

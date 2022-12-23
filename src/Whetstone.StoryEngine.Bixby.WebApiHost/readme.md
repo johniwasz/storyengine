@@ -1,0 +1,1 @@
+﻿ngrok http 56528 -host-header="localhost:56528" -subdomain=whetstone

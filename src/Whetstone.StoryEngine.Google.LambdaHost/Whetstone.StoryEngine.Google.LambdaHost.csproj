@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AWSProjectType>Lambda</AWSProjectType>
+    <LangVersion>latest</LangVersion>
+    <OutputType>Exe</OutputType>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="bootstrap" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bootstrap">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.RuntimeSupport" Version="1.3.0" />
+    <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="2.4.0" />
+    <PackageReference Include="Amazon.Lambda.Core" Version="1.2.0" />
+    <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.8.0" />
+    <PackageReference Include="AWSXRayRecorder.Handlers.AwsSdk" Version="2.8.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whetstone.StoryEngine.Google.Repository\Whetstone.StoryEngine.Google.Repository.csproj" />
+  </ItemGroup>
+  <!-- This line is needed to work with the AWS deployment process -->
+  <!--
+  <ItemGroup>
+    <DotNetCliToolReference Include="Amazon.Lambda.Tools" Version="2.2.0" />
+  </ItemGroup>
+  -->
+</Project>

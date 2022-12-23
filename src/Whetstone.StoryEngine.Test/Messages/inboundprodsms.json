@@ -1,0 +1,18 @@
+{
+  "environment": "prod",
+  "body": "ToCountry=US&ToState=PA&SmsMessageSid=SM5fb0a549bfd280b99e23fccb42102a69&NumMedia=0&ToCity=&FromZip=19107&SmsSid=SM5fb0a549bfd280b99e23fccb42102a69&FromState=PA&SmsStatus=received&FromCity=PHILADELPHIA&Body=Test&FromCountry=US&To=%2B12672140948&ToZip=&NumSegments=1&MessageSid=SM5fb0a549bfd280b99e23fccb42102a69&AccountSid=ACd7392bfa712dd3ddf3d87dfe73d61cb7&From=%2B12675551212&ApiVersion=2010-04-01",
+  "alias": "ws02prod",
+  "path": "/Prod/api/processmessage",
+  "headers": {
+    "Accept": "*/*",
+    "Cache-Control": "max-age=259200",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Host": "7qqmd6obp1.execute-api.us-east-1.amazonaws.com",
+    "User-Agent": "TwilioProxy/1.1",
+    "X-Amzn-Trace-Id": "Root=1-5ccc7f28-ed9621447f3de13493c65bdc",
+    "X-Forwarded-For": "3.208.20.33",
+    "X-Forwarded-Port": "443",
+    "X-Forwarded-Proto": "https",
+    "X-Twilio-Signature": "OK7kEUCvS6ZshyTdVhNWvZ3u6eI="
+  }
+}

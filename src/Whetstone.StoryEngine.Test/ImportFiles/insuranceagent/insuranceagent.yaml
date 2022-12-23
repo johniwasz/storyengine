@@ -1,0 +1,594 @@
+id: insuranceagent
+title: Insurance Agent
+version: 0.1
+description: A voice application for submitting insurance requests.
+invocationNames:
+- text: insurance agent
+startNodeName: WelcomeNewUser
+newUserNodeName: WelcomeNewUser
+returningUserNodeName: ReturningUser
+resumeNodeName: Resume
+helpNodeName: Help
+stopNodeName: StopInsuranceAgent
+endOfGameNodeName: ExitingInsuranceAgent
+nodes:
+- name: GetLastName
+  responseSet:
+  - localizedResponses:
+    - clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Please spell your last name.
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-ssmlfrag
+          ssml: Please spell your last name.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Please spell your last name.
+  choices:
+  - intentName: NameIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VerifyLastName
+    actions:
+    - !na-recordselecteditem
+      slots:
+      - letter
+- name: AddNewDriver
+  responseSet:
+  - localizedResponses:
+    - clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I understand you would like to add a new driver to your insurance policy. I'll need to get your contact information. I'll remember this next time. First, please spell your first name.
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-textfrag
+          text: I understand you would like to add a new driver to your insurance policy. I'll need to get your contact information. I'll remember this next time. First, please spell your first name.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Please spell your first name.
+  choices:
+  - intentName: NameIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VerifyFirstName
+    actions:
+    - !na-recordselecteditem
+      slots:
+      - letter
+- name: VerifyFirstName
+  responseSet:
+  - localizedResponses:
+    - clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I heard you say
+        - !sf-ssmlfrag
+          ssml: <say-as interpret-as="spell-out">{letter}</say-as>
+        - !sf-textfrag
+          text: . Is that correct?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: I heard you say
+        - !sf-ssmlfrag
+          ssml: <say-as interpret-as="spell-out">{letter}</say-as>
+        - !sf-textfrag
+          text: . Is that correct?
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: GetLastName
+      localizedSuggestionText:
+      - text: yes
+    actions:
+    - !na-assignvalue
+      slotName: firstname
+      value: '{letter}'
+      isPermanent: true
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: RetryFirstName
+      localizedSuggestionText:
+      - text: no
+- name: RetryFirstName
+  responseSet:
+  - localizedResponses:
+    - clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Sorry. I'll try to listen better this time. Please spell your first name.
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-textfrag
+          text: Sorry. I'll try to listen better this time. Please spell your first name.
+  choices:
+  - intentName: NameIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VerifyFirstName
+    actions:
+    - !na-recordselecteditem
+      slots:
+      - letter
+- name: StatileanRegularDiscount
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Statilean Discount Card (12 Month)
+      sendCardResponse: false
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Great! You are qualified for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="stædəlin">Statilean</phoneme>
+        - !sf-textfrag
+          text: " savings offers. Please provide your phone number and a I'll send you a discount code."
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-textfrag
+          text: Great! You are qualified for Statilean
+        - !sf-textfrag
+          text: " savings offers. Please provide your phone number and a I'll send you a discount code."
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Please provide your phone number and a I'll send you a discount code.
+  choices:
+  - intentName: PhoneNumberIntent
+    nodeMapping: !nm-singlenode
+      nodeName: PhoneDiscountVerification
+- name: PhoneDiscountVerification
+  responseSet:
+  - localizedResponses:
+    - cardTitle: No Commercial Insurance
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: I heard you say {phonenumber}. If this is correct and you agree to receive a text message with a discount code for Statilean, say yes.
+      clientResponses:
+      - speechFragments:
+        - !sf-ssmlfrag
+          ssml: I heard you say <say-as interpret-as="telephone">{phonenumber}</say-as>. If this is correct and you agree to receive a text message with a discount code for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="stædəlin">Statilean</phoneme>
+        - !sf-textfrag
+          text: ', say yes.'
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-ssmlfrag
+          ssml: I heard you say <say-as interpret-as="telephone">@@String.Format("{0:###-###-####}", {phonenumber})@@</say-as>. If this is correct and you agree to receive a text message with a discount code for Statilean
+        - !sf-textfrag
+          text: ', say yes.'
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: I heard you say <say-as interpret-as="telephone">{phonenumber}</say-as>. If this is correct and you agree to receive a text message with a discount code for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="stædəlin">Statilean</phoneme>
+        - !sf-textfrag
+          text: ', say yes.'
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-ssmlfrag
+          ssml: I heard you say <say-as interpret-as="telephone">@@String.Format("{0:###-###-####}", {phonenumber})@@</say-as>. If this is correct and you agree to receive a text message with a discount code for Statilean
+        - !sf-textfrag
+          text: ', say yes.'
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: SendDiscountCodeNode
+      localizedSuggestionText:
+      - text: yes
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: AskForNumberNode
+      localizedSuggestionText:
+      - text: no
+- name: SendDiscountCodeNode
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Sending Discount Codes For Statilean
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Thank you! I'll send you a text message shortly.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Thank you!  I'll send you a text message shortly.  Goodbye.
+  actions:
+  - !na-phonemessage
+    phoneNumberSlot: phonenumber
+    phoneInfo:
+      sourcePhone: +12157099492
+      applicationId: ACd7392bfa712dd3ddf3d87dfe73d61cb7|ec8164992ca59af378b137019b0cd316
+      smsService: Twilio
+    phoneMessages:
+    - message: Welcome to Whetstone for STATILEAN (statilean extended-release)! Commercially insured patients may pay $0 on each Rx up to a year.
+    - message: >+
+        Please show the following discount codes to your pharmacist:
+
+
+
+        BIN#: $BIN_CODE$
+
+        PCN#: $PCN_CODE$
+
+        GRP#: $GROUP_CODE$
+
+        ID#: $ID_CODE$
+
+
+
+        Pharmacist help: 800-123-4567
+
+      tags:
+        brand: statilean
+    - message: >+
+        See terms at http://bit.ly/2P0DzJh
+
+
+
+        View full PI for STATILEAN(statilean extended-release) at http://bit.ly/2Rjl30z
+
+
+
+        Msg&data rates may apply.
+
+- name: AskForNumberNode
+  responseSet:
+  - localizedResponses:
+    - clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I'll try to listen better this time. What's your phone number?
+  choices:
+  - intentName: PhoneNumberIntent
+    nodeMapping: !nm-singlenode
+      nodeName: PhoneDiscountVerification
+- name: ReturningUser
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome Back to the Insurance Agent
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Welcome back to the Insurance Agent. You can request a review of your policy or add a new driver.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Welcome back to the Insurance Agent. You can request a review of your policy or add a new driver.
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-textfrag
+          text: Welcome back to the Insurance Agent. You can request a review of your policy or add a new driver.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Would you like to review your policy or add a new policy?
+  choices:
+  - intentName: AddNewDriverIntent
+    nodeMapping: !nm-singlenode
+      nodeName: AddNewDriver
+      localizedSuggestionText:
+      - text: add new driver
+  - intentName: RequestPolicyReviewIntent
+    nodeMapping: !nm-singlenode
+      nodeName: RequestPolicyReview
+      localizedSuggestionText:
+      - text: request policy review
+- name: Help
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Insurance Agent Help
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You can start a search for savings offers for Statilean by saying a phrase like "Find savings offers for Statilean."  If offers are available and you are eligible, a discount code will be sent to your mobile phone.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You can start a search for savings offers for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="stædəlin">Statilean</phoneme>
+        - !sf-textfrag
+          text: by saying a phrase like "Find savings offers for Statilean."  If offers are available and you are eligible, a discount code will be sent to your mobile phone.
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-textfrag
+          text: You can start a search for savings offers for Statilean by saying a phrase like "Find savings offers for Statilean."  If offers are available and you are eligible, a discount code will be sent to your mobile phone.
+- name: WelcomeNewUser
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome to the Insurance Agent
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Welcome to the Insurance Agent. You can request a review of your policy or add a new driver.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Welcome to the Insurance Agent. You can request a review of your policy or add a new driver.
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-textfrag
+          text: Welcome to the Insurance Agent. You can request a review of your policy or add a new driver.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Would you like to review your policy or add a new policy?
+  choices:
+  - intentName: AddNewDriverIntent
+    nodeMapping: !nm-singlenode
+      nodeName: AddNewDriver
+      localizedSuggestionText:
+      - text: add new driver
+  - intentName: RequestPolicyReviewIntent
+    nodeMapping: !nm-singlenode
+      nodeName: RequestPolicyReview
+      localizedSuggestionText:
+      - text: request policy review
+- name: Resume
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome Back to the Insurance Agent
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Welcome back to the Insurance Agent. You can request a review of your policy or add a new driver.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Welcome back to the Insurance Agent. You can request a review of your policy or add a new driver.
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-textfrag
+          text: Welcome back to the Insurance Agent. You can request a review of your policy or add a new driver.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Would you like to review your policy or add a new policy?
+  choices:
+  - intentName: AddNewDriverIntent
+    nodeMapping: !nm-singlenode
+      nodeName: AddNewDriver
+      localizedSuggestionText:
+      - text: add new driver
+  - intentName: RequestPolicyReviewIntent
+    nodeMapping: !nm-singlenode
+      nodeName: RequestPolicyReview
+      localizedSuggestionText:
+      - text: request policy review
+- name: DiscountCouponSearch
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Savings Offers Search
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: There are savings offers for Statilean.  Are you age 18 or older?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: There are savings offers for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="stædəlin">Statilean</phoneme>
+        - !sf-textfrag
+          text: . Are you age 18 or older?
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-textfrag
+          text: There are savings offers for Statilean. Are you age 18 or older?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you age 18 or older?  You can say yes or no.
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StatileanInsuranceCheck
+      localizedSuggestionText:
+      - text: yes
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FailedAgeCheck
+      localizedSuggestionText:
+      - text: no
+- name: StopInsuranceAgent
+  responseSet:
+  - localizedResponses:
+    - clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Thanks for using the Insurance Agent.
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-textfrag
+          text: Thanks for using the Insurance Agent.
+  coordinates:
+    x: 841
+    y: 776
+- name: ExitingInsuranceAgent
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Exiting Insurance Agent
+      textFragments:
+      - !tf-simple
+        text: Thanks for using the Insurance Agent.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Thanks for using the Insurance Agent.
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-textfrag
+          text: Thanks for using the Insurance Agent.
+intents:
+- name: ResumeIntent
+  localizedIntents:
+  - plainTextPrompt: resume
+- name: RepeatIntent
+  localizedIntents:
+  - plainTextPrompt: repeat
+- name: TryAgainIntent
+  localizedIntents:
+  - plainTextPrompt: try again
+- name: YesIntent
+  localizedIntents:
+  - plainTextPrompt: yes
+- name: NoIntent
+  localizedIntents:
+  - plainTextPrompt: no
+- name: NameIntent
+  localizedIntents:
+  - utterances:
+    - '{letter}'
+    - '{letter} {letter}'
+    - '{letter} {letter} {letter}'
+    - '{letter} {letter} {letter} {letter} {letter}'
+    - '{letter} {letter} {letter} {letter} {letter} {letter}'
+    - '{letter} {letter} {letter} {letter} {letter} {letter} {letter}'
+    - '{letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter}'
+    - '{letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter}'
+    - '{letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter}'
+    - '{letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter}'
+    - '{letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter}'
+  slotMappings:
+    letter: Letter
+- name: AddNewDriverIntent
+  localizedIntents:
+  - plainTextPrompt: add new driver
+    utterances:
+    - add a new driver
+    - put another driver on my policy
+    - add a driver
+    - add another driver
+    - add driver
+    - add driver to policy
+- name: RequestPolicyReviewIntent
+  localizedIntents:
+  - plainTextPrompt: request policy review
+    utterances:
+    - request policy review
+    - request review
+    - review policy
+    - policy review
+    - request review of policy
+- name: EndAgentIntent
+  localizedIntents:
+  - plainTextPrompt: Exit
+    utterances:
+    - stop
+    - stop agent
+    - stop insurance agent
+    - end
+    - end agent
+    - end insurance agent
+    - exit
+    - exit agent
+    - exit insurance agent
+- name: PhoneNumberIntent
+  localizedIntents:
+  - plainTextPrompt: Phone Number
+    utterances:
+    - '{phonenumber}'
+    - my number is {phonenumber}
+    - it is {phonenumber}
+    - it's {phonenumber}
+  slotMappings:
+    phonenumber: WHETSTONE.US_PHONENUMBER
+  actions:
+  - !na-recordselecteditem
+    slots:
+    - phonenumber
+conditions:
+- !ci-nodevisit
+  requiredNodes:
+  - Opening
+  conditionType: NodeVisit
+  name: VisitedOpening
+badIntentResponses:
+- name: FirstBadIntentResponse
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Unknown Response
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Sorry, I didn't get that.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Say something about insurance.
+- name: SecondBadIntentResponse
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Unknown Response
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I'm still having trouble.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Say something about insurance.
+slotTypes:
+- name: Letter
+  values:
+  - value: a
+  - value: b
+  - value: c
+  - value: d
+  - value: e
+  - value: f
+  - value: g
+  - value: h
+  - value: i
+  - value: j
+  - value: k
+  - value: l
+  - value: m
+  - value: n
+  - value: o
+  - value: p
+  - value: q
+  - value: r
+  - value: s
+    synonyms:
+    - yes
+  - value: t
+  - value: u
+  - value: v
+  - value: w
+  - value: x
+  - value: y
+  - value: z
+- name: CarModel
+  values:
+  - value: Land Cruiser
+  - value: Camry
+  - value: RAV4
+  - value: Yaris
+  - value: Prius
+  - value: Corolla
+  - value: Insight
+  - value: Pilot
+  - value: CRV
+  - value: Civic
+  - value: Accord
+- name: CarMake
+  values:
+  - value: Subaru
+  - value: Mercedes
+  - value: Buick
+  - value: Ford
+  - value: BMW
+  - value: Chevy
+  - value: Toyota
+  - value: Saturn
+  - value: Kia
+  - value: Honda
+  - value: Infiniti
+  - value: Audi

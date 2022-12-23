@@ -1,0 +1,180 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: First stack to deploy for the socket api
+Parameters:
+  KeyStack:
+    Default: WhetstoneKey-Dev
+    AllowedPattern: '^[a-zA-Z]+[0-9a-zA-Z\-]*$'
+    Type: String
+    Description: >-
+      Name of stack used to create environment key for decryption. Example:
+      WhetstoneKey-Dev
+  PolicyStack:
+    Default: WhetstoneSharedPolicies-Dev
+    AllowedPattern: '^[a-zA-Z]+[0-9a-zA-Z\-]*$'
+    Type: String
+    Description: >-
+      Name of stack used to create supplemental policies. Example:
+      WhetstoneSharedPolicies-Dev
+  CustomActionLambdaStack:
+    Default: Whetstone-LambdaCustomActions-Dev
+    Type: String
+    Description: Stack that defines lambdas for custom resources
+Resources:
+  UpdateConnectionMappingTablePolicy:
+    DeletionPolicy: Delete
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      Path: !Join 
+        - ''
+        - - /
+          - !ImportValue 
+            'Fn::Sub': '${KeyStack}-EnvironmentName'
+          - /
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Action:
+              - 'dynamodb:GetItem'
+              - 'dynamodb:DeleteItem'
+              - 'dynamodb:PutItem'
+              - 'dynamodb:Scan'
+              - 'dynamodb:Query'
+              - 'dynamodb:UpdateItem'
+              - 'dynamodb:BatchWriteItem'
+              - 'dynamodb:BatchGetItem'
+              - 'dynamodb:DescribeTable'
+              - 'dynamodb:ConditionCheckItem'
+            Resource: !Sub 
+              - >-
+                arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${tableName}
+              - tableName: !Ref ConnectionMappingTable
+            Effect: Allow
+    DependsOn:
+      - ConnectionMappingTable
+  ManageSocketConnectionsPolicy:
+    DeletionPolicy: Delete
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      Path: !Join 
+        - ''
+        - - /
+          - !ImportValue 
+            'Fn::Sub': '${KeyStack}-EnvironmentName'
+          - /
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          Action: 'execute-api:ManageConnections'
+          Resource: 'arn:aws:execute-api:*:*:*/@connections/*'
+          Effect: Allow
+  PendingNotificationsTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      KeySchema:
+        - KeyType: HASH
+          AttributeName: userId
+        - KeyType: RANGE
+          AttributeName: notificationId
+      SSESpecification:
+        SSEEnabled: true
+      TimeToLiveSpecification:
+        Enabled: true
+        AttributeName: expirationTime
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: notificationId
+          AttributeType: S
+      BillingMode: PAY_PER_REQUEST
+  ConnectionMappingTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      KeySchema:
+        - KeyType: HASH
+          AttributeName: userId
+        - KeyType: RANGE
+          AttributeName: connectionId
+      SSESpecification:
+        SSEEnabled: true
+      TimeToLiveSpecification:
+        Enabled: true
+        AttributeName: expirationTime
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: connectionId
+          AttributeType: S
+      BillingMode: PAY_PER_REQUEST
+  UpdatePendingNotificationsTablePolicy:
+    DeletionPolicy: Delete
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      Path: !Join 
+        - ''
+        - - /
+          - !ImportValue 
+            'Fn::Sub': '${KeyStack}-EnvironmentName'
+          - /
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Action:
+              - 'dynamodb:GetItem'
+              - 'dynamodb:DeleteItem'
+              - 'dynamodb:PutItem'
+              - 'dynamodb:Scan'
+              - 'dynamodb:Query'
+              - 'dynamodb:UpdateItem'
+              - 'dynamodb:BatchWriteItem'
+              - 'dynamodb:BatchGetItem'
+              - 'dynamodb:DescribeTable'
+              - 'dynamodb:ConditionCheckItem'
+            Resource: !Sub 
+              - >-
+                arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${tableName}
+              - tableName: !Ref PendingNotificationsTable
+            Effect: Allow
+    DependsOn:
+      - PendingNotificationsTable
+  BootstrapConfigUpdate:
+    Type: 'AWS::CloudFormation::CustomResource'
+    Properties:
+      Parameter: !ImportValue 
+        'Fn::Sub': '${PolicyStack}-BootstrapParameter'
+      KeyId: !ImportValue 
+        'Fn::Sub': '${KeyStack}-EnvironmentKeyAlias'
+      ServiceToken: !ImportValue 
+        'Fn::Sub': '${CustomActionLambdaStack}-BootstrapConfigUpdateArn'
+      ConfigEntries:
+        - ConfigType: SocketConnectionTableName
+          Value: !Ref ConnectionMappingTable
+        - ConfigType: PendingNotificationsTableName
+          Value: !Ref PendingNotificationsTable
+    DependsOn:
+      - ConnectionMappingTable
+Outputs:
+  ConnectionMappingTableName:
+    Export:
+      Name: !Sub '${AWS::StackName}-ConnectionMappingTableName'
+    Description: Table used to map userids to socket connections
+    Value: !Ref ConnectionMappingTable
+  PendingNotificationsTablePolicyArn:
+    Export:
+      Name: !Sub '${AWS::StackName}-PendingNotificationsTablePolicyArn'
+    Description: Policy for controlling access to the pending notifications table
+    Value: !Ref UpdatePendingNotificationsTablePolicy
+  ManageSocketConnectionsPolicyArn:
+    Export:
+      Name: !Sub '${AWS::StackName}-ManageSocketConnectionsPolicyArn'
+    Description: Policy for controlling access to managing socket connections
+    Value: !Ref ManageSocketConnectionsPolicy
+  ConnectionMappingTablePolicyArn:
+    Export:
+      Name: !Sub '${AWS::StackName}-ConnectionMappingTablePolicyArn'
+    Description: Policy for controlling access to the pending notifications table
+    Value: !Ref UpdateConnectionMappingTablePolicy
+  PendingNotificationsTableName:
+    Export:
+      Name: !Sub '${AWS::StackName}-PendingNotificationsTableName'
+    Description: Table used to store pending notifications for a user.
+    Value: !Ref PendingNotificationsTable

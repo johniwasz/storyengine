@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <AWSProjectType>Lambda</AWSProjectType>
+    <ApplicationIcon />
+    <OutputType>Exe</OutputType>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="bootstrap" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bootstrap">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.Core" Version="1.2.0" />
+    <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.8.0" />
+    <PackageReference Include="SSH.NET" Version="2016.1.0" />
+    <PackageReference Include="Amazon.Lambda.RuntimeSupport" Version="1.3.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whetstone.StoryEngine.Reporting.Models\Whetstone.StoryEngine.Reporting.Models.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Reporting.ReportRepository\Whetstone.StoryEngine.Reporting.ReportRepository.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Repository\Whetstone.StoryEngine.Repository.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- This line is needed to work with the AWS deployment process -->
+    <DotNetCliToolReference Include="Amazon.Lambda.Tools" Version="2.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="state-machine.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

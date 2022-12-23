@@ -1,0 +1,150 @@
+launchNode:
+  name: Launch
+  largeImageFile: launch_lg.jpg
+  smallImageFile: launch_sm.jpg
+  responseSet:
+  - - cardTitle: Welcome to the Adventure!
+      text: Hello and welcome to the adventure! Since this is your first time connecting, I'll give you the nickel tour. This is a test adventure. You stop at any time by saying stop or cancel. For help, say help. When you are ready to begin the adventure say begin.
+      repromptTextResponse: Begin?
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: storyintro.mp3
+  choices:
+  - intentName: BeginIntent
+restartNode:
+  name: Restart
+  responseSet:
+  - - cardTitle: Resume or Restart
+      text: You have a prior game in progress. Would you like to resume or restart?
+      repromptTextResponse: Resume or restart?
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: restart.mp3
+  choices:
+  - intentName: ResumeIntent
+  - intentName: RestartIntent
+helpNode:
+  name: HelpAdventure
+  responseSet:
+  - - cardTitle: Adventure Help
+      text: This is some generic help text. Something helpful here.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: This is some generic help text. Something helpful here.
+stopNode:
+  name: StopAdventure
+  responseSet:
+  - - cardTitle: Stop Adventure
+      text: Thank you for playing.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Thank you for playing.
+endStoryNode:
+  name: EndGame
+  responseSet:
+  - - cardTitle: End Game
+      text: That's it for this path, but there are others to explore. Would you like to end the game or try again?
+      repromptTextResponse: Restart or end game?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: That's it for this path, but there are others to explore. Would you like to end the game or try again?
+  choices:
+  - intentName: TryAgainIntent
+  - intentName: EndGameIntent
+welcomeBackNode:
+  name: Welcome Back
+  smallImageFile: welcome_sm.jpg
+  largeImageFile: welcome_lg.jpg
+  responseSet:
+  - - cardTitle: Welcome Back!
+      text: Welcome back! There's only one test adventure. When you are ready to begin the adventure say begin.
+      repromptTextResponse: Begin?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Welcome back! There's only one test adventure. When you are ready to begin the adventure say begin.
+  choices:
+  - intentName: BeginIntent     
+intents:
+- name: BeginIntent
+  localizedIntents:
+  - plainTextPrompt: Begin
+    utterances:
+    - begin
+    - begin game
+    - begin adventure
+    - start
+    - start game
+    - start adventure
+- name: LeftIntent
+  localizedIntents:
+  - plainTextPrompt: Left
+    utterances:
+    - left
+    - go left
+    - walk left
+    - turn left
+  - locale: de-DE
+    plainTextPrompt: Links
+    utterances:
+    - links
+    - geh nach links
+    - nach links gehen
+    - biegen Sie links ab
+- name: RightIntent
+  localizedIntents:
+  - plainTextPrompt: Right
+    utterances:
+    - right
+    - go right
+    - walk right
+    - turn right
+  - locale: de-DE
+    plainTextPrompt: Recht
+    utterances:
+    - recht
+    - geh rechts
+    - rechts gehen
+    - biegen Sie rechts ab
+- name: PauseIntent
+  localizedIntents:
+  - plainTextPrompt: Pause
+    utterances:
+    - pause
+    - pause game
+    - pause adventure
+- name: EndGameIntent
+  localizedIntents:
+  - plainTextPrompt: End Game
+    utterances:
+    - stop
+    - stop game
+    - stop adventure
+    - end
+    - end game
+    - end adventure     
+- name: ResumeIntent
+  localizedIntents:
+  - plainTextPrompt: Resume
+    utterances:
+    - resume
+    - resume game
+    - resume adventure
+- name: RestartIntent
+  localizedIntents:
+  - plainTextPrompt: Restart
+    utterances:
+    - restart
+    - restart game
+    - restart adventure
+- name: TryAgainIntent
+  localizedIntents:
+  - plainTextPrompt: Try Again
+    utterances:
+    - try again
+    - retry

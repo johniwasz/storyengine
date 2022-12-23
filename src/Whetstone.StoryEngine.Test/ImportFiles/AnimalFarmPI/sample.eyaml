@@ -1,0 +1,19 @@
+nodes:
+- name: TestNode
+  choices:
+  - !c-multi
+    intentName: Multi
+    storyNodeNames:
+    - First Node
+    - Second Node
+    - Third Node
+  - !c-single
+    intentName: Single Choice
+    storyNodeName: Single Node
+  actions:
+  - !na-inventory
+    item: !nt-uniqueitem
+      name: lollipop
+  - !na-recordvisit {}
+intents:
+- name: TestIntent

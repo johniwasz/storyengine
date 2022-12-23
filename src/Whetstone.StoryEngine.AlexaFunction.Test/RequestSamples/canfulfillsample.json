@@ -1,0 +1,47 @@
+﻿{
+  "version": "1.0",
+  "session": {
+    "sessionId": "amzn1.echo-api.session.8c1825dc-00c8-40d7-8bdb-d2d2d7035a50",
+    "application": {
+      "applicationId": "amzn1.ask.skill.c4cabd50-2cd5-4e4c-a03c-a57d4f2a0e5f"
+    },
+    "user": {
+      "userId": "amzn1.ask.account.AESILM6HN7MR3U366T77JSVIUTFHTPABCMW5RNL4SX3LJDTIKZN7JG4P6ERHJ4QQGHNCTQDH2MHZMGOZNHNAP4723RQEIZUDROOVZSXXZLQH35KB2XOHSYUPWI5CFO2NDEBK4NRLUI6MQHGR4FLN2SMTP2MF53OSORMC6WRMCJECULKP4YDFEBM3OYF4X2EPGNAGAZN5DZJPV4A",
+      "permissions": null
+    },
+    "new": true
+  },
+  "request": {
+    "type": "CanFulfillIntentRequest",
+    "requestId": "amzn1.echo-api.request.4f383044-3b83-4c73-8551-d338b6584fa4",
+    "timestamp": "2019-10-13T21:22:00Z",
+    "intent": {
+      "name": "GetContactInfo",
+      "slots": null
+    }
+  },
+  "context": {
+    "system": {
+      "application": {
+        "applicationId": "amzn1.ask.skill.c4cabd50-2cd5-4e4c-a03c-a57d4f2a0e5f"
+      },
+      "user": {
+        "userId": "amzn1.ask.account.AESILM6HN7MR3U366T77JSVIUTFHTPABCMW5RNL4SX3LJDTIKZN7JG4P6ERHJ4QQGHNCTQDH2MHZMGOZNHNAP4723RQEIZUDROOVZSXXZLQH35KB2XOHSYUPWI5CFO2NDEBK4NRLUI6MQHGR4FLN2SMTP2MF53OSORMC6WRMCJECULKP4YDFEBM3OYF4X2EPGNAGAZN5DZJPV4A",
+        "permissions": null
+      },
+      "device": {
+        "deviceId": "amzn1.ask.device.AEB74LXO53L62R2YC2ZG6YU6OX7ZF2AA472BAPVYSO4PMG2LBDRKOED477BCTTYFIU2ZOIV6LMBE5JZ2Z5WFIVJNKVGDOHOWQPXQGCFR6FDEYJAOIMHKRE535ILQ6S3O3YH6A7CJYVSVLQGT34QCF3HZTCHHXCQVO4ELR33JXGWPRZ37RPIWU",
+        "supportedInterfaces": {
+          "audioPlayer": {
+
+          }
+        }
+      },
+      "apiEndpoint": null,
+      "apiAccessToken": null
+    },
+    "audioPlayer": {
+      "playerActivity": "IDLE"
+    }
+  }
+}

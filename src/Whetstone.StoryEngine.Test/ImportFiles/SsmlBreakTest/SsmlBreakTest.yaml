@@ -1,0 +1,69 @@
+﻿id: animalfarmtest
+title: Animal Farm Test
+version: '0.9'
+description: Investigate the farm as a pig.
+invocationNames:
+- text: animal farm test
+- locale: en-CA
+  text: animal farm test
+startNodeName: Opening
+newUserNodeName: WelcomeNewUser
+returningUserNodeName: ReturningUser
+resumeNodeName: Resume
+helpNodeName: Help
+stopNodeName: StopGame
+endOfGameNodeName: EndofGame
+nodes:
+- name: Opening
+  responseSet:
+  - localizedResponses: 
+    - cardTitle: Beautiful Morning
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: It was a dark and stormy night. Hey! That doesn’t make any sense! That music didn’t sound dark and stormy at all! It sounds to me more like a bright and chipper morning!
+      repromptTextResponse: Should we go with dark and stormy, or bright and chipper
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: Act1-OpeningMusic-alexa.mp3
+        - !sf-textfrag
+          text: It was a dark and stormy night. 
+        - !sf-break
+          duration: 500
+        - !sf-ssmlfrag
+          ssml: <say-as interpret-as="interjection">no way!</say-as> 
+        - !sf-textfrag
+          text: I'm not doing this. That doesn’t make any sense!  That music didn’t sound dark and stormy at 
+        - !sf-ssmlfrag
+          ssml: <prosody volume="x-loud" pitch="+10%">all!</prosody>  
+        - !sf-textfrag
+          text: It sounds to me more like a bright and chipper morning! Should we go with dark and stormy, or bright and chipper?
+  choices:
+  - intentName: DarkAndStormyIntent
+    nodeMapping: !nm-singlenode
+      nodeName: DarkPath1
+  - intentName: BrightAndChipperIntent
+    nodeMapping: !nm-singlenode
+      nodeName: BrightPath1
+intents:
+- name: Verbs
+  values:
+  - value: throw
+    synonyms:
+    - toss
+    - hurl
+  - value: look
+  - value: open
+  - value: close
+    synonyms:
+    - shut
+  - value: give
+  - value: feed
+  - value: try
+  - value: eat
+  - value: call
+  - value: play
+  - value: wake
+    synonyms:
+    - wake up

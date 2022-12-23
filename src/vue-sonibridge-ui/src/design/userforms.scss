@@ -1,0 +1,60 @@
+.glyphicon-none:before {
+  content: '\2122';
+  color: transparent !important;
+}
+
+.user-form {
+  width: 500px;
+  margin: 0 auto;
+  border: 100px;
+  border-color: #999;
+  padding: 20px;
+}
+
+.btn {
+  border-radius: 3px;
+}
+.user-form form {
+  color: rgb(20, 19, 19);
+  border-radius: 3px;
+
+  border: 1px solid grey;
+  box-shadow: 5px 5px 2px rgba(0, 0, 0, 0.3);
+  padding: 30px;
+}
+.user-form h2 {
+  color: #333;
+  font-weight: bold;
+  margin-top: 0;
+}
+.user-form hr {
+  margin: 0 -30px 20px;
+}
+.user-form .form-group {
+  margin-bottom: 20px;
+}
+.user-form label {
+  font-weight: normal;
+  font-size: 13px;
+}
+.user-form .form-control {
+  min-height: 38px;
+  box-shadow: none !important;
+}
+.user-form .input-group-addon {
+  max-width: 42px;
+  text-align: center;
+}
+.user-form input[type='checkbox'] {
+  margin-top: 2px;
+}
+.errortext {
+  font-weight: bold;
+  color: red;
+}
+.user-form .btn {
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  min-width: 140px;
+}

@@ -1,0 +1,154 @@
+id: whetstonetechnologiessms
+title: Whetstone Technologies SMS
+version: 0.2
+description: The text component of the whetstonetechnologies title
+invocationNames:
+- text: whetstone technologies
+phoneInfo:
+  consentName: whetstonetechnologiessms
+  requiredConsents:
+  - whetstonetechnologies
+startNodeName: RootNode
+newUserNodeName: RootNode
+returningUserNodeName: RootNode
+resumeNodeName: ResumeNode
+helpNodeName: Help
+stopNodeName: StopWhetstoneNode
+endOfGameNodeName: EndOfWhetstone
+nodes:
+- name: SendWhitepaperLinkNode
+  responseSet:
+  - localizedResponses:
+    - textFragments:
+      - !tf-simple
+        text: >
+          Thanks for your interest in Whetstone Technologies! Please go to the following link to get your whitepaper.
+
+
+          https://bit.ly/2lyR8Gc
+      - !tf-simple
+        text: >
+          To schedule your free 1-hour voice tech consultation, fill out the form, enter discount code 2019SONIBRIDGE and let us know dates/times that are convenient for you.
+
+
+          https://bit.ly/2XGPYai
+      - !tf-simple
+        text: >
+          Reply STOP to unsubscribe
+
+
+          Msg & data rates may apply
+  choices:
+  - intentName: GrantConsentIntent
+    nodeMapping: !nm-singlenode
+      nodeName: SendWhitepaperLinkNode
+      localizedSuggestionText:
+      - text: yes
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: RemoveConsentNode
+      localizedSuggestionText:
+      - text: no
+- name: EndOfWhetstone
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Exiting Whetstone Technologies.
+      textFragments:
+      - !tf-simple
+        text: Thanks for visiting Whetstone Technologies.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Thanks for visiting Whetstone Technologies.
+- name: Help
+  responseSet:
+  - localizedResponses:
+    - textFragments:
+      - !tf-simple
+        text: This phone number provides information about the Whetstone Technologies software company and its services.  You can get in touch with us by calling us at 610-345-7384 or emailing us at sales@whetstonetechnologies.io.
+- name: ResumeNode
+  responseSet:
+  - localizedResponses:
+    - textFragments:
+      - !tf-simple
+        text: You have reenabled notifications. You can get in touch with us by calling us at 610-345-7384 or emailing us at info@whetstonetechnologies.io.
+  actions:
+  - !na-resetstate
+    isPermanent: true
+- name: RootNode
+  responseSet:
+  - localizedResponses:
+    - textFragments:
+      - !tf-simple
+        text: This text is not returned to the user. This node is used to route requests.
+  choices:
+  - intentName: GrantConsentIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - removedconsentcond
+      trueConditionResult: !nm-singlenode
+        nodeName: ResumeNode
+      falseConditionResult: !nm-singlenode
+        nodeName: SendWhitepaperLinkNode
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StopWhestoneNode
+      localizedSuggestionText:
+      - text: no
+- name: StopWhetstoneNode
+  responseSet:
+  - localizedResponses:
+    - textFragments:
+      - !tf-simple
+        text: You will not recieve any further notifications from us. Text YES or RESUME to this number if you wish to resume receiving notifications.
+  actions:
+  - !na-recordvisit
+    isPermanent: true
+  - !na-setsmsconfirmation {}
+intents:
+- name: EndGameIntent
+  localizedIntents:
+  - plainTextPrompt: Exit
+    utterances:
+    - stop
+    - stop whetstone
+    - stop whetstone technologies
+    - end
+    - end whetstone
+    - end whetstone technologies
+    - exit
+    - exit whetstone
+    - exit whetstone technologies
+- name: GrantConsentIntent
+  localizedIntents:
+  - plainTextPrompt: give consent
+  actions:
+  - !na-setsmsconfirmation
+    grantConfirmation: true
+- name: NoIntent
+  localizedIntents:
+  - plainTextPrompt: no
+  actions:
+  - !na-setsmsconfirmation {}
+- name: RepeatIntent
+  localizedIntents:
+  - plainTextPrompt: repeat
+- name: ResumeIntent
+  localizedIntents:
+  - plainTextPrompt: resume
+- name: TryAgainIntent
+  localizedIntents:
+  - plainTextPrompt: try again
+conditions:
+- !ci-nodevisit
+  requiredNodes:
+  - StopWhetstoneNode
+  conditionType: NodeVisit
+  name: removedconsentcond
+badIntentResponses:
+- name: FirstBadResponse
+  responseSet:
+  - localizedResponses:
+    - textFragments:
+      - !tf-simple
+        text: Sorry, I don't recognize that response. You can text STOP to stop getting notifications or text HELP for more information.

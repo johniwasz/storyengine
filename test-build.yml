@@ -1,0 +1,80 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+name: Test Build
+
+parameters:
+- name: copyList
+  type: object
+  default: 
+  - display: 'policy'
+    contents: storyenginesharedpolicies.yml
+  - display: 'bucket'
+    contents: storyenginebucket.yml
+  - display: 'api keys'
+    contents: storyengineapikeys.yml
+  - display: 'Cognito'
+    contents: storyenginecognito.yml
+  - display: 'Socket Infrastruture'
+    contents: socketinfrastructure.template
+  - display: user table dynamodb
+    contents: storyenginedynamodb.yml
+  - display: cache table dynamodb
+    contents: storyenginecachetable.yml
+  - display: session queue
+    contents: storyenginesessionqueue.yml
+
+workspace:
+    clean: all
+
+# trigger:
+# - master
+
+variables:
+  buildnum: 1.0.$(Build.BuildId)
+  packagefolder: $(Build.ArtifactStagingDirectory)/nuget
+
+pool:
+  name: AWSBuild
+
+
+
+steps:
+
+- task: DotNetCoreCLI@2
+  displayName: 'Install Global Amazon.Lambda.Tools'
+  inputs:
+    command: 'custom'
+    custom: 'tool'
+    arguments: 'update --tool-path=/usr/local/sbin Amazon.Lambda.Tools --version 5.0'
+    
+- script: |
+   git config --global user.email "builduser@whetstonetechnologies.io"
+   git config --global user.name "Build User"
+  displayName: 'Set git user info'
+  env:
+    BUILDNUM: $(buildnum)
+
+#    dotnet publish "$(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.LambdaUtilities/." --output "$(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.LambdaUtilities/bin/Release/net5.0/linux-x64/publish" --configuration "Release" /p:GenerateRuntimeConfigurationFiles=true --runtime linux-x64 --self-contained false
+#   docker build -f "$(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.LambdaUtilities/./Dockerfile" -t whetstone.storyengine.lambdautilities:latest .
+
+
+- script: |
+   mkdir $nativeoutdir
+  displayName: 'Create Native output directory'
+  env:
+    nativeoutdir: $(build.artifactstagingdirectory)/native
+
+
+- ${{ each value in parameters.copyList }}:
+  - task: CopyFiles@2
+    displayName: 'Copy ${{ value.display }} template'
+    inputs:
+      SourceFolder: src/Whetstone.StoryEngine.CloudFormationBase
+      Contents: ${{ value.contents }}
+      TargetFolder: '$(build.artifactstagingdirectory)/basecftemplates'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'

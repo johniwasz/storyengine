@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Authors>John Iwasz</Authors>
+    <Company>Whetstone Technologies, Inc.</Company>
+    <Product>Sonibridge</Product>
+    <Copyright>2020 Whetstone Technologies, Inc.</Copyright>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="2.4.0" />
+    <PackageReference Include="Amazon.Lambda.Core" Version="1.2.0" />
+    <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.8.0" />
+    <PackageReference Include="Google.Cloud.Dialogflow.V2" Version="1.0.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whetstone.Google.Actions\Whetstone.Google.Actions.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.DependencyInjection\Whetstone.StoryEngine.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Models\Whetstone.StoryEngine.Models.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Repository\Whetstone.StoryEngine.Repository.csproj" />
+  </ItemGroup>
+
+
+</Project>

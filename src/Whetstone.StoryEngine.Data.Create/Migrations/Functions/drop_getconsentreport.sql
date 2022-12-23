@@ -1,0 +1,1 @@
+﻿drop function whetstone.getconsentreport(uuid, timestamp without time zone, timestamp without time zone);

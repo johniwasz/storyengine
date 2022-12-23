@@ -1,0 +1,18 @@
+{
+  "id": "f1ec3cd4-67bd-445a-9391-a7f0f2d3098a",
+  "notificationType": "Sms",
+  "textMessages": [
+    "Thanks for your interest in Whetstone Technologies! Please go to the following link to get your whitepaper.\n\nhttps://bit.ly/2lyR8Gc\n",
+    "To schedule your free 1-hour voice tech consultation, fill out the form, enter discount code 2019SONIBRIDGE and let us know dates/times that are convenient for you.\n\nhttps://bit.ly/2XGPYai\n",
+    "Reply STOP to unsubscribe\n\nMsg & data rates may apply\n"
+  ],
+  "tags": null,
+  "sourceNumber": "+12672140345",
+  "destinationNumberId": "927d94ea-ab28-4c0e-9f35-c68b8c83d4df",
+  "smsProvider": "Twilio",
+  "source": {
+    "notificationSourceType": "InboundSmsResponse",
+    "engineUserId": "77d5af16-016a-436e-b212-a523211030ea",
+    "consentId": "fc287e9a-5ff8-4880-800a-2168d7759e6f"
+  }
+}

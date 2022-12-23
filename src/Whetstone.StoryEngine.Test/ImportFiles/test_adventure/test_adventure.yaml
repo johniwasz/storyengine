@@ -1,0 +1,198 @@
+id: test_adventure
+title: AudioAdventure
+description: This is just a sample
+startNodeName: StartAdventure
+nodes:
+- name: Good Tea
+  responseSet:
+  - - cardTitle: He Likes Tea
+      text: He takes a sip and seems happy with the tea. He smiles. He looks like he would enjoy a conversation. You can talk to the troll or keep walking.
+      repromptTextResponse: "Would you like to talk to the troll or keep walking?"
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: He takes a sip and seems happy with the tea. He smiles. He looks like he would enjoy a conversation.
+  choices:
+  - !c-single
+    storyNodeName: Out of the Woods
+    intentName: WalkIntent
+  - !c-single
+    storyNodeName: Talk To Troll
+    intent: 
+      name: TalkToTrollIntent
+      localizedIntents:
+      - plainTextPrompt: Talk to troll
+        utterances:
+        - talk to troll
+        - talk
+        - talk to him
+- name: Troll Laughs
+  responseSet:
+  - - cardTitle: Troll Laughs
+      text: His skin is too tough. You scrape your knuckles and the troll just laughs at you. Ha ha! Perhaps you should try giving him some tea instead. To serve tea, say serve tea.
+      repromptTextResponse: "To serve tea, say serve tea."
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: His skin is too tough. You scrape your knuckles and the troll just laughs at you. Ha ha! Perhaps you should try giving him some tea instead. To serve tea, say serve tea.
+  choices:
+  - !c-single
+    storyNodeName: Good Tea
+    intentName: TeaIntent
+- name: Troll in Path
+  smallImageFile: troll_sm.jpg
+  largeImageFile: troll_lg.jpg
+  responseSet:
+  - - cardTitle: Oh no, a Troll!
+      text: There's a troll in your way. Would you like to punch him or serve him tea?
+      repromptTextResponse: Punch him or serve tea?
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: trollgrowl.mp3
+        - !sf-textfrag
+          text: There's a troll in your way.
+        - !sf-audio
+          fileName: trollsniff.mp3
+        - !sf-textfrag
+          text: Would you like to punch him or serve him tea?
+  choices:
+  - !c-single
+    storyNodeName: Troll Laughs
+    intent:
+      name: PunchIntent
+      localizedIntents:
+      - plainTextPrompt: Punch
+        utterances:
+        - punch him
+        - punch troll
+        - punch
+        - hit him
+        - hit troll
+        - hit
+  - !c-single
+    storyNodeName: Good Tea
+    intentName: TeaIntent
+- name: Out of the Woods
+  responseSet:
+  - - cardTitle: Out of the Woods
+      text: The sun is shining. The birds are chirping and you're out of the woods. Hurray! You won!
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: The sun is shining. The birds are chirping and you're out of the woods. Hurray! You won!
+- name: Search Hedge
+  responseSet:
+  - - cardTitle: Nothing Here
+      text: Hmm... There's nothing here. Maybe you were imagining things? To keep going, say keep going.
+      repromptTextResponse: To keep going, say keep going.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Hmm... There's nothing here. Maybe you were imagining things? To keep going, say keep going.
+  - - cardTitle: It Bit Me!
+      text: It's a rabid possum. It bites you! Better have that looked at. Maybe you should walk it off. To walk it off, say walk it off.
+      repromptTextResponse: To walk it off, say walk it off.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: It's a rabid possum. It bites you! Better have that looked at. Maybe you should walk it off. To walk it off, say walk it off.
+  responseBehavior: Random
+  choices:
+  - !c-single
+    storyNodeName: Out of the Woods
+    intentName: WalkIntent
+- name: AnimalAcrossPath
+  responseSet:
+  - - cardTitle: Rustle in the Hedgerow
+      text: You see a small animal dart into a bush. Would you like to look in the bush or keep walking?
+      repromptTextResponse: Look in bush or keep walking?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You see a small animal dart into a bush. Would you like to look in the bush or keep walking?
+  choices:
+  - !c-single
+    storyNodeName: Search Hedge
+    intent:
+      name: BushIntent
+      localizedIntents:
+      - plainTextPrompt: Bush
+        utterances:
+        - look in bush
+        - bush
+        - look
+        - animal
+        - look for animal
+        - look in bush for animal
+  - !c-single
+    storyNodeName: Out of the Woods
+    intentName: WalkIntent
+- name: StartAdventure
+  responseSet:
+  - - cardTitle: Start Adventure!
+      text: You stand on a mountain side overlooking a slope that descends into a valley that disappears into forest. Miles away, it ends in a beach where land yields to sea in a crumble of sand. You are at a fork in the road. Would you like to go left or right?
+      repromptTextResponse: Left or right?
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: backgroundopen.mp3
+        - !sf-textfrag
+          text: You stand on a mountain side overlooking a slope that descends into a valley that disappears into forest. Miles away, it ends in a beach where land yields to sea in a crumble of sand. You are at a fork in the road. Would you like to go left or right?
+  - - cardTitle: Abandoned!
+      text: Deep in the forest, you are alone and abandoned. You don't recall your name and carry nothing of value. You are in middle of a forest path. Would you like to go left or right?
+      repromptTextResponse: Left or right?
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: suspenseopen.mp3
+        - !sf-textfrag
+          text: Deep in the forest, you are alone and abandoned. You don't recall your name and carry nothing of value. You are in middle of a forest path. Would you like to go left or right?
+  - - cardTitle: City in the Sun
+      text: You are in a city park. It's a lovely day. A path leads off to your left and right. Would you like to go left or right?
+      repromptTextResponse: Left or right?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You are in a city park. It's a lovely day. A path leads off to your left and right. Would you like to go left or right?
+  responseBehavior: Random
+  choices:
+  - !c-single
+    storyNodeName: Troll in Path
+    intentName: LeftIntent
+  - !c-single
+    storyNodeName: AnimalAcrossPath
+    intentName: RightIntent
+- name: Talk to Troll
+  responseSet:
+  - - cardTitle: Talk to Troll
+      text: He regales you about the virtues of Earl Grey and Darjeeling. He goes on and on. Maybe you should just walk on. 
+      repromptTextResponse: "To walk on, say walk on."
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: He regales you about the virtues of Earl Grey and Darjeeling. He goes on and on. Maybe you should just walk on. 
+  choices:
+  - !c-single
+    storyNodeName: Out of the Woods
+    intentName: WalkIntent
+intents:
+- name: WalkIntent
+  localizedIntents:
+  - plainTextPrompt: walk
+    utterances:
+    - walk
+    - walk on
+    - keep walking
+    - keep going
+    - go
+    - go on
+    - walk it off
+- name: TeaIntent
+  localizedIntents:
+  - plainTextPrompt: Tea
+    utterances:
+    - tea
+    - serve tea
+    - serve him tea
+    - serve troll tea

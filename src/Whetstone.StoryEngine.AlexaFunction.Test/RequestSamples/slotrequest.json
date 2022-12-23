@@ -1,0 +1,45 @@
+﻿{
+  "session": {
+    "new": false,
+    "sessionId": "SessionId.0ea4920e-fb07-4c0a-bad9-35d0e6c4a55f",
+    "application": {
+      "applicationId": "amzn1.ask.skill.b63175d7-1346-4b52-86f4-3bd76f1b72dc"
+    },
+    "attributes": {},
+    "user": {
+      "userId": "amzn1.ask.account.AFNLHNJW36KL4YX22TOKOSGXGWYAQ7DJBWTA3XWQXZGYDKDERFEVMZMTOWBCI35TMDJ3LRJVNFEYDDB4ACXHHDXBL2FEFC57FESVFZCQTSRMEPJHMJA5DWBSRJ6CQJXCE2TWNSD7OQICJVLANTJY5PX2QGSPPAJDAGL3NVLRA5S2W73LT7MO22NIFOSJXMXV76JH2JWHWKOJWAI"
+    }
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.309b7b57-d980-4bd5-9a07-9fa4889da1b4",
+    "intent": {
+      "name": "GoToFarmLocation",
+      "slots": {
+        "location": {
+          "name": "location",
+          "value": "barn"
+        }
+      }
+    },
+    "locale": "en-US",
+    "timestamp": "2018-01-05T23:05:40Z"
+  },
+  "context": {
+    "AudioPlayer": {
+      "playerActivity": "IDLE"
+    },
+    "System": {
+      "application": {
+        "applicationId": "amzn1.ask.skill.b63175d7-1346-4b52-86f4-3bd76f1b72dc"
+      },
+      "user": {
+        "userId": "amzn1.ask.account.AFNLHNJW36KL4YX22TOKOSGXGWYAQ7DJBWTA3XWQXZGYDKDERFEVMZMTOWBCI35TMDJ3LRJVNFEYDDB4ACXHHDXBL2FEFC57FESVFZCQTSRMEPJHMJA5DWBSRJ6CQJXCE2TWNSD7OQICJVLANTJY5PX2QGSPPAJDAGL3NVLRA5S2W73LT7MO22NIFOSJXMXV76JH2JWHWKOJWAI"
+      },
+      "device": {
+        "supportedInterfaces": {}
+      }
+    }
+  },
+  "version": "1.0"
+}

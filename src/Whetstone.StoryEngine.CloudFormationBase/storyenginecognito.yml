@@ -1,0 +1,177 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Create the SoniBridge Cognito User Pool
+Parameters:
+  KeyStack:
+    Description: >-
+      Name of stack used to create environment key for decryption. Example:
+      WhetstoneKey-Dev
+    Type: String
+  CustomActionLambdaStack:
+    Description: >-
+      Lambda utility stack. Example:
+      Whetstone-LambdaCustomActions-Dev
+    Type: String
+    Default: Whetstone-LambdaCustomActions-Dev
+  PolicyStack:
+    Description: >-
+      Shared policies stack. Example:
+      WhetstoneSharedPolicies-Dev
+    Type: String
+    Default: WhetstoneSharedPolicies-Dev
+  PoolDomainName:
+    Description: >-
+      Name of the Cognito Pool
+    Type: String
+    Default: sonibridge-dev
+Resources:
+  BootstrapConfigUpdate:
+    Type: 'AWS::CloudFormation::CustomResource'
+    DependsOn: DescribeUserPoolClientPolicy
+    Properties:
+      ServiceToken: !ImportValue
+        'Fn::Sub': '${CustomActionLambdaStack}-BootstrapConfigUpdateArn'
+      KeyId: !ImportValue
+        'Fn::Sub': '${KeyStack}-EnvironmentKeyAlias'
+      Parameter: !ImportValue
+        'Fn::Sub': '${PolicyStack}-BootstrapParameter'
+      ConfigEntries:
+        - ConfigType: CognitoUserPoolId
+          Value: !Ref SoniBridgeUserPool
+        - ConfigType: CognitoUserClientId
+          Value: !Ref SoniBridgeApiClient
+        - ConfigType: CognitoUserClientSecret
+          Value:
+            - !Ref SoniBridgeUserPool
+            - !Ref SoniBridgeApiClient
+        - ConfigType: AuthenticatorType
+          Value: Cognito
+  DescribeUserPoolClientPolicy:
+    Type: 'AWS::IAM::ManagedPolicy'
+    DeletionPolicy: Delete
+    Properties:
+      Path: !Join
+        - ''
+        - - /
+          - !ImportValue
+            'Fn::Sub': '${KeyStack}-EnvironmentName'
+          - /
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'cognito-idp:DescribeUserPoolClient'
+            Resource: !Sub 'arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${SoniBridgeUserPool}'
+      Roles:
+        - !ImportValue
+          'Fn::Sub': '${CustomActionLambdaStack}-BootstrapConfigRoleName'
+  SoniBridgeUserPool:
+    Type: 'AWS::Cognito::UserPool'
+    Properties:
+      UserPoolName: !Join
+        - '-'
+        - - 'SoniBridge'
+          - !ImportValue
+            'Fn::Sub': '${KeyStack}-EnvironmentName'
+      UsernameAttributes:
+        - email
+      AutoVerifiedAttributes:
+        - email
+      Policies:
+        PasswordPolicy:
+          TemporaryPasswordValidityDays: 3
+          MinimumLength: 8
+          RequireLowercase: true
+          RequireNumbers: true
+          RequireUppercase: true
+          RequireSymbols: true      
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: false
+      AccountRecoverySetting:
+        RecoveryMechanisms:
+          - Name: verified_email
+            Priority: 1
+      UserPoolTags:
+        Environment: !ImportValue
+          'Fn::Sub': '${KeyStack}-EnvironmentName'
+        Purpose: !ImportValue
+          'Fn::Sub': '${KeyStack}-Purpose'
+        Stack: !Ref 'AWS::StackName'
+  SoniBridgeApiClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      ClientName: 'SoniBridge Admin API'
+      UserPoolId: !Ref SoniBridgeUserPool
+      ExplicitAuthFlows:
+        - ALLOW_ADMIN_USER_PASSWORD_AUTH
+        - ALLOW_USER_PASSWORD_AUTH
+        - ALLOW_USER_SRP_AUTH
+        - ALLOW_REFRESH_TOKEN_AUTH
+      GenerateSecret: true
+      RefreshTokenValidity: 2
+      AllowedOAuthFlowsUserPoolClient: true
+      PreventUserExistenceErrors: ENABLED
+      AllowedOAuthFlows:
+        - code
+      AllowedOAuthScopes:
+        - email
+        - openid
+        - profile
+      CallbackURLs:
+        - http://localhost
+      SupportedIdentityProviders:
+        - COGNITO
+  SoniBridgeDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: !Ref PoolDomainName
+      UserPoolId: !Ref SoniBridgeUserPool
+  AdminUserGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      Description: 'This group can perform any operation in the admin api'
+      GroupName: 'Administrators'
+      UserPoolId: !Ref SoniBridgeUserPool
+  TitleOwnerGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      Description: 'This group can perform any operation on the titles the user owns'
+      GroupName: 'TitleOwners'
+      UserPoolId: !Ref SoniBridgeUserPool
+Outputs:
+  UserPoolArn:
+    Description: ARN of the UserPool
+    Value: !GetAtt
+      - SoniBridgeUserPool
+      - Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-UserPoolArn'
+  UserPoolId:
+    Description: Name of the Congito Provider
+    Value: !Ref SoniBridgeUserPool
+    Export:
+      Name: !Sub '${AWS::StackName}-UserPoolId'
+  UserPoolProviderName:
+    Description: ProviderName of the UserPool
+    Value: !GetAtt
+      - SoniBridgeUserPool
+      - ProviderName
+    Export:
+      Name: !Sub '${AWS::StackName}-ProviderName'
+  UserPoolProviderUrl:
+    Description: ProviderUrl of the UserPool
+    Value: !GetAtt
+      - SoniBridgeUserPool
+      - ProviderURL
+    Export:
+      Name: !Sub '${AWS::StackName}-ProviderUrl'
+  AdminApiClientId:
+    Description: Client id for the Admin API
+    Value: !Ref SoniBridgeApiClient
+    Export:
+      Name: !Sub '${AWS::StackName}-AdminApiClientId'
+  OpenIdMetadataAddress:
+    Description: OpenID Metadata Address
+    Value: !Sub 'https://cognito-idp.${AWS::StackName}.amazonaws.com/${SoniBridgeUserPool}/.well-known/openid-configuration'
+    Export:
+      Name: !Sub '${AWS::StackName}-OpenIdMetadataAddress'

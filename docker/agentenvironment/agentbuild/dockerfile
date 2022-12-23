@@ -1,0 +1,52 @@
+FROM amazonlinux:latest
+LABEL maintainer="john@whetstonetechnologies.io"
+
+ENV container docker
+ENV AGENT_ALLOW_RUNASROOT 1
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT true
+
+COPY ./vsts-agent-rhel.6-x64-2.179.0.tar.gz /downloads/vsts-agent-rhel.6-x64-2.179.0.tar.gz
+
+# REVIEW THIS NEXT:
+# https://github.com/MicrosoftDocs/vsts-docs/issues/4373
+# https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/docker?view=azure-devops
+
+RUN yum install deltarpm -y
+RUN yum update -y
+
+# IMPORTANT!!! Install docker BEFORE adding the packages-microsoft-com-prod repo
+RUN amazon-linux-extras install docker && \    
+    yum install initscripts -y
+
+RUN rpm -Uvh https://packages.microsoft.com/config/centos/7/packages-microsoft-prod.rpm
+RUN yum --enablerepo=packages-microsoft-com-prod clean metadata 
+
+RUN chmod 600 /downloads/vsts-agent-rhel.6-x64-2.179.0.tar.gz && \
+    yum install git yum-utils sudo which iputils openssl-libs ca-certificates tar gcc gcc-c++ make openssl-devel httpd awscli nano zip powershell -y && \
+    yum install nodejs dotnet-sdk-5.0 aspnetcore-runtime-5.0 dos2unix -y && \
+    mkdir build && \
+    mkdir /myagent && \
+    chmod 777 /myagent && \    
+    cd /myagent && \
+    tar xzf /downloads/vsts-agent-rhel.6-x64-2.179.0.tar.gz && \
+    cd ..
+
+COPY start.sh /myagent/start.sh
+
+RUN chmod +x /myagent/start.sh && \
+    chmod +x /myagent/env.sh && \
+    chmod +x /myagent/config.sh && \
+    dos2unix /myagent/start.sh && \
+    dos2unix /myagent/env.sh && \
+    dos2unix /myagent/config.sh && \
+    yum clean all && \
+    systemctl enable httpd.service
+
+WORKDIR /myagent 
+
+EXPOSE 80
+
+VOLUME [ "/sys/fs/cgroup" ]
+CMD ["/usr/sbin/init"]
+
+ENTRYPOINT [ "sh", "./start.sh" ]

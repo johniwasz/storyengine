@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Whetstone.StoryEngine.DependencyInjection</id>
+    <version>1.0.120</version>
+    <authors>John Iwasz</authors>
+    <owners>John Iwasz</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Base assemblies required to support Lambda functions.</description>
+    <copyright>2019 Whetstone Technologies, Inc.</copyright>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+
+          <dependency id="Microsoft.Extensions.Caching.Memory" version="2.2.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Caching.Redis" version="2.2.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Configuration.EnvironmentVariables" version="2.2.4" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+
+
+  </metadata>
+  <files>
+    <file src="bin\Release\**\*.dll" target="lib" />
+  </files>
+
+</package>

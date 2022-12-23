@@ -1,0 +1,26 @@
+{
+  "statusCode": 200,
+  "headers": {},
+  "multiValueHeaders": {
+    "Strict-Transport-Security": [
+      "max-age=2592000"
+    ],
+    "Cache-Control": [
+      "no-store, must-revalidate, no-cache"
+    ],
+    "Expires": [
+      "0"
+    ],
+    "Pragma": [
+      "no-cache"
+    ],
+    "X-Content-Type-Options": [
+      "nosniff"
+    ],
+    "Content-Type": [
+      null
+    ]
+  },
+  "body": "{ \"fulfillmentMessages\": [ { \"platform\": \"ACTIONS_ON_GOOGLE\", \"simpleResponses\": { \"simpleResponses\": [ { \"ssml\": \"\\u003cspeak\\u003eWelcome back to Whetstone Technologies.  Would you like to learn about Voice Connector, or hear more about Whetstone Technologies? \\u003c/speak\\u003e\" } ] } }, { \"platform\": \"ACTIONS_ON_GOOGLE\", \"basicCard\": { \"title\": \"Welcome Back to Whetstone Technologies\", \"formattedText\": \"Welcome back to Whetstone Technologies.  Would you like to learn about VoiceConnectr, or hear more about Whetstone Technologies?\", \"image\": { \"imageUri\": \"https://dev-sbsstoryengine.s3.amazonaws.com/stories/whetstonetechnologies/0.2/image/whetstoneimage-small.png\", \"accessibilityText\": \"Card Image\" } } }, { \"platform\": \"ACTIONS_ON_GOOGLE\", \"suggestions\": { \"suggestions\": [ { \"title\": \"VoiceConnectr\" }, { \"title\": \"Whetstone\" } ] } } ], \"payload\": { \"google\": { \"expectUserResponse\": true, \"userStorage\": \"{\\\"userId\\\":\\\"ABwppHGTbHaIP4x72al68o3CfAS752HZ4Jf93Drh_eJ_HGICnjaPKP39agkigjk47YQTNO8xMzD1GplA6YS755RhnSWE3A\\\"}\" } }, \"outputContexts\": [ { \"name\": \"projects/whetstone-technologies/agent/sessions/ABwppHGrSnw_QgX_NNno4DrFsTiH_TH5wudRw3PaBFMDaRUq_8Auq9JU2-xf6pzfqfdeqNWUrVgORaLKE7SauapWMisB-g/contexts/enginecontext\", \"lifespanCount\": 99, \"parameters\": { \"enginecontext\": \"{\\\"userId\\\":\\\"597c1c80-5d1b-43a4-a025-95929ebaa25f\\\",\\\"sessionId\\\":\\\"aafbd116-3fa8-426b-99f4-ddf635f40464\\\",\\\"titleVersion\\\":{\\\"shortName\\\":\\\"whetstonetechnologies\\\",\\\"version\\\":\\\"0.2\\\",\\\"titleId\\\":\\\"f2fd71f1-cf7b-4a68-a4b9-63b1e836e965\\\",\\\"versionId\\\":\\\"0e452abb-1c39-4d01-a247-70252c765a9e\\\",\\\"deploymentId\\\":\\\"a2914ce5-9c6e-4db4-8f95-ea366f838306\\\"},\\\"badIntentCounter\\\":0,\\\"sessionStartType\\\":0}\" } } ] }",
+  "isBase64Encoded": true
+}

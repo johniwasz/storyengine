@@ -1,0 +1,105 @@
+﻿{
+  "Comment": "MessageDispatcherStateMachine",
+  "StartAt": "SaveMessage",
+  "States": {
+    "SaveMessage": {
+      "Type": "Task",
+      "Resource": "${SaveMessageTask.Arn}:LIVE",
+      "TimeoutSeconds":  29,
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.Unknown",
+            "Lambda.ServiceException",
+            "Lambda.SdkClientException",
+            "AggregateException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        },
+        {
+          "ErrorEquals": [
+            "DbUpdateException"
+          ],
+          "IntervalSeconds": 15,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        },
+        {
+          "ErrorEquals": [
+            "States.Timeout"
+          ],
+          "IntervalSeconds": 15,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "SendOutboundMessage"
+    },
+    "SendOutboundMessage": {
+      "Type": "Task",
+      "Resource": "${SendMessageTask.Arn}:LIVE",
+      "Next": "IsSentOrNoMoreRetries",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.Unknown",
+            "Lambda.ServiceException",
+            "Lambda.SdkClientException",
+            "AggregateException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ]
+    },
+    "IsSentOrNoMoreRetries": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "And": [
+            {
+              "Variable": "$.allSent",
+              "BooleanEquals": false
+            },
+            {
+              "Variable": "$.sendAttemptsCount",
+              "NumericEquals": 1
+            }
+          ],
+          "Next": "WaitTenSeconds"
+        },
+        {
+          "And": [
+            {
+              "Variable": "$.allSent",
+              "BooleanEquals": false
+            },
+            {
+              "Variable": "$.sendAttemptsCount",
+              "NumericEquals": 2
+            }
+          ],
+          "Next": "WaitThirtySeconds"
+        }
+      ],
+      "Default": "NoOp"
+    },
+    "WaitTenSeconds": {
+      "Type": "Wait",
+      "Seconds": 10,
+      "Next": "SendOutboundMessage"
+    },
+    "WaitThirtySeconds": {
+      "Type": "Wait",
+      "Seconds": 30,
+      "Next": "SendOutboundMessage"
+    },
+    "NoOp": {
+      "Type": "Pass",
+      "End": true
+    }
+  }
+}

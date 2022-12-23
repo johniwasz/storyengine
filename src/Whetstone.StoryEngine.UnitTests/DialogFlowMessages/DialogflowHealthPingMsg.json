@@ -1,0 +1,69 @@
+{
+    "responseId": "081e1403-4458-46a0-8ca5-a423c81d108b",
+    "queryResult": {
+        "queryText": "GOOGLE_ASSISTANT_WELCOME",
+        "action": "input.welcome",
+        "parameters": {},
+        "allRequiredParamsPresent": true,
+        "outputContexts": [
+            {
+                "name": "projects/animal-farm-pi/agent/environments/__aog-6/users/-/sessions/ABwppHGwreCeRiMJBXJEXL2upJf045Gu-mV943pMRL_XCKtW4791EI1qPEcdfdYAgX1-x169CyFcX1-4f7s/contexts/google_assistant_welcome"
+            },
+            {
+                "name": "projects/animal-farm-pi/agent/environments/__aog-6/users/-/sessions/ABwppHGwreCeRiMJBXJEXL2upJf045Gu-mV943pMRL_XCKtW4791EI1qPEcdfdYAgX1-x169CyFcX1-4f7s/contexts/google_assistant_input_type_voice"
+            },
+          {
+            "name": "projects/animal-farm-pi/agent/environments/__aog-6/users/-/sessions/ABwppHGwreCeRiMJBXJEXL2upJf045Gu-mV943pMRL_XCKtW4791EI1qPEcdfdYAgX1-x169CyFcX1-4f7s/contexts/actions_capability_audio_output"
+          }
+        ],
+        "intent": {
+            "name": "projects/animal-farm-pi/agent/intents/26b3cd06-71da-4822-8349-63136c3e1224",
+            "displayName": "Default Welcome Intent"
+        },
+        "intentDetectionConfidence": 1,
+        "languageCode": "en-us"
+    },
+    "originalDetectIntentRequest": {
+        "source": "google",
+        "version": "2",
+        "payload": {
+            "surface": {
+                "capabilities": [
+                    {
+                        "name": "actions.capability.AUDIO_OUTPUT"
+                    }
+                ]
+            },
+            "inputs": [
+                {
+                    "rawInputs": [
+                        {
+                            "query": "Animal Farm P I",
+                            "inputType": "VOICE"
+                        }
+                    ],
+                    "arguments": [
+                        {
+                            "textValue": "1",
+                            "name": "is_health_check",
+                            "boolValue": true
+                        }
+                    ],
+                    "intent": "actions.intent.MAIN"
+                }
+            ],
+            "user": {
+                "profile": {
+                    "givenName": "Google",
+                    "familyName": "Crawler"
+                },
+                "locale": "en-US",
+                "userId": "VAD2hZPTIzbQ+2+NlnXalopxofVWbR4KE6hik2YEDcc="
+            },
+            "conversation": {
+                "conversationId": "ABwppHGwreCeRiMJBXJEXL2upJf045Gu-mV943pMRL_XCKtW4791EI1qPEcdfdYAgX1-x169CyFcX1-4f7s",
+                "type": "NEW"
+            }
+        }
+    }
+}

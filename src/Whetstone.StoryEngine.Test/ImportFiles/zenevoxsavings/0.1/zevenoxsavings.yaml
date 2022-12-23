@@ -1,0 +1,702 @@
+id: zevenoxsavings
+title: Zevenox Savings
+version: 0.1
+description: A voice search application for savings offers for Zevenox
+invocationNames:
+- text: zevenox savings
+startNodeName: ZevenoxAgeCheck
+newUserNodeName: ZevenoxAgeCheck
+returningUserNodeName: ZevenoxAgeCheck
+resumeNodeName: ZevenoxAgeCheck
+helpNodeName: Help
+stopNodeName: ExitZevenoxSavings
+endOfGameNodeName: ExitZevenoxSavings
+nodes:
+- name: AskForNumberNode
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Ask For Phone Number
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: I'll try to listen better this time. What's your ten digit mobile phone number?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I'll try to listen better this time. What's your ten digit mobile phone number?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-ssmlfrag
+          ssml: What's your ten digit mobile phone number?
+      smallImageFile: Zevenoximage-small.jpg
+      largeImageFile: Zevenoximage-large.jpg
+  choices:
+  - intentName: PhoneNumberIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - isphonenumbervalidcond
+      trueConditionResult: !nm-singlenode
+        nodeName: PhoneDiscountVerification
+      falseConditionResult: !nm-singlenode
+        nodeName: BadPhoneFormatNode
+  - intentName: FindDiscountCoupon
+    nodeMapping: !nm-singlenode
+      nodeName: ZevenoxAgeCheck
+  - intentName: FindDiscountCouponForDrug
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: ZevenoxAgeCheck
+        requiredSlotValues:
+          drug:
+          - Zevenox
+  - intentName: LearnAboutDrug
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: ZevenoxAgeCheck
+        requiredSlotValues:
+          drug:
+          - Zevenox
+- name: BadPhoneFormatNode
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Invalid Phone Number
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: The number I heard you say, {phonenumber}, is not a valid phone number. I'll try to listen better. Please repeat the ten digit phone number.
+      clientResponses:
+      - speechFragments:
+        - !sf-ssmlfrag
+          ssml: The number I heard you say, <prosody rate="slow"><say-as interpret-as="digits">{phonenumber}</say-as></prosody>, is not a valid phone number. I'll try to listen better. Please provide a ten digit phone number.
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-ssmlfrag
+          ssml: The number I heard you say, <prosody rate="slow"><say-as interpret-as="character">{phonenumber}</say-as></prosody>, is not a valid phone number. I'll try to listen better. Please provide a ten digit phone number.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-ssmlfrag
+          ssml: Please provide a ten digit phone number or ask for help.
+      smallImageFile: Zevenoximage-small.jpg
+      largeImageFile: Zevenoximage-large.jpg
+  choices:
+  - intentName: PhoneNumberIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - isphonenumbervalidcond
+      trueConditionResult: !nm-singlenode
+        nodeName: PhoneDiscountVerification
+      falseConditionResult: !nm-singlenode
+        nodeName: BadPhoneFormatNode
+  - intentName: FindDiscountCoupon
+    nodeMapping: !nm-singlenode
+      nodeName: ZevenoxAgeCheck
+  - intentName: FindDiscountCouponForDrug
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: ZevenoxAgeCheck
+        requiredSlotValues:
+          drug:
+          - Zevenox
+  - intentName: LearnAboutDrug
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: ZevenoxAgeCheck
+        requiredSlotValues:
+          drug:
+          - Zevenox
+- name: CannotGetSmsMessageNode
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Not A Mobile Phone Number
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: The number I heard you say, {phonenumber}, does not appear capable of receiving text messages. Please provide a number that can receive text messages.
+      clientResponses:
+      - speechFragments:
+        - !sf-ssmlfrag
+          ssml: The number I heard you say, <say-as interpret-as="telephone">{phonenumber}</say-as>, does not appear capable of receiving text messages. Please provide a number that can receive text messages.
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-ssmlfrag
+          ssml: The number I heard you say, <say-as interpret-as="telephone">@@String.Format("{0:###-###-####}", {phonenumber})@@</say-as>, is not a valid phone number. I'll try to listen better. Please repeat the ten digit phone number.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-ssmlfrag
+          ssml: Please provide a number that can receive text messages or ask for help.
+      smallImageFile: Zevenoximage-small.jpg
+      largeImageFile: Zevenoximage-large.jpg
+  choices:
+  - intentName: PhoneNumberIntent
+    actions:
+    - !na-validatephone
+      phoneNumberSlot: phonenumber
+      phoneTypeSlot: phonetype
+      supportsSmsSlot: supportssms
+    nodeMapping: !nm-conditional
+      conditions:
+      - supportssmscond
+      trueConditionResult: !nm-singlenode
+        nodeName: PhoneDiscountVerification
+      falseConditionResult: !nm-conditional
+        conditions:
+        - isphonenumbervalidcond
+        trueConditionResult: !nm-singlenode
+          nodeName: CannotGetSmsMessageNode
+        falseConditionResult: !nm-singlenode
+          nodeName: BadPhoneFormatNode
+  - intentName: FindDiscountCoupon
+    nodeMapping: !nm-singlenode
+      nodeName: ZevenoxAgeCheck
+  - intentName: FindDiscountCouponForDrug
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: ZevenoxAgeCheck
+        requiredSlotValues:
+          drug:
+          - Zevenox
+  - intentName: LearnAboutDrug
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: ZevenoxAgeCheck
+        requiredSlotValues:
+          drug:
+          - Zevenox
+- name: ExitZevenoxSavings
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Exiting Zevenox.
+      textFragments:
+      - !tf-simple
+        text: Thanks for using Zevenox.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Thanks for using Zevenox.
+  actions:
+  - !na-resetstate {}
+  coordinates:
+    x: -14
+    y: 806
+- name: FailedAgeCheck
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Invalid Age
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: I'm sorry, but you must be 18 or older to get savings offers for Zevenox.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I'm sorry, but you must be 18 or older to get savings offers for Zevenox.
+      smallImageFile: Zevenoximage-small.jpg
+      largeImageFile: Zevenoximage-large.jpg
+  actions:
+  - !na-resetstate {}
+- name: Help
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Zevenox Help
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You can access savings offers for Zevenox by saying something like "Find savings offers for Zevenox."  If you answer a couple of questions and are eligible, you can have a discount code sent to your mobile phone. Phone numbers must be ten digit US mobile phone numbers.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You can access savings offers for Zevenox by saying something like "Find savings offers for Zevenox."  If you answer a couple of questions and are eligible, you can have a discount code sent to your mobile phone. Phone numbers must be ten digit US mobile phone numbers.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: You can access savings offers for Zevenox by saying something like "Find savings offers for Zevenox."
+      smallImageFile: Zevenoximage-small.jpg
+      largeImageFile: Zevenoximage-large.jpg
+  choices:
+  - intentName: FindDiscountCoupon
+    nodeMapping: !nm-singlenode
+      nodeName: ZevenoxAgeCheck
+  - intentName: FindDiscountCouponForDrug
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: ZevenoxAgeCheck
+        requiredSlotValues:
+          drug:
+          - Zevenox
+  - intentName: LearnAboutDrug
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: ZevenoxAgeCheck
+        requiredSlotValues:
+          drug:
+          - Zevenox
+  coordinates:
+    x: -717
+    y: 144
+- name: PhoneDiscountVerification
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Phone Number Verification
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: I heard you say {phonenumber}. If this is correct and you agree to receive a text message with a discount code for Zevenox using an automatic telephone dialing system, say yes. Message and data rates may apply.
+      clientResponses:
+      - speechFragments:
+        - !sf-ssmlfrag
+          ssml: I heard you say <say-as interpret-as="telephone">{phonenumber}</say-as>. If this is correct and you agree to receive a text message with a discount code for Zevenox using an automatic telephone dialing system, say yes. Message and data rates may apply.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-ssmlfrag
+          ssml: I heard you say <say-as interpret-as="telephone">{phonenumber}</say-as>. If this is correct and you agree to receive a text message with a discount code for Zevenox using an automatic telephone dialing system, say yes. Message and data rates may apply.
+      smallImageFile: Zevenoximage-small.jpg
+      largeImageFile: Zevenoximage-large.jpg
+  choices:
+  - intentName: YesIntent
+    actions:
+    - !na-validatephone
+      phoneNumberSlot: phonenumber
+      phoneTypeSlot: phonetype
+      supportsSmsSlot: supportssms
+    nodeMapping: !nm-conditional
+      conditions:
+      - supportssmscond
+      trueConditionResult: !nm-singlenode
+        nodeName: SendDiscountCodeNode
+        localizedSuggestionText:
+        - text: yes
+      falseConditionResult: !nm-singlenode
+        nodeName: CannotGetSmsMessageNode
+        localizedSuggestionText:
+        - text: yes
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: AskForNumberNode
+      localizedSuggestionText:
+      - text: no
+  - intentName: FindDiscountCoupon
+    nodeMapping: !nm-singlenode
+      nodeName: ZevenoxAgeCheck
+  - intentName: FindDiscountCouponForDrug
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: ZevenoxAgeCheck
+        requiredSlotValues:
+          drug:
+          - Zevenox
+  - intentName: LearnAboutDrug
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: ZevenoxAgeCheck
+        requiredSlotValues:
+          drug:
+          - Zevenox
+- name: SendDiscountCodeNode
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Sending Discount Codes For Zevenox
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Thank you for confirming that you would like to receive a discount code for Zevenox. I'll send you a text message shortly. Please note that consent to receive text messages is not a condition of purchase.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Great! Thank you for confirming that you would like to receive a discount code for Zevenox. I'll send you a text message shortly.  Please note that consent to receive text messages is not a condition of purchase.
+      smallImageFile: Zevenoximage-small.jpg
+      largeImageFile: Zevenoximage-large.jpg
+  actions:
+  - !na-phonemessage
+    phoneNumberSlot: phonenumber
+    phoneInfo:
+      sourcePhone: +18566445689
+      smsService: Twilio
+    phoneMessages:
+    - message: >
+        Thank you for your interest in discounts for Zevenox.  Please see terms at: http://bit.ly/2LseYQm.
+
+
+        Please reply YES to agree to terms and receive a discount code for Zevenox.
+
+
+        Msg & data rates may apply.
+    confirmationNameSlot: consentnameslot
+- name: ZevenoxAgeCheck
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Verify Age (Zevenox)
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: There are savings offers for Zevenox.  Are you age 18 or older?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: There are savings offers for Zevenox.  Are you age 18 or older?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you age 18 or older?  You can say yes or no.
+      smallImageFile: Zevenoximage-small.jpg
+      largeImageFile: Zevenoximage-large.jpg
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: ZevenoxInsuranceCheck
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FailedAgeCheck
+  - intentName: FindDiscountCoupon
+    nodeMapping: !nm-singlenode
+      nodeName: ZevenoxAgeCheck
+  - intentName: FindDiscountCouponForDrug
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: ZevenoxAgeCheck
+        requiredSlotValues:
+          drug:
+          - Zevenox
+  - intentName: LearnAboutDrug
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: ZevenoxAgeCheck
+        requiredSlotValues:
+          drug:
+          - Zevenox
+  actions:
+  - !na-resetstate {}
+- name: ZevenoxInsuranceCheck
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Check Insurance (Zevenox)
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Are you currently covered by commercial health insurance?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you currently covered by commercial health insurance?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you currently covered by commercial health insurance?  You can say yes or no.
+      smallImageFile: Zevenoximage-small.jpg
+      largeImageFile: Zevenoximage-large.jpg
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: ZevenoxRegularDiscount
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FailedInsuranceCheck
+  - intentName: FindDiscountCoupon
+    nodeMapping: !nm-singlenode
+      nodeName: ZevenoxAgeCheck
+  - intentName: FindDiscountCouponForDrug
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: ZevenoxAgeCheck
+        requiredSlotValues:
+          drug:
+          - Zevenox
+  - intentName: LearnAboutDrug
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: ZevenoxAgeCheck
+        requiredSlotValues:
+          drug:
+          - Zevenox
+- name: FailedInsuranceCheck
+  responseSet:
+  - localizedResponses:
+    - cardTitle: No Commercial Insurance
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: I'm sorry, you must be on commercial insurance to qualify for Zevenox savings offers.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I'm sorry, you must be on commercial insurance to qualify for Zevenox savings offers.
+      smallImageFile: Zevenoximage-small.jpg
+      largeImageFile: Zevenoximage-large.jpg
+- name: ZevenoxRegularDiscount
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Zevenox Discount Card (12 Month)
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Savings offers for Zevenox are available. Please provide your ten digit mobile phone number and I'll send you a discount code.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Savings offers for Zevenox are available. Please provide your ten digit mobile phone number and I'll send you a discount code.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Savings offers for Zevenox are available. Please provide your ten digit mobile phone number and I'll send you a discount code.
+      smallImageFile: Zevenoximage-small.jpg
+      largeImageFile: Zevenoximage-large.jpg
+  choices:
+  - intentName: PhoneNumberIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - isphonenumbervalidcond
+      trueConditionResult: !nm-singlenode
+        nodeName: PhoneDiscountVerification
+      falseConditionResult: !nm-singlenode
+        nodeName: BadPhoneFormatNode
+  - intentName: FindDiscountCoupon
+    nodeMapping: !nm-singlenode
+      nodeName: ZevenoxAgeCheck
+  - intentName: FindDiscountCouponForDrug
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: ZevenoxAgeCheck
+        requiredSlotValues:
+          drug:
+          - Zevenox
+  - intentName: LearnAboutDrug
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: ZevenoxAgeCheck
+        requiredSlotValues:
+          drug:
+          - Zevenox
+  actions:
+  - !na-assignvalue
+    slotName: consentnameslot
+    value: Zevenox
+intents:
+- name: FindDiscountCoupon
+  localizedIntents:
+  - plainTextPrompt: find discount coupon
+    utterances:
+    - find discount coupons
+    - find discount coupon
+    - get discount coupons
+    - get discount coupon
+    - get discounts
+    - find coupons
+    - find coupon
+    - find discounts
+    - get coupons
+    - get coupon
+    - discount coupons
+    - discount coupon
+    - coupons
+    - coupon
+    - search discount coupons
+    - search discount coupon
+    - search for discount coupons
+    - search for discount coupon
+    - search coupons
+    - search coupon
+    - search for coupons
+    - search for coupon
+    - find savings offers
+    - find savings offer
+    - get savings offers
+    - get savings offer
+    - find savings
+    - find offers
+    - find savings
+    - get savings
+    - get offers
+    - get offer
+    - get savings
+    - savings offers
+    - savings offer
+    - offers
+    - offer
+    - savings
+    - search savings offers
+    - search savings offer
+    - search for savings offers
+    - search for savings offer
+    - search offers
+    - search offer
+    - search savings
+    - search for offers
+    - search for offer
+    - search for savings
+- name: FindDiscountCouponForDrug
+  supportsNamelessInvocation: true
+  localizedIntents:
+  - plainTextPrompt: find discount coupons for drug
+    utterances:
+    - find discount coupons for {drug}
+    - find discount coupon for {drug}
+    - get discount coupons for {drug}
+    - get discount coupon for {drug}
+    - get discounts for {drug}
+    - find coupons for {drug}
+    - find coupon for {drug}
+    - get coupons for {drug}
+    - get coupon for {drug}
+    - discount coupons for {drug}
+    - discount coupon for {drug}
+    - discounts for {drug}
+    - coupons for {drug}
+    - coupon for {drug}
+    - search discount coupons for {drug}
+    - search discount coupon for {drug}
+    - search for discount coupons for {drug}
+    - search for discount coupon for {drug}
+    - search discounts for {drug}
+    - search coupons for {drug}
+    - search coupon for {drug}
+    - search for coupons for {drug}
+    - search for coupon for {drug}
+    - find savings offers for {drug}
+    - find savings offer for {drug}
+    - get savings offers for {drug}
+    - get savings offer for {drug}
+    - find savings for {drug}
+    - find offers for {drug}
+    - find discounts for {drug}
+    - get savings for {drug}
+    - get offers for {drug}
+    - get offer for {drug}
+    - get savings for {drug}
+    - savings offers for {drug}
+    - savings offer for {drug}
+    - offers for {drug}
+    - offer for {drug}
+    - savings for {drug}
+    - search savings offers for {drug}
+    - search savings offer for {drug}
+    - search for savings offers for {drug}
+    - search for savings offer for {drug}
+    - search offers for {drug}
+    - search offer for {drug}
+    - search savings for {drug}
+    - search for offers for {drug}
+    - search for offer for {drug}
+    - search for savings for {drug}
+    - search discounts for {drug}
+    - search for discounts for {drug}
+  slotMappings:
+    drug: Drugs
+  actions:
+  - !na-recordselecteditem {}
+- name: LearnAboutDrug
+  supportsNamelessInvocation: true
+  localizedIntents:
+  - plainTextPrompt: learn more about Zevenox
+    utterances:
+    - find information on {drug}
+    - find information about {drug}
+    - find info on {drug}
+    - find info about {drug}
+    - for information on {drug}
+    - for information about {drug}
+    - for info on {drug}
+    - for info about {drug}
+    - search for {drug}
+    - find {drug}
+    - about {drug}
+    - find out about {drug}
+    - get information on {drug}
+    - get information about {drug}
+    - get info on {drug}
+    - get info about {drug}
+    - learn more about {drug}
+    - learn about {drug}
+    - learn information on {drug}
+    - learn info on {drug}
+    - hear about {drug}
+    - hear more about {drug}
+    - listen about {drug}
+    - talk about {drug}
+    - find {drug}
+    - who is {drug}
+    - what is {drug}
+  slotMappings:
+    drug: Drugs
+- name: NoIntent
+  localizedIntents:
+  - plainTextPrompt: no
+- name: PhoneNumberIntent
+  localizedIntents:
+  - plainTextPrompt: Phone Number
+    utterances:
+    - '{phonenumber}'
+    - my number is {phonenumber}
+    - it is {phonenumber}
+    - it's {phonenumber}
+    - my phone is {phonenumber}
+    - my phone's {phonenumber}
+    - the phone's {phonenumber}
+    - the phone is {phonenumber}
+    - phone's {phonenumber}
+    - phone is {phonenumber}
+  slotMappings:
+    phonenumber: WHETSTONE.US_PHONENUMBER
+  actions:
+  - !na-recordselecteditem
+    slots:
+    - phonenumber
+  - !na-validatephone
+    phoneNumberSlot: phonenumber
+    isValidFormatSlot: isphonenumbervalid
+- name: RepeatIntent
+  localizedIntents:
+  - plainTextPrompt: repeat
+- name: ResumeIntent
+  localizedIntents:
+  - plainTextPrompt: resume
+- name: TryAgainIntent
+  localizedIntents:
+  - plainTextPrompt: try again
+- name: YesIntent
+  localizedIntents:
+  - plainTextPrompt: yes
+conditions:
+- !ci-slotvalue
+  conditionType: SlotValue
+  slotName: supportssms
+  valueCheckType: Equals
+  value: true
+  name: supportssmscond
+- !ci-slotvalue
+  conditionType: SlotValue
+  slotName: isphonenumbervalid
+  valueCheckType: Equals
+  value: true
+  name: isphonenumbervalidcond
+badIntentResponses:
+- name: BadIntentResponse
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Unknown Response
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I can't help you with that.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Say something like find savings offers for Zevenox.
+slotTypes:
+- name: Drugs
+  values:
+  - value: Zevenox

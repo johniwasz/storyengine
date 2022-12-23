@@ -1,0 +1,36 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - echo Restore started on `date`
+      - git config --global user.email "builduser@whetstonetechnologies.io"
+      - git config --global user.name "Build User"
+      - git clone git@ssh.dev.azure.com:v3/whetstonetechnologies/Whetstone.StoryEngine/Whetstone.StoryEngine
+      - cd Whetstone.StoryEngine
+      - git checkout master
+      - chmod +x ./buildscripts/UpdateLayerBuildFile.ps1
+      - cd layerprojects
+  build:
+    commands:
+      - echo Build started on `date`
+      - cd AlexaLambda
+      - dotnet restore AlexaLambda.xml
+      - dotnet lambda publish-layer AlexaLambda --layer-type runtime-package-store --region us-east-1 --package-manifest AlexaLambda.xml --s3-bucket whetstone-utility --s3-prefix layers/AlexaLambda/ --enable-package-optimization true --configuration Release --framework netcoreapp2.1
+      - dotnet lambda publish-layer AlexaLambda --layer-type runtime-package-store --region us-west-2 --package-manifest AlexaLambda.xml --s3-bucket whetstone-utility-prod --s3-prefix layers/AlexaLambda/ --enable-package-optimization true --configuration Release --framework netcoreapp2.1
+      - cd ..
+      - cd BixbyLambda
+      - dotnet restore BixbyLambda.xml
+      - dotnet lambda publish-layer BixbyLambda --layer-type runtime-package-store --region us-east-1 --package-manifest BixbyLambda.xml --s3-bucket whetstone-utility --s3-prefix layers/BixbyLambda/ --enable-package-optimization true --configuration Release --framework netcoreapp2.1
+      - dotnet lambda publish-layer BixbyLambda --layer-type runtime-package-store --region us-west-2 --package-manifest BixbyLambda.xml --s3-bucket whetstone-utility-prod --s3-prefix layers/BixbyLambda/ --enable-package-optimization true --configuration Release --framework netcoreapp2.1
+      - cd ..
+      - cd DialogFlowCore
+      - dotnet restore DialogFlowCore.xml
+      - dotnet lambda publish-layer DialogFlowCore --layer-type runtime-package-store --region us-east-1 --package-manifest DialogFlowCore.xml --s3-bucket whetstone-utility  --s3-prefix layers/DialogFlowCore/ --enable-package-optimization true --configuration Release --framework netcoreapp2.1
+      - dotnet lambda publish-layer DialogFlowCore --layer-type runtime-package-store --region us-west-2 --package-manifest DialogFlowCore.xml --s3-bucket whetstone-utility-prod  --s3-prefix layers/DialogFlowCore/ --enable-package-optimization true --configuration Release --framework netcoreapp2.1
+      - cd ..
+      - cd ..
+      - cd buildinfo
+      - pwsh ../buildscripts/UpdateLayerBuildFile.ps1
+      - git add buildinfo.json
+      - git commit -m "Updating build info tag file"
+      - git push

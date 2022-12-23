@@ -1,0 +1,142 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Create the dynamodb cache table
+Parameters:
+  EnvironmentKeyStack:
+    Type: String
+    Default: WhetstoneKey-Dev
+    Description: Root environment stack that defines the environment key and purpose.
+    AllowedPattern: '^[a-zA-Z]+[0-9a-zA-Z\-]*$'
+  CustomActionLambdaStack:
+    Description: >-
+      Lambda utility stack. Example:
+      Whetstone-LambdaCustomActions-Dev
+    Type: String
+    Default: Whetstone-LambdaCustomActions-Dev
+  PolicyStack:
+    Description: >-
+      Shared policies stack. Example:
+      WhetstoneSharedPolicies-Dev
+    Type: String
+    Default: WhetstoneSharedPolicies-Dev
+  IsCacheEnabled:
+    Type: String
+    AllowedValues:
+      - true
+      - false
+    Default: true
+  SlidingExpirationTime:
+    Type: Number
+    Description: Number of seconds to slide the cached value forward when accessed. Defaults to 9000.
+    Default: 9000
+  IsProduction:
+    Description: Indicates whether or not production resources should be created.
+    Default: false
+    Type: String
+    AllowedValues: [true, false]
+Resources:
+  BootstrapConfigUpdate:
+    Type: 'AWS::CloudFormation::CustomResource'
+    Properties:
+      ServiceToken: !ImportValue
+        'Fn::Sub': '${CustomActionLambdaStack}-BootstrapConfigUpdateArn'
+      KeyId: !ImportValue
+        'Fn::Sub': '${EnvironmentKeyStack}-EnvironmentKeyAlias'
+      Parameter: !ImportValue
+        'Fn::Sub': '${PolicyStack}-BootstrapParameter'
+      ConfigEntries:
+        - ConfigType: DynamoDbCacheTable
+          Value: !Ref CacheTable
+        - ConfigType: IsCacheEnabled
+          Value: !Ref IsCacheEnabled
+        - ConfigType: CacheSlidingExpiration
+          Value: !Ref SlidingExpirationTime
+  CacheTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      SSESpecification:
+        SSEEnabled: true
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: !Ref IsProduction
+      TimeToLiveSpecification:
+        AttributeName: 'Ttl'
+        Enabled: 'TRUE'
+      AttributeDefinitions:
+        - AttributeName: 'CacheKey'
+          AttributeType: 'S'
+      BillingMode: PAY_PER_REQUEST
+      KeySchema:
+        - AttributeName: 'CacheKey'
+          KeyType: 'HASH'
+      Tags:
+        - Key: Environment
+          Value:
+            { 'Fn::ImportValue': !Sub '${EnvironmentKeyStack}-EnvironmentName' }
+  CacheTablePolicy:
+    Type: 'AWS::IAM::ManagedPolicy'
+    DeletionPolicy: Delete
+    Properties:
+      Path: !Join
+        - ''
+        - - /
+          - !ImportValue
+            'Fn::Sub': '${EnvironmentKeyStack}-EnvironmentName'
+          - /
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'dynamodb:PutItem'
+              - 'dynamodb:DeleteItem'
+              - 'dynamodb:GetItem'
+              - 'dynamodb:Query'
+              - 'dynamodb:UpdateItem'
+              - 'dynamodb:DescribeTable'
+            Resource: !GetAtt CacheTable.Arn
+  TempCacheTablePolicy:
+    Type: 'AWS::IAM::ManagedPolicy'
+    DeletionPolicy: Delete
+    Properties:
+      Path: !Join
+        - ''
+        - - /
+          - !ImportValue
+            'Fn::Sub': '${EnvironmentKeyStack}-EnvironmentName'
+          - /
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'dynamodb:PutItem'
+              - 'dynamodb:DeleteItem'
+              - 'dynamodb:GetItem'
+              - 'dynamodb:Query'
+              - 'dynamodb:UpdateItem'
+              - 'dynamodb:DescribeTable'
+            Resource: !GetAtt CacheTable.Arn
+Outputs:
+  TableArn:
+    Description: DynamoDb Table Arn
+    Value: !GetAtt CacheTable.Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-CacheTableArn'
+  TableAccessPolicy:
+    Description: DynamoDb Access PolicyDocument
+    Value: !Ref CacheTablePolicy
+    Export:
+      Name: !Sub '${AWS::StackName}-CacheTableAccessPolicyArn'
+  TableName:
+    Description: Cache Table Name
+    Value: !Ref CacheTable
+    Export:
+      Name: !Sub '${AWS::StackName}-CacheTableName'
+  SlidingTime:
+    Description: Number of seconds to slide the cached value forward when accessed.
+    Value: !Ref SlidingExpirationTime
+    Export:
+      Name: !Sub '${AWS::StackName}-SlidingExpirationTime'
+  IsCacheEnabled:
+    Value: !Ref IsCacheEnabled
+    Export:
+      Name: !Sub '${AWS::StackName}-IsCacheEnabled'

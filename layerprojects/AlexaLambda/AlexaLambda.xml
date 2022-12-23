@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.Core" Version="1.1.0" />
+    <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.7.0" />
+    <PackageReference Include="Whetstone.StoryEngine.AlexaProcessor" Version="1.0.550" />
+    <PackageReference Include="Whetstone.StoryEngine.DependencyInjection" Version="1.0.550" />
+  </ItemGroup>
+
+</Project>

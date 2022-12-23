@@ -1,0 +1,136 @@
+{
+  "responseId": "cd845cc2-9e18-4bc6-a1b9-a081ebeb435c-ad9426ce",
+  "queryResult": {
+    "queryText": "actions_intent_NO_INPUT",
+    "action": "no.input",
+    "parameters": {
+    },
+    "allRequiredParamsPresent": true,
+    "outputContexts": [
+      {
+        "name": "projects/eyeoftheeldergods-11112/agent/environments/__aog-7/users/-/sessions/1568560489043206326715/contexts/restartintent-followup",
+        "lifespanCount": 5
+      },
+      {
+        "name": "projects/eyeoftheeldergods-11112/agent/environments/__aog-7/users/-/sessions/1568560489043206326715/contexts/actions_capability_account_linking"
+      },
+      {
+        "name": "projects/eyeoftheeldergods-11112/agent/environments/__aog-7/users/-/sessions/1568560489043206326715/contexts/actions_capability_audio_output"
+      },
+      {
+        "name": "projects/eyeoftheeldergods-11112/agent/environments/__aog-7/users/-/sessions/1568560489043206326715/contexts/actions_capability_media_response_audio"
+      },
+      {
+        "name": "projects/eyeoftheeldergods-11112/agent/environments/__aog-7/users/-/sessions/1568560489043206326715/contexts/google_assistant_input_type_voice"
+      },
+      {
+        "name": "projects/eyeoftheeldergods-11112/agent/environments/__aog-7/users/-/sessions/1568560489043206326715/contexts/enginecontext",
+        "lifespanCount": 98,
+        "parameters": {
+          "enginecontext": "{\"userId\":\"907c9745-03e1-41e2-a7c0-21bc5b5f6c9f\",\"sessionId\":\"9eaf6279-ed10-4f63-aaeb-ea83d5fcc312\",\"titleVersion\":{\"shortName\":\"eyeoftheeldergods\",\"version\":\"0.8\",\"titleId\":\"52ec33f9-a54e-4333-a1e1-89dd98a7abfb\",\"versionId\":\"6857bae0-c898-4488-bae5-cff8423283a9\",\"deploymentId\":\"8e7e59a3-349b-4597-80fc-8470ef43c96f\",\"logFullClientMessages\":false},\"badIntentCounter\":0,\"sessionStartType\":0}",
+          "Verbs": "answer",
+          "Verbs.original": "answer",
+          "ElderGodItems": "phone",
+          "ElderGodItems.original": "phone"
+        }
+      },
+      {
+        "name": "projects/eyeoftheeldergods-11112/agent/environments/__aog-7/users/-/sessions/1568560489043206326715/contexts/verbtheitemintent-followup",
+        "lifespanCount": 4,
+        "parameters": {
+          "Verbs": "answer",
+          "Verbs.original": "answer",
+          "ElderGodItems": "phone",
+          "ElderGodItems.original": "phone"
+        }
+      },
+      {
+        "name": "projects/eyeoftheeldergods-11112/agent/environments/__aog-7/users/-/sessions/1568560489043206326715/contexts/beginintent-followup",
+        "lifespanCount": 3,
+        "parameters": {
+          "Verbs": "answer",
+          "Verbs.original": "answer",
+          "ElderGodItems": "phone",
+          "ElderGodItems.original": "phone"
+        }
+      },
+      {
+        "name": "projects/eyeoftheeldergods-11112/agent/environments/__aog-7/users/-/sessions/1568560489043206326715/contexts/actions_intent_no_input",
+        "parameters": {
+          "REPROMPT_COUNT": 0.0,
+          "IS_FINAL_REPROMPT": false
+        }
+      }
+    ],
+    "intent": {
+      "name": "projects/eyeoftheeldergods-11112/agent/intents/99e29361-89f4-4bdc-9f7a-3b535bc46237",
+      "displayName": "RestartIntent"
+    },
+    "intentDetectionConfidence": 1.0,
+    "languageCode": "en"
+  },
+  "originalDetectIntentRequest": {
+    "source": "google",
+    "version": "2",
+    "payload": {
+      "user": {
+        "locale": "en-GB",
+        "userVerificationStatus": "GUEST"
+      },
+      "conversation": {
+        "conversationId": "1568560489043206326715",
+        "type": "ACTIVE",
+        "conversationToken": "[\"enginecontext\",\"verbtheitemintent-followup\",\"beginintent-followup\"]"
+      },
+      "inputs": [
+        {
+          "intent": "actions.intent.NO_INPUT",
+          "rawInputs": [
+            {
+              "inputType": "VOICE"
+            }
+          ],
+          "arguments": [
+            {
+              "name": "REPROMPT_COUNT",
+              "intValue": "0"
+            },
+            {
+              "name": "IS_FINAL_REPROMPT",
+              "boolValue": false
+            }
+          ]
+        }
+      ],
+      "surface": {
+        "capabilities": [
+          {
+            "name": "actions.capability.ACCOUNT_LINKING"
+          },
+          {
+            "name": "actions.capability.AUDIO_OUTPUT"
+          },
+          {
+            "name": "actions.capability.MEDIA_RESPONSE_AUDIO"
+          }
+        ]
+      },
+      "availableSurfaces": [
+        {
+          "capabilities": [
+            {
+              "name": "actions.capability.SCREEN_OUTPUT"
+            },
+            {
+              "name": "actions.capability.WEB_BROWSER"
+            },
+            {
+              "name": "actions.capability.AUDIO_OUTPUT"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "session": "projects/eyeoftheeldergods-11112/agent/environments/__aog-7/users/-/sessions/1568560489043206326715"
+}

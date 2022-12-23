@@ -1,0 +1,254 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Transform": "AWS::Serverless-2016-10-31",
+  "Description": "An AWS Serverless Application.",
+  "Parameters": {
+    "KeyStack": {
+      "Description": "Name of stack used to create environment key for decryption. Example: WhetstoneKey-Dev",
+      "Type": "String",
+      "Default": "WhetstoneKey-Dev",
+      "AllowedPattern": "^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+    },
+    "PolicyStack": {
+      "Description": "Name of stack used to create supplemental policies. Example: WhetstoneSharedPolicies-Dev",
+      "Type": "String",
+      "Default": "WhetstoneSharedPolicies-Dev",
+      "AllowedPattern": "^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+    },
+    "LambdaNetSerializerDebug": {
+      "Type": "String",
+      "AllowedValues": [
+        "true",
+        "false"
+      ],
+      "Description": "Indicates if the lambda serialization is enabled or not.",
+      "Default": "false"
+    }
+  },
+  "Resources": {
+    "KeyPolicyFunction": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {       
+         "PackageType": "Image",
+        "ImageConfig": {
+          "EntryPoint": [
+            "/lambda-entrypoint.sh"
+          ],
+          "Command": [
+           "Whetstone.StoryEngine.LambdaUtilities::Whetstone.StoryEngine.LambdaUtilities.KeyPolicyCustomActionFunction::FunctionHandlerAsync"
+          ]
+        },
+        "ImageUri": "",
+        "Description": "Handle updates to the environment encryption key.",
+        "Environment": {
+          "Variables": {
+            "LAMBDA_NET_SERIALIZER_DEBUG": {
+              "Ref": "LambdaNetSerializerDebug"
+            }
+          }
+        },
+        "MemorySize": 1024,
+        "Role": {
+          "Fn::ImportValue": {
+            "Fn::Sub": "${KeyStack}-ActionKeyPolicyFunctionRoleArn"
+          }
+        },
+        "Timeout": 30
+      },
+      "Metadata": {
+        "Dockerfile": "Dockerfile",
+        "DockerContext": ".",
+        "DockerTag": ""
+      }
+    },
+    "ConfigurationActionFunction": {
+      "Type": "AWS::Serverless::Function",
+      "DependsOn": "BootstrapKeyPolicyUpdate",
+      "Properties": {      
+        "PackageType": "Image",
+        "ImageConfig": {
+          "EntryPoint": [
+            "/lambda-entrypoint.sh"
+          ],
+          "Command": [
+           "Whetstone.StoryEngine.LambdaUtilities::Whetstone.StoryEngine.LambdaUtilities.BootstrapConfigFunction::FunctionHandlerAsync"
+          ]
+        },
+        "ImageUri": "",
+        "Description": "Handle updates to the bootstrap configuration.",
+        "Environment": {
+          "Variables": {
+            "LAMBDA_NET_SERIALIZER_DEBUG": {
+              "Ref": "LambdaNetSerializerDebug"
+            }
+          }
+        },
+		"MemorySize": 1024,
+        "Role": {
+          "Fn::GetAtt": [
+            "BootstrapConfigManagerRole",
+            "Arn"
+          ]
+        },
+        "Timeout": 30
+      },
+      "Metadata": {
+        "Dockerfile": "Dockerfile",
+        "DockerContext": ".",
+        "DockerTag": ""
+      }
+    },
+    "BootstrapConfigManagerRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "Path": {
+          "Fn::Join": [
+            "",
+            [
+              "/",
+              {
+                "Fn::ImportValue": {
+                  "Fn::Sub": "${KeyStack}-EnvironmentName"
+                }
+              },
+              "/"
+            ]
+          ]
+        },
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::ImportValue": {
+              "Fn::Sub": "${PolicyStack}-BootstrapConfigPolicy"
+            }
+          },
+		  "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+
+        ],
+        "Policies": [
+          {
+            "PolicyName": "BootstrapConfigWriterPolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "ssm:GetParameter",
+                    "ssm:PutParameter"
+                  ],
+                  "Resource": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:aws:ssm:",
+                        {
+                          "Fn::Sub": "${AWS::Region}:${AWS::AccountId}:parameter"
+                        },
+                        {
+                          "Fn::ImportValue": {
+                            "Fn::Sub": "${PolicyStack}-BootstrapParameter"
+                          }
+                        }
+                      ]
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "BootstrapKeyPolicyUpdate": {
+      "Type": "AWS::CloudFormation::CustomResource",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "KeyPolicyFunction",
+            "Arn"
+          ]
+        },
+        "Key": {
+          "Fn::ImportValue": {
+            "Fn::Sub": "${KeyStack}-EnvironmentKeyArn"
+          }
+        },
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "BootstrapConfigManagerRole",
+            "Arn"
+          ]
+        },
+        "GrantType": "EncryptDecrypt"
+      }
+    }
+
+  },
+  "Outputs": {
+    "KeyPolicyUpdateArn": {
+      "Description": "Arn of the key policy updater lambda",
+      "Value": {
+        "Fn::GetAtt": [
+          "KeyPolicyFunction",
+          "Arn"
+        ]
+      },
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-KeyPolicyUpdateArn"
+        }
+      }
+    },
+    "ConfigurationActionFunctionArn": {
+      "Description": "Arn of the bootstrap config updater",
+      "Value": {
+        "Fn::GetAtt": [
+          "ConfigurationActionFunction",
+          "Arn"
+        ]
+      },
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-BootstrapConfigUpdateArn"
+        }
+      }
+    },
+     "BootstrapRoleArn": {
+      "Description": "Arn of the bootstrap config role",
+      "Value": {
+        "Fn::GetAtt": [
+          "BootstrapConfigManagerRole",
+          "Arn"
+        ]
+      },
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-BootstrapConfigRoleArn"
+        }
+      }
+    },
+     "BootstrapConfigRoleName": {
+      "Description": "Friendly Name of the bootstrap config role",
+      "Value": {
+        "Ref": "BootstrapConfigManagerRole"        
+      },
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-BootstrapConfigRoleName"
+        }
+      }
+    }
+  }
+}

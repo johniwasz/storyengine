@@ -1,0 +1,1 @@
+﻿drop function whetstone.addupdatesmsconsent(uuid, uuid,  uuid, uuid, text, boolean,uuid,  timestamp without time zone);

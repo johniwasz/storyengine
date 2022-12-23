@@ -1,0 +1,42 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "[javascript]": {
+      "editor.formatOnSave": false
+    },
+    "[typescript]": {
+      "editor.formatOnSave": false
+    },
+    "[vue]": {
+      "editor.formatOnSave": false
+    },
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "files.autoSave": "afterDelay",
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "editor.formatOnSave": true,
+    "prettier.singleQuote": true,
+    "prettier.trailingComma": "es5",
+    "prettier.useTabs": true,
+    "prettier.requireConfig": true,
+    "vetur.experimental.templateInterpolationService": false,
+    "prettier.requirePragma": true,
+    "workbench.colorCustomizations": {
+      "activityBar.background": "#1a188f",
+      "activityBar.foreground": "#367bc0",
+      "activityBar.inactiveForeground": "#dadadaad",
+      "activityBarBadge.background": "#e7e7e75b",
+      "activityBarBadge.foreground": "#945bc4",
+      "statusBar.background": "#1a188f",
+      "statusBarItem.hoverBackground": "#2b89a5",
+      "statusBar.foreground": "#e7e7e7",
+      "menu.background": "#080808"
+    }
+  }
+}

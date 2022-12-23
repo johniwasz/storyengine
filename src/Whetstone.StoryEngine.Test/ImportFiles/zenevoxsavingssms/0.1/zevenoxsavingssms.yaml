@@ -1,0 +1,159 @@
+id: zevenoxsavingssms
+title: Zevenoz Savings SMS
+version: 0.1
+description: The text component of the zevenox savings title
+invocationNames:
+- text: zevenox savings
+phoneInfo:
+  consentName: zevenoxsavingssms
+  requiredConsents:
+  - Zevenox
+startNodeName: RootNode
+newUserNodeName: RootNode
+returningUserNodeName: RootNode
+resumeNodeName: ResumeNode
+helpNodeName: Help
+stopNodeName: StopZevenoxNode
+endOfGameNodeName: EndOfZevenox
+nodes:
+- name: SendZevenoxDiscountNode
+  responseSet:
+  - localizedResponses:
+    - textFragments:
+      - !tf-simple
+        text: >
+          Please show the following discount codes for Zevenox to your pharmacist:
+
+
+
+          BIN#: 004682
+
+          PCN#: CN
+
+          GRP#: WCNOX6001
+
+          ID#: 415014333638
+
+
+
+          Pharmacist help: 800-123-4567
+
+
+          Reply STOP to unsubscribe
+
+
+          Msg & data rates may apply
+  choices:
+  - intentName: GrantConsentIntent
+    nodeMapping: !nm-singlenode
+      nodeName: SendZevenoxDiscountNode
+      localizedSuggestionText:
+      - text: yes
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: RemoveConsentNode
+      localizedSuggestionText:
+      - text: no
+- name: EndOfZevenox
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Exiting Zevenox Savings.
+      textFragments:
+      - !tf-simple
+        text: Thanks for visiting Zevenox Savings.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Thanks for visiting Zevenox Savings.
+- name: Help
+  responseSet:
+  - localizedResponses:
+    - textFragments:
+      - !tf-simple
+        text: This phone number provides information regarding discount codes for Zevenox.
+- name: ResumeNode
+  responseSet:
+  - localizedResponses:
+    - textFragments:
+      - !tf-simple
+        text: You have reenabled notifications.
+  actions:
+  - !na-resetstate
+    isPermanent: true
+- name: RootNode
+  responseSet:
+  - localizedResponses:
+    - textFragments:
+      - !tf-simple
+        text: This text is not returned to the user. This node is used to route requests.
+  choices:
+  - intentName: GrantConsentIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - removedconsentcond
+      trueConditionResult: !nm-singlenode
+        nodeName: ResumeNode
+      falseConditionResult: !nm-singlenode
+        nodeName: SendZevenoxDiscountNode
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StopWhestoneNode
+      localizedSuggestionText:
+      - text: no
+- name: StopZevenoxNode
+  responseSet:
+  - localizedResponses:
+    - textFragments:
+      - !tf-simple
+        text: You will not recieve any further notifications from us. Text YES or RESUME to this number if you wish to resume receiving notifications.
+  actions:
+  - !na-recordvisit
+    isPermanent: true
+  - !na-setsmsconfirmation {}
+intents:
+- name: EndGameIntent
+  localizedIntents:
+  - plainTextPrompt: Exit
+    utterances:
+    - stop
+    - stop zevenox
+    - stop zevenox savings
+    - end
+    - end zevenox
+    - end zevenox savings
+    - exit
+    - exit zevenox
+    - exit zevenox savings
+- name: GrantConsentIntent
+  localizedIntents:
+  - plainTextPrompt: give consent
+  actions:
+  - !na-setsmsconfirmation
+    grantConfirmation: true
+- name: NoIntent
+  localizedIntents:
+  - plainTextPrompt: no
+  actions:
+  - !na-setsmsconfirmation {}
+- name: RepeatIntent
+  localizedIntents:
+  - plainTextPrompt: repeat
+- name: ResumeIntent
+  localizedIntents:
+  - plainTextPrompt: resume
+- name: TryAgainIntent
+  localizedIntents:
+  - plainTextPrompt: try again
+conditions:
+- !ci-nodevisit
+  requiredNodes:
+  - StopZevenoxNode
+  conditionType: NodeVisit
+  name: removedconsentcond
+badIntentResponses:
+- name: FirstBadResponse
+  responseSet:
+  - localizedResponses:
+    - textFragments:
+      - !tf-simple
+        text: Sorry, I don't recognize that response. You can text STOP to stop getting notifications or text HELP for more information.

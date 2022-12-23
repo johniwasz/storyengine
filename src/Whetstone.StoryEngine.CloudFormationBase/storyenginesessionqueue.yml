@@ -1,0 +1,201 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Create the Story Engine audit queues
+Parameters:
+  KeyStack:
+    Description: Name of stack used to create environment key for decryption
+    Type: String
+  CustomActionLambdaStack:
+    Description: >-
+      Lambda utility stack. Example:
+      Whetstone-LambdaCustomActions-Dev
+    Type: String
+    Default: Whetstone-LambdaCustomActions-Dev
+  PolicyStack:
+    Description: >-
+      Shared policies stack. Example:
+      WhetstoneSharedPolicies-Dev
+    Type: String
+    Default: WhetstoneSharedPolicies-Dev
+Resources:
+  BootstrapConfigUpdate:
+    Type: 'AWS::CloudFormation::CustomResource'
+    Properties:
+      ServiceToken: !ImportValue 
+        'Fn::Sub': '${CustomActionLambdaStack}-BootstrapConfigUpdateArn'
+      KeyId: !ImportValue 
+        'Fn::Sub': '${KeyStack}-EnvironmentKeyAlias'
+      Parameter: !ImportValue 
+        'Fn::Sub': '${PolicyStack}-BootstrapParameter'
+      ConfigEntries:
+        - ConfigType: SessionAuditQueue
+          Value: !Ref SessionAuditQueue
+        - ConfigType: SessionLoggerType
+          Value: Queue
+  SessionAuditQueueDeadLetter:
+    Type: 'AWS::SQS::Queue'
+    Properties:
+      ReceiveMessageWaitTimeSeconds: 20
+      VisibilityTimeout: 30
+      MessageRetentionPeriod: 1209600
+      KmsMasterKeyId: !ImportValue 
+            'Fn::Sub': '${KeyStack}-EnvironmentKeyAlias'
+      KmsDataKeyReusePeriodSeconds: 86400
+      Tags:
+        - Key: Environment
+          Value: !ImportValue 
+            'Fn::Sub': '${KeyStack}-EnvironmentName'
+        - Key: Purpose
+          Value: !ImportValue 
+            'Fn::Sub': '${KeyStack}-Purpose'
+        - Key: Stack
+          Value: !Ref 'AWS::StackName'
+        - Key: Name
+          Value: !Join 
+            - '-'
+            - - !ImportValue 
+                'Fn::Sub': '${KeyStack}-EnvironmentName'
+              - key
+              - !Ref 'AWS::StackName'
+    DeletionPolicy: Delete
+  SessionAuditQueue:
+    Type: 'AWS::SQS::Queue'
+    Properties:
+      ReceiveMessageWaitTimeSeconds: 20
+      VisibilityTimeout: 30
+      MessageRetentionPeriod: 345600
+      KmsMasterKeyId: !ImportValue 
+            'Fn::Sub': '${KeyStack}-EnvironmentKeyAlias'
+      KmsDataKeyReusePeriodSeconds: 86400
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt 
+          - SessionAuditQueueDeadLetter
+          - Arn
+        maxReceiveCount: 6
+      Tags:
+        - Key: Environment
+          Value: !ImportValue 
+            'Fn::Sub': '${KeyStack}-EnvironmentName'
+        - Key: Purpose
+          Value: !ImportValue 
+            'Fn::Sub': '${KeyStack}-Purpose'
+        - Key: Stack
+          Value: !Ref 'AWS::StackName'
+        - Key: Name
+          Value: !Join 
+            - '-'
+            - - !ImportValue 
+                'Fn::Sub': '${KeyStack}-EnvironmentName'
+              - key
+              - !Ref 'AWS::StackName'
+    DeletionPolicy: Delete
+  SessionAuditQueuePostPolicy:
+    Type: 'AWS::IAM::ManagedPolicy'
+    DependsOn: SessionAuditQueue
+    Properties:
+      Path: !Join 
+        - ''
+        - - /
+          - !ImportValue 
+            'Fn::Sub': '${KeyStack}-EnvironmentName'
+          - /
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'sqs:SendMessage'
+              - 'sqs:GetQueueAttributes'
+              - 'sqs:GetQueueUrl'
+            Resource: !GetAtt 
+              - SessionAuditQueue
+              - Arn
+  SessionAuditQueueReaderPolicy:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      Path: !Join 
+        - ''
+        - - /
+          - !ImportValue 
+            'Fn::Sub': '${KeyStack}-EnvironmentName'
+          - /
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'sqs:DeleteMessage'
+              - 'sqs:ReceiveMessage'
+              - 'sqs:GetQueueAttributes'
+            Resource: !GetAtt 
+              - SessionAuditQueue
+              - Arn
+  SessionDeadLetterAuditQueueReaderPolicy:
+    Type: 'AWS::IAM::ManagedPolicy'
+    DependsOn: SessionAuditQueue
+    Properties:
+      Path: !Join 
+        - ''
+        - - /
+          - !ImportValue 
+            'Fn::Sub': '${KeyStack}-EnvironmentName'
+          - /
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'sqs:DeleteMessage'
+              - 'sqs:ReceiveMessage'
+              - 'sqs:GetQueueAttributes'
+            Resource: !GetAtt 
+              - SessionAuditQueueDeadLetter
+              - Arn
+Outputs:
+  AuditDeadLetterQueueName:
+    Description: Name of the StoryEngine Session DeadLetter Audit Queue
+    Value: !GetAtt 
+      - SessionAuditQueueDeadLetter
+      - QueueName
+    Export:
+      Name: !Sub '${AWS::StackName}-SessionAuditDeadLetterQueueName'
+  AuditDeadLetterQueueArn:
+    Description: Arn of the session audit DeadLetter queue
+    Value: !GetAtt 
+      - SessionAuditQueueDeadLetter
+      - Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-SessionAuditDeadLetterArn'
+  SessionAuditQueueUrl:
+    Description: Url of the SessionAudit Queue
+    Value: !Ref SessionAuditQueue
+    Export:
+      Name: !Sub '${AWS::StackName}-SessionAuditUrl'
+  AuditQueueName:
+    Description: Name of the StoryEngine Session Audit Queue
+    Value: !GetAtt 
+      - SessionAuditQueue
+      - QueueName
+    Export:
+      Name: !Sub '${AWS::StackName}-SessionAuditQueueName'
+  AuditQueueArn:
+    Description: Arn of the session audit queue
+    Value: !GetAtt 
+      - SessionAuditQueue
+      - Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-SessionAuditArn'
+  SessionAuditPostPolicy:
+    Description: SessionAudit queue send policy
+    Value: !Ref SessionAuditQueuePostPolicy
+    Export:
+      Name: !Sub '${AWS::StackName}-SessionAuditPostPolicy'
+  SessionAuditReaderPolicy:
+    Description: SessionAudit queue reader policy
+    Value: !Ref SessionAuditQueueReaderPolicy
+    Export:
+      Name: !Sub '${AWS::StackName}-SessionAuditReaderPolicy'
+  SessionAuditDeadLetterReaderPolicy:
+    Description: SessionAuditDeadLetter queue reader policy
+    Value: !Ref SessionDeadLetterAuditQueueReaderPolicy
+    Export:
+      Name: !Sub '${AWS::StackName}-SessionAuditDeadLetterReaderPolicy'

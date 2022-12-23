@@ -1,0 +1,14 @@
+﻿{
+  "sessionId": "SessionId.fdaac61a-0055-4dfb-98e1-dbe689d9053f",
+  "client": "Alexa",
+  "userId": "amzn1.echo-sdk-account.AHM3UO2HNVE5AD5ONKQM54FZZSNCR5YXMY2HNEQDDS5MVREKRKQT6",
+  "locale": "en-GB",
+  "titleId": "eyeoftheeldergods",
+  "titleVersion": "0.7",
+  "requestId": "amzn1.echo-api.request.1da31a29-b022-4a7e-8a80-73e25e66795a",
+  "time": "2018-10-11T18:38:02Z",
+  "isNewSession": true,
+  "processDuration": 18,
+  "mappedNode": "ReturningUser",
+  "requestType": "Launch"
+}

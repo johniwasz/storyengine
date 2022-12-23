@@ -1,0 +1,11 @@
+#foreach($param in $input.params().header.keySet())
+  #set($headerset = $headerset + '"' + $param + '": "'+$util.escapeJavaScript($input.params().header.get($param)) + '"')  
+  #if($foreach.hasNext)
+    #set($headerset = $headerset + ",")
+  #end
+#end
+#set($inputText = '{ "environment":"' + $stageVariables.environment + '", "body":"' + $input.body + '", "alias": "' + $input.params('alias') + '", "path":"' + $context.path + '", "headers": [' + $headerset  + ']}')
+{
+    "input":  "$util.escapeJavaScript($inputText)",
+    "stateMachineArn": "$stageVariables.stepfunc"
+} 

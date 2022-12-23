@@ -1,0 +1,26 @@
+{
+  "id": "d8af12e7-4242-4609-8d53-8c51275e9052",
+  "notificationType": "Sms",
+  "textMessages": [
+    "Thank you for your interest in Whetstone Technologies.  To enroll to receive a FREE whitepaper view terms at: bit.ly/2LseYQm\n\nReply YES to agree to terms and continue.\n\nMsg & data rates may apply.\n"
+  ],
+  "sourceNumber": "+12672140948",
+  "destinationNumberId": "5367a954-5c56-43d9-8535-1941efbdf46d",
+  "smsProvider": "Twilio",
+  "source": {
+    "notificationSourceType": "TitleSource",
+    "engineRequestId": "6a47b18f-9b12-453f-9f6d-6d7ff06892cb",
+    "titleVersion": {
+      "shortName": "whetstonetechnologies",
+      "version": "0.3",
+      "titleId": "d6342b00-4bd3-41c1-b9f7-d1d025659c57",
+      "versionId": "771c32aa-844b-4f8d-b14f-4ab5b2d97e75",
+      "deploymentId": "ef1eed0d-3b0b-4fad-9d41-e95274f83320",
+      "logFullClientMessages": false
+    },
+    "titleUserId": "7c2cfef8-c82d-4a93-ab0e-2c5850a7a0f4",
+    "consentName": "whetstonetechnologies",
+    "consentDate": "2019-08-06T17:04:50.312179-04:00",
+    "userHashKey": "d6342b00-4bd3-41c1-b9f7-d1d025659c57|Alexa|db307ca30def47e5bcbeda8300e51c0d"
+  }
+}

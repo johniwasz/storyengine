@@ -1,0 +1,19 @@
+
+{
+    "Information" : [
+        "This file provides default values for the deployment wizard inside Visual Studio and the AWS Lambda commands added to the .NET Core CLI.",
+        "To learn more about the Lambda commands with the .NET Core CLI execute the following command at the command line in the project root directory.",
+        "dotnet lambda help",
+        "All the command line options for the Lambda command can be specified in this file."
+    ],
+    "profile"     : "SBS JIwasz",
+    "region"      : "us-east-1",
+    "configuration" : "Debug",
+    "framework"     : "netcoreapp3.1",
+    "msbuild-parameters" : "--self-contained true",
+    "s3-prefix"          : "cloud-formation/Whetstone.StoryEngine.Google.Api/",
+    "template"           : "dialogflowdev.template",
+    "template-parameters" : "\"ApiSecretsStack\"=\"Whetstone-APISecrets-Dev\";\"KeyStack\"=\"WhetstoneKey-Dev\";\"CacheStack\"=\"Whetstone-CacheTable-Dev\";\"DynamoTableStack\"=\"Whetstone-DynamoDb-Dev\";\"BucketStack\"=\"WhetstoneBucket-Dev\";\"QueueStack\"=\"WhetstoneQueue-Dev\";\"MessageSenderStepFunctionStack\"=\"Whetstone-MessageSender-Dev\";\"DurationThreshold\"=\"3500\";\"LambdaNetSerializerDebug\"=\"false\";\"VersionDescription\"=\"out of band\";\"CodeDeployRule\"=\"AllAtOnce\";\"CustomActionLambdaStack\"=\"Whetstone-LambdaCustomActions-Dev\";\"SlidingExpirationTime\"=\"10000\";\"GoogleFuncBucket\"=\"whetstone-utility\";\"GoogleFuncBucketKey\"=\"SoniBridge Native Release/Release-49/1/dialogflow-lambda-native.zip\"",
+    "s3-bucket"           : "whetstone-utility",
+    "stack-name"          : "DialogFlowApi-Dev"
+}

@@ -1,0 +1,74 @@
+﻿{
+  "request": {
+    "sessionId": "amzn1.echo-api.session.94ba32e6-9cf2-4ac8-8f99-2ed3b5dba629",
+    "applicationId": "amzn1.ask.skill.94c3fd9c-a915-48d8-998b-b96f85604409",
+    "userId": "amzn1.ask.account.AG7OJCVYEBVLAF3AOIGWE44RSSXFPTOUKCU4UXZZ3F2QFTA6TJZBO2NIAZVZEXROBRE7IU4VXYRUR2JFPKSU52MEJGLUFHWOQ6BUCYYVPMQO2XZXS6MLXYFQFTJYJAHAGKKMUBYQADEJYCXOSAO4LG4H63IKERLH7H4HLJUEXS32UI6GGR2P7GGO3GP6V63DHJTEV57W4QQIAXQ",
+    "intent": "VerbtheLocationIntent",
+    "slots": {
+      "verb": "search",
+      "location": "room"
+    },
+    "requestId": "EdwRequestId.6c667cbc-58a9-46f2-ac4b-7c5abb1b8e62",
+    "requestType": "Intent",
+    "client": "Alexa",
+    "locale": "en-US",
+    "isNewSession": false,
+    "titleId": "eyeoftheeldergods",
+    "requestTime": "2018-10-01T00:23:04.8739666Z"
+  },
+  "response": {
+    "localizedResponse": {
+      "cardTitle": "A clue!",
+      "sendCardResponse": true,
+      "textFragments": [
+        {
+          "Text": "You discover a clue: insurance statements listing Lucas Caine as a patient at Dover’s Crossing, a residential hospital for the mentally ill.\n\nYou leave the house and head to Dover’s Crossing to visit the artist, Lucas Caine.",
+          "fragmentType": 1,
+          "Id": null
+        }
+      ],
+      "repromptTextResponse": "To visit Lucas Caine say go to the hospital.",
+      "clientResponses": [
+        {
+          "speechFragments": [
+            {
+              "fileName": "EyeOfTheElderGods-B9.mp3",
+              "fragmentType": "AudioFile"
+            },
+            {
+              "fragmentType": "PlainText",
+              "text": "To visit Lucas Caine say go to the hospital."
+            }
+          ]
+        }
+      ],
+      "smallImageFile": "eoteg-small.jpg",
+      "largeImageFile": "eoteg-large.jpg"
+    },
+    "choices": [
+      {
+        "intentName": "GoToLocationIntent",
+        "nodeMapping": {
+          "nodeMappingType": "SlotMap",
+          "mappings": [
+            {
+              "nodeMappingType": "SlotNodeMapping",
+              "nodeMap": {
+                "nodeMappingType": "SingleNodeMapping",
+                "nodeName": "B11"
+              },
+              "requiredSlotValues": { "location": [ "hospital" ] }
+            }
+          ]
+        }
+      }
+    ],
+    "forceContinueSession": true,
+    "titleId": "eyeoftheeldergods",
+    "titleVersion": "0.7",
+    "nodeName": "B9",
+    "hasNextAction": false,
+    "isRequestValid": true,
+    "processDuration": 92
+  }
+}

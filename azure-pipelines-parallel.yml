@@ -1,0 +1,420 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+name: Whetstone.StoryEngine .NET 3.1 Parallel Build
+
+workspace:
+    clean: all
+
+trigger:
+- master
+
+variables:
+  buildnum: 1.0.$(Build.BuildId)
+  packagefolder: $(Build.ArtifactStagingDirectory)/nuget
+
+pool:
+  name: AWSBuild
+
+
+
+steps:
+
+- task: DotNetCoreCLI@2
+  displayName: 'Install Global Amazon.Lambda.Tools'
+  inputs:
+    command: 'custom'
+    custom: 'tool'
+    arguments: 'update --tool-path=/usr/local/sbin Amazon.Lambda.Tools --version 4.0'
+    
+- script: |
+   git config --global user.email "builduser@whetstonetechnologies.io"
+   git config --global user.name "Build User"
+  displayName: 'Set git user info'
+  env:
+    BUILDNUM: 1.0.$(Build.BuildId)
+
+- task: DotNetCoreCLI@2
+  displayName: 'Restore Packages'
+  inputs:
+    command: restore
+    projects: |
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Cache/Whetstone.StoryEngine.Cache.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine/Whetstone.StoryEngine.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Cache.DynamoDB/Whetstone.StoryEngine.Cache.DynamoDB.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Models/Whetstone.StoryEngine.Models.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Data/Whetstone.StoryEngine.Data.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Repository/Whetstone.StoryEngine.Repository.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.DependencyInjection/Whetstone.StoryEngine.DependencyInjection.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.AlexaProcessor/Whetstone.StoryEngine.AlexaProcessor.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Bixby.Repository/Whetstone.StoryEngine.Bixby.Repository.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Google.Repository/Whetstone.StoryEngine.Google.Repository.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.Queue.SessionLogger.Repository/Whetstone.Queue.SessionLogger.Repository.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.Queue.SessionLogger/Whetstone.Queue.SessionLogger.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.Queue.TwiliosStatusUpdate/Whetstone.Queue.TwiliosStatusUpdate.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.Sms.Lambda/Whetstone.Sms.Lambda.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.MessageSender/Whetstone.StoryEngine.MessageSender.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Reporting.Models/Whetstone.StoryEngine.Reporting.Models.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Reporting.ReportRepository/Whetstone.StoryEngine.Reporting.ReportRepository.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Reporting.ReportGenerator/Whetstone.StoryEngine.Reporting.ReportGenerator.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.WebLibrary/Whetstone.StoryEngine.WebLibrary.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.CoreApi/Whetstone.StoryEngine.CoreApi.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.LambdaUtilities/Whetstone.StoryEngine.LambdaUtilities.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.SocketApi.Repository/Whetstone.StoryEngine.SocketApi.Repository.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.SocketApi.Auth/Whetstone.StoryEngine.SocketApi.Auth.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.SocketApi/Whetstone.StoryEngine.SocketApi.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Notifications.Repository/Whetstone.StoryEngine.Notifications.Repository.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Notifications.Lambda/Whetstone.StoryEngine.Notifications.Lambda.csproj     
+     **/Whetstone.StoryEngine.UnitTests/*.csproj
+     
+    vstsFeed: '/983e9cfd-40a2-453c-9abe-eb0f3b95ddeb'
+
+
+#Your build pipeline references the ‘BuildConfiguration’ variable, which you’ve selected to be settable at 
+# queue time. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, 
+# and then select the option to make it settable at queue time. See https://go.microsoft.com/fwlink/?linkid=865971
+- task: DotNetCoreCLI@2
+  displayName: 'Build Core'
+  inputs:
+    projects: |
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Cache/Whetstone.StoryEngine.Cache.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine/Whetstone.StoryEngine.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Cache.DynamoDB/Whetstone.StoryEngine.Cache.DynamoDB.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Models/Whetstone.StoryEngine.Models.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Data/Whetstone.StoryEngine.Data.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Repository/Whetstone.StoryEngine.Repository.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.DependencyInjection/Whetstone.StoryEngine.DependencyInjection.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Google.Repository/Whetstone.StoryEngine.Google.Repository.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Bixby.Repository/Whetstone.StoryEngine.Bixby.Repository.csproj
+    arguments: '--configuration Release'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Build Reporting'
+  inputs:
+    projects: |
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Reporting.Models/Whetstone.StoryEngine.Reporting.Models.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Reporting.ReportRepository/Whetstone.StoryEngine.Reporting.ReportRepository.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Reporting.ReportGenerator/Whetstone.StoryEngine.Reporting.ReportGenerator.csproj
+    arguments: '--configuration Release'
+
+
+- task: DotNetCoreCLI@2
+  displayName: 'Build Socket API and Notifications Base'
+  inputs:
+    projects: |
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.SocketApi.Repository/Whetstone.StoryEngine.SocketApi.Repository.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.SocketApi.Auth/Whetstone.StoryEngine.SocketApi.Auth.csproj
+     $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Notifications.Repository/Whetstone.StoryEngine.Notifications.Repository.csproj
+    arguments: '--configuration Release'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet test'
+  inputs:
+    command: test
+    projects: '**/Whetstone.StoryEngine.UnitTests/*.csproj'
+
+- script: |
+   dotnet-lambda package -ot ./alexa-lambda-native.zip --disable-interactive true --no-restore --framework "netcoreapp3.1" --configuration Release --msbuild-parameters "--self-contained true /p:PublishReadyToRun=true"
+   mkdir $nativeoutdir
+   cp ./alexa-lambda-native.zip $nativeoutdir/alexa-lambda-native.zip
+   echo  "copied ./alexa-lambda-native.zip to $nativeoutdir/alexa-lambda-native.zip"
+   cp ./alexalambda.template $nativeoutdir/alexa-lambda-native.template
+   echo  "copied ./alexalambda.template to $nativeoutdir/alexa-lambda-native.template"
+  displayName: 'Package Alexa Lambda Native'
+  workingDirectory: $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.LambdaHost.Native
+  env:
+    nativeoutdir: $(build.artifactstagingdirectory)/native
+
+- script: |
+   dotnet-lambda package -ot ./dialogflow-lambda-native.zip --disable-interactive true --no-restore --framework "netcoreapp3.1" --configuration Release --msbuild-parameters "--self-contained true /p:PublishReadyToRun=true"
+   cp ./dialogflow-lambda-native.zip $nativeoutdir/dialogflow-lambda-native.zip
+   echo  "copied ./dialogflow-lambda-native.zip to $nativeoutdir/dialogflow-lambda-native.zip"
+   cp ./dialogflowserverless.template $nativeoutdir/dialogflow-lambda-native.template
+   echo  "copied ./dialogflowserverless.template to $nativeoutdir/dialogflow-lambda-native.template"
+  displayName: 'Package DialogFlow Native'
+  workingDirectory: $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Google.LambdaHost
+  env:
+    nativeoutdir: $(build.artifactstagingdirectory)/native
+
+- script: |
+   dotnet-lambda package -ot ./bixby-lambda-native.zip --disable-interactive true --no-restore --framework "netcoreapp3.1" --configuration Release --msbuild-parameters "--self-contained true /p:PublishReadyToRun=true"
+   cp ./bixby-lambda-native.zip $nativeoutdir/bixby-lambda-native.zip
+   echo  "copied ./bixby-lambda-native.zip to $nativeoutdir/bixby-lambda-native.zip"
+   cp ./bixbyserverless.template $nativeoutdir/bixby-lambda-native.template
+   echo  "copied ./bixbyserverless.template to $nativeoutdir/bixby-lambda-native.template"
+  displayName: 'Package Bixby Native'
+  workingDirectory: $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Bixby.LambdaHost
+  env:
+    nativeoutdir: $(build.artifactstagingdirectory)/native
+
+- script: |
+   dotnet-lambda package -ot ./sessionlogger-lambda-native.zip --disable-interactive true --no-restore --framework "netcoreapp3.1" --configuration Release --msbuild-parameters "--self-contained true /p:PublishReadyToRun=true"
+   cp ./sessionlogger-lambda-native.zip $nativeoutdir/sessionlogger-lambda-native.zip
+   echo  "copied ./sessionlogger-lambda-native.zip to $nativeoutdir/sessionlogger-lambda-native.zip"
+   cp ./auditlogger.template $nativeoutdir/sessionlogger-lambda-native.template
+   echo  "copied ./auditlogger.template to $nativeoutdir/sessionlogger-lambda-native.template"
+  displayName: 'Package Session Logger Native'
+  workingDirectory: $(Build.Repository.LocalPath)/src/Whetstone.Queue.SessionLogger
+  env:
+    nativeoutdir: $(build.artifactstagingdirectory)/native
+
+
+- script: |
+   dotnet-lambda package -ot ./utilities-lambda-native.zip --disable-interactive true --no-restore --framework "netcoreapp3.1" --configuration Release --msbuild-parameters "--self-contained true /p:PublishReadyToRun=true"
+   cp ./utilities-lambda-native.zip $nativeoutdir/utilities-lambda-native.zip
+   echo  "copied ./utilities-lambda-native.zip to $nativeoutdir/utilities-lambda-native.zip"
+   cp ./serverless.template $nativeoutdir/utilities-lambda-native.template
+   echo  "copied ./serverless.template to $nativeoutdir/utilities-lambda-native.template"
+  displayName: 'Package Lambda Utilities Native'
+  workingDirectory: $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.LambdaUtilities
+  env:
+    nativeoutdir: $(build.artifactstagingdirectory)/native
+
+- script: |
+   dotnet-lambda package -ot ./inboundsms-lambda-native.zip --disable-interactive true --no-restore --framework "netcoreapp3.1" --configuration Release --msbuild-parameters "--self-contained true /p:PublishReadyToRun=true"
+   cp ./inboundsms-lambda-native.zip $nativeoutdir/inboundsms-lambda-native.zip
+   echo  "copied ./inboundsms-lambda-native.zip to $nativeoutdir/inboundsms-lambda-native.zip"
+   cp ./smshandler.template $nativeoutdir/inboundsms-lambda-native.template
+   echo  "copied ./smshandler.template to $nativeoutdir/inboundsms-lambda-native.template"
+  displayName: 'Package Inbound SMS Handler Native'
+  workingDirectory: $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.InboundSmsHandler
+  env:
+    nativeoutdir: $(build.artifactstagingdirectory)/native
+
+- script: |
+   dotnet-lambda package -ot ./reportgen-lambda-native.zip --disable-interactive true --framework "netcoreapp3.1" --configuration Release --msbuild-parameters "--self-contained true /p:PublishReadyToRun=true"
+   cp ./reportgen-lambda-native.zip $nativeoutdir/reportgen-lambda-native.zip
+   echo  "copied ./reportgen-lambda-native.zip to $nativeoutdir/reportgen-lambda-native.zip"
+   cp ./serverless.template $nativeoutdir/reportgen-lambda-native.template
+   echo  "copied ./serverless.template to $nativeoutdir/reportgen-lambda-native.template"
+  displayName: 'Package Report Generator Native'
+  workingDirectory: $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Reporting.ReportGenerator
+  env:
+    nativeoutdir: $(build.artifactstagingdirectory)/native
+
+- script: |
+   dotnet-lambda package -ot ./messagesender-lambda-native.zip --disable-interactive true --framework "netcoreapp3.1" --configuration Release --msbuild-parameters "--self-contained true /p:PublishReadyToRun=true"
+   cp ./messagesender-lambda-native.zip $nativeoutdir/messagesender-lambda-native.zip
+   echo  "copied ./messagesender-lambda-native.zip to $nativeoutdir/messagesender-lambda-native.zip"
+   cp ./serverless.template $nativeoutdir/messagesender-lambda-native.template
+   echo  "copied ./serverless.template to $nativeoutdir/messagesender-lambda-native.template"
+  displayName: 'Package Message Sender Native'
+  workingDirectory: $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.MessageSender
+  env:
+    nativeoutdir: $(build.artifactstagingdirectory)/native
+
+- script: |
+   dotnet-lambda package -ot ./messagesavetask-lambda-native.zip --disable-interactive true --no-restore --framework "netcoreapp3.1" --configuration Release --msbuild-parameters "--self-contained true /p:PublishReadyToRun=true"
+   cp ./messagesavetask-lambda-native.zip $nativeoutdir/messagesavetask-lambda-native.zip
+   echo  "copied ./messagesavetask-lambda-native.zip to $nativeoutdir/messagesavetask-lambda-native.zip"
+  displayName: 'Package Message Save Task Native'
+  workingDirectory: $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.MessageSender.SaveMessageTask
+  env:
+    nativeoutdir: $(build.artifactstagingdirectory)/native
+
+- script: |
+   dotnet-lambda package -ot ./dynamodbsync-lambda-native.zip --disable-interactive true --no-restore --framework "netcoreapp3.1" --configuration Release --msbuild-parameters "--self-contained true /p:PublishReadyToRun=true"
+   cp ./dynamodbsync-lambda-native.zip $nativeoutdir/dynamodbsync-lambda-native.zip
+   echo  "copied ./dynamodbsync-lambda-native.zip to $nativeoutdir/dynamodbsync-lambda-native.zip"
+   cp ./serverless.template $nativeoutdir/dynamodbsync-lambda-native.template
+   echo  "copied ./serverless.template to $nativeoutdir/dynamodbsync-lambda-native.template"
+  displayName: 'Package Dynamo DB Sync Native'
+  workingDirectory: $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.DynamoDBMonitors
+  env:
+    nativeoutdir: $(build.artifactstagingdirectory)/native
+
+- script: |
+   dotnet-lambda package -ot ./coreapi-lambda-native.zip --disable-interactive true --no-restore --framework "netcoreapp3.1" --configuration Release --msbuild-parameters "--self-contained true /p:PublishReadyToRun=true"
+   cp ./coreapi-lambda-native.zip $nativeoutdir/coreapi-lambda-native.zip
+   echo  "copied ./coreapi-lambda-native.zip to $nativeoutdir/coreapi-lambda-native.zip"
+   cp ./coreapiserverless.template $nativeoutdir/coreapi-lambda-native.template
+   echo  "copied ./coreapiserverless.template to $nativeoutdir/coreapi-lambda-native.template"
+  displayName: 'Package Core API Native'
+  workingDirectory: $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.CoreApi
+  env:
+    nativeoutdir: $(build.artifactstagingdirectory)/native
+
+- script: |
+   dotnet-lambda package -ot ./socketapiauth-lambda-native.zip --disable-interactive true --no-restore --framework "netcoreapp3.1" --configuration Release --msbuild-parameters "--self-contained true /p:PublishReadyToRun=true"
+   cp ./socketapiauth-lambda-native.zip $nativeoutdir/socketapiauth-lambda-native.zip
+   echo  "copied ./socketapiauth-lambda-native.zip to $nativeoutdir/socketapiauth-lambda-native.zip"
+   cp ./socketapiauthserverless.template $nativeoutdir/socketapiauth-lambda-native.template
+   echo  "copied ./socketapiauthserverless.template to $nativeoutdir/socketapiauth-lambda-native.template"
+  displayName: 'Package Socket API Auth Native'
+  workingDirectory: $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.SocketApi.Auth
+  env:
+    nativeoutdir: $(build.artifactstagingdirectory)/native
+
+- script: |
+   dotnet-lambda package -ot ./socketnotifications-lambda-native.zip --disable-interactive true --no-restore --framework "netcoreapp3.1" --configuration Release --msbuild-parameters "--self-contained true /p:PublishReadyToRun=true"
+   cp ./socketnotifications-lambda-native.zip $nativeoutdir/socketnotifications-lambda-native.zip
+   echo  "copied ./socketnotifications-lambda-native.zip to $nativeoutdir/socketnotifications-lambda-native.zip"
+   cp ./notificationsserverless.template $nativeoutdir/socketnotifications-lambda-native.template
+   echo  "copied ./notificationsserverless.template to $nativeoutdir/socketnotifications-lambda-native.template"
+  displayName: 'Package Socket Notifications Lambda Native'
+  workingDirectory: $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Notifications.Lambda
+  env:
+    nativeoutdir: $(build.artifactstagingdirectory)/native
+
+- script: |
+   dotnet-lambda package -ot ./socketapi-lambda-native.zip --disable-interactive true --no-restore --framework "netcoreapp3.1" --configuration Release --msbuild-parameters "--self-contained true /p:PublishReadyToRun=true"
+   cp ./socketapi-lambda-native.zip $nativeoutdir/socketapi-lambda-native.zip
+   echo  "copied ./socketapi-lambda-native.zip to $nativeoutdir/socketapi-lambda-native.zip"
+   cp ./sockethandlerserverless.template $nativeoutdir/socketapi-lambda-native.template
+   echo  "copied ./sockethandlerserverless.template to $nativeoutdir/socketapi-lambda-native.template"
+   cp ./socketapiserverless.template $nativeoutdir/socketapi-gateway.template
+   echo  "copied ./socketapiserverless.template to $nativeoutdir/socketapi-gateway.template"
+  displayName: 'Package Socket API Native'
+  workingDirectory: $(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.SocketApi
+  env:
+    nativeoutdir: $(build.artifactstagingdirectory)/native
+
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet pack Whetstone.StoryEngine'
+  inputs:
+    command: pack
+    packDirectory: '$(packagefolder)'
+    packagesToPack: '$(Build.Repository.LocalPath)/src/Whetstone.StoryEngine/Whetstone.StoryEngine.csproj '
+    nobuild: true
+    versioningScheme: byEnvVar
+    versionEnvVar: buildnum
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet pack Whetstone.StoryEngine.Models'
+  inputs:
+    command: pack
+    packDirectory: '$(packagefolder)'
+    packagesToPack: '$(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Models/Whetstone.StoryEngine.Models.csproj'
+    nobuild: true
+    versioningScheme: byEnvVar
+    versionEnvVar: buildnum
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet pack Whetstone.StoryEngine.Data'
+  inputs:
+    command: pack
+    packagesToPack: '$(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Data/Whetstone.StoryEngine.Data.csproj'
+    packDirectory: '$(packagefolder)'
+    nobuild: true
+    versioningScheme: byEnvVar
+    versionEnvVar: buildnum
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet pack Whetstone.StoryEngine.Repository'
+  inputs:
+    command: pack
+    packagesToPack: '$(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Repository/Whetstone.StoryEngine.Repository.csproj'
+    packDirectory: '$(packagefolder)'
+    nobuild: true
+    versioningScheme: byEnvVar
+    versionEnvVar: buildnum
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet pack Whetstone.StoryEngine.DependencyInjection'
+  inputs:
+    command: pack
+    packagesToPack: '$(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.DependencyInjection/Whetstone.StoryEngine.DependencyInjection.csproj'
+    packDirectory: '$(packagefolder)'
+    nobuild: true
+    versioningScheme: byEnvVar
+    versionEnvVar: buildnum
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet pack Whetstone.StoryEngine.Cache'
+  inputs:
+    command: 'pack'
+    packagesToPack: '$(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Cache/Whetstone.StoryEngine.Cache.csproj'
+    packDirectory: '$(packagefolder)'
+    nobuild: true
+    versioningScheme: 'byEnvVar'
+    versionEnvVar: 'buildnum'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet pack Whetstone.StoryEngine.Cache.DynamoDB'
+  inputs:
+    command: 'pack'
+    packagesToPack: '$(Build.Repository.LocalPath)/src/Whetstone.StoryEngine.Cache.DynamoDB/Whetstone.StoryEngine.Cache.DynamoDB.csproj'
+    packDirectory: '$(packagefolder)'
+    nobuild: true
+    versioningScheme: 'byEnvVar'
+    versionEnvVar: 'buildnum'
+
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publish Whetstone Nuget Packages'
+  inputs:
+    command: 'push'
+    packagesToPush: '$(packagefolder)/*.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '983e9cfd-40a2-453c-9abe-eb0f3b95ddeb'
+
+- task: CopyFiles@2
+  displayName: 'Copy bucket template'
+  inputs:
+    SourceFolder: src/Whetstone.StoryEngine.CloudFormationBase
+    Contents: storyenginebucket.yml
+    TargetFolder: '$(build.artifactstagingdirectory)/basecftemplates'
+
+- task: CopyFiles@2
+  displayName: 'Copy api keys template'
+  inputs:
+    SourceFolder: src/Whetstone.StoryEngine.CloudFormationBase
+    Contents: storyengineapikeys.yml
+    TargetFolder: '$(build.artifactstagingdirectory)/basecftemplates'
+
+- task: CopyFiles@2
+  displayName: 'Copy Cognito Template'
+  inputs:
+    SourceFolder: src/Whetstone.StoryEngine.CloudFormationBase
+    Contents: storyenginecognito.yml
+    TargetFolder: '$(build.artifactstagingdirectory)/basecftemplates'
+
+
+- task: CopyFiles@2
+  displayName: 'Copy Socket Infrastruture Template'
+  inputs:
+    SourceFolder: src/Whetstone.StoryEngine.SocketApi
+    Contents: socketinfrastructure.template
+    TargetFolder: '$(build.artifactstagingdirectory)/basecftemplates'
+
+- task: CopyFiles@2
+  displayName: 'Copy user table dynamodb template'
+  inputs:
+    SourceFolder: src/Whetstone.StoryEngine.CloudFormationBase
+    Contents: storyenginedynamodb.yml
+    TargetFolder: '$(build.artifactstagingdirectory)/basecftemplates'
+
+- task: CopyFiles@2
+  displayName: 'Copy cache table dynamodb template copy'
+  inputs:
+    SourceFolder: src/Whetstone.StoryEngine.CloudFormationBase
+    Contents: storyenginecachetable.yml
+    TargetFolder: '$(build.artifactstagingdirectory)/basecftemplates'
+
+- task: CopyFiles@2
+  displayName: 'Copy session queue template'
+  inputs:
+    SourceFolder: src/Whetstone.StoryEngine.CloudFormationBase
+    Contents: storyenginesessionqueue.yml
+    TargetFolder: '$(build.artifactstagingdirectory)/basecftemplates'
+
+
+
+- task: CopyFiles@2
+  displayName: 'Copy policy template'
+  inputs:
+    SourceFolder: src/Whetstone.StoryEngine.CloudFormationBase
+    Contents: storyenginesharedpolicies.yml
+    TargetFolder: '$(build.artifactstagingdirectory)/basecftemplates'
+
+#Your build pipeline references an undefined variable named ‘region’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+#Your build pipeline references an undefined variable named ‘region’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+#Your build pipeline references an undefined variable named ‘utilitybucket’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+
+
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'

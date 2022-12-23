@@ -1,0 +1,52 @@
+{
+  "id": "a0a52da4-433e-48ae-9ce7-4963589c5a13",
+  "titleclientid": "951f275d-a29d-466e-bf98-769b948ef0b5",
+  "engineRequestId": "85a2c767-3fbd-4109-a3dc-bf67f2e1f0c0",
+  "smsToNumberid": "927d94ea-ab28-4c0e-9f35-c68b8c83d4df",
+  "smsFromNumberId": null,
+  "consentId": "3409ad85-0122-4d7f-9d3e-840a9a8dd06f",
+  "smsprovider": "SomeDiscountProvider",
+  "allSent": false,
+  "sendAttemptsCount": 1,
+  "isSaved": true,
+  "messages": [
+    {
+      "id": "2dcb39d7-127d-4950-9582-b84b98317388",
+      "outboundBatchRecordId": "a0a52da4-433e-48ae-9ce7-4963589c5a13",
+      "message": "symbicort-alexa",
+      "tags": {
+        "application": "symbicort-web-begin"
+      },
+      "status": "Error",
+      "results": [
+        {
+          "outboundMessageId": "2dcb39d7-127d-4950-9582-b84b98317388",
+          "id": "178414a0-e553-46db-9b90-abe9b90b4601",
+          "isException": false,
+          "extendedStatus": "Message received by workflow",
+          "status": 1,
+          "time": "2019-12-25T22:43:04.3437164Z"
+        },
+        {
+          "outboundMessageId": "2dcb39d7-127d-4950-9582-b84b98317388",
+          "id": "4e356394-637f-45d8-a4c3-1955d64b6c94",
+          "isException": true,
+          "extendedStatus": "Unexpected error getting authentication token. Check CloudWatch logs for details.\n",
+          "status": 4,
+          "time": "2019-12-25T22:43:09.2619401Z",
+          "providerSendDuration": 258
+        },
+        {
+          "outboundMessageId": "2dcb39d7-127d-4950-9582-b84b98317388",
+          "id": "6ccb31e4-a669-45dc-b41c-2d050b15e818",
+          "isException": true,
+          "extendedStatus": "Unexpected error getting authentication token. Check CloudWatch logs for details.\n",
+          "status": 4,
+          "time": "2019-12-25T22:43:21.3375849Z",
+          "providerSendDuration": 13
+        }
+      ]
+    }
+  ],
+  "notificationType": "Sms"
+}

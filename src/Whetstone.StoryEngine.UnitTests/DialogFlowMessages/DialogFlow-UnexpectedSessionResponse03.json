@@ -1,0 +1,42 @@
+{
+  "fulfillmentMessages": [
+    {
+      "platform": "ACTIONS_ON_GOOGLE",
+      "simpleResponses": {
+        "simpleResponses": [
+          {
+            "ssml": "\\u003cspeak\\u003e\\u003caudio src='https://whetstone-bucket-prod-s3bucket-w892kdu1rn1r.s3.amazonaws.com/stories/eyeoftheeldergods/0.8/audio/EyeOfTheElderGods-A1.mp3'/\\u003eTo take the call say answer the phone, or to let it go to voicemail say ignore the call. \\u003c/speak\\u003e"
+          }
+        ]
+      }
+    },
+    {
+      "platform": "ACTIONS_ON_GOOGLE",
+      "suggestions": {
+        "suggestions": [
+          {
+            "title": "answer the phone"
+          },
+          {
+            "title": "ignore the call"
+          }
+        ]
+      }
+    }
+  ],
+  "payload": {
+    "google": {
+      "expectUserResponse": true,
+      "userStorage": "{\"userId\":\"78f2122a41744ca0891e323a9df7e665\"}"
+    }
+  },
+  "outputContexts": [
+    {
+      "name": "projects/eyeoftheeldergods-11112/agent/environments/__aog-7/users/-/sessions/1568560489043206326715/contexts/enginecontext",
+      "lifespanCount": 99,
+      "parameters": {
+        "enginecontext": "{\"userId\":\"a750bcd7-f288-43cf-9edc-ff4186021a48\",\"sessionId\":\"9eaf6279-ed10-4f63-aaeb-ea83d5fcc312\",\"titleVersion\":{\"shortName\":\"eyeoftheeldergods\",\"version\":\"0.8\",\"titleId\":\"52ec33f9-a54e-4333-a1e1-89dd98a7abfb\",\"versionId\":\"6857bae0-c898-4488-bae5-cff8423283a9\",\"deploymentId\":\"8e7e59a3-349b-4597-80fc-8470ef43c96f\",\"logFullClientMessages\":false},\"badIntentCounter\":0,\"sessionStartType\":0}"
+      }
+    }
+  ]
+}

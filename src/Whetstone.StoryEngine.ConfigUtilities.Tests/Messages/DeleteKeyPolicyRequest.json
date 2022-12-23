@@ -1,0 +1,14 @@
+{
+  "RequestType": "Delete",
+  "ServiceToken": "arn:aws:lambda:us-east-1:940085449815:function:KeyPolicyUpdaterdev",
+  "ResponseURL": "https://cloudformation-custom-resource-response-useast1.s3.amazonaws.com/arn%3Aaws%3Acloudformation%3Aus-east-1%3A940085449815%3Astack/AlexaFunction-Dev/181b3680-bc46-11e9-9d59-0a1fbafbd996%7CKeyPolicyUpdate%7Cfa67e44a-62b0-446d-8bff-6330ee0bef9a?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20190829T185336Z&X-Amz-SignedHeaders=host&X-Amz-Expires=7200&X-Amz-Credential=AKIA6L7Q4OWTTYC3DXNI%2F20190829%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=fcf769475c470525bc3483e5f27f82c20ac04404b367dcfb6370c0f9ff2c2b89",
+  "StackId": "arn:aws:cloudformation:us-east-1:940085449815:stack/AlexaFunction-Dev/181b3680-bc46-11e9-9d59-0a1fbafbd996",
+  "RequestId": "fa67e44a-62b0-446d-8bff-6330ee0bef9a",
+  "LogicalResourceId": "KeyPolicyUpdate",
+  "PhysicalResourceId": "AlexaFunction-Dev-KeyPolicyUpdate-147J161O9TSWJ",
+  "ResourceType": "AWS::CloudFormation::CustomResource",
+  "ResourceProperties": {
+    "ServiceToken": "arn:aws:lambda:us-east-1:940085449815:function:KeyPolicyUpdaterdev",
+    "Role": "arn:aws:iam::940085449815:role/dev/AlexaFunction-Dev-AlexaFunctionRole-1UCEE2IHPUE7X"
+  }
+}

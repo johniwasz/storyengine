@@ -1,0 +1,377 @@
+{
+  "languageModel": {
+    "types": [
+      {
+        "name": "Letter",
+        "values": [
+          {
+            "name": {
+              "value": "a"
+            }
+          },
+          {
+            "name": {
+              "value": "b"
+            }
+          },
+          {
+            "name": {
+              "value": "c"
+            }
+          },
+          {
+            "name": {
+              "value": "d"
+            }
+          },
+          {
+            "name": {
+              "value": "e"
+            }
+          },
+          {
+            "name": {
+              "value": "f"
+            }
+          },
+          {
+            "name": {
+              "value": "g"
+            }
+          },
+          {
+            "name": {
+              "value": "h"
+            }
+          },
+          {
+            "name": {
+              "value": "i"
+            }
+          },
+          {
+            "name": {
+              "value": "j"
+            }
+          },
+          {
+            "name": {
+              "value": "k"
+            }
+          },
+          {
+            "name": {
+              "value": "l"
+            }
+          },
+          {
+            "name": {
+              "value": "m"
+            }
+          },
+          {
+            "name": {
+              "value": "n"
+            }
+          },
+          {
+            "name": {
+              "value": "o"
+            }
+          },
+          {
+            "name": {
+              "value": "p"
+            }
+          },
+          {
+            "name": {
+              "value": "q"
+            }
+          },
+          {
+            "name": {
+              "value": "r"
+            }
+          },
+          {
+            "name": {
+              "value": "s",
+              "synonyms": [
+                "yes"
+              ]
+            }
+          },
+          {
+            "name": {
+              "value": "t"
+            }
+          },
+          {
+            "name": {
+              "value": "u"
+            }
+          },
+          {
+            "name": {
+              "value": "v"
+            }
+          },
+          {
+            "name": {
+              "value": "w"
+            }
+          },
+          {
+            "name": {
+              "value": "x"
+            }
+          },
+          {
+            "name": {
+              "value": "y"
+            }
+          },
+          {
+            "name": {
+              "value": "z"
+            }
+          }
+        ]
+      },
+      {
+        "name": "CarModel",
+        "values": [
+          {
+            "name": {
+              "value": "Land Cruiser"
+            }
+          },
+          {
+            "name": {
+              "value": "Camry"
+            }
+          },
+          {
+            "name": {
+              "value": "RAV4"
+            }
+          },
+          {
+            "name": {
+              "value": "Yaris"
+            }
+          },
+          {
+            "name": {
+              "value": "Prius"
+            }
+          },
+          {
+            "name": {
+              "value": "Corolla"
+            }
+          },
+          {
+            "name": {
+              "value": "Insight"
+            }
+          },
+          {
+            "name": {
+              "value": "Pilot"
+            }
+          },
+          {
+            "name": {
+              "value": "CRV"
+            }
+          },
+          {
+            "name": {
+              "value": "Civic"
+            }
+          },
+          {
+            "name": {
+              "value": "Accord"
+            }
+          }
+        ]
+      },
+      {
+        "name": "CarMake",
+        "values": [
+          {
+            "name": {
+              "value": "Subaru"
+            }
+          },
+          {
+            "name": {
+              "value": "Mercedes"
+            }
+          },
+          {
+            "name": {
+              "value": "Buick"
+            }
+          },
+          {
+            "name": {
+              "value": "Ford"
+            }
+          },
+          {
+            "name": {
+              "value": "BMW"
+            }
+          },
+          {
+            "name": {
+              "value": "Chevy"
+            }
+          },
+          {
+            "name": {
+              "value": "Toyota"
+            }
+          },
+          {
+            "name": {
+              "value": "Saturn"
+            }
+          },
+          {
+            "name": {
+              "value": "Kia"
+            }
+          },
+          {
+            "name": {
+              "value": "Honda"
+            }
+          },
+          {
+            "name": {
+              "value": "Infiniti"
+            }
+          },
+          {
+            "name": {
+              "value": "Audi"
+            }
+          }
+        ]
+      }
+    ],
+    "intents": [
+      {
+        "name": "AMAZON.HelpIntent"
+      },
+      {
+        "name": "AMAZON.StopIntent"
+      },
+      {
+        "name": "AMAZON.CancelIntent"
+      },
+      {
+        "name": "AMAZON.StartOverIntent"
+      },
+      {
+        "name": "AMAZON.NavigateHomeIntent"
+      },
+      {
+        "name": "AMAZON.FallbackIntent"
+      },
+      {
+        "name": "AMAZON.ResumeIntent"
+      },
+      {
+        "name": "AMAZON.RepeatIntent"
+      },
+      {
+        "name": "TryAgainIntent"
+      },
+      {
+        "name": "AMAZON.YesIntent"
+      },
+      {
+        "name": "AMAZON.NoIntent"
+      },
+      {
+        "name": "NameIntent",
+        "samples": [
+          "{letter}",
+          "{letter} {letter}",
+          "{letter} {letter} {letter}",
+          "{letter} {letter} {letter} {letter} {letter}",
+          "{letter} {letter} {letter} {letter} {letter} {letter}",
+          "{letter} {letter} {letter} {letter} {letter} {letter} {letter}",
+          "{letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter}",
+          "{letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter}",
+          "{letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter}",
+          "{letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter}",
+          "{letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter} {letter}"
+        ],
+        "slots": [
+          {
+            "name": "letter",
+            "type": "Letter"
+          }
+        ]
+      },
+      {
+        "name": "AddNewDriverIntent",
+        "samples": [
+          "add a new driver",
+          "put another driver on my policy",
+          "add a driver",
+          "add another driver",
+          "add driver",
+          "add driver to policy"
+        ]
+      },
+      {
+        "name": "RequestPolicyReviewIntent",
+        "samples": [
+          "request policy review",
+          "request review",
+          "review policy",
+          "policy review",
+          "request review of policy"
+        ]
+      },
+      {
+        "name": "EndAgentIntent",
+        "samples": [
+          "stop",
+          "stop agent",
+          "stop insurance agent",
+          "end",
+          "end agent",
+          "end insurance agent",
+          "exit",
+          "exit agent",
+          "exit insurance agent"
+        ]
+      },
+      {
+        "name": "PhoneNumberIntent",
+        "samples": [
+          "{phonenumber}",
+          "my number is {phonenumber}",
+          "it is {phonenumber}",
+          "it's {phonenumber}"
+        ],
+        "slots": [
+          {
+            "name": "phonenumber",
+            "type": "AMAZON.PhoneNumber"
+          }
+        ]
+      }
+    ],
+    "invocationName": "insurance agent"
+  }
+}

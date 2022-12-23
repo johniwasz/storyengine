@@ -1,0 +1,316 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+
+    <ApplicationIcon />
+
+    <OutputType>Exe</OutputType>
+
+    <StartupObject />
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>Whetstone.StoryEngine.Test</RootNamespace>
+
+    <AssemblyName>Whetstone.StoryEngine.Test</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="SessionSamples\**" />
+    <EmbeddedResource Remove="SessionSamples\**" />
+    <None Remove="SessionSamples\**" />
+    <None Remove="AudioFiles\trollgrowl %28copy%29.mp3" />
+    <None Remove="AudioFiles\trollgrowl-resource.mp3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.json" />
+    <None Remove="AudioFiles\backgroundopen.mp3" />
+    <None Remove="AudioFiles\restart.mp3" />
+    <None Remove="AudioFiles\storyintro.mp3" />
+    <None Remove="AudioFiles\suspenseopen.mp3" />
+    <None Remove="AudioFiles\trollgrowl.mp3" />
+    <None Remove="AudioFiles\trollsniff.mp3" />
+    <None Remove="Config\config.yml" />
+    <None Remove="ImportFiles\animalfarmpi.zip" />
+    <None Remove="ImportFiles\AnimalFarmPI\animalfarmpi.yaml" />
+    <None Remove="ImportFiles\AnimalFarmPI\prod\animalfarmpi.yaml" />
+    <None Remove="ImportFiles\animalfarmtest\0.9\animalfarmtest.json" />
+    <None Remove="ImportFiles\animalfarmtest\animalfarmtest.yaml" />
+    <None Remove="ImportFiles\clinicaltrialsgov\clinicaltrialsgov.yaml" />
+    <None Remove="ImportFiles\conversationenginedemo\conversationenginedemo.yaml" />
+    <None Remove="ImportFiles\discountcouponstest\discountcouponstest-temp.yaml" />
+    <None Remove="ImportFiles\discountcouponstest\discountcouponstest.yaml" />
+    <None Remove="ImportFiles\eyeoftheeldergods\eyeoftheeldergods.yaml" />
+    <None Remove="ImportFiles\insuranceagent\insuranceagent.yaml" />
+    <None Remove="ImportFiles\JsonFile\animalfarmtest.json" />
+    <None Remove="ImportFiles\revenoxdev\revenoxdev.yaml" />
+    <None Remove="ImportFiles\SsmlBreakTest\SsmlBreakTest.yaml" />
+    <None Remove="ImportFiles\statileansavings\statileansavings.yaml" />
+    <None Remove="ImportFiles\whetstonetechnologiessms\whetstonetechnologiessms.yaml" />
+    <None Remove="ImportFiles\whetstonetechnologies\0.1\whetstonetechnologies.yaml" />
+    <None Remove="ImportFiles\whetstonetechnologies\0.3\whetstonetechnologies.yaml" />
+    <None Remove="ImportFiles\whetstonetechnologies\0.4\whetstonetechnologies.yaml" />
+    <None Remove="Messages\crxdispatch.json" />
+    <None Remove="Messages\dialogflowrequest01.json" />
+    <None Remove="Messages\dispatchmessage.json" />
+    <None Remove="Messages\inboundmsg01.json" />
+    <None Remove="Messages\inboundprodsms.json" />
+    <None Remove="Messages\inboundstopmsg.json" />
+    <None Remove="Messages\outboundmessage.json" />
+    <None Remove="Messages\phonemessageaction.json" />
+    <None Remove="Messages\requestsessionmsg.json" />
+    <None Remove="Messages\sampleprodnotif.json" />
+    <None Remove="Messages\smsCrxRequest.json" />
+    <None Remove="Messages\smsresponsemessage.json" />
+    <None Remove="Messages\TwilioOutboundMessage.json" />
+    <None Remove="Messages\whetstoneoutbound.json" />
+    <None Remove="RequestSamples\alexalaunch.json" />
+    <None Remove="RequestSamples\GoLeft.json" />
+    <None Remove="RequestSamples\LaunchSkillRequest.json" />
+    <None Remove="RequestSamples\PunchTroll.json" />
+    <None Remove="RequestSamples\StartRequestIntent.json" />
+    <None Remove="RequestSamples\talktotroll.json" />
+    <None Remove="SampleMessages\launchrequest.json" />
+    <None Remove="SampleMessages\samplemessage.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AudioFiles\backgroundopen.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AudioFiles\restart.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AudioFiles\storyintro.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AudioFiles\suspenseopen.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AudioFiles\trollgrowl.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AudioFiles\trollsniff.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\config.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportFiles\AnimalFarmPI\animalfarmpi.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportFiles\AnimalFarmPI\prod\animalfarmpi.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportFiles\animalfarmtest\0.9\animalfarmtest.json">
+      <Generator>MSDataSetGenerator</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportFiles\animalfarmtest\animalfarmtest.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportFiles\clinicaltrialsgov\clinicaltrialsgov.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportFiles\conversationenginedemo\conversationenginedemo.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportFiles\discountcouponstest\discountcouponstest.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportFiles\eyeoftheeldergods\eyeoftheeldergods.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportFiles\symbicortsavings\0.2\symbicortsavings.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportFiles\symbicortsavings\0.4\symbicortsavings.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportFiles\symbicortsavings\symbicortsavings.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportFiles\whetstonetechnologiessms\0.2\whetstonetechnologiessms.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportFiles\whetstonetechnologies\0.3\whetstonetechnologies.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportFiles\whetstonetechnologies\0.4\whetstonetechnologies.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Messages\crxdispatch.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Messages\dialogflowrequest01.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Messages\dispatchmessage.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Messages\inboundmsg01.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Messages\inboundprodsms.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Messages\outboundmessage.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Messages\phonemessageaction.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Messages\sampleprodnotif.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Messages\smsCrxRequest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Messages\smsresponsemessage.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Messages\TwilioOutboundMessage.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Messages\whetstoneoutbound.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RequestSamples\alexalaunch.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="ImportFiles\animalfarmpi.zip">
+    </EmbeddedResource>
+    <Content Include="Messages\inboundstopmsg.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportFiles\insuranceagent\insuranceagent.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportFiles\JsonFile\animalfarmtest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportFiles\revenoxdev\revenoxdev.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportFiles\SsmlBreakTest\SsmlBreakTest.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportFiles\statileansavings\0.2\statileansavings.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImportFiles\whetstonetechnologies\0.1\whetstonetechnologies.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Messages\requestsessionmsg.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RequestSamples\GoLeft.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RequestSamples\LaunchSkillRequest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RequestSamples\PunchTroll.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RequestSamples\StartRequestIntent.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RequestSamples\talktotroll.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ImportFiles\discountcouponstest\discountcouponstest-temp.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SampleMessages\launchrequest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SampleMessages\samplemessage.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.3.105.30" />
+    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.3.101" />
+    <PackageReference Include="Google.Cloud.Dialogflow.V2" Version="1.2.0" />
+    <PackageReference Include="MartinCostello.Testing.AwsLambdaTestServer" Version="0.3.0" />
+    <PackageReference Include="Amazon.Lambda.Core" Version="1.2.0" />
+    <PackageReference Include="Amazon.Lambda.TestUtilities" Version="1.2.0" />
+    <PackageReference Include="AWSSDK.Pinpoint" Version="3.3.108.10" />
+    <PackageReference Include="AWSSDK.SecurityToken" Version="3.3.104.62" />
+    <PackageReference Include="AWSSDK.SimpleNotificationService" Version="3.3.101.152" />
+    <PackageReference Include="AWSSDK.SQS" Version="3.3.102.95" />
+    <PackageReference Include="AWSSDK.StepFunctions" Version="3.3.104.28" />
+    <PackageReference Include="Flowroute" Version="1.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.8.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.8.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
+    <PackageReference Include="Moq" Version="4.13.1" />
+    <PackageReference Include="NETStandard.Library" Version="2.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.1" />
+    <PackageReference Include="Twilio" Version="5.39.1" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ImportFiles\clinicaltrialstest\" />
+    <Folder Include="ImportFiles\discountcouponsfinder\" />
+    <Folder Include="ImportFiles\eyeoftheeldergodstest\" />
+    <Folder Include="ImportFiles\symbicortsavings\0.5\" />
+    <Folder Include="ImportFiles\whetstonetechnologies\0.2\" />
+    <Folder Include="FileTests\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whetstone.StoryEngine.Data.DependencyInjection\Whetstone.StoryEngine.Data.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Data.EntityFramework\Whetstone.StoryEngine.Data.EntityFramework.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.DependencyInjection\Whetstone.StoryEngine.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Google.Management\Whetstone.StoryEngine.Google.Management.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.InboundSmsHandler\Whetstone.StoryEngine.InboundSmsHandler.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.InboundSmsRepository\Whetstone.StoryEngine.InboundSmsRepository.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.MessageSender.SaveMessageTask\Whetstone.StoryEngine.MessageSender.SaveMessageTask.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.MessageSender\Whetstone.StoryEngine.MessageSender.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Models\Whetstone.StoryEngine.Models.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Repository\Whetstone.StoryEngine.Repository.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Security\Whetstone.StoryEngine.Security.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.WebLibrary\Whetstone.StoryEngine.WebLibrary.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Data\Whetstone.StoryEngine.Data.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine\Whetstone.StoryEngine.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ImportFiles\clinicaltrialstest\clinicaltrialstest.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ImportFiles\symbicortsavings\0.5\symbicortsavings.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Messages\notificationRequest.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Messages\pingrequest.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

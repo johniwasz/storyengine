@@ -1,0 +1,67 @@
+{
+  "responseId": "3fa6ee69-a7fc-4847-a7fd-7a0aa7d31330-425db6e2",
+  "queryResult": {
+    "queryText": "SoniBridge",
+    "action": "no.input",
+    "parameters": {
+      "WhetstoneNames": "SoniBridge"
+    },
+    "allRequiredParamsPresent": true,
+    "outputContexts": [
+      {
+        "name": "projects/whetstone-technologies/agent/sessions/3b5e9797-349d-3b0b-bad2-a03fba9b278e/contexts/learnaboutwhetstone-followup",
+        "lifespanCount": 5,
+        "parameters": {
+          "WhetstoneNames": "SoniBridge",
+          "WhetstoneNames.original": "SoniBridge"
+        }
+      },
+      {
+        "name": "projects/whetstone-technologies/agent/sessions/3b5e9797-349d-3b0b-bad2-a03fba9b278e/contexts/enginecontext",
+        "lifespanCount": 98,
+        "parameters": {
+          "enginecontext": "{\"userId\":\"51a6e768-9cdb-48b5-836c-17e1e9fcaf1a\",\"sessionId\":\"a22266f7-518f-409c-823b-57f17d76a3ab\",\"titleVersion\":{\"shortName\":\"whetstonetechnologies\",\"version\":\"0.4\",\"titleId\":\"6e9d8e5a-0f1f-4552-b5b1-e7a14d08012b\",\"versionId\":\"0f5a4d81-0382-439a-8635-1ff34a8dd880\",\"deploymentId\":\"43af66e9-99c2-45f3-9111-6273c987a299\",\"alias\":\"LIVE\",\"logFullClientMessages\":false},\"badIntentCounter\":0,\"sessionStartType\":0}",
+          "WhetstoneNames": "SoniBridge",
+          "WhetstoneNames.original": "SoniBridge"
+        }
+      },
+      {
+        "name": "projects/whetstone-technologies/agent/sessions/3b5e9797-349d-3b0b-bad2-a03fba9b278e/contexts/__system_counters__",
+        "parameters": {
+          "no-input": 0,
+          "no-match": 0,
+          "WhetstoneNames": "SoniBridge",
+          "WhetstoneNames.original": "SoniBridge"
+        }
+      }
+    ],
+    "intent": {
+      "name": "projects/whetstone-technologies/agent/intents/f91dcca6-f8e7-4cf3-847f-dc8b3eaef981",
+      "displayName": "LearnAboutWhetstone"
+    },
+    "intentDetectionConfidence": 1,
+    "languageCode": "en"
+  },
+  "originalDetectIntentRequest": {
+    "source": "facebook",
+    "payload": {
+      "data": {
+        "timestamp": "1594835910153",
+        "sender": {
+          "id": "3193375657412538"
+        },
+        "message": {
+          "text": "SoniBridge",
+          "mid": "m_G4ynyWmc2MzDFb_oO0BonjCv1_FD_ElGaK7LsAjnjN6C1n4WgDyeMByAwsOyHOg2L8gKb3jw8iCKuRho1OxL9g",
+          "quick_reply": {
+            "payload": "SoniBridge"
+          }
+        },
+        "recipient": {
+          "id": "2581404155417581"
+        }
+      }
+    }
+  },
+  "session": "projects/whetstone-technologies/agent/sessions/3b5e9797-349d-3b0b-bad2-a03fba9b278e"
+}

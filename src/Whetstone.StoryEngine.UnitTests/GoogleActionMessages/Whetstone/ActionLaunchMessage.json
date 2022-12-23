@@ -1,0 +1,31 @@
+﻿{
+  "handler": { "name": "WelcomeUser" },
+  "intent": {
+    "name": "actions.intent.MAIN",
+    "params": {},
+    "query": "Talk to Test Whetstone"
+  },
+  "scene": {
+    "name": "actions.scene.START_CONVERSATION",
+    "slotFillingStatus": "UNSPECIFIED",
+    "slots": {},
+    "next": { "name": "WelcomeFollowUp" }
+  },
+  "session": {
+    "id": "ABwppHFBwihtRgkFv0RjZjDzKkPjQ6UqJDGNk-h287MLmRMHJ7MHy2EBrV-eQbOLayuzTCry99IgENz7QSCQ9CewJ89GJbJrUx8",
+    "params": {},
+    "typeOverrides": [],
+    "languageCode": ""
+  },
+  "user": {
+    "locale": "en-US",
+    "params": {},
+    "accountLinkingStatus": "ACCOUNT_LINKING_STATUS_UNSPECIFIED",
+    "verificationStatus": "VERIFIED",
+    "packageEntitlements": [],
+    "gaiamint": "",
+    "lastSeenTime": "2020-12-24T18:32:02Z"
+  },
+  "home": { "params": {} },
+  "device": { "capabilities": [ "SPEECH", "RICH_RESPONSE", "LONG_FORM_AUDIO" ] }
+}

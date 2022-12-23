@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whetstone.StoryEngine.Security\Whetstone.StoryEngine.Security.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.DependencyInjection\Whetstone.StoryEngine.DependencyInjection.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.3.105.34" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="AWSSDK.ApiGatewayManagementApi" Version="3.3.101.99" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Responses\" />
+    <Folder Include="Notifications\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Amazon\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="SendMessageResponse.cs" />
+  </ItemGroup>
+</Project>

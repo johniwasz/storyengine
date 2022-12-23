@@ -1,0 +1,31 @@
+{
+  "name": "whetstone-adminui",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@types/webpack-env": "^1.13.9",
+    "ajv": "^6.10.0",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-scripts-ts": "3.1.0",
+    "superagent": "^4.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject"
+  },
+  "devDependencies": {
+    "@types/enzyme": "^3.9.0",
+    "@types/enzyme-adapter-react-16": "^1.0.5",
+    "@types/jest": "^24.0.11",
+    "@types/node": "^11.11.1",
+    "@types/react": "^16.8.7",
+    "@types/react-dom": "^16.8.2",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.10.0",
+    "react-test-renderer": "^16.8.4",
+    "typescript": "^3.3.3333"
+  }
+}

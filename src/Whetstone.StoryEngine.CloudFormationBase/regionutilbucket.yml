@@ -1,0 +1,91 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Create the Whetstone Sonibridge Utility Bucket
+Parameters:
+  EnvironmentName:
+    Description: >-
+      Name of the environment this bucket will support.
+    Type: String
+  Purpose:
+    Description: Purpose specifies the use of the environment.
+    Type: String
+    AllowedValues:
+      - dev
+      - prod
+      - staging
+      - test
+    Default: dev
+  BucketName:
+    Description: Name of the utlity bucket for this environment.
+    Type: String
+    Default: whetstone-dev-utility
+Resources:
+  S3Bucket:
+    Type: 'AWS::S3::Bucket'
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: !Ref BucketName
+      AccessControl: PublicRead
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Purpose
+          Value: !Ref Purpose
+        - Key: Stack
+          Value: !Ref 'AWS::StackName'
+        - Key: Name
+          Value: !Join
+            - '-'
+            - - !Ref EnvironmentName
+              - !Ref 'AWS::StackName'
+  BucketReaderPolicy:
+    Type: 'AWS::IAM::ManagedPolicy'
+    DeletionPolicy: Delete
+    Properties:
+      Path: !Join
+        - ''
+        - - /
+          - !Ref EnvironmentName
+          - /
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: 's3:GetObject'
+            Resource: !Join
+              - /
+              - - !GetAtt
+                  - S3Bucket
+                  - Arn
+                - '*'
+  HttpsBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    DependsOn: S3Bucket
+    Properties:
+      Bucket: !Ref S3Bucket
+      PolicyDocument:
+        Statement:
+          - Sid: Enforce HTTPS Connections
+            Action: s3:*
+            Effect: Deny
+            Principal: '*'
+            Resource: !Sub
+              - arn:aws:s3:::${S3Bucket}/*
+              - Partition: aws
+            Condition:
+              Bool:
+                aws:SecureTransport: false
+Outputs:
+  BucketArn:
+    Description: ARN of the StoryEngine Bucket
+    Value: !GetAtt
+      - S3Bucket
+      - Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-StoryEngineUtilityBucketArn'
+  BucketName:
+    Description: Name of the StoryEngine Utility
+    Value: !Ref S3Bucket
+    Export:
+      Name: !Sub '${AWS::StackName}-StoryEngineUtilityBucket'

@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Messages\BadRoleCreateRequest.json" />
+    <None Remove="Messages\CognitoServiceUpdate.json" />
+    <None Remove="Messages\CognitoUpdate.json" />
+    <None Remove="Messages\ConfigUpdateRequest.json" />
+    <None Remove="Messages\CreateKeyPolicyUpdateRequest.json" />
+    <None Remove="Messages\DeleteKeyPolicyRequest.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Messages\CognitoServiceUpdate.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Messages\CognitoUpdate.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Messages\BadRoleCreateRequest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Messages\ConfigUpdateRequest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Messages\CreateKeyPolicyUpdateRequest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Messages\DeleteKeyPolicyRequest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.Core" Version="1.2.0" />
+    <PackageReference Include="Amazon.Lambda.TestUtilities" Version="1.1.0" />
+    <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="2.0.0" />
+    <PackageReference Include="MartinCostello.Testing.AwsLambdaTestServer" Version="0.3.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whetstone.StoryEngine.LambdaUtilities\Whetstone.StoryEngine.LambdaUtilities.csproj" />
+  </ItemGroup>
+  <ProjectExtensions><VisualStudio><UserProperties messages_4createkeypolicyupdaterequest_1json__JsonSchema="http://json.schemastore.org/backportrc" /></VisualStudio></ProjectExtensions>
+</Project>

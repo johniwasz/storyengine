@@ -1,0 +1,235 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+
+    <StartupObject></StartupObject>
+
+    <AssemblyName>Whetstone.StoryEngine.LambdaHost.Test</AssemblyName>
+
+    <RootNamespace>Whetstone.StoryEngine.LambdaHost.Test</RootNamespace>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.Development.json" />
+    <None Remove="appsettings.json" />
+    <None Remove="importfiles\animalfarmintenttest.zip" />
+    <None Remove="importfiles\sqsmsg.json" />
+    <None Remove="localstore\appSettings.yaml" />
+    <None Remove="localstore\global\appmappings.yaml" />
+    <None Remove="localstore\global\audio\restart.mp3" />
+    <None Remove="localstore\global\audio\storyintro.mp3" />
+    <None Remove="localstore\global\global.yaml" />
+    <None Remove="localstore\global\image\launch_lg.jpg" />
+    <None Remove="localstore\global\image\launch_sm.jpg" />
+    <None Remove="localstore\global\image\welcome_lg.jpg" />
+    <None Remove="localstore\global\image\welcome_sm.jpg" />
+    <None Remove="RequestSamples\canfulfillsample.json" />
+    <None Remove="sessionreplay\alexalaunch.json" />
+    <None Remove="stories\animalfarmpi\animalfarmpi.yaml" />
+    <None Remove="stories\animalfarmpi\audio\restart.mp3" />
+    <None Remove="stories\animalfarmpi\audio\storyintro.mp3" />
+    <None Remove="stories\animalfarmtest\animalfarmtest.yaml" />
+    <None Remove="stories\clinicaltrialsgov\clinicaltrialsgov.yaml" />
+    <None Remove="stories\eyeoftheeldergods\eyeoftheeldergods.yaml" />
+    <None Remove="stories\test_adventure\audio\backgroundopen.mp3" />
+    <None Remove="stories\test_adventure\audio\suspenseopen.mp3" />
+    <None Remove="stories\test_adventure\audio\trollgrowl.mp3" />
+    <None Remove="stories\test_adventure\audio\trollsniff.mp3" />
+    <None Remove="stories\test_adventure\image\troll_lg.jpg" />
+    <None Remove="stories\test_adventure\image\troll_sm.jpg" />
+    <None Remove="stories\test_adventure\test_adventure.yaml" />
+    <None Remove="RequestSamples\AnimalFarm\DarkPath1.json" />
+    <None Remove="RequestSamples\AnimalFarm\Launch.json" />
+    <None Remove="RequestSamples\AnimalFarm\Restart.json" />
+    <None Remove="RequestSamples\AnimalFarm\Tractor.json" />
+    <None Remove="RequestSamples\AnimalFarm\Yes.json" />
+    <None Remove="RequestSamples\GoLeft.json" />
+    <None Remove="RequestSamples\LaunchSkillRequest.json" />
+    <None Remove="RequestSamples\PunchTroll.json" />
+    <None Remove="RequestSamples\slotrequest.json" />
+    <None Remove="RequestSamples\StartOverRequest.json" />
+    <None Remove="RequestSamples\StartRequestIntent.json" />
+    <None Remove="RequestSamples\TakeNothingSample.json" />
+    <None Remove="RequestSamples\talktotroll.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="importfiles\animalfarmintenttest.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="importfiles\animalfarmpi.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="importfiles\sqsmsg.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="localstore\appSettings.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="localstore\global\appmappings.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="localstore\global\audio\restart.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="localstore\global\audio\storyintro.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="localstore\global\global.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="localstore\global\image\launch_lg.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="localstore\global\image\launch_sm.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="localstore\global\image\welcome_lg.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="localstore\global\image\welcome_sm.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RequestSamples\canfulfillsample.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sessionreplay\alexalaunch.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stories\animalfarmintenttest\animalfarmintenttest.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stories\animalfarmintenttest\audio\restart.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stories\animalfarmintenttest\audio\storyintro.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stories\animalfarmpi\animalfarmpi.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stories\animalfarmpi\animalfarmpi.yaml.orig">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stories\animalfarmpi\audio\restart.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stories\animalfarmpi\audio\storyintro.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stories\animalfarmtest\animalfarmtest.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stories\clinicaltrialsgov\clinicaltrialsgov.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stories\eyeoftheeldergods\eyeoftheeldergods.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stories\test_adventure\audio\backgroundopen.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stories\test_adventure\audio\suspenseopen.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stories\test_adventure\audio\trollgrowl.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stories\test_adventure\audio\trollsniff.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stories\test_adventure\image\troll_lg.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stories\test_adventure\image\troll_sm.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stories\test_adventure\test_adventure.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RequestSamples\AnimalFarm\Tractor.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RequestSamples\AnimalFarm\Yes.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RequestSamples\AnimalFarm\DarkPath1.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RequestSamples\AnimalFarm\Restart.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="RequestSamples\AnimalFarm\Launch.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RequestSamples\GoLeft.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RequestSamples\GoToBarnSlot.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RequestSamples\LaunchSkillRequest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RequestSamples\PunchTroll.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RequestSamples\slotrequest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RequestSamples\StartOverRequest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RequestSamples\StartRequestIntent.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RequestSamples\TakeNothingSample.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RequestSamples\talktotroll.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.Core" Version="1.2.0" />
+    <PackageReference Include="Amazon.Lambda.SQSEvents" Version="1.2.0" />
+    <PackageReference Include="Amazon.Lambda.TestUtilities" Version="1.2.0" />
+    <PackageReference Include="MartinCostello.Testing.AwsLambdaTestServer" Version="0.3.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.8.0" />
+    <PackageReference Include="MessagePack" Version="2.0.323" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
+    <PackageReference Include="Moq" Version="4.14.1" />
+    <PackageReference Include="Whetstone.Alexa" Version="0.1.6" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whetstone.Queue.TwiliosStatusUpdate\Whetstone.Queue.TwiliosStatusUpdate.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.AlexaFunction\Whetstone.StoryEngine.AlexaFunction.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.AlexaProcessor\Whetstone.StoryEngine.AlexaProcessor.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.DependencyInjection\Whetstone.StoryEngine.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Test\Whetstone.StoryEngine.Test.csproj" />
+  </ItemGroup>
+
+</Project>

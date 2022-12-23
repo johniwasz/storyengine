@@ -1,0 +1,659 @@
+﻿[
+  {
+    "M": {
+      "intentName": {
+        "S": "EndGameIntent"
+      },
+      "nodeName": {
+        "S": "StopGame"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T18:21:49.0171455Z"
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "GotoLocationIntent"
+      },
+      "nodeName": {
+        "S": "C7"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T18:20:21.1964658Z"
+      },
+      "slots": {
+        "M": {
+          "location": {
+            "S": "home"
+          }
+        }
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "VerbTheCharacterIntent"
+      },
+      "nodeName": {
+        "S": "C6"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T18:18:58.2982275Z"
+      },
+      "slots": {
+        "M": {
+          "character": {
+            "S": "dean"
+          },
+          "verb": {
+            "S": "tell"
+          }
+        }
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "VerbTheCharacterIntent"
+      },
+      "nodeName": {
+        "S": "C3"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T18:17:52.7615276Z"
+      },
+      "slots": {
+        "M": {
+          "character": {
+            "S": "Margaret"
+          },
+          "verb": {
+            "S": "call"
+          }
+        }
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "AMAZON.FallbackIntent"
+      },
+      "nodeName": {
+        "S": "C2"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T18:17:45.2817468Z"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "GoOnIntent"
+      },
+      "nodeName": {
+        "S": "C2"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T18:17:33.9211388Z"
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "VerbTheLocationIntent"
+      },
+      "nodeName": {
+        "S": "C1"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T18:16:03.1001800Z"
+      },
+      "slots": {
+        "M": {
+          "location": {
+            "S": "hospital"
+          },
+          "verb": {
+            "S": "leave"
+          }
+        }
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "GoOnIntent"
+      },
+      "nodeName": {
+        "S": "B11b"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T18:14:34.9147764Z"
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "TalkToIntent"
+      },
+      "nodeName": {
+        "S": "B11a"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T18:13:05.2620356Z"
+      },
+      "slots": {
+        "M": {
+          "character": {
+            "S": "Lucas"
+          }
+        }
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "GotoLocationIntent"
+      },
+      "nodeName": {
+        "S": "B11"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T18:11:48.9756504Z"
+      },
+      "slots": {
+        "M": {
+          "location": {
+            "S": "hospital"
+          }
+        }
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "VerbTheLocationIntent"
+      },
+      "nodeName": {
+        "S": "B9"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T18:10:48.9963737Z"
+      },
+      "slots": {
+        "M": {
+          "location": {
+            "S": "room"
+          },
+          "verb": {
+            "S": "search"
+          }
+        }
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "VerbTheLocationIntent"
+      },
+      "nodeName": {
+        "S": "B8"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T18:09:41.1540247Z"
+      },
+      "slots": {
+        "M": {
+          "location": {
+            "S": "house"
+          },
+          "verb": {
+            "S": "search"
+          }
+        }
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "GotoLocationIntent"
+      },
+      "nodeName": {
+        "S": "B6a"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T18:08:13.8204950Z"
+      },
+      "slots": {
+        "M": {
+          "location": {
+            "S": "inside"
+          }
+        }
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "VerbTheCharacterIntent"
+      },
+      "nodeName": {
+        "S": "B6"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T18:06:50.9463300Z"
+      },
+      "slots": {
+        "M": {
+          "character": {
+            "S": "artist"
+          },
+          "verb": {
+            "S": "visit"
+          }
+        }
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "VerbTheItemIntent"
+      },
+      "nodeName": {
+        "S": "B3a"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T18:05:20.2699177Z"
+      },
+      "slots": {
+        "M": {
+          "item": {
+            "S": "picture"
+          },
+          "verb": {
+            "S": "look at"
+          }
+        }
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "VerbTheItemIntent"
+      },
+      "nodeName": {
+        "S": "B3"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T18:05:13.1796877Z"
+      },
+      "slots": {
+        "M": {
+          "item": {
+            "S": "picture"
+          },
+          "verb": {
+            "S": "leave"
+          }
+        }
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "VerbTheItemIntent"
+      },
+      "nodeName": {
+        "S": "B3"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T18:03:59.6057622Z"
+      },
+      "slots": {
+        "M": {
+          "item": {
+            "S": "painting"
+          },
+          "verb": {
+            "S": "research"
+          }
+        }
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "VerbTheActionIntent"
+      },
+      "nodeName": {
+        "S": "B1"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T18:02:35.5046352Z"
+      },
+      "slots": {
+        "M": {
+          "action": {
+            "S": "knowing more"
+          },
+          "verb": {
+            "S": "insist"
+          }
+        }
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "WaitForIntent"
+      },
+      "nodeName": {
+        "S": "A9"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T18:01:22.2265733Z"
+      },
+      "slots": {
+        "M": {
+          "character": {
+            "S": "Margaret"
+          }
+        }
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "GotoLocationIntent"
+      },
+      "nodeName": {
+        "S": "A8"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T17:59:53.4218371Z"
+      },
+      "slots": {
+        "M": {
+          "location": {
+            "S": "library"
+          }
+        }
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "VerbTheActionIntent"
+      },
+      "nodeName": {
+        "S": "A7"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T17:58:58.3655709Z"
+      },
+      "slots": {
+        "M": {
+          "action": {
+            "S": "later"
+          },
+          "verb": {
+            "S": "read"
+          }
+        }
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "GoOnIntent"
+      },
+      "nodeName": {
+        "S": "A5"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T17:57:55.4092287Z"
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "GotoLocationIntent"
+      },
+      "nodeName": {
+        "S": "A4"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T17:56:44.2688499Z"
+      },
+      "slots": {
+        "M": {
+          "location": {
+            "S": "ceremony"
+          }
+        }
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "VerbTheItemIntent"
+      },
+      "nodeName": {
+        "S": "A3"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T17:55:17.9261369Z"
+      },
+      "slots": {
+        "M": {
+          "item": {
+            "S": "phone"
+          },
+          "verb": {
+            "S": "ignore"
+          }
+        }
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "intentName": {
+        "S": "StartInvestigationIntent"
+      },
+      "nodeName": {
+        "S": "A1"
+      },
+      "selectionTime": {
+        "S": "2018-09-09T17:54:20.2861968Z"
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  },
+  {
+    "M": {
+      "isSingleRequest": {
+        "BOOL": false
+      },
+      "nodeName": {
+        "S": "ReturningUser"
+      },
+      "time": {
+        "S": "2018-09-09T17:54:10.5712269Z"
+      },
+      "titleId": {
+        "S": "eyeoftheeldergods"
+      },
+      "titleVersion": {
+        "S": "0.7"
+      }
+    }
+  }
+]

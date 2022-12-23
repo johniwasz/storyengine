@@ -1,0 +1,221 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Create the environment elastic cache
+Parameters:
+  ParentVpcStack:
+    Description: >-
+      Name of stack used to create the VPN and/or subnets. Example:
+      WhetstoneVpc-Dev
+    Type: String
+    Default: WhetstoneVpc-Dev
+    AllowedPattern: '^[a-zA-Z]+[0-9a-zA-Z\-]*$'
+  EnvironmentKeyStack:
+    Type: String
+    Default: WhetstoneKey-Dev
+    Description: Root environment stack that defines the environment key and purpose.
+    AllowedPattern: '^[a-zA-Z]+[0-9a-zA-Z\-]*$'
+  ParentOpenVpnStack:
+    Type: String
+    Description: 'Optional. Stack used to generate an OpenVPN connection in the environment. Example: WhetstoneOpenVpn-Dev'
+  NumCacheReplicas:
+    Description: The number of cache replicas per shard.
+    Default: '1'
+    Type: Number
+    MinValue: '1'
+    MaxValue: '6'
+# See https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html#cfn-elasticache-replicationgroup-authtoken
+# for specifics about the cache token size and constraints.
+  CacheToken:
+    Type: String
+    MinLength: 16
+    MaxLength: 128
+    NoEcho: true
+    Description: This is the token used to secure the cache. Record this since it is not stored elsewhere. Cannot contain a forward slash, at sign, or a double quote character.
+  ElasticCacheInstanceTypeParam:
+    Type: String
+    Description: Instance type of the elastic cache instance
+    AllowedValues:
+      - cache.r5.large
+      - cache.r5.xlarge
+      - cache.r5.2xlarge
+      - cache.r5.4xlarge
+      - cache.r5.12xlarge
+      - cache.r5.24xlarge
+      - cache.r4.large
+      - cache.r4.xlarge
+      - cache.r4.2xlarge
+      - cache.r4.4xlarge
+      - cache.r4.8xlarge
+      - cache.r4.16xlarge
+      - cache.m5.large
+      - cache.m5.xlarge
+      - cache.m5.2xlarge
+      - cache.m5.4xlarge
+      - cache.m5.12xlarge
+      - cache.m5.24xlarge
+      - cache.m4.large
+      - cache.m4.xlarge
+      - cache.m4.2xlarge
+      - cache.m4.4xlarge
+      - cache.m4.10xlarge
+      - cache.t2.micro
+      - cache.t2.small
+      - cache.t2.medium
+    Default: cache.t2.micro
+  ElasticCachShardsParam:
+    Type: Number
+    Description: Number of shards to include in the elastic cache cluster
+    MinValue: "1"
+    Default: "1"
+  PreferredMaintenanceWindowParam:
+    Description: >-
+      The weekly time range during which system maintenance can occur. Use the
+      following format to specify a time range: ddd:hh24:mi-ddd:hh24:mi (24H
+      Clock UTC).
+    Type: String
+    Default: 'sun:22:00-sun:23:30'
+    AllowedPattern: >-
+      (mon|tue|wed|thu|fri|sat|sun):\d{2}:\d{2}-(mon|tue|wed|thu|fri|sat|sun):\d{2}:\d{2}
+    ConstraintDescription: >-
+      must be a valid timestamp range with day of week, for example
+      sun:22:00-sun:23:30
+  RedisPort:
+    Description: >-
+      The port number on which each member of the replication group accepts
+      connections.
+    Type: Number
+    Default: '6379'
+    MinValue: '1'
+    MaxValue: '65535'
+Conditions:
+  HasPublicCidr: !Not 
+    - !Equals 
+      - ''
+      - !Ref ParentOpenVpnStack
+Resources:
+  SubnetGroup:
+    Type: 'AWS::ElastiCache::SubnetGroup'
+    Properties:
+      Description: Cache Subnet Group
+      SubnetIds:
+        - !ImportValue 
+          'Fn::Sub': '${ParentVpcStack}-SubnetAPrivate'
+        - !ImportValue 
+          'Fn::Sub': '${ParentVpcStack}-SubnetBPrivate'
+        - !ImportValue 
+          'Fn::Sub': '${ParentVpcStack}-SubnetCPrivate'
+  ElasticCacheReplicationGroup:
+    Type: 'AWS::ElastiCache::ReplicationGroup'
+    Properties:
+      AuthToken: !Ref CacheToken
+      TransitEncryptionEnabled: true
+      AtRestEncryptionEnabled: true
+      AutoMinorVersionUpgrade: true
+      NumNodeGroups: !Ref ElasticCachShardsParam
+      AutomaticFailoverEnabled: true
+      CacheNodeType: !Ref ElasticCacheInstanceTypeParam
+      CacheSubnetGroupName: !Ref SubnetGroup
+      Engine: redis
+      ReplicasPerNodeGroup: !Ref NumCacheReplicas
+      Port: !Ref RedisPort
+      PreferredMaintenanceWindow: !Ref PreferredMaintenanceWindowParam
+      ReplicationGroupDescription: !Join 
+        - ''
+        - - 'replication group for '
+          - !ImportValue 
+            'Fn::Sub': '${EnvironmentKeyStack}-EnvironmentName'
+          - ' environment'
+      SecurityGroupIds:
+        - !GetAtt 
+          - ElasticCacheSecurityGroup
+          - GroupId
+      Tags:
+        - Key: Environment
+          Value: !ImportValue 
+            'Fn::Sub': '${EnvironmentKeyStack}-EnvironmentName'
+        - Key: Purpose
+          Value: !ImportValue 
+            'Fn::Sub': '${EnvironmentKeyStack}-Purpose'
+        - Key: Stack
+          Value: !Ref 'AWS::StackName'
+        - Key: Name
+          Value: !Join 
+            - '-'
+            - - !ImportValue 
+                'Fn::Sub': '${EnvironmentKeyStack}-EnvironmentName'
+              - key
+              - !Ref 'AWS::StackName'
+  ElasticCacheSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: !Join 
+        - ''
+        - - 'Created by '
+          - !Ref 'AWS::StackName'
+          - ' stack'
+      VpcId: !ImportValue 
+        'Fn::Sub': '${ParentVpcStack}-VPC'
+      Tags:
+        - Key: Environment
+          Value: !ImportValue 
+            'Fn::Sub': '${EnvironmentKeyStack}-EnvironmentName'
+        - Key: Purpose
+          Value: !ImportValue 
+            'Fn::Sub': '${EnvironmentKeyStack}-Purpose'
+        - Key: Name
+          Value: !Join 
+            - ''
+            - - 'Elastic Cache '
+              - !Ref 'AWS::StackName'
+              - ' for '
+              - !ImportValue 
+                'Fn::Sub': '${EnvironmentKeyStack}-Purpose'
+        - Key: Stack
+          Value: !Ref 'AWS::StackName'
+      SecurityGroupIngress:
+        - Description: Give access to any lambdas running in this subnet
+          IpProtocol: tcp
+          FromPort: 6379
+          ToPort: 6379
+          CidrIp: !ImportValue 
+            'Fn::Sub': '${ParentVpcStack}-SubnetAPrivateCIDR'
+        - Description: Give access to any lambdas running in this subnet
+          IpProtocol: tcp
+          FromPort: 6379
+          ToPort: 6379
+          CidrIp: !ImportValue 
+            'Fn::Sub': '${ParentVpcStack}-SubnetBPrivateCIDR'
+        - Description: Give access to any lambdas running in this subnet
+          IpProtocol: tcp
+          FromPort: 6379
+          ToPort: 6379
+          CidrIp: !ImportValue 
+            'Fn::Sub': '${ParentVpcStack}-SubnetCPrivateCIDR'
+        - !If 
+          - HasPublicCidr
+          - Description: Give access to a public subnet for use over VPN
+            IpProtocol: tcp
+            FromPort: 6379
+            ToPort: 6379
+            CidrIp: {'Fn::ImportValue': !Sub '${ParentOpenVpnStack}-VPNPublicCIDR'}
+          - !Ref 'AWS::NoValue'
+      SecurityGroupEgress: []
+Outputs:
+  ElasticCacheSecurityGroup:
+    Description: Elastic Cache Security Group
+    Value: !Ref ElasticCacheSecurityGroup
+    Export:
+      Name: !Sub '${AWS::StackName}-ElasticCacheSecurityGroup'
+  CacheEndpoint:
+    Description: ElasticCache primary read/write endpoint address
+    Value: !GetAtt 
+      - ElasticCacheReplicationGroup
+      - PrimaryEndPoint.Address
+    Export:
+      Name: !Sub '${AWS::StackName}-CachePrimaryEndpoint'
+  CacheReadOnlyAddresses:
+    Description: ElasticCache read-only addresses
+    Value: !GetAtt 
+      - ElasticCacheReplicationGroup
+      - ReadEndPoint.Addresses
+    Export:
+      Name: !Sub '${AWS::StackName}-CacheReadOnlyAddresses'

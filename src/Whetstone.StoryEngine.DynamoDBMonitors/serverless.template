@@ -1,0 +1,513 @@
+{
+   "AWSTemplateFormatVersion":"2010-09-09",
+   "Transform":"AWS::Serverless-2016-10-31",
+   "Description":"An AWS Serverless Application.",
+   "Parameters":{
+      "ParentVpcStack":{
+         "Description":"Name of stack used to create the VPN and/or subnets. Example: WhetstoneVpc-Dev",
+         "Type":"String",
+         "Default":"WhetstoneVpc-Dev",
+         "AllowedPattern":"^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+      },
+      "KeyStack":{
+         "Description":"Name of stack used to create environment key for decryption. Example: WhetstoneKey-Dev",
+         "Type":"String",
+         "Default":"WhetstoneKey-Dev",
+         "AllowedPattern":"^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+      },
+      "PolicyStack":{
+         "Description":"Name of stack used to create supplemental policies. Example: WhetstoneSharedPolicies-Dev",
+         "Type":"String",
+         "Default":"WhetstoneSharedPolicies-Dev",
+         "AllowedPattern":"^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+      },
+      "DatabaseStack":{
+         "Description":"Name of stack used to create the database or provide a security group. Example: Whetstone-Aurora-Dev",
+         "Type":"String",
+         "Default":"Whetstone-Aurora-Dev",
+         "AllowedPattern":"^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+      },
+	"DynamoTableStack": {
+	      "Description": "Name of stack used to create dynamodb table stores. Example: Whetstone-DynamoDbStore-Dev",
+      "Type": "String",
+      "Default": "Whetstone-DynamoDbStore-Dev",
+      "AllowedPattern": "^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+	},
+      "LambdaNetSerializerDebug":{
+         "Type":"String",
+         "AllowedValues":[
+            "true",
+            "false"
+         ],
+         "Description":"Indicates if the lambda serialization is enabled or not.",
+         "Default":"false"
+      },
+	  "VersionDescription":{
+	    "Type": "String",
+		"Description": "Associate the deployed version with the build",
+		"Default": "Out of band"
+	  },
+	  	  	  "DurationThreshold": {
+	   "Type": "Number",
+		"Description": "If the lambda execution duration exceeds this maximum, then an alarm is raised. Value is in milliseconds.",
+		"Default": "7000"
+
+	  },
+
+	  "CodeDeployRule": {
+    "AllowedValues": [
+        "AllAtOnce",
+        "Linear10PercentEvery1Minute",
+		"Linear10PercentEvery2Minutes",
+		"Linear10PercentEvery3Minutes",
+		"Linear10PercentEvery10Minutes",
+		"Canary10Percent5Minutes",
+		"Canary10Percent10Minutes"
+    ],
+    "Default": "Linear10PercentEvery1Minute",
+    "Description": "Determine whether or not to use a blue/green deployment when pushing out this lambda",
+    "Type": "String"
+},
+  "CustomActionLambdaStack": {
+   "Description": "Stack that defines lambdas for custom resources",
+ "Type": "String",
+ "Default" : "Whetstone-LambdaCustomActions-Dev"
+
+  },
+  	  "DynamoDBFuncBucket": {
+	    "Description": "S3 Bucket of the DynamoDB Sync Function zip deployment",
+	   "Type":"String"
+	  },
+	"DynamoDBFuncBucketKey": {
+	    "Description": "S3 Bucket key of the DynamoDB Sync Function zip deployment",
+	   "Type":"String"
+	  }
+   },
+   "Resources":{
+           "KeyPolicyUpdate": {
+      "Type": "AWS::CloudFormation::CustomResource",
+	  "Properties" : {
+	      "ServiceToken":    {
+                "Fn::ImportValue": {
+                  "Fn::Sub": "${CustomActionLambdaStack}-KeyPolicyUpdateArn"
+                }
+              },
+		   "Key":  {
+                     "Fn::ImportValue":{
+                        "Fn::Sub":"${KeyStack}-EnvironmentKeyArn"
+                     }
+                  },
+			"RoleArn": {"Fn::GetAtt" : [ "UserTableRole", "Arn"]},
+			"GrantType": "EncryptDecrypt"
+	  }
+  },
+       "DyanmoDbSyncErrorAlarm": {
+	       "Type":"AWS::CloudWatch::Alarm",
+		   "Properties": {
+		    "AlarmDescription" : "Error alert alarm for the dynamodb sync process",
+			"Namespace": "AWS/Lambda",
+			"MetricName" : "Error",
+			"Dimensions": [{
+			   "Name": "Resource",
+			   "Value": { "Fn::Join" :[ ":", [  {  "Ref": "SyncUserTableLambda"}, "LIVE" ]  ] }
+			},
+			{
+			   "Name": "FunctionName",
+			   "Value": { "Ref" : "SyncUserTableLambda"}
+			}],
+			"ActionsEnabled": true,
+			"Statistic": "Sum",
+			"Period": 300,
+			"EvaluationPeriods": 1,
+			"Threshold": 0,
+			"ComparisonOperator": "GreaterThanThreshold",
+			"TreatMissingData": "ignore",
+			"AlarmActions": [
+			 {
+                     "Fn::ImportValue":{
+                        "Fn::Sub":"${KeyStack}-ErrorTopicArn"
+                     }
+                  }
+			]
+			  
+
+		   }
+
+	   },
+	    "DyanmoDbSyncDurationAlarm": {
+	       "Type":"AWS::CloudWatch::Alarm",
+		   "Properties": {
+		    "AlarmDescription" : "Duration alert alarm for the dynamodb sync process",
+			"Namespace": "AWS/Lambda",
+			"MetricName" : "Duration",
+			"Dimensions": [{
+			   "Name": "Resource",
+			   "Value": { "Fn::Join" :[ ":", [  {  "Ref": "SyncUserTableLambda"}, "LIVE" ]  ] }
+			},
+			{
+			   "Name": "FunctionName",
+			   "Value": { "Ref" : "SyncUserTableLambda"}
+			}],
+			"ActionsEnabled": true,
+			"Statistic": "Maximum",
+			"Period": 300,
+			"EvaluationPeriods": 1,
+			"Threshold": { "Ref": "DurationThreshold"},
+			"ComparisonOperator": "GreaterThanThreshold",
+			"TreatMissingData": "ignore",
+			"AlarmActions": [
+			 {
+                     "Fn::ImportValue":{
+                        "Fn::Sub":"${KeyStack}-ErrorTopicArn"
+                     }
+                  }
+			]
+			  
+
+		   }
+
+	   },
+	   	"DyanmoDbSyncThrottleAlarm": {
+	       "Type":"AWS::CloudWatch::Alarm",
+		   "Properties": {
+		    "AlarmDescription" : "Throttle alert alarm for the dynamodb sync process",
+			"Namespace": "AWS/Lambda",
+			"MetricName" : "Throttle",
+			"Dimensions": [
+							{
+			   "Name": "Resource",
+			   "Value": { "Fn::Join" :[ ":", [  {  "Ref": "SyncUserTableLambda"}, "LIVE" ]  ] }
+			},
+			{
+			   "Name": "FunctionName",
+			   "Value": { "Ref" : "SyncUserTableLambda"}
+			}
+
+],
+			"ActionsEnabled": true,
+			"Statistic": "Sum",
+			"Period": 300,
+			"EvaluationPeriods": 1,
+			"Threshold": 0,
+			"ComparisonOperator": "GreaterThanThreshold",
+			"TreatMissingData": "ignore",
+			"AlarmActions": [
+			 {
+                     "Fn::ImportValue":{
+                        "Fn::Sub":"${KeyStack}-ErrorTopicArn"
+                     }
+                  }
+			]
+			  
+
+		   }
+
+	   },
+
+       "DynamoDbSyncDeadLetter": {
+            "Type": "AWS::SQS::Queue",
+            "Properties": {
+                "ReceiveMessageWaitTimeSeconds": 20,
+                "VisibilityTimeout": 30,
+                "MessageRetentionPeriod": 1209600,
+                "KmsMasterKeyId": {
+                    "Fn::ImportValue": {
+                        "Fn::Sub": "${KeyStack}-EnvironmentKeyAlias"
+                    }
+                },
+                "KmsDataKeyReusePeriodSeconds": 86400,
+                "Tags": [
+                    {
+                        "Key": "Environment",
+                        "Value": {
+                            "Fn::ImportValue": {
+                                "Fn::Sub": "${KeyStack}-EnvironmentName"
+                            }
+                        }
+                    },
+                    {
+                        "Key": "Purpose",
+                        "Value": {
+                            "Fn::ImportValue": {
+                                "Fn::Sub": "${KeyStack}-Purpose"
+                            }
+                        }
+                    },
+                    {
+                        "Key": "Stack",
+                        "Value": {
+                            "Ref": "AWS::StackName"
+                        }
+                    },
+                    {
+                        "Key": "Name",
+                        "Value": {
+                            "Fn::Join": [
+                                "-",
+                                [
+                                    {
+                                        "Fn::ImportValue": {
+                                            "Fn::Sub": "${KeyStack}-EnvironmentName"
+                                        }
+                                    },
+                                    "key",
+                                    {
+                                        "Ref": "AWS::StackName"
+                                    }
+                                ]
+                            ]
+                        }
+                    }
+                ]
+            },
+            "DeletionPolicy": "Delete"
+        },
+
+
+      "SyncUserTableLambda":{
+         "Type":"AWS::Serverless::Function",
+         "Properties":{
+		  "Description" : "Propagates data from the dynamo db user store table to postgres",
+		           "Handler": "not-required",
+        "Runtime": "provided",
+
+            "CodeUri":{ "Bucket":  { "Ref": "DynamoDBFuncBucket" },
+			"Key": { "Ref": "DynamoDBFuncBucketKey"  } },
+			"AutoPublishAlias": "LIVE",
+		"DeploymentPreference": {	
+		  "Enabled": true,
+		  "Type":  { "Ref": "CodeDeployRule"}
+		},		
+		"VersionDescription":  { "Fn::Sub": "${VersionDescription}" },
+            "MemorySize":1024,
+            "Timeout":30,
+            "Role":{
+               "Fn::GetAtt":[
+                  "UserTableRole",
+                  "Arn"
+               ]
+            },
+            "Policies":[
+               "AWSLambdaBasicExecutionRole"
+            ],
+            "Events":{ 
+			 "DynamoMonitorEvent" : {
+			     "Type" : "DynamoDB",
+			     "Properties" : {
+				  "BatchSize" : 100,
+			         "StartingPosition" : "TRIM_HORIZON",
+			         "Stream"           :       {
+                     "Fn::ImportValue":{
+                        "Fn::Sub":"${DynamoTableStack}-UserTableStreamArn"
+                     }
+                  }
+			     }
+			 }
+            },
+            "Environment":{
+               "Variables":{
+                  "DOTNET_SHARED_STORE":"/opt/dotnetcore/store/",
+                  "BOOTSTRAP":{
+                     "Fn::ImportValue":{
+                        "Fn::Sub":"${PolicyStack}-BootstrapParameter"
+                     }
+                  },
+                  "LAMBDA_NET_SERIALIZER_DEBUG":{
+                     "Ref":"LambdaNetSerializerDebug"
+                  },
+                  "DBUSERTYPE":"StoryEngineUser"
+               }
+            },
+			"DeadLetterQueue": {  
+			 "Type": "SQS",
+			 "TargetArn" : {"Fn::GetAtt": [ "DynamoDbSyncDeadLetter", "Arn"]}
+			
+			},
+            "VpcConfig":{
+               "SubnetIds":[
+                  {
+                     "Fn::ImportValue":{
+                        "Fn::Sub":"${ParentVpcStack}-SubnetAPrivate"
+                     }
+                  },
+                  {
+                     "Fn::ImportValue":{
+                        "Fn::Sub":"${ParentVpcStack}-SubnetBPrivate"
+                     }
+                  },
+                  {
+                     "Fn::ImportValue":{
+                        "Fn::Sub":"${ParentVpcStack}-SubnetCPrivate"
+                     }
+                  }
+               ],
+               "SecurityGroupIds":[
+                  {
+                     "Fn::ImportValue":{
+                        "Fn::Sub":"${DatabaseStack}-SecurityGroup"
+                     }
+                  },
+                  {
+                     "Fn::ImportValue":{
+                        "Fn::Sub":"${ParentVpcStack}-SSMSecurityGroup"
+                     }
+                  }
+               ]
+            }
+			
+
+         }
+      },
+	     "DynamoDbDeadLetterReader": {
+            "Type": "AWS::IAM::ManagedPolicy",
+            "Properties": {
+                "Path": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            "/",
+                            {
+                                "Fn::ImportValue": {
+                                    "Fn::Sub": "${KeyStack}-EnvironmentName"
+                                }
+                            },
+                            "/"
+                        ]
+                    ]
+                },
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "sqs:DeleteMessage",
+                                "sqs:ReceiveMessage",
+                                "sqs:GetQueueAttributes"
+                            ],
+                            "Resource": {
+                                "Fn::GetAtt": [
+                                    "DynamoDbSyncDeadLetter",
+                                    "Arn"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+
+      "UserTableRole":{
+         "Type":"AWS::IAM::Role",
+         "Properties":{
+            "Path":{
+               "Fn::Join":[
+                  "",
+                  [
+                     "/",
+                     {
+                        "Fn::ImportValue":{
+                           "Fn::Sub":"${KeyStack}-EnvironmentName"
+                        }
+                     },
+                     "/"
+                  ]
+               ]
+            },
+            "ManagedPolicyArns":[
+               {
+                  "Fn::ImportValue":{
+                     "Fn::Sub":"${PolicyStack}-BootstrapConfigPolicy"
+                  }
+               },
+               {
+                  "Fn::ImportValue":{
+                     "Fn::Sub":"${PolicyStack}-EngineDbAuthPolicy"
+                  }
+               },
+			    {
+                  "Fn::ImportValue":{
+                     "Fn::Sub":"${DynamoTableStack}-UserTableStreamPolicyArn"
+                  } },
+							
+               "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+            ],
+        "Policies" : [
+          {
+            "PolicyName": "DeadLetterWriterPolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                            "Action": [
+                                "sqs:SendMessage",
+                                "sqs:GetQueueAttributes",
+                                "sqs:GetQueueUrl"
+                            ],
+                            "Resource": {
+                                "Fn::GetAtt": [
+                                    "DynamoDbSyncDeadLetter",
+                                    "Arn"
+                                ]
+                            }
+                        }
+                   ]
+				   }
+				   }
+		],
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ]
+        }
+         }
+      }
+   },
+   "Outputs":{
+
+       "UserTableFunctionRoleArn": {
+      "Description": "ARN of the role used by this API",
+      "Value": {
+        "Fn::GetAtt": [
+          "UserTableRole",
+          "Arn"
+        ]
+      }
+    },
+	 "DynamoDbDeadLetterReaderPolicyArn": {
+            "Description": "DynamoDbDeadLetter queue reader policy",
+            "Value": {
+                "Ref": "DynamoDbDeadLetterReader"
+            },
+            "Export": {
+                "Name": {
+                    "Fn::Sub": "${AWS::StackName}-DynamoDbDeadLetterReader"
+                }
+            }
+        },
+
+   
+      "DynamoDbDeadLetterQueueArn": {
+            "Description": "Arn of the dynamo db sync dead letter queue",
+            "Value": {
+                "Fn::GetAtt": [
+                    "DynamoDbSyncDeadLetter",
+                    "Arn"
+                ]
+            },
+            "Export": {
+                "Name": {
+                    "Fn::Sub": "${AWS::StackName}-SessionAuditArn"
+                }
+            }
+        }
+	}
+}

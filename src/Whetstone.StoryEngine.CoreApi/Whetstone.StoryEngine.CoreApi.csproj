@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>   
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <AWSProjectType>Lambda</AWSProjectType>
+    <AssemblyName>Whetstone.StoryEngine.CoreApi</AssemblyName>
+    <RootNamespace>Whetstone.StoryEngine.CoreApi</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <DebugType>portable</DebugType>
+    <StartupObject></StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="bootstrap" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bootstrap">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.RuntimeSupport" Version="1.3.0" />
+    <PackageReference Include="AWSXRayRecorder.Handlers.AspNetCore" Version="2.7.1" />
+    <PackageReference Include="CsvHelper" Version="19.0.0" />
+    <PackageReference Include="AWSSDK.S3" Version="3.3.110.54" />
+    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.3.101" />
+    <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="5.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Xml" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.5" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Whetstone.StoryEngine.AlexaProcessor\Whetstone.StoryEngine.AlexaProcessor.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Data.EntityFramework\Whetstone.StoryEngine.Data.EntityFramework.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Data\Whetstone.StoryEngine.Data.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.DependencyInjection\Whetstone.StoryEngine.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Google.Management\Whetstone.StoryEngine.Google.Management.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Notifications.Repository\Whetstone.StoryEngine.Notifications.Repository.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Reporting.Models\Whetstone.StoryEngine.Reporting.Models.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Reporting.ReportRepository\Whetstone.StoryEngine.Reporting.ReportRepository.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Security\Whetstone.StoryEngine.Security.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.WebLibrary\Whetstone.StoryEngine.WebLibrary.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.SocketApi.Repository\Whetstone.StoryEngine.SocketApi.Repository.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="WebSockets\" />
+  </ItemGroup>
+</Project>

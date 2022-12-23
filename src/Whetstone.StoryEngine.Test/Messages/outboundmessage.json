@@ -1,0 +1,24 @@
+{
+  "id": "d7f7a927-8384-417d-b22d-60f8d9471418",
+  "notificationType": "Sms",
+  "textMessages": [
+    "Reply YES\nto accept terms and agree to receive messages from Whetstone Technologies.\n\nThen you'll get your offer code and the whitepaper link in another text message.\n\nMsg & data rates may apply.\n\nView terms at: http://bit.ly/2LseYQm\n"
+  ],
+  "tags": null,
+  "sourceNumber": "+12672140345",
+  "destinationNumberId": "927d94ea-ab28-4c0e-9f35-c68b8c83d4df",
+  "smsProvider": "Twilio",
+  "source": {
+    "notificationSourceType": "PhoneMessageAction",
+    "consent": {
+      "id": "d657e52a-1f33-4fc7-8a09-3e7da9420f28",
+      "titleClientUserId": "9fd5f7cc-8135-46b0-97af-7a3e24e81feb",
+      "phoneId": "927d94ea-ab28-4c0e-9f35-c68b8c83d4df",
+      "titleVersionId": "6d823f41-76a3-4b39-bcb3-a7de41d0a92d",
+      "name": "whetstonetechnologies",
+      "isConsentGranted": true,
+      "smsConsentDate": "2019-12-25T17:33:35Z",
+      "engineRequestId": "000dfa16-97b6-4d3f-a1b3-144909e4d552"
+    }
+  }
+}

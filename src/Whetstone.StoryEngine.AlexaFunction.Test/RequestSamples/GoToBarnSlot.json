@@ -1,0 +1,45 @@
+﻿{
+"session": {
+"new": false,
+"sessionId": "SessionId.761290d2-2fb1-426a-a214-9ad010d898d7",
+"application": {
+"applicationId": "amzn1.ask.skill.b63175d7-1346-4b52-86f4-3bd76f1b72dc"
+},
+"attributes": {},
+"user": {
+"userId": "amzn1.ask.account.AFNLHNJW36KL4YX22TOKOSGXGWYAQ7DJBWTA3XWQXZGYDKDERFEVMZMTOWBCI35TMDJ3LRJVNFEYDDB4ACXHHDXBL2FEFC57FESVFZCQTSRMEPJHMJA5DWBSRJ6CQJXCE2TWNSD7OQICJVLANTJY5PX2QGSPPAJDAGL3NVLRA5S2W73LT7MO22NIFOSJXMXV76JH2JWHWKOJWAI"
+}
+},
+"request": {
+"type": "IntentRequest",
+"requestId": "EdwRequestId.ccdac94d-df24-4374-82b3-2ce9edc8f570",
+"intent": {
+"name": "GotoLocation",
+"slots": {
+"location": {
+"name": "location",
+"value": "barn"
+}
+}
+},
+"locale": "en-US",
+"timestamp": "2018-01-06T16:15:54Z"
+},
+"context": {
+"AudioPlayer": {
+"playerActivity": "IDLE"
+},
+"System": {
+"application": {
+"applicationId": "amzn1.ask.skill.b63175d7-1346-4b52-86f4-3bd76f1b72dc"
+},
+"user": {
+"userId": "amzn1.ask.account.AFNLHNJW36KL4YX22TOKOSGXGWYAQ7DJBWTA3XWQXZGYDKDERFEVMZMTOWBCI35TMDJ3LRJVNFEYDDB4ACXHHDXBL2FEFC57FESVFZCQTSRMEPJHMJA5DWBSRJ6CQJXCE2TWNSD7OQICJVLANTJY5PX2QGSPPAJDAGL3NVLRA5S2W73LT7MO22NIFOSJXMXV76JH2JWHWKOJWAI"
+},
+"device": {
+"supportedInterfaces": {}
+}
+}
+},
+"version": "1.0"
+}

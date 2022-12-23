@@ -1,0 +1,706 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: 'CloudFormation Template to create PostgreSQL DB Instance'
+
+###############################################################################
+# Parameters 
+###############################################################################   
+
+Parameters:
+
+  ParentVpcStack:
+    Description: >-
+      Name of stack used to create the VPN and/or subnets. Example:
+      WhetstoneVpc-Dev
+    Type: String
+    Default: WhetstoneVpc-Dev
+    AllowedPattern: '^[a-zA-Z]+[0-9a-zA-Z\-]*$'
+  EnvironmentKeyStack:
+    Type: String
+    Default: WhetstoneKey-Dev
+    Description: Root environment stack that defines the environment key and purpose.
+    AllowedPattern: '^[a-zA-Z]+[0-9a-zA-Z\-]*$'
+  ParentOpenVpnStack:
+    Type: String
+    Description: 'Optional. Stack used to generate an OpenVPN connection in the environment. Example: WhetstoneOpenVpn-Dev'
+
+  DBPort:
+    Description: TCP/IP Port for the Database Instance
+    Type: Number
+    Default: '5432'
+    ConstraintDescription: 'Must be in the range [1115-65535]'
+    MinValue: '1115'
+    MaxValue: '65535'
+    
+  DBUsername:
+    Description: Database master username
+    Type: String
+    MinLength: '1'
+    MaxLength: '16'
+    AllowedPattern: "^[a-zA-Z0-9_]*$"
+    ConstraintDescription: Must start with a letter. Only numbers, letters, and _ accepted. max length 16 characters
+
+  DBEngineVersion:
+    Description: Select Database Engine Version
+    Type: String
+    Default: 9.6.8
+    AllowedValues:
+      - 9.6.8
+      - 9.6.9
+      - 10.4
+      - 10.5
+      - 10.6
+      - 10.7
+      - 11.1
+      - 11.2
+      - 11.4
+     
+  DBInstanceClass:
+    Default: db.t3.small
+    Description: Database Instance Class
+    Type: String
+    AllowedValues:
+    - db.t3.micro
+    - db.t3.small
+    - db.t3.medium
+    - db.t3.large
+    - db.t3.xlarge
+    - db.t3.2xlarge
+    - db.r5.large
+    - db.r5.xlarge
+    - db.r5.2xlarge
+    - db.r5.4xlarge
+    - db.r5.12xlarge
+    - db.r5.24xlarge
+  IsProduction:
+    Description: Indicates if this is a production database or not
+    Type: String
+    Default: 'false'
+    AllowedValues: ['true', 'false']
+
+  LambdaBootStrapS3Key:
+    Description: Optional. Specify S3 key for e.g. lambda/dbbootstrap.zip where Lambda DB Bootstrap Python 3.6 script is stored. E.g. cloud-formation/dbbootstrap.zip
+    Default: ""
+    Type: String
+  
+###########################################################################
+# Mandatory tags that will be added to all resources that support tags
+###########################################################################
+  
+ 
+  ServiceOwnersEmailContact:
+    Type: String
+    Default: john@whetstonetechnologies.io
+    Description: The ServiceOwnersEmailContact tag is used to designate business owner(s) email address associated with the given AWS resource for sending outage or maintenance notifications
+    AllowedPattern: '^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
+    ConstraintDescription: provide a valid email address.
+    
+  NotificationList:
+    Type: String
+    Default: john@whetstonetechnologies.io
+    Description: The Email notification list is used to configure a SNS topic for sending cloudwatch alarm and RDS Event notifications
+    AllowedPattern: '^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
+    ConstraintDescription: provide a valid email address.
+
+
+###############################################################################
+# Parameter groups
+###############################################################################
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: DB Parameters
+        Parameters:
+          - DBPort
+          - DBUsername
+          - DBInstanceClass
+          - DBEngineVersion
+          - NotificationList
+          - LambdaBootStrapS3Key
+      - Label:
+          default: Networking
+        Parameters:
+          - ParentVpcStack
+      - Label:
+          default: Mandatory Tags
+        Parameters:  
+          - ServiceOwnersEmailContact
+          
+###############################################################################
+# Mappings
+###############################################################################
+ 
+Mappings: 
+  DBFamilyMap: 
+    "9.6.8": 
+       "family": "postgres9"
+    "9.6.9": 
+       "family": "postgres9"
+    "10.4":
+       "family": "postgres10"
+    "10.5":
+       "family": "postgres10"
+    "10.6":
+       "family": "postgres10"
+    "10.7":
+       "family": "postgres10"
+    "11.1":
+       "family": "postgres11"
+    "11.2":
+       "family": "postgres11"
+    "11.4":
+       "family": "postgres11"
+      
+###############################################################################
+# Conditions
+############################################################################### 
+Conditions:
+  IsProd: !Equals [ !Ref IsProduction, 'true']
+  DoDBBootStrap: !Not [!Equals [!Ref LambdaBootStrapS3Key, '']]
+  HasPublicCidr: !Not [!Equals [!Ref ParentOpenVpnStack, '' ]] 
+
+###############################################################################
+# Resources 
+###############################################################################   
+    
+Resources:
+
+  MonitoringIAMRole: 
+    Type: AWS::IAM::Role
+    Condition: IsProd
+    Properties: 
+      AssumeRolePolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - 
+            Effect: "Allow"
+            Principal: 
+              Service: 
+                - "monitoring.rds.amazonaws.com"
+            Action: 
+              - "sts:AssumeRole"
+      Path: "/"
+      ManagedPolicyArns: 
+        - arn:aws:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole
+
+  DBBootStrapLambdaRole:
+    Type: AWS::IAM::Role
+    Condition: DoDBBootStrap
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: 
+              - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole'
+        - {'Fn::ImportValue': !Sub '${EnvironmentKeyStack}-BucketReaderPolicy'}
+      Policies:
+        - 
+          PolicyName: "secretaccess"
+          PolicyDocument: 
+            Version: "2012-10-17"
+            Statement: 
+              - 
+                Effect: "Allow"
+                Action: "secretsmanager:GetSecretValue"
+                Resource: !Ref DatabaseMasterSecret
+        
+  DBSNSTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      Subscription:
+      - Endpoint: !Ref NotificationList    
+        Protocol: email
+        
+  DBSubnetGroup:
+    Type: 'AWS::RDS::DBSubnetGroup'
+    Properties:
+      DBSubnetGroupDescription: !Ref 'AWS::StackName'
+      SubnetIds:
+        - {'Fn::ImportValue': !Sub '${ParentVpcStack}-SubnetAPrivate'}
+        - {'Fn::ImportValue': !Sub '${ParentVpcStack}-SubnetBPrivate'}
+        - {'Fn::ImportValue': !Sub '${ParentVpcStack}-SubnetCPrivate'} 
+
+
+  DBInstanceSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: !Ref 'AWS::StackName'
+      SecurityGroupIngress:
+      - !If 
+        - HasPublicCidr
+        - IpProtocol: tcp
+          FromPort: !Ref DBPort
+          ToPort: !Ref DBPort
+          SourceSecurityGroupId: {'Fn::ImportValue': !Sub '${ParentOpenVpnStack}-OpenVPNVPNASSG'}
+          Description: 'Access to Vpn Security Group'
+        - !Ref 'AWS::NoValue'
+      - IpProtocol: tcp
+        FromPort: !Ref DBPort
+        ToPort: !Ref DBPort
+        SourceSecurityGroupId: {'Fn::ImportValue': !Sub '${ParentVpcStack}-SecretRotationLambdaSecurityGroup'}
+        Description: 'Access to Lambda Security Group'
+      VpcId: {'Fn::ImportValue': !Sub '${ParentVpcStack}-VPC'}
+      Tags:
+      - Key: Name
+        Value: !Sub '${AWS::StackName}-PostgreSQLSecurityGroup'
+        
+  DBInstanceSecurityGroupIngress:
+    Type: 'AWS::EC2::SecurityGroupIngress'
+    Properties:
+      GroupId: !GetAtt 'DBInstanceSecurityGroup.GroupId'
+      IpProtocol: '-1'
+      SourceSecurityGroupId: !Ref DBInstanceSecurityGroup
+      Description: 'Self Reference'        
+      
+        
+  DBParamGroup:
+    Type: AWS::RDS::DBParameterGroup
+    Properties:
+      Description: !Sub "PG Database Instance Parameter Group for Stack ${AWS::StackName}"
+      Family: !FindInMap [DBFamilyMap, !Ref DBEngineVersion, "family"] 
+      Parameters:
+        shared_preload_libraries: auto_explain,pg_stat_statements,pg_hint_plan,pgaudit
+        log_statement: "ddl"
+        log_connections: '1'
+        log_disconnections: '1'
+        log_lock_waits: '1'
+        log_min_duration_statement: '5000'
+        auto_explain.log_min_duration: '5000'
+        auto_explain.log_verbose: '1'
+        log_rotation_age: '1440'
+        log_rotation_size: '102400'
+        rds.log_retention_period: '10080'
+        random_page_cost: '1'
+        track_activity_query_size: '16384'
+        idle_in_transaction_session_timeout: '7200000'
+        statement_timeout: '7200000'
+        search_path: '"$user",public'
+
+  DatabaseKMSCMK:
+    Type: 'AWS::KMS::Key'
+    DeletionPolicy: Retain
+    Properties:
+      KeyPolicy:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            AWS: !Sub 'arn:aws:iam::${AWS::AccountId}:root'
+          Action: 'kms:*'
+          Resource: '*'
+        - Effect: Allow
+          Principal:
+            AWS: '*'
+          Action:
+          - 'kms:Encrypt'
+          - 'kms:Decrypt'
+          - 'kms:ReEncrypt*'
+          - 'kms:GenerateDataKey*'
+          - 'kms:CreateGrant'
+          - 'kms:ListGrants'
+          - 'kms:DescribeKey'
+          Resource: '*'
+          Condition:
+            StringEquals:
+              'kms:CallerAccount': !Ref 'AWS::AccountId'
+              'kms:ViaService': !Sub 'rds.${AWS::Region}.amazonaws.com'
+
+  DatabaseKMSCMKAlias:
+    Type: 'AWS::KMS::Alias'
+    DeletionPolicy: Retain
+    DependsOn: DBSingleInstance
+    Properties:
+      AliasName: !Sub 'alias/${DBSingleInstance}'
+      TargetKeyId: !Ref DatabaseKMSCMK
+
+  DatabaseMasterSecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Name: !Join ['/', [{'Fn::ImportValue': !Sub '${EnvironmentKeyStack}-Purpose'}, 'pg', !Ref 'AWS::StackName']]
+      Description: !Join ['', ['PostgreSQL Master User Secret ', 'for CloudFormation Stack ', !Ref 'AWS::StackName']]
+      Tags:
+        - Key: Purpose
+          Value: !ImportValue 
+            'Fn::Sub': '${EnvironmentKeyStack}-Purpose'
+        - Key: DatabaseEngine
+          Value: 'PostgreSQL'
+        - Key: StackID
+          Value: !Ref 'AWS::StackId'
+      GenerateSecretString:
+        SecretStringTemplate: !Join ['', ['{"username": "', !Ref DBUsername, '"}']]
+        GenerateStringKey: "password"
+        ExcludeCharacters: '"@/\'
+        PasswordLength: 16
+
+  SecretPosgreSQLInstancAttachment:
+    Type: AWS::SecretsManager::SecretTargetAttachment
+    Properties:
+      SecretId: !Ref DatabaseMasterSecret
+      TargetId: !Ref DBSingleInstance
+      TargetType: AWS::RDS::DBInstance
+
+  DatabaseSecretResourcePolicy:
+    Type: AWS::SecretsManager::ResourcePolicy
+    Properties:
+      SecretId: !Ref DatabaseMasterSecret
+      ResourcePolicy:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Deny"
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+            Action: "secretsmanager:DeleteSecret"
+            Resource: "*"
+  
+  CreateSecretRotationLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: 
+              - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole'
+        - 'arn:aws:iam::aws:policy/SecretsManagerReadWrite'
+        - 'arn:aws:iam::aws:policy/IAMFullAccess'
+      Policies:
+        - 
+          PolicyName: "AdditionalPermissions"
+          PolicyDocument: 
+            Version: "2012-10-17"
+            Statement: 
+              - 
+                Effect: "Allow"
+                Action:
+                  - "cloudformation:DescribeStackResources"
+                  - "cloudformation:DeleteStack"
+                Resource: "*"
+              - 
+                Effect: "Allow"
+                Action:
+                  - "lambda:DeleteFunction"
+                  - "lambda:GetFunctionConfiguration"
+                Resource: "arn:aws:lambda:*:*:function:SecretsManager*"
+  
+  CreateSecretRotationLambdaFn:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        ZipFile: |
+          from __future__ import print_function
+          import cfnresponse
+          import boto3
+          
+          def lambda_handler(event, context):
+              slrepoclient = boto3.client('serverlessrepo')
+              cfclient = boto3.client('cloudformation')
+              lambdaclient = boto3.client('lambda')
+              SecretsManagerEndpoint = event['ResourceProperties']['SecretsManagerEndpoint']
+              SecretRotationLambdaFnName = event['ResourceProperties']['SecretRotationLambdaFnName']
+              SecretRotationLambdaStackName = event['ResourceProperties']['SecretRotationLambdaStackName']
+              SubnetIds = event['ResourceProperties']['SubnetIds']
+              SecretRotationLambdaSG = event['ResourceProperties']['SecretRotationLambdaSG']
+              
+              responseData = {}
+               
+              try: 
+                  if event['RequestType'] == 'Create':
+                      serverlessreporesponse = slrepoclient.create_cloud_formation_change_set(ApplicationId='arn:aws:serverlessrepo:us-east-1:297356227824:applications/SecretsManagerRDSPostgreSQLRotationSingleUser', 
+                      ParameterOverrides=[
+                          {
+                              'Name': 'endpoint',
+                              'Value': SecretsManagerEndpoint
+                          },
+                          {
+                              'Name': 'functionName',
+                              'Value': SecretRotationLambdaFnName
+                          },
+                      ],
+                      StackName=SecretRotationLambdaStackName)
+                      waiter = cfclient.get_waiter('change_set_create_complete')
+                      waiter.wait(ChangeSetName=serverlessreporesponse['ChangeSetId'],WaiterConfig={'Delay': 10,'MaxAttempts': 60})
+                      
+                      cloudformationresponse = cfclient.execute_change_set(ChangeSetName=serverlessreporesponse['ChangeSetId'])
+                      waiter = cfclient.get_waiter('stack_create_complete')
+                      waiter.wait(StackName=serverlessreporesponse['StackId'],WaiterConfig={'Delay': 10,'MaxAttempts': 60})
+                      
+                      lambdaresponse = lambdaclient.add_permission(FunctionName=SecretRotationLambdaFnName,StatementId='SecretsManagerAccess',Action='lambda:InvokeFunction',Principal='secretsmanager.amazonaws.com')
+                      lambdaresponse = lambdaclient.update_function_configuration(FunctionName=SecretRotationLambdaFnName,VpcConfig={'SubnetIds': SubnetIds,'SecurityGroupIds': SecretRotationLambdaSG})
+                      
+                      responseData['Data'] = "SUCCESS: Secret Rotation Lambda created successfully."
+                      responseData['SecretRotationLambdaARN'] = lambdaclient.get_function(FunctionName=SecretRotationLambdaFnName)['Configuration']['FunctionArn']
+                      
+                      cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, "None")               
+                  elif event['RequestType'] == 'Delete':
+                      SecretRotationLambdaStackName = cfclient.describe_stack_resources(PhysicalResourceId=SecretRotationLambdaFnName,LogicalResourceId='SecretsManagerRDSPostgreSQLRotationSingleUser')['StackResources'][0]['StackName']
+                      response = cfclient.delete_stack(StackName=SecretRotationLambdaStackName)
+                      waiter = cfclient.get_waiter('stack_delete_complete')
+                      waiter.wait(StackName='string',WaiterConfig={'Delay': 10,'MaxAttempts': 60})
+                      
+                      responseData['Data'] = "SUCCESS: Stack delete complete."
+                      cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, "None")
+                  else:
+                      responseData['Data'] = "{} is unsupported stack operation for this lambda function.".format(event['RequestType'])
+                      cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, "None")
+              except Exception as e:
+                  print(e)
+                  responseData['Data'] = "ERROR: Exception encountered!"
+                  cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, "None")
+      Description: >-
+          Create Secret Rotation Lambda function using AWS Serverless Application Repository with template provided by AWS Secrets Manager
+      Handler: index.lambda_handler
+      MemorySize: 128
+      Role: !GetAtt CreateSecretRotationLambdaRole.Arn
+      Runtime: python2.7
+      Timeout: 120
+      VpcConfig: 
+        SecurityGroupIds: !Split [',', {'Fn::ImportValue': !Sub '${ParentVpcStack}-SecretRotationLambdaSecurityGroup'}]
+        SubnetIds:
+        - {'Fn::ImportValue': !Sub '${ParentVpcStack}-SubnetAPrivate'}
+        - {'Fn::ImportValue': !Sub '${ParentVpcStack}-SubnetBPrivate'}
+        - {'Fn::ImportValue': !Sub '${ParentVpcStack}-SubnetCPrivate'} 
+
+  CreateSecretRotationLambdaFnTrigger:
+    Type: Custom::LambdaAPGSecretsManager
+    Version: "1.0"
+    Properties:
+      ServiceToken: !GetAtt 'CreateSecretRotationLambdaFn.Arn'
+      SecretsManagerEndpoint: !Sub 'https://secretsmanager.${AWS::Region}.amazonaws.com'
+      SecretRotationLambdaFnName: !Sub 'SecretsManager-SecretRotationFn-${AWS::StackName}'
+      SecretRotationLambdaStackName: !Sub '${AWS::StackName}-SecretRotationLambdaStack'
+      SubnetIds:
+      - {'Fn::ImportValue': !Sub '${ParentVpcStack}-SubnetAPrivate'}
+      - {'Fn::ImportValue': !Sub '${ParentVpcStack}-SubnetBPrivate'}
+      - {'Fn::ImportValue': !Sub '${ParentVpcStack}-SubnetCPrivate'} 
+      SecretRotationLambdaSG: !Split [',', {'Fn::ImportValue': !Sub '${ParentVpcStack}-SecretRotationLambdaSecurityGroup'}]
+        
+  
+  PostgreSQLSecretRotationSchedule:
+    Type: AWS::SecretsManager::RotationSchedule
+    DependsOn:
+      - SecretPosgreSQLInstancAttachment
+      - DBSingleInstance
+    Properties:
+      SecretId: !Ref DatabaseMasterSecret
+      RotationLambdaARN: !GetAtt CreateSecretRotationLambdaFnTrigger.SecretRotationLambdaARN
+      RotationRules:
+        AutomaticallyAfterDays: 30
+        
+  DBSingleInstance:
+    Type: AWS::RDS::DBInstance
+    DeletionPolicy: Retain
+    Properties:
+      CopyTagsToSnapshot: true  
+      DBInstanceClass:
+        Ref: DBInstanceClass
+      Engine: postgres
+      EngineVersion: !Ref DBEngineVersion
+      DBParameterGroupName:
+        Ref: DBParamGroup
+      MonitoringInterval: !If [IsProd, 1, 0]
+      MonitoringRoleArn: !If [IsProd, !GetAtt MonitoringIAMRole.Arn, !Ref "AWS::NoValue"]
+      AutoMinorVersionUpgrade: !If [IsProd, false, true]
+      DBSubnetGroupName: !Ref DBSubnetGroup
+      PubliclyAccessible: false
+      EnableIAMDatabaseAuthentication: true
+      KmsKeyId: !Ref DatabaseKMSCMK
+      EnablePerformanceInsights: true
+      MultiAZ: true
+      Iops: 1000
+      VPCSecurityGroups:
+        - !GetAtt DBInstanceSecurityGroup.GroupId
+      AllocatedStorage: '100'
+      BackupRetentionPeriod: !If [IsProd, '35', '7']
+      StorageEncrypted:  true
+      StorageType: 'io1'
+      MasterUsername: !Join ['', ['{{resolve:secretsmanager:', !Ref DatabaseMasterSecret, ':SecretString:username}}' ]]
+      MasterUserPassword: !Join ['', ['{{resolve:secretsmanager:', !Ref DatabaseMasterSecret, ':SecretString:password}}' ]]
+      PerformanceInsightsKMSKeyId: !Ref DatabaseKMSCMK
+      PerformanceInsightsRetentionPeriod: !If [IsProd, 731, 7]
+      Tags:
+        - Key: Purpose
+          Value: {'Fn::ImportValue': !Sub '${EnvironmentKeyStack}-Purpose'}
+        - Key: ServiceOwnersEmailContact
+          Value: !Ref ServiceOwnersEmailContact
+
+          
+  CPUUtilizationAlarm1:
+    Type: "AWS::CloudWatch::Alarm"
+    Properties:
+      ActionsEnabled: true
+      AlarmActions:
+      - Ref: DBSNSTopic
+      AlarmDescription: 'CPU_Utilization'
+      Dimensions:
+      - Name: DBInstanceIdentifier
+        Value:
+          Ref: DBSingleInstance
+      MetricName: CPUUtilization
+      Statistic: Maximum
+      Namespace: 'AWS/RDS'
+      Threshold: 80
+      Unit: Percent
+      ComparisonOperator: 'GreaterThanOrEqualToThreshold'
+      Period: 60
+      EvaluationPeriods: 5
+      TreatMissingData: 'notBreaching'
+      
+
+      
+  MaxUsedTxIDsAlarm1:
+    Type: "AWS::CloudWatch::Alarm"
+    Properties:
+      ActionsEnabled: true
+      AlarmActions:
+      - Ref: DBSNSTopic
+      AlarmDescription: 'Maximum Used Transaction IDs'
+      Dimensions:
+      - Name: DBInstanceIdentifier
+        Value:
+          Ref: DBSingleInstance
+      MetricName: 'MaximumUsedTransactionIDs'
+      Statistic: Average
+      Namespace: 'AWS/RDS'
+      Threshold: 600000000
+      Unit: Count
+      ComparisonOperator: 'GreaterThanOrEqualToThreshold'
+      Period: 60
+      EvaluationPeriods: 5
+      TreatMissingData: 'notBreaching'
+
+  FreeLocalStorageAlarm1:
+    Type: "AWS::CloudWatch::Alarm"
+    Properties:
+      ActionsEnabled: true
+      AlarmActions:
+      - Ref: DBSNSTopic
+      AlarmDescription: 'Free Local Storage'
+      Dimensions:
+      - Name: DBInstanceIdentifier
+        Value:
+          Ref: DBSingleInstance
+      MetricName: 'FreeLocalStorage'
+      Statistic: Average
+      Namespace: 'AWS/RDS'
+      Threshold: 5368709120
+      Unit: Bytes
+      ComparisonOperator: 'LessThanOrEqualToThreshold'
+      Period: 60
+      EvaluationPeriods: 5
+      TreatMissingData: 'notBreaching'
+      
+
+  DatabaseInstanceEventSubscription:
+    Type: 'AWS::RDS::EventSubscription'
+    Properties:
+      EventCategories:
+      - availability
+      - configuration change
+      - deletion
+      - failover
+      - failure
+      - maintenance
+      - notification
+      - recovery
+      SnsTopicArn: !Ref DBSNSTopic
+      SourceIds: 
+      - !Ref DBSingleInstance
+      SourceType: 'db-instance'
+      
+  DBParameterGroupEventSubscription:
+    Type: 'AWS::RDS::EventSubscription'
+    Properties:
+      EventCategories:
+      - configuration change
+      SnsTopicArn: !Ref DBSNSTopic
+      SourceIds: [!Ref DBParamGroup]
+      SourceType: 'db-parameter-group'
+   
+  DBBootStrapLambdaFn:
+    Condition: DoDBBootStrap
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: {'Fn::ImportValue': !Sub '${EnvironmentKeyStack}-S3UtilityBucketBucket'}
+        S3Key: !Ref LambdaBootStrapS3Key
+      Description: >-
+          BootStrap newly Created PostgreSQL Database
+      Handler: dbbootstrap.handler
+      MemorySize: 128
+      Role: !GetAtt DBBootStrapLambdaRole.Arn
+      Runtime: python2.7
+      Timeout: 60
+      VpcConfig: 
+        SecurityGroupIds: !Split [',', {'Fn::ImportValue': !Sub '${ParentVpcStack}-SecretRotationLambdaSecurityGroup'}]
+        SubnetIds:
+        - {'Fn::ImportValue': !Sub '${ParentVpcStack}-SubnetAPrivate'}
+        - {'Fn::ImportValue': !Sub '${ParentVpcStack}-SubnetBPrivate'}
+        - {'Fn::ImportValue': !Sub '${ParentVpcStack}-SubnetCPrivate'} 
+      Environment:
+        Variables: 
+          DBHost: !GetAtt 'DBSingleInstance.Endpoint.Address'
+          DBPort: !GetAtt 'DBSingleInstance.Endpoint.Port'
+          DBUser: !Ref DBUsername
+          DBName: !Ref DBSingleInstance
+          Secret_ARN: !Ref DatabaseMasterSecret
+          Region_Name: !Ref "AWS::Region"
+            
+  DBBootStrapLambdaFnTrigger:
+    Condition: DoDBBootStrap
+    Type: Custom::LambdaAPGBootStrap
+    DependsOn:
+      - DBSingleInstance
+      - PostgreSQLSecretRotationSchedule
+    Version: "1.0"
+    Properties:
+      ServiceToken: !GetAtt 'DBBootStrapLambdaFn.Arn'
+
+###############################################################################
+# Outputs 
+###############################################################################   
+Outputs:
+  ClusterEndpoint:
+    Description: 'DB Instance Cluster/Writer Endpoint'
+    Value: !GetAtt 'DBSingleInstance.Endpoint.Address'
+  Port:
+    Description: 'DB Instance Endpoint Port'
+    Value: !GetAtt 'DBSingleInstance.Endpoint.Port'
+  DBUsername:
+    Description: 'Database master username'
+    Value: !Ref DBUsername
+  DBName:
+    Description: 'Database Name'
+    Value: !Ref DBSingleInstance
+  PSQLCommandLine:    
+    Description: PSQL Command Line
+    Value: !Join
+             - ''
+             - - 'psql --host='
+               - !GetAtt 'DBSingleInstance.Endpoint.Address' 
+               - ' --port='
+               - !GetAtt 'DBSingleInstance.Endpoint.Port'
+               - ' --username='
+               - !Ref DBUsername
+               - ' --dbname='
+               - !Ref DBSingleInstance
+  DBSecurityGroup:
+    Description: Database security Group
+    Value: !Ref DBInstanceSecurityGroup
+    Export:
+      Name: !Sub '${AWS::StackName}-SecurityGroup'

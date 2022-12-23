@@ -1,0 +1,19 @@
+
+{
+    "Information" : [
+        "This file provides default values for the deployment wizard inside Visual Studio and the AWS Lambda commands added to the .NET Core CLI.",
+        "To learn more about the Lambda commands with the .NET Core CLI execute the following command at the command line in the project root directory.",
+        "dotnet lambda help",
+        "All the command line options for the Lambda command can be specified in this file."
+    ],
+    "profile"     : "SBS JIwasz",
+    "region"      : "us-east-1",
+    "configuration" : "Release",
+    "framework"     : "netcoreapp2.1",
+    "s3-prefix"     : "Whetstone.StoryEngine.MessageSender/",
+    "template"      : "serverless.template",
+    "template-parameters" : "\"ParentVpcStack\"=\"WhetstoneVpc-Dev\";\"KeyStack\"=\"WhetstoneKey-Dev\";\"ApiSecretsStack\"=\"Whetstone-APISecrets-Dev\";\"PolicyStack\"=\"WhetstoneSharedPolicies-Dev\";\"DatabaseStack\"=\"Whetstone-Aurora-Dev\";\"CacheStack\"=\"Whetstone-CacheTable-Dev\";\"LambdaNetSerializerDebug\"=\"false\";\"DynamoTableStack\"=\"Whetstone-DynamoDbStore-Dev\";\"VersionDescription\"=\"out of band\";\"DurationThreshold\"=\"8000\";\"CodeDeployRule\"=\"AllAtOnce\";\"CustomActionLambdaStack\"=\"Whetstone-LambdaCustomActions-Dev\";\"SourcePhoneNumber\"=\"12157099492\";\"DefaultSmsSenderType\"=\"Twilio\";\"MessageSendRetryLimit\"=\"4\"",
+    "template-substitutions" : "$.Resources.MessageSenderStateMachine.Properties.DefinitionString.Fn::Sub=state-machine.json",
+    "s3-bucket"              : "whetstone-utility",
+    "stack-name"             : "Whetstone-MessageSender-Dev"
+}

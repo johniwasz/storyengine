@@ -1,0 +1,16 @@
+{
+  "RequestType": "Create",
+  "ServiceToken": "arn:aws:lambda:us-east-1:940085449815:function:KeyPolicyUpdaterdev",
+  "ResponseURL": "https://cloudformation-custom-resource-response-useast1.s3.amazonaws.com/arn%3Aaws%3Acloudformation%3Aus-east-1%3A940085449815%3Astack/Whetstone-ReportGenerator-Dev/20521a60-ca8a-11e9-8fa1-126514929126%7CKeyPolicyUpdate%7C39acefd9-5bcc-462c-9065-9cf45d963b50?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20190829T182531Z&X-Amz-SignedHeaders=host&X-Amz-Expires=7199&X-Amz-Credential=AKIA6L7Q4OWTTYC3DXNI%2F20190829%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=4d87cd2c0c8a4361638ce00293fe9a6783d2be0e5db8150b238bdb9ab7f0f9b4",
+  "StackId": "arn:aws:cloudformation:us-east-1:940085449815:stack/Whetstone-ReportGenerator-Dev/20521a60-ca8a-11e9-8fa1-126514929126",
+  "RequestId": "39acefd9-5bcc-462c-9065-9cf45d963b50",
+  "LogicalResourceId": "KeyPolicyUpdate",
+  "ResourceType": "AWS::CloudFormation::CustomResource",
+  "ResourceProperties": {
+    "GrantType": "EncryptDecrypt",
+    "ServiceToken": "arn:aws:lambda:us-east-1:940085449815:function:KeyPolicyUpdaterdev",
+    "Key": "arn:aws:kms:us-east-1:940085449815:key/d839c3f9-4dfe-4e5e-bad0-3c0386c34efa",
+    "RoleArn": "arn:aws:iam::940085449815:role/dev/doesnotexist"
+
+  }
+}

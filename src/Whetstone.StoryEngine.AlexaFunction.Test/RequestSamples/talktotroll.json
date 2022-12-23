@@ -1,0 +1,40 @@
+﻿{
+  "session": {
+    "new": false,
+    "sessionId": "SessionId.d3adefbb-f1e2-4634-907c-f4cc4eb63291",
+    "application": {
+      "applicationId": "amzn1.ask.skill.d03659bc-3e22-40b0-a85e-63d4f8c533b4"
+    },
+    "attributes": {},
+    "user": {
+      "userId": "amzn1.ask.account.AGLBOTXJWVQYVNWTY6FJ3OZKWF7QSV2JVOTZQ5O7F35MZVK4RJHFHN22HDNVKZWD5C4UZKXIHABXCYZJX7FEKSTIQ4TWKH2HPPPEITVQCU2JDPOICMP6NAVFTSGC7NWZ5Z4W7L3BZJPQBNA7HXTO7QVI2BSQBNWNBRJICU3NBZ4XLIMMYUT5PPESHWGCK5UGJT2PY7B3HA4FWII"
+    }
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.d35dd1f4-01f4-4774-82a3-d8c956b7e0a8",
+    "intent": {
+      "name": "TalkToTrollIntent",
+      "slots": {}
+    },
+    "locale": "en-US",
+    "timestamp": "2017-12-18T23:17:43Z"
+  },
+  "context": {
+    "AudioPlayer": {
+      "playerActivity": "IDLE"
+    },
+    "System": {
+      "application": {
+        "applicationId": "amzn1.ask.skill.d03659bc-3e22-40b0-a85e-63d4f8c533b4"
+      },
+      "user": {
+        "userId": "amzn1.ask.account.AGLBOTXJWVQYVNWTY6FJ3OZKWF7QSV2JVOTZQ5O7F35MZVK4RJHFHN22HDNVKZWD5C4UZKXIHABXCYZJX7FEKSTIQ4TWKH2HPPPEITVQCU2JDPOICMP6NAVFTSGC7NWZ5Z4W7L3BZJPQBNA7HXTO7QVI2BSQBNWNBRJICU3NBZ4XLIMMYUT5PPESHWGCK5UGJT2PY7B3HA4FWII"
+      },
+      "device": {
+        "supportedInterfaces": {}
+      }
+    }
+  },
+  "version": "1.0"
+}

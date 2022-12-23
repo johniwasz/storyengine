@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Creates an environment encryption key for the given environment
+Parameters:
+  KeyStack:
+    Description: >-
+      Name of stack used to create environment key for decryption. Example:
+      WhetstoneKey-Dev
+    Type: String
+  CoreApiStack:
+    Description: >-
+      Name of stack used to create the core admin api. Example:
+      WhetstoneAdminApi-Dev
+    Type: String
+Resources:
+  UsagePlanKey:
+    Type: 'AWS::ApiGateway::UsagePlanKey'
+    Properties:
+      KeyType: API_KEY
+      KeyId: dfh
+      UsagePlanId: 
+  CoreStoryApiUsage:
+    Type: 'AWS::ApiGateway::UsagePlan'
+    Properties:
+      UsagePlanName: !Join 
+        - ''
+        - - 'Core API '
+          - - !ImportValue 
+              'Fn::Sub': '${KeyStack}-EnvironmentName'
+          - ' Usage Plan'
+      Description: !Join 
+        - ''
+        - - 'For use with the Core '
+          - - !ImportValue 
+              'Fn::Sub': '${KeyStack}-EnvironmentName'
+          - ' Usage Plan'
+      ApiStages:
+        ApiId: !ImportValue
+          - 'Fn::Sub': '${CoreApiStack}-CoreApiID'
+ 

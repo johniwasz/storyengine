@@ -1,0 +1,5251 @@
+﻿{
+  "id": 1,
+  "version": "0.9",
+  "standardNodes": [
+    {
+      "id": 1,
+      "nodeType": "returningUserNode",
+      "node": {
+        "id": 11,
+        "name": "ReturningUser",
+        "responseBehavior": "selectFirst"
+      }
+    },
+    {
+      "id": 2,
+      "nodeType": "resumeNode",
+      "node": {
+        "id": 10,
+        "name": "Resume",
+        "responseBehavior": "selectFirst"
+      }
+    },
+    {
+      "id": 3,
+      "nodeType": "stopNode",
+      "node": {
+        "id": 12,
+        "name": "StopGame",
+        "responseBehavior": "selectFirst"
+      }
+    },
+    {
+      "id": 4,
+      "nodeType": "endOfGameNode",
+      "node": {
+        "id": 8,
+        "name": "EndofGame",
+        "responseBehavior": "selectFirst"
+      }
+    },
+    {
+      "id": 5,
+      "nodeType": "newUserNode",
+      "node": {
+        "id": 7,
+        "name": "WelcomeNewUser",
+        "responseBehavior": "selectFirst"
+      }
+    },
+    {
+      "id": 6,
+      "nodeType": "helpNode",
+      "node": {
+        "id": 9,
+        "name": "Help",
+        "responseBehavior": "selectFirst"
+      }
+    },
+    {
+      "id": 7,
+      "nodeType": "startNode",
+      "node": {
+        "id": 13,
+        "name": "Opening",
+        "responseBehavior": "selectFirst"
+      }
+    }
+  ],
+  "chapters": [
+    {
+      "id": 1,
+      "sequence": 1,
+      "names": [
+        {
+          "id": 3,
+          "text": "Chapter One"
+        }
+      ],
+      "nodes": [
+        {
+          "id": 61,
+          "name": "OpenTheBriefcase",
+          "responseSet": [
+            {
+              "id": 5,
+              "localizedResponses": [
+                {
+                  "id": 19,
+                  "cardTitle": "Open The Briefcase",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Let me know if you would like to go to the barn or the kitchen next.",
+                  "speechResponses": [
+                    {
+                      "id": 28,
+                      "speechFragments": [
+                        {
+                          "fileName": "Act4-PopOpenBriefcase-alexa.mp3",
+                          "sequence": 0
+                        },
+                        {
+                          "text": "Inside the briefcase you find an inflatable rubber alligator suit and a soft blanket, and immediately ponder Old Man MacDonald's irrational fear of being swaddled by an alligator.",
+                          "sequence": 1
+                        },
+                        {
+                          "fileName": "Act4-PopGoesTheWeasel-alexa.mp3",
+                          "sequence": 2
+                        },
+                        {
+                          "text": "What could possibly go wrong?  You put on the rubber suit, grab the blanket and slither towards the farmer.",
+                          "sequence": 3
+                        },
+                        {
+                          "fileName": "Act4-OpenTheBriefcase-alexa.mp3",
+                          "sequence": 4
+                        },
+                        {
+                          "trueResultFragments": [
+                            {
+                              "trueResultFragments": [
+                                {
+                                  "text": "Say make a sandwich when you are ready to make a sandwich for Terrence.",
+                                  "sequence": 1
+                                }
+                              ],
+                              "falseResultFragments": [
+                                {
+                                  "text": "Say go to barn when you are ready to go to the barn.",
+                                  "sequence": 1
+                                }
+                              ],
+                              "inventoryConditions": [
+                                [
+                                  {
+                                    "name": "HasMackerel",
+                                    "requiredOutcome": true,
+                                    "inventoryItems": [
+                                      [
+                                        {
+                                          "id": 4,
+                                          "name": "Mackerel",
+                                          "isMultiItem": false
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              ],
+                              "nodeVisitConditions": [
+                                []
+                              ],
+                              "sequence": 1
+                            }
+                          ],
+                          "falseResultFragments": [
+                            {
+                              "trueResultFragments": [
+                                {
+                                  "text": "Say go to kitchen when you are ready to go to the kitchen.",
+                                  "sequence": 1
+                                }
+                              ],
+                              "falseResultFragments": [
+                                {
+                                  "text": "You can go to the barn or go to the kitchen next.",
+                                  "sequence": 1
+                                }
+                              ],
+                              "inventoryConditions": [
+                                [
+                                  {
+                                    "name": "HasMackerel",
+                                    "requiredOutcome": true,
+                                    "inventoryItems": [
+                                      [
+                                        {
+                                          "id": 4,
+                                          "name": "Mackerel",
+                                          "isMultiItem": false
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              ],
+                              "nodeVisitConditions": [
+                                []
+                              ],
+                              "sequence": 1
+                            }
+                          ],
+                          "inventoryConditions": [
+                            [
+                              {
+                                "name": "HasSauerkraut",
+                                "requiredOutcome": true,
+                                "inventoryItems": [
+                                  [
+                                    {
+                                      "id": 1,
+                                      "name": "Sauerkraut",
+                                      "isMultiItem": false
+                                    }
+                                  ]
+                                ]
+                              }
+                            ]
+                          ],
+                          "nodeVisitConditions": [
+                            []
+                          ],
+                          "sequence": 7
+                        },
+                        {
+                          "fileName": "Act4-CrowdHooray-alexa.mp3",
+                          "sequence": 6
+                        },
+                        {
+                          "text": "Old man MacDonald drops the loaf of bread and runs away.  You pick up the bread and add it to your stash.",
+                          "sequence": 5
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 39,
+          "name": "GoToGarden",
+          "responseSet": [
+            {
+              "id": 27,
+              "localizedResponses": [
+                {
+                  "id": 64,
+                  "cardTitle": "Go To The Garden",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "You can pick some oregano, pick some catnip or play your airhorn.",
+                  "speechResponses": [
+                    {
+                      "id": 75,
+                      "speechFragments": [
+                        {
+                          "trueResultFragments": [
+                            {
+                              "text": "<break time=\"200ms\" />You can pick some oregano, pick some catnip, or play the airhorn.",
+                              "sequence": 1
+                            }
+                          ],
+                          "falseResultFragments": [
+                            {
+                              "text": "<break time=\"200ms\" />You can pick some oregano, or pick some catnip.",
+                              "sequence": 1
+                            }
+                          ],
+                          "inventoryConditions": [
+                            [
+                              {
+                                "name": "HasAirhorn",
+                                "requiredOutcome": true,
+                                "inventoryItems": [
+                                  []
+                                ]
+                              }
+                            ]
+                          ],
+                          "nodeVisitConditions": [
+                            []
+                          ],
+                          "sequence": 3
+                        },
+                        {
+                          "fileName": "Act2-CrowsCawing-alexa.mp3",
+                          "sequence": 2
+                        },
+                        {
+                          "text": "After a brisk jaunt, you arrive at the garden.  You head for the herb section and browse past some oregano until you find some catnip <break strength=\"x-strong\"/><break time=\"250ms\" />Several crows circle overhead.",
+                          "sequence": 1
+                        },
+                        {
+                          "fileName": "Act2-BirdsChirping-alexa.mp3",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 15,
+          "name": "TakeMackerel",
+          "responseSet": [
+            {
+              "id": 44,
+              "localizedResponses": [
+                {
+                  "id": 66,
+                  "cardTitle": "Take The Mackerel",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "You can pick up the airhorn, or go to the garden.",
+                  "speechResponses": [
+                    {
+                      "id": 79,
+                      "speechFragments": [
+                        {
+                          "trueResultFragments": [
+                            {
+                              "text": "Say pick up airhorn to pickup the airhorn.",
+                              "sequence": 1
+                            }
+                          ],
+                          "falseResultFragments": [
+                            {
+                              "text": "You can pick up the airhorn, or go to the garden.",
+                              "sequence": 1
+                            }
+                          ],
+                          "inventoryConditions": [
+                            []
+                          ],
+                          "nodeVisitConditions": [
+                            [
+                              {
+                                "id": 2,
+                                "name": "WentBackToBarn",
+                                "requiredOutcome": true,
+                                "nodes": [
+                                  []
+                                ]
+                              }
+                            ]
+                          ],
+                          "sequence": 3
+                        },
+                        {
+                          "text": "This just doesn't seem to be a good day for Milfred.  He was going to pepper spray you, but accidentally pulled out an airhorn that he's now dropped on the floor.  The startled kitty is cowering under the couch with Ferb.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act2-TakeMackerel-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "You look Milfred square in the eyes and slowly and deliberately reach for the mackerel.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 36,
+          "name": "Help",
+          "responseSet": [
+            {
+              "id": 29,
+              "localizedResponses": [
+                {
+                  "id": 49,
+                  "cardTitle": "Animal Farm PI Help",
+                  "sendCardResponse": true,
+                  "speechResponses": [
+                    {
+                      "id": 62,
+                      "speechFragments": [
+                        {
+                          "text": "You repeat the current location by saying repeat. End the game by saying end game or restart by saying restart.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 46,
+          "name": "ThrowTheTurnips1",
+          "responseSet": [
+            {
+              "id": 1,
+              "localizedResponses": [
+                {
+                  "id": 25,
+                  "cardTitle": "Throw The Turnips",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Say throw turnips to throw them at the farmer, or feed the ducks to feed the ducks.",
+                  "speechResponses": [
+                    {
+                      "id": 35,
+                      "speechFragments": [
+                        {
+                          "fileName": "Act4-ThrowTheTurnips1Splat-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "You wind up and throw a large particularly odiferous turnip at old man MacDonald.",
+                          "sequence": 0
+                        },
+                        {
+                          "text": "<say-as interpret-as=\"interjection\">uh oh</say-as> – I don’t think that was a turnip.  The farmer looks at you angrily.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act4-YouAChimpanzee-alexa.mp3",
+                          "sequence": 3
+                        },
+                        {
+                          "fileName": "Act4-ThrowTheTurnips1Splash-alexa.mp3",
+                          "sequence": 5
+                        },
+                        {
+                          "text": "Would you like to throw more, <say-as interpret-as=\"interjection\">ahem</say-as>, turnips at the farmer, or try feeding the ducks?",
+                          "sequence": 6
+                        },
+                        {
+                          "text": "<break time=\"500ms\"/> The farmer grabs his briefcase and hurls it at you. It just misses you and lands in the pond, just out of your reach.",
+                          "sequence": 4
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 24,
+                  "locale": "en-GB",
+                  "cardTitle": "Throw The Turnips",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Say throw turnips to throw them at the farmer, or feed the ducks to feed the ducks.",
+                  "speechResponses": [
+                    {
+                      "id": 34,
+                      "speechFragments": [
+                        {
+                          "text": "Would you like to throw more, <say-as interpret-as=\"interjection\">tee hee</say-as>, turnips at the farmer, or try feeding the ducks?",
+                          "sequence": 6
+                        },
+                        {
+                          "fileName": "Act4-ThrowTheTurnips1Splash-alexa.mp3",
+                          "sequence": 5
+                        },
+                        {
+                          "text": "<break time=\"500ms\"/> The farmer grabs his briefcase and hurls it at you. It just misses you and lands in the pond, just out of your reach.",
+                          "sequence": 4
+                        },
+                        {
+                          "fileName": "Act4-YouAChimpanzee-alexa.mp3",
+                          "sequence": 3
+                        },
+                        {
+                          "text": "<say-as interpret-as=\"interjection\">uh oh</say-as> – I don’t think that was a turnip.  The farmer looks at you angrily.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act4-ThrowTheTurnips1Splat-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "You wind up and throw a large particularly odiferous turnip at old man MacDonald.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 23,
+                  "locale": "en-AU",
+                  "cardTitle": "Throw The Turnips",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Say throw turnips to throw them at the farmer, or feed the ducks to feed the ducks.",
+                  "speechResponses": [
+                    {
+                      "id": 42,
+                      "speechFragments": [
+                        {
+                          "text": "Would you like to throw more, <say-as interpret-as=\"interjection\">ahem</say-as>, turnips at the farmer, or try feeding the ducks?",
+                          "sequence": 6
+                        },
+                        {
+                          "fileName": "Act4-ThrowTheTurnips1Splash-alexa.mp3",
+                          "sequence": 5
+                        },
+                        {
+                          "text": "<break time=\"500ms\"/> The farmer grabs his briefcase and hurls it at you. It just misses you and lands in the pond, just out of your reach.",
+                          "sequence": 4
+                        },
+                        {
+                          "fileName": "Act4-YouAChimpanzee-alexa.mp3",
+                          "sequence": 3
+                        },
+                        {
+                          "text": "<say-as interpret-as=\"interjection\">oops</say-as> – I don’t think that was a turnip.  The farmer looks at you angrily.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act4-ThrowTheTurnips1Splat-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "You wind up and throw a large particularly odiferous turnip at old man MacDonald.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 22,
+                  "locale": "en-IN",
+                  "cardTitle": "Throw The Turnips",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Say throw turnips to throw them at the farmer, or feed the ducks to feed the ducks.",
+                  "speechResponses": [
+                    {
+                      "id": 33,
+                      "speechFragments": [
+                        {
+                          "text": "You wind up and throw a large particularly odiferous turnip at old man MacDonald.",
+                          "sequence": 0
+                        },
+                        {
+                          "fileName": "Act4-ThrowTheTurnips1Splat-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "<say-as interpret-as=\"interjection\">uh oh</say-as> – I don’t think that was a turnip.  The farmer looks at you angrily.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act4-YouAChimpanzee-alexa.mp3",
+                          "sequence": 3
+                        },
+                        {
+                          "text": "Would you like to throw more, <say-as interpret-as=\"interjection\">tee hee</say-as>, turnips at the farmer, or try feeding the ducks?",
+                          "sequence": 6
+                        },
+                        {
+                          "fileName": "Act4-ThrowTheTurnips1Splash-alexa.mp3",
+                          "sequence": 5
+                        },
+                        {
+                          "text": "<break time=\"500ms\"/> The farmer grabs his briefcase and hurls it at you. It just misses you and lands in the pond, just out of your reach.",
+                          "sequence": 4
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 54,
+          "name": "BegForBread1",
+          "responseSet": [
+            {
+              "id": 18,
+              "localizedResponses": [
+                {
+                  "id": 3,
+                  "cardTitle": "Beg For Bread",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Would you like to continue begging for bread, or look in the wastebasket?",
+                  "speechResponses": [
+                    {
+                      "id": 4,
+                      "speechFragments": [
+                        {
+                          "text": "<break time=\"250ms\"/>Well, that’s just great – once again, you’ve debased yourself for nothing.  Would you like to continue begging for bread, or look in the wastebasket?",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act4-BegForBread1-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "You approach old man MacDonald, flop on your back, wiggle your tummy, and make the cutest pig noises you can think of.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 34,
+          "name": "Resume",
+          "responseSet": [
+            {
+              "id": 31,
+              "localizedResponses": [
+                {
+                  "id": 47,
+                  "cardTitle": "Welcome Back to Animal Farm P.I.",
+                  "sendCardResponse": true,
+                  "speechResponses": [
+                    {
+                      "id": 58,
+                      "speechFragments": [
+                        {
+                          "text": "You have an investigation in progress. You can resume where you left off or restart.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ],
+                  "smallImageFile": "afi-welcome-sm.png",
+                  "largeImageFile": "afi-welcome-lg.png"
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 37,
+          "name": "PickupAirhorn",
+          "responseSet": [
+            {
+              "id": 43,
+              "localizedResponses": [
+                {
+                  "id": 65,
+                  "cardTitle": "Pickup The Airhorn",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "You can pick some oregano, pick some catnip, or play your airhorn.",
+                  "speechResponses": [
+                    {
+                      "id": 86,
+                      "speechFragments": [
+                        {
+                          "text": "You pickup the airhorn and leave the barn for the garden.  Milfred and Ferb don’t look like they’re going anywhere soon.",
+                          "sequence": 0
+                        },
+                        {
+                          "fileName": "Act2-BirdsChirping-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "trueResultFragments": [
+                            {
+                              "text": "You march straight back to the catnip, a glint of determination in your eyes.  The crows see you coming and openly mock you.",
+                              "sequence": 1
+                            },
+                            {
+                              "fileName": "Act2-BirdsLaughing-alexa.mp3",
+                              "sequence": 2
+                            },
+                            {
+                              "text": "<break time=\"200ms\" />Say play airhorn when you're ready to give those pesky crows their due.",
+                              "sequence": 3
+                            }
+                          ],
+                          "falseResultFragments": [
+                            {
+                              "text": "After a brisk jaunt, you arrive at the garden.  You head for the herb section and browse past some oregano until you find some catnip <break strength=\"x-strong\"/><break time=\"250ms\" />Several crows circle overhead.",
+                              "sequence": 1
+                            },
+                            {
+                              "fileName": "Act2-CrowsCawing-alexa.mp3",
+                              "sequence": 2
+                            },
+                            {
+                              "text": "<break time=\"200ms\" />You can pick some oregano, pick some catnip, or play your airhorn.",
+                              "sequence": 3
+                            }
+                          ],
+                          "inventoryConditions": [
+                            []
+                          ],
+                          "nodeVisitConditions": [
+                            [
+                              {
+                                "id": 2,
+                                "name": "WentBackToBarn",
+                                "requiredOutcome": true,
+                                "nodes": [
+                                  []
+                                ]
+                              }
+                            ]
+                          ],
+                          "sequence": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 44,
+          "name": "WaitForArnold",
+          "responseSet": [
+            {
+              "id": 14,
+              "localizedResponses": [
+                {
+                  "id": 7,
+                  "cardTitle": "Wait For Arnold",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Say go outside when you are ready.",
+                  "speechResponses": [
+                    {
+                      "id": 8,
+                      "speechFragments": [
+                        {
+                          "text": "Well, that wasn’t very helpful. Maybe you should try waiting outside until he returns. Say go outside when you are ready.",
+                          "sequence": 9
+                        },
+                        {
+                          "fileName": "Act3-NoSauerkrautForYou-alexa.mp3",
+                          "sequence": 8
+                        },
+                        {
+                          "text": "<break time=\"250ms\"/>Arnold steps away from the door and then looks pointedly at you.<break time=\"250ms\"/>",
+                          "sequence": 7
+                        },
+                        {
+                          "fileName": "Act3-TurnYouIntoBratwurst-alexa.mp3",
+                          "sequence": 6
+                        },
+                        {
+                          "text": "<break time=\"250ms\"/>He pats you on your head much to your annoyance.",
+                          "sequence": 5
+                        },
+                        {
+                          "fileName": "Act3-WhatACuteLittlePiggy-alexa.mp3",
+                          "sequence": 4
+                        },
+                        {
+                          "text": "<break time=\"250ms\"/>You politely, but firmly, butt him with your head.",
+                          "sequence": 3
+                        },
+                        {
+                          "fileName": "Act3-AnyoneAtHome-alexa.mp3",
+                          "sequence": 2
+                        },
+                        {
+                          "text": "You open the door and see a dark haired man in a white jumpsuit with the UberSauer logo and the name Arnold on it.  He’s carrying a box that must contain the sauerkraut, and is making a big show of looking everywhere but at you.",
+                          "sequence": 1
+                        },
+                        {
+                          "fileName": "Act3-ArnoldComesToDoor-alexa.mp3",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 14,
+          "name": "ReturningUser",
+          "responseSet": [
+            {
+              "id": 28,
+              "localizedResponses": [
+                {
+                  "id": 50,
+                  "cardTitle": "Welcome Back to Animal Farm P.I.",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Say begin to begin the investigation.",
+                  "speechResponses": [
+                    {
+                      "id": 63,
+                      "speechFragments": [
+                        {
+                          "text": "Welcome back to the farm! When you are ready to begin the animal farm investigation, say begin.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ],
+                  "smallImageFile": "afi-welcome-sm.png",
+                  "largeImageFile": "afi-welcome-lg.png"
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 18,
+          "name": "WakeMilfred1",
+          "responseSet": [
+            {
+              "id": 47,
+              "localizedResponses": [
+                {
+                  "id": 69,
+                  "cardTitle": "Wake Milfred",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "You can say wake up Milfred, or turn off the music?",
+                  "speechResponses": [
+                    {
+                      "id": 83,
+                      "speechFragments": [
+                        {
+                          "text": "You lean in with your snout to give Milfred a gentle prod, but the horrible smell coming from the decaying fish prevents you from getting any closer.",
+                          "sequence": 0
+                        },
+                        {
+                          "text": "Would you still like to try to wake up Milfred, or turn off the music?",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act2-WakeMilfred1-alexa.mp3",
+                          "sequence": 1
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 26,
+          "name": "WaitForTerrence",
+          "responseSet": [
+            {
+              "id": 41,
+              "localizedResponses": [
+                {
+                  "id": 37,
+                  "cardTitle": "Wait for Terrence",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Would you like to talk to Terrence or take the keys?",
+                  "speechResponses": [
+                    {
+                      "id": 46,
+                      "speechFragments": [
+                        {
+                          "text": "Would you like to talk to Terrence or take the keys?",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act1-JinglingKeys-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "As he gets closer, you can clearly see that Terrence is carrying a set of keys.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 60,
+          "name": "FeedTheDucks2",
+          "responseSet": [
+            {
+              "id": 15,
+              "localizedResponses": [
+                {
+                  "id": 20,
+                  "cardTitle": "Feed The Ducks",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Say open the briefcase when you’re ready to look inside.",
+                  "speechResponses": [
+                    {
+                      "id": 30,
+                      "speechFragments": [
+                        {
+                          "text": "The briefcase floats to the shore.  Say open the briefcase when you’re ready to look inside.",
+                          "sequence": 6
+                        },
+                        {
+                          "fileName": "Act4-DucksFadeOut-alexa.mp3",
+                          "sequence": 5
+                        },
+                        {
+                          "trueResultFragments": [
+                            {
+                              "text": "<break time=\"350ms\"/>Upon reaching the turnips, the ducks experience an overwhelming sense of deja vu, glare menacingly at you and then swim away.",
+                              "sequence": 1
+                            }
+                          ],
+                          "falseResultFragments": [
+                            {
+                              "text": "<break time=\"350ms\"/>When they reach the turnips, the ducks dubiously poke at them a few times – glare at you accusatorily, and swim away",
+                              "sequence": 1
+                            }
+                          ],
+                          "inventoryConditions": [
+                            []
+                          ],
+                          "nodeVisitConditions": [
+                            [
+                              {
+                                "id": 4,
+                                "name": "FedTheDucksAlready",
+                                "requiredOutcome": true,
+                                "nodes": [
+                                  []
+                                ]
+                              }
+                            ]
+                          ],
+                          "sequence": 4
+                        },
+                        {
+                          "text": "In their haste, the ducks create a wake and push the briefcase towards you.",
+                          "sequence": 3
+                        },
+                        {
+                          "fileName": "Act4-DucksFeedTheDucks1FadeIn-alexa.mp3",
+                          "sequence": 2
+                        },
+                        {
+                          "trueResultFragments": [
+                            {
+                              "text": "<break time=\"250ms\"/>You know, they really are quite forgetful.",
+                              "sequence": 1
+                            }
+                          ],
+                          "inventoryConditions": [
+                            []
+                          ],
+                          "nodeVisitConditions": [
+                            [
+                              {
+                                "id": 4,
+                                "name": "FedTheDucksAlready",
+                                "requiredOutcome": true,
+                                "nodes": [
+                                  []
+                                ]
+                              }
+                            ]
+                          ],
+                          "sequence": 1
+                        },
+                        {
+                          "text": "You throw some of the turnips in the water. The ducks hastily swim over to you in the hopes of finding food.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 63,
+          "name": "PickCatnip",
+          "responseSet": [
+            {
+              "id": 2,
+              "localizedResponses": [
+                {
+                  "id": 61,
+                  "cardTitle": "Pick Some Catnip",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "You know, now might be a good time to play the airhorn.",
+                  "speechResponses": [
+                    {
+                      "id": 69,
+                      "speechFragments": [
+                        {
+                          "text": "As you approach the catnip plants the crows relieve themselves on you driving you back.",
+                          "sequence": 0
+                        },
+                        {
+                          "trueResultFragments": [
+                            {
+                              "text": "<break time=\"200ms\" />Hmmmm... now might be a good time to play the airhorn.",
+                              "sequence": 1
+                            }
+                          ],
+                          "falseResultFragments": [
+                            {
+                              "text": "You might have missed something back at the barn. Say go back to barn to go back to the barn.",
+                              "sequence": 1
+                            }
+                          ],
+                          "inventoryConditions": [
+                            [
+                              {
+                                "name": "HasAirhorn",
+                                "requiredOutcome": true,
+                                "inventoryItems": [
+                                  []
+                                ]
+                              }
+                            ]
+                          ],
+                          "nodeVisitConditions": [
+                            []
+                          ],
+                          "sequence": 3
+                        },
+                        {
+                          "text": "<say-as interpret-as=\"interjection\">d'oh</say-as>!",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act2-CrowsCawingSplat-alexa.mp3",
+                          "sequence": 1
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 60,
+                  "locale": "en-IN",
+                  "cardTitle": "Pick Some Catnip",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "You know, now might be a good time to play the airhorn.",
+                  "speechResponses": [
+                    {
+                      "id": 45,
+                      "speechFragments": [
+                        {
+                          "text": "<say-as interpret-as=\"interjection\">arrey</say-as>!",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act2-CrowsCawingSplat-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "As you approach the catnip plants the crows relieve themselves on you driving you back.",
+                          "sequence": 0
+                        },
+                        {
+                          "trueResultFragments": [
+                            {
+                              "text": "<break time=\"200ms\" />Hmmmm... now might be a good time to play the airhorn.",
+                              "sequence": 1
+                            }
+                          ],
+                          "falseResultFragments": [
+                            {
+                              "text": "You might have missed something back at the barn. Say go back to barn to go back to the barn.",
+                              "sequence": 1
+                            }
+                          ],
+                          "inventoryConditions": [
+                            [
+                              {
+                                "name": "HasAirhorn",
+                                "requiredOutcome": true,
+                                "inventoryItems": [
+                                  []
+                                ]
+                              }
+                            ]
+                          ],
+                          "nodeVisitConditions": [
+                            []
+                          ],
+                          "sequence": 3
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 64,
+          "name": "PickOregano",
+          "responseSet": [
+            {
+              "id": 40,
+              "localizedResponses": [
+                {
+                  "id": 71,
+                  "cardTitle": "Pick Some Oregano",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "You can pick some oregano, pick some catnip or play your airhorn.",
+                  "speechResponses": [
+                    {
+                      "id": 73,
+                      "speechFragments": [
+                        {
+                          "trueResultFragments": [
+                            {
+                              "text": "or play the airhorn to play your airhorn",
+                              "sequence": 1
+                            }
+                          ],
+                          "inventoryConditions": [
+                            [
+                              {
+                                "name": "HasAirhorn",
+                                "requiredOutcome": true,
+                                "inventoryItems": [
+                                  []
+                                ]
+                              }
+                            ]
+                          ],
+                          "nodeVisitConditions": [
+                            []
+                          ],
+                          "sequence": 3
+                        },
+                        {
+                          "text": "The crows in the garden shake their heads at you.  Say pick catnip when you want to pick some catnip",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act2-DisappointmentFanfare1-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "<say-as interpret-as=\"interjection\">now now</say-as> <break time=\"350ms\"/>You’re going to try to fool Milfred with oregano instead of catnip? That’s not very nice.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 63,
+                  "locale": "en-IN",
+                  "cardTitle": "Pick Some Oregano",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "You can pick some oregano, pick some catnip or play your airhorn.",
+                  "speechResponses": [
+                    {
+                      "id": 71,
+                      "speechFragments": [
+                        {
+                          "fileName": "Act2-DisappointmentFanfare1-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "<say-as interpret-as=\"interjection\">aiyo</say-as> <break time=\"350ms\"/>You’re going to try to fool Milfred with oregano instead of catnip? That’s not very nice.",
+                          "sequence": 0
+                        },
+                        {
+                          "text": "The crows in the garden shake their heads at you.  Say pick catnip when you want to pick some catnip",
+                          "sequence": 2
+                        },
+                        {
+                          "trueResultFragments": [
+                            {
+                              "text": "or play the airhorn to play your airhorn",
+                              "sequence": 1
+                            }
+                          ],
+                          "inventoryConditions": [
+                            [
+                              {
+                                "name": "HasAirhorn",
+                                "requiredOutcome": true,
+                                "inventoryItems": [
+                                  []
+                                ]
+                              }
+                            ]
+                          ],
+                          "nodeVisitConditions": [
+                            []
+                          ],
+                          "sequence": 3
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 51,
+          "name": "KitchenStart",
+          "responseSet": [
+            {
+              "id": 8,
+              "localizedResponses": [
+                {
+                  "id": 34,
+                  "cardTitle": "Visit Kitchen.",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Would you like to call somebody, or look in the fridge?",
+                  "speechResponses": [
+                    {
+                      "id": 17,
+                      "speechFragments": [
+                        {
+                          "text": "You snuffle your way into the kitchen and find a cell phone on the counter and a refrigerator that looks like a very promising place to find some sauerkraut. Would you like to call somebody, or look in the fridge?",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act3-SnuffleDoorOpenCLose-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "The MacDonalds are a gentle and trusting couple who never lock their front door. A habit that often works to your advantage.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 49,
+          "name": "LookInRefrigerator",
+          "responseSet": [
+            {
+              "id": 10,
+              "localizedResponses": [
+                {
+                  "id": 35,
+                  "cardTitle": "Look In Refrigerator",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Would you like to try the cabbage, or close the fridge?",
+                  "speechResponses": [
+                    {
+                      "id": 15,
+                      "speechFragments": [
+                        {
+                          "text": "You open the refrigerator and see a plastic container that looks like it’s got some sort of fermented cabbage in it.  That fermented cabbage may very well be the sauerkraut you’re looking for. Would you like to try the cabbage, or close the fridge?",
+                          "sequence": 1
+                        },
+                        {
+                          "fileName": "Act3-LookInRefrigerator-alexa.mp3",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 24,
+          "name": "GoToTerrence",
+          "responseSet": [
+            {
+              "id": 46,
+              "localizedResponses": [
+                {
+                  "id": 36,
+                  "cardTitle": "Go to Terrence",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Would you like to talk to Terrence or take the keys?",
+                  "speechResponses": [
+                    {
+                      "id": 54,
+                      "speechFragments": [
+                        {
+                          "text": "Would you like to talk to Terrence or take the keys?",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act1-JinglingKeys-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "As you approach him,, you can clearly see that Terrence is carrying a set of keys.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 62,
+          "name": "BackToBarn",
+          "responseSet": [
+            {
+              "id": 4,
+              "localizedResponses": [
+                {
+                  "id": 59,
+                  "cardTitle": "Back To The Barn",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "You can try to take the mackerel. Or you can go to the garden to get some catnip.",
+                  "speechResponses": [
+                    {
+                      "id": 44,
+                      "speechFragments": [
+                        {
+                          "trueResultFragments": [
+                            {
+                              "text": "You return to the barn to find Milfred still cowering under the couch.  The airhorn is right where he dropped it.  You really should pick up that airhorn.",
+                              "sequence": 1
+                            }
+                          ],
+                          "falseResultFragments": [
+                            {
+                              "text": "You return to the barn and find Milfred on the couch whispering sweet nothings to the stinky mackerel.  You should try to take the mackerel from him.",
+                              "sequence": 1
+                            }
+                          ],
+                          "inventoryConditions": [
+                            []
+                          ],
+                          "nodeVisitConditions": [
+                            [
+                              {
+                                "id": 6,
+                                "name": "DroppedAirhorn",
+                                "requiredOutcome": true,
+                                "nodes": [
+                                  []
+                                ]
+                              }
+                            ]
+                          ],
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 31,
+          "name": "DarkPath1",
+          "responseSet": [
+            {
+              "id": 34,
+              "localizedResponses": [
+                {
+                  "id": 44,
+                  "cardTitle": "Dark Path",
+                  "sendCardResponse": false,
+                  "repromptTextResponse": "Say yes for bright and chipper, no for dark and stormy.",
+                  "speechResponses": [
+                    {
+                      "id": 64,
+                      "speechFragments": [
+                        {
+                          "text": "<break time=\"300ms\" /><phoneme alphabet=\"ipa\" ph=\"hɑɹʌmf\">Harumph</phoneme>. I’m guessing you might be into Depeche Mode. And brood a lot. Can we please just go with bright and chipper?",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act1-OpeningMusicScratch-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "Oh really?  Does this sound dark and stormy to you?",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 28,
+          "name": "BrightPath1",
+          "responseSet": [
+            {
+              "id": 37,
+              "localizedResponses": [
+                {
+                  "id": 41,
+                  "cardTitle": "Bright Morning",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Do you want to wallow in the sty or go to the tractor?",
+                  "speechResponses": [
+                    {
+                      "id": 51,
+                      "speechFragments": [
+                        {
+                          "fileName": "Act1-OpeningMusicSlowdown-alexa.mp3",
+                          "sequence": 0
+                        },
+                        {
+                          "text": "<say-as interpret-as=\"interjection\">yadda yadda yadda</say-as>! It was a bright and chipper morning at the farm. Old Man MacDonald was starting up the tractor for some field work. <break time=\"200ms\" />",
+                          "sequence": 1
+                        },
+                        {
+                          "fileName": "Act1-OldManMacDonaldKeys-alexa.mp3",
+                          "sequence": 2
+                        },
+                        {
+                          "text": "<break time=\"100ms\" />You open your eyes at the sound of the commotion just as Old Man MacDonald storms back to the house.  You sleepily look around the sty at the rest of your fellow pigs and try to decide if you should wallow a bit or go to the tractor.",
+                          "sequence": 3
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 40,
+                  "locale": "en-IN",
+                  "cardTitle": "Bright Morning",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Do you want to wallow in the sty or go to the tractor?",
+                  "speechResponses": [
+                    {
+                      "id": 49,
+                      "speechFragments": [
+                        {
+                          "text": "<break time=\"100ms\" />You open your eyes at the sound of the commotion just as Old Man MacDonald storms back to the house.  You sleepily look around the sty at the rest of your fellow pigs and try to decide if you should wallow a bit or go to the tractor.",
+                          "sequence": 3
+                        },
+                        {
+                          "fileName": "Act1-OldManMacDonaldKeys-alexa.mp3",
+                          "sequence": 2
+                        },
+                        {
+                          "text": "And so on and so forth. It was a bright and chipper morning at the farm. Old Man MacDonald was starting up the tractor for some field work. <break time=\"200ms\" />",
+                          "sequence": 1
+                        },
+                        {
+                          "fileName": "Act1-OpeningMusicSlowdown-alexa.mp3",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 57,
+          "name": "TakeTheBag",
+          "responseSet": [
+            {
+              "id": 21,
+              "localizedResponses": [
+                {
+                  "id": 31,
+                  "locale": "en-AU",
+                  "cardTitle": "Take The Bag",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "When you are ready, say take the turnips.",
+                  "speechResponses": [
+                    {
+                      "id": 41,
+                      "speechFragments": [
+                        {
+                          "text": "No…wait a minute…you look closer and see…nothing. Absolutely nothing. Zero, zed, nada. Yes. That's right. You get nothing! <break time=\"500ms\"/>I humbly submit that you take the turnips.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act4-CrowdAwwww-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "Aside from a few sad looking crumbs, the bag is empty.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 30,
+                  "locale": "en-IN",
+                  "cardTitle": "Take The Bag",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "When you are ready, say take the turnips.",
+                  "speechResponses": [
+                    {
+                      "id": 40,
+                      "speechFragments": [
+                        {
+                          "text": "No…wait a minute…you look closer and see…nothing. Absolutely nothing. Zero, zed, nada. Yes. That's right. You get nothing! <break time=\"500ms\"/>I humbly submit that you take the turnips.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act4-CrowdAwwww-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "Aside from a few sad looking crumbs, the bag is empty.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 14,
+                  "locale": "en-GB",
+                  "cardTitle": "Take The Bag",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "When you are ready, say take the turnips.",
+                  "speechResponses": [
+                    {
+                      "id": 23,
+                      "speechFragments": [
+                        {
+                          "text": "No…wait a minute…you look closer and see…nothing. Absolutely nothing. Zero, zed, nada. Yes. That's right. You get nothing! <break time=\"500ms\"/>I humbly submit that you take the turnips.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act4-CrowdAwwww-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "Aside from a few sad looking crumbs, the bag is empty.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 13,
+                  "cardTitle": "Take The Bag",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "When you are ready, say take the turnips.",
+                  "speechResponses": [
+                    {
+                      "id": 32,
+                      "speechFragments": [
+                        {
+                          "text": "No…wait a minute…you look closer and see…nothing. Absolutely nothing. Zero, zilch, nada. Yes. That's right. You get nothing! <break time=\"500ms\"/>I humbly submit that you take the turnips.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act4-CrowdAwwww-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "Aside from a few sad looking crumbs, the bag is empty.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 16,
+          "name": "StopRecord",
+          "responseSet": [
+            {
+              "id": 45,
+              "localizedResponses": [
+                {
+                  "id": 67,
+                  "cardTitle": "Stop The Record",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "You can try to take the mackerel.  Or you can go to the garden to get some catnip.",
+                  "speechResponses": [
+                    {
+                      "id": 81,
+                      "speechFragments": [
+                        {
+                          "text": "<break time=\"250ms\"/>You can try to take the mackerel. Or you can go to the garden to get some catnip.",
+                          "sequence": 4
+                        },
+                        {
+                          "fileName": "Act2-WakeMilfred-Susan-alexa.mp3",
+                          "sequence": 3
+                        },
+                        {
+                          "text": "Well that was unfortunate.  On the bright side, Milfred is awake now - although he looks somewhat annoyed.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act2-KittyBumpCrash-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "You reach for the record player needle.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 33,
+          "name": "StopGame",
+          "responseSet": [
+            {
+              "id": 32,
+              "localizedResponses": [
+                {
+                  "id": 46,
+                  "cardTitle": "Exiting Animal Farm P.I.",
+                  "speechResponses": [
+                    {
+                      "id": 57,
+                      "speechFragments": [
+                        {
+                          "text": "Thanks for playing!",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 21,
+          "name": "BarnStart",
+          "responseSet": [
+            {
+              "id": 50,
+              "localizedResponses": [
+                {
+                  "id": 53,
+                  "cardTitle": "Visit Barn",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Would you like to go to Milfred, or talk to more animals?",
+                  "speechResponses": [
+                    {
+                      "id": 67,
+                      "speechFragments": [
+                        {
+                          "text": "<break time=\"500ms\"/>Would you like to go to Milfred, or talk to more animals?",
+                          "sequence": 3
+                        },
+                        {
+                          "fileName": "Act2-HorseCowMorning-Susan-alexa.mp3",
+                          "sequence": 2
+                        },
+                        {
+                          "text": "As you walk to the barn and think about the sandwich, it occurs to you that you know someone with an unhealthy fixation on fish who may be able to help.  You enter the barn to the greetings of the various occupants.",
+                          "sequence": 1
+                        },
+                        {
+                          "fileName": "Act2-VisitBarnAnimalNoises-alexa.mp3",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 42,
+          "name": "CloseTheRefrigerator",
+          "responseSet": [
+            {
+              "id": 12,
+              "localizedResponses": [
+                {
+                  "id": 9,
+                  "cardTitle": "Close The Refrigerator",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "When you are ready, say call the delivery service.",
+                  "speechResponses": [
+                    {
+                      "id": 11,
+                      "speechFragments": [
+                        {
+                          "text": "As the refrigerator door shuts, you notice a sign on it. It’s an advertisement for a home sauerkraut delivery service with the unlikely name of UberSauer. Their phone number is 86753O9.  When you are ready, say call the delivery service.",
+                          "sequence": 1
+                        },
+                        {
+                          "fileName": "Act3-CloseTheRefrigerator-alexa.mp3",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 17,
+          "name": "WakeMilfred2",
+          "responseSet": [
+            {
+              "id": 42,
+              "localizedResponses": [
+                {
+                  "id": 68,
+                  "cardTitle": "Wake Milfred Again",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "You can try to take the mackerel. Or you can go to the garden to get some catnip.",
+                  "speechResponses": [
+                    {
+                      "id": 82,
+                      "speechFragments": [
+                        {
+                          "text": "<break time=\"250ms\"/>You can try to take the mackerel. Or you can go to the garden to get some catnip.",
+                          "sequence": 4
+                        },
+                        {
+                          "fileName": "Act2-WakeMilfred-Susan-alexa.mp3",
+                          "sequence": 3
+                        },
+                        {
+                          "text": "Well that was unfortunate.  On the bright side, Milfred is awake now - although he looks somewhat annoyed.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act2-KittyBumpCrash-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "You try once again to prod Milfred, but in an attempt to avoid the fish, you accidentally bump the record player.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 30,
+          "name": "DarkPath2",
+          "responseSet": [
+            {
+              "id": 35,
+              "localizedResponses": [
+                {
+                  "id": 43,
+                  "cardTitle": "Dark Path",
+                  "sendCardResponse": false,
+                  "repromptTextResponse": "Say yes for bright and chipper, no for dark and stormy.",
+                  "speechResponses": [
+                    {
+                      "id": 55,
+                      "speechFragments": [
+                        {
+                          "text": "<say-as interpret-as=\"interjection\">good grief</say-as>. <break time=\"250ms\" /> When I was young, life seemed so full of promise. I had dreams you know. <break time=\"200ms\" />Big dreams.<break time=\"100ms\" />  I really have better things to do. Can we please just go with bright and chipper?",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 29,
+          "name": "DarkPath3",
+          "responseSet": [
+            {
+              "id": 36,
+              "localizedResponses": [
+                {
+                  "id": 42,
+                  "cardTitle": "Dark Path",
+                  "sendCardResponse": false,
+                  "repromptTextResponse": "Say yes for bright and chipper, no for dark and stormy.",
+                  "speechResponses": [
+                    {
+                      "id": 53,
+                      "speechFragments": [
+                        {
+                          "text": "You’re just not going to let this go, are you. <break time=\"100ms\" />Alright. Cards on the table. If you say no, I’m just going to start repeating myself. So how about you be a good egg, and let me go with bright and chipper?",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 50,
+          "name": "PlaceACall",
+          "responseSet": [
+            {
+              "id": 9,
+              "localizedResponses": [
+                {
+                  "id": 55,
+                  "cardTitle": "Place a phone call",
+                  "sendCardResponse": false,
+                  "repromptTextResponse": "When you’re ready to look in the refrigerator, say look in fridge.",
+                  "speechResponses": [
+                    {
+                      "id": 16,
+                      "speechFragments": [
+                        {
+                          "text": "<break time=\"300ms\"/>Well! That didn’t go so well.  Maybe you should be more specific about who you’re calling instead of dialing some random yahoo.  When you’re ready to look in the refrigerator, say look in fridge.",
+                          "sequence": 1
+                        },
+                        {
+                          "fileName": "Act3-PlaceACall-alexa.mp3",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 66,
+          "name": "GiveRatSandwich",
+          "responseSet": [
+            {
+              "id": 48,
+              "localizedResponses": [
+                {
+                  "id": 72,
+                  "locale": "en-IN",
+                  "cardTitle": "Give Sandwich To Terrence",
+                  "sendCardResponse": true,
+                  "speechResponses": [
+                    {
+                      "id": 87,
+                      "speechFragments": [
+                        {
+                          "text": "<break time=\"500ms\"/>The developers at Small Basket Studios would like to thank you for playing Animal Farm P.I.. If you enjoyed it, please consider leaving us a review in the Amazon Skill Store.  We are hard at work on new and slightly off-kilter stories that should be available soon.  We would also love to hear directly from you!  Please email us with any feedback, comments and/or suggestions at developers@smallbasketstudios.com.",
+                          "sequence": 8
+                        },
+                        {
+                          "fileName": "Act5-ClosingMusic-alexa.mp3",
+                          "sequence": 7
+                        },
+                        {
+                          "text": "The sun is out, and Old man MacDonald is beside himself with joy! Terrence is curled up with his sandwich. He’s named it Beanie. It’s really quite disturbing.",
+                          "sequence": 6
+                        },
+                        {
+                          "fileName": "Act5-OldMacDonaldSinging-alexa.mp3",
+                          "sequence": 5
+                        },
+                        {
+                          "text": "Terrence drops the tractor keys and scampers off with his prized sandwich. You pick up the keys and take them to Old Man MacDonald, nudging him firmly in the seat of his pants.",
+                          "sequence": 4
+                        },
+                        {
+                          "fileName": "Act5-OhStinkyMackerel-alexa.mp3",
+                          "sequence": 3
+                        },
+                        {
+                          "text": "<break time=\"350ms\"/>Terrence grabs the sandwich and takes a huge bite.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act5-GetKeysFromTerrence-Susan-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "You carry the sandwich to Terrence.",
+                          "sequence": 0
+                        },
+                        {
+                          "fileName": "Act5-GoatBleating-alexa.mp3",
+                          "sequence": 9
+                        },
+                        {
+                          "text": "<break time=\"500ms\"/>Would you like to restart or end game?",
+                          "sequence": 10
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 56,
+                  "locale": "en-AU",
+                  "cardTitle": "Give Sandwich To Terrence",
+                  "sendCardResponse": true,
+                  "speechResponses": [
+                    {
+                      "id": 43,
+                      "speechFragments": [
+                        {
+                          "text": "You carry the sandwich to Terrence.",
+                          "sequence": 0
+                        },
+                        {
+                          "fileName": "Act5-GetKeysFromTerrence-Susan-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "<break time=\"350ms\"/>Terrence grabs the sandwich and takes a huge bite.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act5-OhStinkyMackerel-alexa.mp3",
+                          "sequence": 3
+                        },
+                        {
+                          "text": "<break time=\"500ms\"/>Would you like to restart or end game?",
+                          "sequence": 10
+                        },
+                        {
+                          "fileName": "Act5-GoatBleating-alexa.mp3",
+                          "sequence": 9
+                        },
+                        {
+                          "text": "<break time=\"500ms\"/>The developers at Small Basket Studios would like to thank you for playing Animal Farm P.I.. If you enjoyed it, please consider leaving us a review in the Amazon Skill Store.  We are hard at work on new and slightly off-kilter stories that should be available soon.  We would also love to hear directly from you!  Please email us with any feedback, comments and/or suggestions at developers@smallbasketstudios.com.",
+                          "sequence": 8
+                        },
+                        {
+                          "fileName": "Act5-ClosingMusic-alexa.mp3",
+                          "sequence": 7
+                        },
+                        {
+                          "text": "The sun is out, and Old man MacDonald is beside himself with joy! Terrence is curled up with his sandwich. He’s named it Beanie. It’s really quite disturbing.",
+                          "sequence": 6
+                        },
+                        {
+                          "fileName": "Act5-OldMacDonaldSinging-alexa.mp3",
+                          "sequence": 5
+                        },
+                        {
+                          "text": "Terrence drops the tractor keys and scampers off with his prized sandwich. You pick up the keys and take them to Old Man MacDonald, nudging him firmly in the seat of his pants.",
+                          "sequence": 4
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 16,
+                  "cardTitle": "Give Sandwich To Terrence",
+                  "sendCardResponse": true,
+                  "speechResponses": [
+                    {
+                      "id": 25,
+                      "speechFragments": [
+                        {
+                          "text": "<break time=\"500ms\"/>Would you like to restart or end game?",
+                          "sequence": 10
+                        },
+                        {
+                          "fileName": "Act5-GoatBleating-alexa.mp3",
+                          "sequence": 9
+                        },
+                        {
+                          "text": "<break time=\"500ms\"/>The developers at Small Basket Studios would like to thank you for playing Animal Farm P.I.. If you enjoyed it, please consider leaving us a review in the Amazon Skill Store.  We are hard at work on new and slightly off-kilter stories that should be available soon.  We would also love to hear directly from you!  Please email us with any feedback, comments and/or suggestions at developers@smallbasketstudios.com.",
+                          "sequence": 8
+                        },
+                        {
+                          "fileName": "Act5-ClosingMusic-alexa.mp3",
+                          "sequence": 7
+                        },
+                        {
+                          "text": "The sun is out, and Old man MacDonald is beside himself with joy! Terrence is curled up with his sandwich. He’s named it Beanie. It’s really quite disturbing.",
+                          "sequence": 6
+                        },
+                        {
+                          "fileName": "Act5-OldMacDonaldSinging-alexa.mp3",
+                          "sequence": 5
+                        },
+                        {
+                          "fileName": "Act5-OhStinkyMackerel-alexa.mp3",
+                          "sequence": 3
+                        },
+                        {
+                          "text": "<break time=\"350ms\"/>Terrence grabs the sandwich and takes a huge bite.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act5-GetKeysFromTerrence-Susan-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "You carry the sandwich to Terrence.",
+                          "sequence": 0
+                        },
+                        {
+                          "text": "Terrence drops the tractor keys and scampers off with his prized sandwich. You pick up the keys and take them to Old Man MacDonald, nudging him firmly in the tookus.",
+                          "sequence": 4
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 15,
+                  "locale": "en-GB",
+                  "cardTitle": "Give Sandwich To Terrence",
+                  "sendCardResponse": true,
+                  "speechResponses": [
+                    {
+                      "id": 24,
+                      "speechFragments": [
+                        {
+                          "fileName": "Act5-GetKeysFromTerrence-Susan-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "<break time=\"500ms\"/>Would you like to restart or end game?",
+                          "sequence": 10
+                        },
+                        {
+                          "fileName": "Act5-GoatBleating-alexa.mp3",
+                          "sequence": 9
+                        },
+                        {
+                          "text": "<break time=\"500ms\"/>The developers at Small Basket Studios would like to thank you for playing Animal Farm P.I.. If you enjoyed it, please consider leaving us a review in the Amazon Skill Store.  We are hard at work on new and slightly off-kilter stories that should be available soon.  We would also love to hear directly from you!  Please email us with any feedback, comments and/or suggestions at developers@smallbasketstudios.com.",
+                          "sequence": 8
+                        },
+                        {
+                          "fileName": "Act5-ClosingMusic-alexa.mp3",
+                          "sequence": 7
+                        },
+                        {
+                          "text": "The sun is out, and Old man MacDonald is beside himself with joy! Terrence is curled up with his sandwich. He’s named it Beanie. It’s really quite disturbing.",
+                          "sequence": 6
+                        },
+                        {
+                          "fileName": "Act5-OldMacDonaldSinging-alexa.mp3",
+                          "sequence": 5
+                        },
+                        {
+                          "text": "Terrence drops the tractor keys and scampers off with his prized sandwich. You pick up the keys and take them to Old Man MacDonald, nudging him firmly in the seat of his pants.",
+                          "sequence": 4
+                        },
+                        {
+                          "fileName": "Act5-OhStinkyMackerel-alexa.mp3",
+                          "sequence": 3
+                        },
+                        {
+                          "text": "<break time=\"350ms\"/>Terrence grabs the sandwich and takes a huge bite.",
+                          "sequence": 2
+                        },
+                        {
+                          "text": "You carry the sandwich to Terrence.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 35,
+          "name": "WelcomeNewUser",
+          "responseSet": [
+            {
+              "id": 30,
+              "localizedResponses": [
+                {
+                  "id": 48,
+                  "cardTitle": "Welcome to Animal Farm P.I.",
+                  "sendCardResponse": true,
+                  "speechResponses": [
+                    {
+                      "id": 60,
+                      "speechFragments": [
+                        {
+                          "text": "Since this is your first time here, I'll give you the intro. You play the part of Petunia the Pig and help resolve problems around Old Man MacDonald's farm as they come up. You can ask for help at any time by saying help. You can stop the investigation at any time by saying stop or exit. When you are ready to begin, say begin.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ],
+                  "smallImageFile": "afi-welcome-sm.png",
+                  "largeImageFile": "afi-welcome-lg.png"
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 52,
+          "name": "GiveFarmerSandwich",
+          "responseSet": [
+            {
+              "id": 25,
+              "localizedResponses": [
+                {
+                  "id": 17,
+                  "cardTitle": "Give Sandwich To Farmer",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Say give sandwich to rat to give it to Terrence.",
+                  "speechResponses": [
+                    {
+                      "id": 26,
+                      "speechFragments": [
+                        {
+                          "text": "He gives the sandwich back to you and goes back to searching under the tractor.  Why did you think giving that stinky sandwich to the farmer was a good idea?  <break time=\"350ms\"/>Say give sandwich to rat to give it to Terrence.",
+                          "sequence": 4
+                        },
+                        {
+                          "fileName": "Act5-HolyWhatTheHeckWasThat-alexa.mp3",
+                          "sequence": 3
+                        },
+                        {
+                          "text": "The farmer takes the sandwich from you and takes a large bite.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act5-GiveMacDonaldSandwich-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "You carry the sandwich to Old Man MacDonald.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 45,
+          "name": "ThrowTheTurnips2",
+          "responseSet": [
+            {
+              "id": 24,
+              "localizedResponses": [
+                {
+                  "id": 21,
+                  "cardTitle": "Throw More Turnips",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Say feed the ducks when you want to feed the ducks.",
+                  "speechResponses": [
+                    {
+                      "id": 31,
+                      "speechFragments": [
+                        {
+                          "text": "While it would probably be very entertaining, I don’t think throwing another turnip is such a good idea. Say! Why don’t you try feeding the ducks? Say feed the ducks when you want to feed the ducks.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act4-BadPig-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "You wind up for another throw at the farmer, but he looks at you and shakes his finger.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 48,
+          "name": "PondStart",
+          "responseSet": [
+            {
+              "id": 17,
+              "localizedResponses": [
+                {
+                  "id": 11,
+                  "cardTitle": "Visit Pond.",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Would you like to beg for bread, or look in the wastebasket?",
+                  "speechResponses": [
+                    {
+                      "id": 5,
+                      "speechFragments": [
+                        {
+                          "text": "<break time=\"250ms\"/>You’ll need bread to make your sandwich.  I bet he wouldn’t mind feeding a pig.  Would you like to beg for bread, or look in the wastebasket?",
+                          "sequence": 4
+                        },
+                        {
+                          "fileName": "Act4-DucksQuacking-alexa.mp3",
+                          "sequence": 3
+                        },
+                        {
+                          "text": "<say-as interpret-as=\"interjection\">well well</say-as> - Looks like the missing keys really got to old man MacDonald - and he’s come down to the pond to sing maudlin songs and feed his ducks.  He sets down a beat up old leather briefcase after pulling out a loaf of bread.  He takes the bread out of a plastic bag, pitches the bag into a nearby wastebasket and starts feeding the birds.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act4-IDidItMyWay-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "Nothing like a bracing walk to the pond through the crisp morning air to collect your thoughts and rejoice in the solitude of nature and <break time=\"250ms\"/><prosody volume=\"x-loud\">Oh my!</prosody>",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 58,
+          "name": "LookInWastebasket",
+          "responseSet": [
+            {
+              "id": 20,
+              "localizedResponses": [
+                {
+                  "id": 12,
+                  "cardTitle": "Look In Wastebasket",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Would you like to take the bag, or take the turnips?",
+                  "speechResponses": [
+                    {
+                      "id": 22,
+                      "speechFragments": [
+                        {
+                          "text": "After a bit of poking around, you find the bag old man MacDonald pitched, and a bunch of old turnips. Would you like to take the bag, or take the turnips?",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act4-RustlingTrashcan-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "There's propbably not going to be a whole lot in there. It's a small wastebasket after all.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 25,
+          "name": "Opening",
+          "responseSet": [
+            {
+              "id": 26,
+              "localizedResponses": [
+                {
+                  "id": 4,
+                  "cardTitle": "Beautiful Morning",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "To find out what happens next, please fill out our survey and join our beta.",
+                  "speechResponses": [
+                    {
+                      "id": 1,
+                      "speechFragments": [
+                        {
+                          "text": "To find out what happens next, please fill out our survey, and join our beta.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 19,
+          "name": "MilfredStart",
+          "responseSet": [
+            {
+              "id": 53,
+              "localizedResponses": [
+                {
+                  "id": 70,
+                  "cardTitle": "Visit Milfred",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Would you like to wake up the cat, or turn off the music?",
+                  "speechResponses": [
+                    {
+                      "id": 84,
+                      "speechFragments": [
+                        {
+                          "fileName": "Act2-MilfredSnoring-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "You head towards the back of the barn and come upon a ratty couch illuminated by a couple of lava lamps and a flickering black light.  Sprawled on the couch is a slightly mangy orange tabby snoring along to a skipping record.",
+                          "sequence": 0
+                        },
+                        {
+                          "text": "<break time=\"350ms\"/>The cat is clutching what looks like a partially decomposed fish.  Would you like to wake up the cat, or turn off the music?",
+                          "sequence": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 59,
+          "name": "BegForBread2",
+          "responseSet": [
+            {
+              "id": 19,
+              "localizedResponses": [
+                {
+                  "id": 6,
+                  "locale": "en-IN",
+                  "cardTitle": "Still Begging For Bread",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Say look in wastebasket when you're ready to look in the wastebasket.",
+                  "speechResponses": [
+                    {
+                      "id": 10,
+                      "speechFragments": [
+                        {
+                          "text": "Say look in wastebasket when you're ready to look in the wastebasket.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act4-MarimbaDisappointment-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "You start wriggling your hoggish snout... <say-as interpret-as=\"interjection\">oh dear</say-as> <break time=\"250ms\"/>No. I’m not letting you do this. I have my limits.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 2,
+                  "cardTitle": "Still Begging For Bread",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Say look in wastebasket when you're ready to look in the wastebasket.",
+                  "speechResponses": [
+                    {
+                      "id": 3,
+                      "speechFragments": [
+                        {
+                          "text": "You start wriggling your hoggish snout... <say-as interpret-as=\"interjection\">oh brother</say-as> <break time=\"250ms\"/>No. I’m not letting you do this. I have my limits.",
+                          "sequence": 0
+                        },
+                        {
+                          "fileName": "Act4-MarimbaDisappointment-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "Say look in wastebasket when you're ready to look in the wastebasket.",
+                          "sequence": 2
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 1,
+                  "locale": "en-GB",
+                  "cardTitle": "Still Begging For Bread",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Say look in wastebasket when you're ready to look in the wastebasket.",
+                  "speechResponses": [
+                    {
+                      "id": 2,
+                      "speechFragments": [
+                        {
+                          "text": "You start wriggling your hoggish snout... <say-as interpret-as=\"interjection\">oh my giddy aunt</say-as> <break time=\"250ms\"/>No. I’m not letting you do this. I have my limits.",
+                          "sequence": 0
+                        },
+                        {
+                          "fileName": "Act4-MarimbaDisappointment-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "Say look in wastebasket when you're ready to look in the wastebasket.",
+                          "sequence": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 43,
+          "name": "CallUberSauer",
+          "responseSet": [
+            {
+              "id": 13,
+              "localizedResponses": [
+                {
+                  "id": 8,
+                  "cardTitle": "Call UberSauer",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Would you like to wait for Arnold, or go outside?",
+                  "speechResponses": [
+                    {
+                      "id": 9,
+                      "speechFragments": [
+                        {
+                          "text": "<break time=\"250ms\"/><say-as interpret-as=\"interjection\">kaching</say-as>.  Home cabbage delivery. Who knew?  <break time=\"250ms\"/>Would you like to wait for Arnold, or go outside?",
+                          "sequence": 1
+                        },
+                        {
+                          "fileName": "Act3-CallUberSauer-alexa.mp3",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 47,
+          "name": "GoOutsideHouse",
+          "responseSet": [
+            {
+              "id": 16,
+              "localizedResponses": [
+                {
+                  "id": 5,
+                  "cardTitle": "Go Outside House",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Let me know if you would like to go to the pond or the barn next.",
+                  "speechResponses": [
+                    {
+                      "id": 6,
+                      "speechFragments": [
+                        {
+                          "trueResultFragments": [
+                            {
+                              "trueResultFragments": [
+                                {
+                                  "text": "Say make a sandwich when you are ready to make a sandwich for Terrence.",
+                                  "sequence": 1
+                                }
+                              ],
+                              "falseResultFragments": [
+                                {
+                                  "text": "Say go to the barn when you are ready.",
+                                  "sequence": 1
+                                }
+                              ],
+                              "inventoryConditions": [
+                                [
+                                  {
+                                    "name": "HasMackerel",
+                                    "requiredOutcome": true,
+                                    "inventoryItems": [
+                                      [
+                                        {
+                                          "id": 4,
+                                          "name": "Mackerel",
+                                          "isMultiItem": false
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              ],
+                              "nodeVisitConditions": [
+                                []
+                              ],
+                              "sequence": 1
+                            }
+                          ],
+                          "falseResultFragments": [
+                            {
+                              "trueResultFragments": [
+                                {
+                                  "text": "Say go to the pond when you are ready.",
+                                  "sequence": 1
+                                }
+                              ],
+                              "falseResultFragments": [
+                                {
+                                  "text": "When you are ready, you can say go to the pond, or go to the barn.",
+                                  "sequence": 1
+                                }
+                              ],
+                              "inventoryConditions": [
+                                [
+                                  {
+                                    "name": "HasMackerel",
+                                    "requiredOutcome": true,
+                                    "inventoryItems": [
+                                      [
+                                        {
+                                          "id": 4,
+                                          "name": "Mackerel",
+                                          "isMultiItem": false
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              ],
+                              "nodeVisitConditions": [
+                                []
+                              ],
+                              "sequence": 1
+                            }
+                          ],
+                          "inventoryConditions": [
+                            [
+                              {
+                                "name": "HasBread",
+                                "requiredOutcome": true,
+                                "inventoryItems": [
+                                  [
+                                    {
+                                      "id": 6,
+                                      "name": "Bread",
+                                      "isMultiItem": false
+                                    }
+                                  ]
+                                ]
+                              }
+                            ]
+                          ],
+                          "nodeVisitConditions": [
+                            []
+                          ],
+                          "sequence": 7
+                        },
+                        {
+                          "fileName": "Act3-Boing-alexa.mp3",
+                          "sequence": 6
+                        },
+                        {
+                          "text": "You let go of your freshly groomed tail, and after it springs back into place, grab the sauerkraut.",
+                          "sequence": 5
+                        },
+                        {
+                          "trueResultFragments": [
+                            {
+                              "fileName": "Act3-ArnoldLeavesShort-alexa.mp3",
+                              "sequence": 2
+                            },
+                            {
+                              "text": "<break time=\"500ms\"/>After a minute or two of standing patiently at the door, he shrugs, sets the package of sauerkraut down and speeds off.",
+                              "sequence": 1
+                            }
+                          ],
+                          "falseResultFragments": [
+                            {
+                              "text": "<break time=\"500ms\"/>After a minute or two of standing patiently at the door, he shrugs, sets the package of sauerkraut down and heads back to the van.",
+                              "sequence": 1
+                            },
+                            {
+                              "fileName": "Act3-OutsideArnoldLeaves-alexa.mp3",
+                              "sequence": 2
+                            }
+                          ],
+                          "inventoryConditions": [
+                            []
+                          ],
+                          "nodeVisitConditions": [
+                            [
+                              {
+                                "id": 5,
+                                "name": "AlreadySawArnold",
+                                "requiredOutcome": true,
+                                "nodes": [
+                                  []
+                                ]
+                              }
+                            ]
+                          ],
+                          "sequence": 4
+                        },
+                        {
+                          "fileName": "Act3-YooHooKnockKnock-alexa.mp3",
+                          "sequence": 3
+                        },
+                        {
+                          "trueResultFragments": [
+                            {
+                              "text": "<break time=\"500ms\"/>Sure enough, the UberSauer delivery van screeches up again.",
+                              "sequence": 1
+                            },
+                            {
+                              "fileName": "Act3-ArnoldArrivesShort-alexa.mp3",
+                              "sequence": 2
+                            },
+                            {
+                              "text": "Arnold jumps out of the van,  scampers to the open front door and leans in.",
+                              "sequence": 3
+                            }
+                          ],
+                          "falseResultFragments": [
+                            {
+                              "text": "<break time=\"500ms\"/>A van with the UberSauer logo arrives in front of the house and a man in a white jumpsuit with the name “Arnold” on it gets out and scampers to the open front door.",
+                              "sequence": 1
+                            },
+                            {
+                              "fileName": "Act3-OutsideArnoldArrives-alexa.mp3",
+                              "sequence": 2
+                            },
+                            {
+                              "text": "The man is carrying a package of what must be sauerkraut.  He stops at the door and leans in.",
+                              "sequence": 3
+                            }
+                          ],
+                          "inventoryConditions": [
+                            []
+                          ],
+                          "nodeVisitConditions": [
+                            [
+                              {
+                                "id": 5,
+                                "name": "AlreadySawArnold",
+                                "requiredOutcome": true,
+                                "nodes": [
+                                  []
+                                ]
+                              }
+                            ]
+                          ],
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act3-OpenDoorSplopDown-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "Leaving the house door open, you plop down lazily into some tall grass at the side of the house and quietly groom your twisty little tail.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 32,
+          "name": "EndofGame",
+          "responseSet": [
+            {
+              "id": 33,
+              "localizedResponses": [
+                {
+                  "id": 45,
+                  "cardTitle": "End Game",
+                  "repromptTextResponse": "Restart or end game?",
+                  "speechResponses": [
+                    {
+                      "id": 56,
+                      "speechFragments": [
+                        {
+                          "text": "That's it for this path, but there are others to explore. Would you like to end the game or try again?",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 55,
+          "name": "FeedTheDucks1",
+          "responseSet": [
+            {
+              "id": 23,
+              "localizedResponses": [
+                {
+                  "id": 26,
+                  "cardTitle": "Feed The Ducks",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Say throw turnips when you are ready to throw them at the farmer.",
+                  "speechResponses": [
+                    {
+                      "id": 36,
+                      "speechFragments": [
+                        {
+                          "text": "Clearly they are not amused.   I think you should throw some turnips at the farmer.  Say throw turnips when you are ready to throw them at the farmer.",
+                          "sequence": 4
+                        },
+                        {
+                          "fileName": "Act4-DucksFadeOut-alexa.mp3",
+                          "sequence": 3
+                        },
+                        {
+                          "text": "The ducks dubiously poke at the turnips a few times – glare at you accusatorily, and swim away",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act4-DucksFeedTheDucks1FadeIn-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "You throw some of the turnips in the water and the ducks hastily swim over to you in the hopes of finding food.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 22,
+          "name": "TalkToTerrence",
+          "responseSet": [
+            {
+              "id": 51,
+              "localizedResponses": [
+                {
+                  "id": 52,
+                  "cardTitle": "Talk to Terrence",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "You can say go to the barn, go to the pond or go to the kitchen?",
+                  "speechResponses": [
+                    {
+                      "id": 76,
+                      "speechFragments": [
+                        {
+                          "text": "<break time=\"100ms\"/> <prosody volume=\"x-loud\">Well that seems simple!</prosody>Now all you need to do is find everything to make a stinky mackerel and sauerkraut sandwich!  Would you like to start at the barn, the pond, or the kitchen?",
+                          "sequence": 4
+                        },
+                        {
+                          "fileName": "Act1-TerrenceTellYouWhat-alexa.mp3",
+                          "sequence": 3
+                        },
+                        {
+                          "text": "Terrence pauses for a moment and then is clearly struck by divine inspiration.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act1-TerrencePetuniaKeysSusan-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "You approach Terrence, expecting an exercise in patience. <break time=\"100ms\" />",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 27,
+          "name": "WallowInMud",
+          "responseSet": [
+            {
+              "id": 38,
+              "localizedResponses": [
+                {
+                  "id": 39,
+                  "cardTitle": "Wallow",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Do you want to wait for Terrence, or go to him?",
+                  "speechResponses": [
+                    {
+                      "id": 48,
+                      "speechFragments": [
+                        {
+                          "fileName": "Act1-TerrenceLookOnHisFace-alexa.mp3",
+                          "sequence": 2
+                        },
+                        {
+                          "text": "<break time=\"100ms\" />As you happily wallow in the sty, it briefly occurs to you that it’s not just mud that you’re wallowing in, but hey – you’re a pig and you’re happy! <break time=\"100ms\" />Your reverie is interrupted as you spot Terrence the rat scurrying in your direction.",
+                          "sequence": 1
+                        },
+                        {
+                          "fileName": "Act1-WallowingPig-alexa.mp3",
+                          "sequence": 0
+                        },
+                        {
+                          "text": "He’s carrying something shiny. Do you want to wait for Terrence, or go to him?",
+                          "sequence": 3
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 53,
+          "name": "BackToBarnVictory",
+          "responseSet": [
+            {
+              "id": 7,
+              "localizedResponses": [
+                {
+                  "id": 57,
+                  "cardTitle": "Give Catnip To Milfred",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Let me know if you would like to go to the pond or the kitchen next.",
+                  "speechResponses": [
+                    {
+                      "id": 18,
+                      "speechFragments": [
+                        {
+                          "trueResultFragments": [
+                            {
+                              "trueResultFragments": [
+                                {
+                                  "text": "Say make a sandwich when you are ready to make a sandwich for Terrence.",
+                                  "sequence": 1
+                                }
+                              ],
+                              "falseResultFragments": [
+                                {
+                                  "text": "Say go to the kitchen when you are ready.",
+                                  "sequence": 1
+                                }
+                              ],
+                              "inventoryConditions": [
+                                [
+                                  {
+                                    "name": "HasSauerkraut",
+                                    "requiredOutcome": true,
+                                    "inventoryItems": [
+                                      [
+                                        {
+                                          "id": 1,
+                                          "name": "Sauerkraut",
+                                          "isMultiItem": false
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              ],
+                              "nodeVisitConditions": [
+                                []
+                              ],
+                              "sequence": 1
+                            }
+                          ],
+                          "falseResultFragments": [
+                            {
+                              "trueResultFragments": [
+                                {
+                                  "text": "Say go to the pond when you are ready.",
+                                  "sequence": 1
+                                }
+                              ],
+                              "falseResultFragments": [
+                                {
+                                  "text": "You can go to the pond or go to the kitchen.",
+                                  "sequence": 1
+                                }
+                              ],
+                              "inventoryConditions": [
+                                [
+                                  {
+                                    "name": "HasSauerkraut",
+                                    "requiredOutcome": true,
+                                    "inventoryItems": [
+                                      [
+                                        {
+                                          "id": 1,
+                                          "name": "Sauerkraut",
+                                          "isMultiItem": false
+                                        }
+                                      ]
+                                    ]
+                                  }
+                                ]
+                              ],
+                              "nodeVisitConditions": [
+                                []
+                              ],
+                              "sequence": 1
+                            }
+                          ],
+                          "inventoryConditions": [
+                            [
+                              {
+                                "name": "HasBread",
+                                "requiredOutcome": true,
+                                "inventoryItems": [
+                                  [
+                                    {
+                                      "id": 6,
+                                      "name": "Bread",
+                                      "isMultiItem": false
+                                    }
+                                  ]
+                                ]
+                              }
+                            ]
+                          ],
+                          "nodeVisitConditions": [
+                            []
+                          ],
+                          "sequence": 4
+                        },
+                        {
+                          "text": "You take the decomposing fish, place it in a tightly sealed bag and beat a hasty retreat.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act2-CrowdHooray-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "Looks like Milfred is still under the sofa. You drop the plastic baggy of catnip in front of the couch. An orange <phoneme alphabet=\"ipa\" ph=\"paʊw.\">paw</phoneme> reaches out, grabs the baggy and exchanges it for Ferb, the stinky mackerel.",
+                          "sequence": 0
+                        },
+                        {
+                          "fileName": "Act2-RunAway-alexa.mp3",
+                          "sequence": 3
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 65,
+          "name": "PlayAirhorn",
+          "responseSet": [
+            {
+              "id": 6,
+              "localizedResponses": [
+                {
+                  "id": 58,
+                  "cardTitle": "Play Your Airhorn",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Say go to barn when you’re ready to head back.",
+                  "speechResponses": [
+                    {
+                      "id": 21,
+                      "speechFragments": [
+                        {
+                          "text": "<say-as interpret-as=\"interjection\">booya</say-as>! The crows really didn’t like that and flew away.  You get to the catnip, pick a handful and carefully place it in a plastic baggy.  One stinky mackerel coming right up!  When you are ready to go back to the barn, say go to barn.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act2-PlayAirhorn-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "You whip out your trusty airhorn, valiantly point it at the crows, and press the button.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 56,
+          "name": "TakeTheTurnips",
+          "responseSet": [
+            {
+              "id": 22,
+              "localizedResponses": [
+                {
+                  "id": 29,
+                  "cardTitle": "Take The Turnips",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Say throw turnips to throw them at the farmer, or feed the ducks to feed them to the birds.",
+                  "speechResponses": [
+                    {
+                      "id": 39,
+                      "speechFragments": [
+                        {
+                          "text": "Say throw turnips to throw them at the farmer, or feed the ducks to feed them to the birds.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act4-TakeTheTurnips-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "<say-as interpret-as=\"interjection\">yuck</say-as> <break time=\"250ms\"/> The turnips look and smell like they’ve been in the wastebasket for quite some time. On the other hand, they do look about the right size for throwing. <break time=\"250ms\"/>As you grab the pile, you can't shake the ominous feeling that it might not all be turnips you're picking up.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 28,
+                  "locale": "en-GB",
+                  "cardTitle": "Take The Turnips",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Say throw turnips to throw them at the farmer, or feed the ducks to feed them to the birds.",
+                  "speechResponses": [
+                    {
+                      "id": 38,
+                      "speechFragments": [
+                        {
+                          "text": "Say throw turnips to throw them at the farmer, or feed the ducks to feed them to the birds.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act4-TakeTheTurnips-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "<say-as interpret-as=\"interjection\">ew</say-as> <break time=\"250ms\"/> The turnips look and smell like they’ve been in the wastebasket for quite some time. On the other hand, they do look about the right size for throwing. <break time=\"250ms\"/>As you grab the pile, you can't shake the ominous feeling that it might not all be turnips you're picking up.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 27,
+                  "locale": "en-IN",
+                  "cardTitle": "Take The Turnips",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Say throw turnips to throw them at the farmer, or feed the ducks to feed them to the birds.",
+                  "speechResponses": [
+                    {
+                      "id": 37,
+                      "speechFragments": [
+                        {
+                          "text": "Say throw turnips to throw them at the farmer, or feed the ducks to feed them to the birds.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act4-TakeTheTurnips-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "<say-as interpret-as=\"interjection\">ew</say-as> <break time=\"250ms\"/> The turnips look and smell like they’ve been in the wastebasket for quite some time. On the other hand, they do look about the right size for throwing. <break time=\"250ms\"/>As you grab the pile, you can't shake the ominous feeling that it might not all be turnips you're picking up.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 20,
+          "name": "TalkToAnimals",
+          "responseSet": [
+            {
+              "id": 49,
+              "localizedResponses": [
+                {
+                  "id": 54,
+                  "cardTitle": "Talk To More Animals",
+                  "sendCardResponse": false,
+                  "repromptTextResponse": "Let me know when you’re ready to see Milfred by saying “go to Milfred”.",
+                  "speechResponses": [
+                    {
+                      "id": 85,
+                      "speechFragments": [
+                        {
+                          "text": "<break time=\"500ms\"/>The rest of the animals are too busy eating their morning slop to talk to you and make 20 year old music references. Let me know when you’re ready to see Milfred by saying “go to Milfred”.",
+                          "sequence": 1
+                        },
+                        {
+                          "fileName": "Act2-TalkToAnimals-Susan-alexa.mp3",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 40,
+          "name": "MakeASandwich",
+          "responseSet": [
+            {
+              "id": 3,
+              "localizedResponses": [
+                {
+                  "id": 18,
+                  "cardTitle": "Make The Sandwich",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Say give the sandwich to the farmer, or give the sandwich to Terrence",
+                  "speechResponses": [
+                    {
+                      "id": 27,
+                      "speechFragments": [
+                        {
+                          "fileName": "Act1-TerrenceCackling-alexa.mp3",
+                          "sequence": 3
+                        },
+                        {
+                          "text": "You make the sandwich and then head back to the tractor where you find old man MacDonald on his hands and knees, presumably still looking for his keys.  Terrence the rat is leaning up against a fencepost and snickering to himself.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act5-Fanfare1-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "<say-as interpret-as=\"interjection\">all righty</say-as>!  You’ve got all the fixings for a stinky mackerel and sauerkraut sandwich!",
+                          "sequence": 0
+                        },
+                        {
+                          "text": "<break time=\"250ms\"/>  Say give the sandwich to the farmer, or give the sandwich to Terrence.",
+                          "sequence": 4
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 38,
+          "name": "VisitTractor",
+          "responseSet": [
+            {
+              "id": 39,
+              "localizedResponses": [
+                {
+                  "id": 38,
+                  "cardTitle": "Go to the tractor",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Do you want to wait for Terrence, or go to him?",
+                  "speechResponses": [
+                    {
+                      "id": 47,
+                      "speechFragments": [
+                        {
+                          "text": "He’s carrying something shiny.  Do you want to wait for Terrence, or go to him?",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act1-TerrenceLookOnHisFace-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "You heave yourself up from the noxious filth you’ve been luxuriating in, lumber out the sty gate and head towards the tractor.  You spot Terrence the rat scurrying towards you.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 23,
+          "name": "TakeKeys",
+          "responseSet": [
+            {
+              "id": 52,
+              "localizedResponses": [
+                {
+                  "id": 51,
+                  "cardTitle": "Take the Keys",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Would you like to go to the barn, the pond, or the kitchen?",
+                  "speechResponses": [
+                    {
+                      "id": 66,
+                      "speechFragments": [
+                        {
+                          "text": "Hmmmm… I’ll bet if you get Terrence a stinky mackerel and sauerkraut sandwich, you can get the tractor keys from him, and then give them back to Old Man McDonald. <break time=\"100ms\" /><prosody volume=\"x-loud\">Let’s do it!</prosody>  Would you like to go to the barn, the pond,  or the kitchen?",
+                          "sequence": 4
+                        },
+                        {
+                          "fileName": "Act1-TerrenceStinkyMackerel-alexa.mp3",
+                          "sequence": 3
+                        },
+                        {
+                          "text": "<break time=\"250ms\"/>Suddenly Terrence's eyes greedily light up.",
+                          "sequence": 2
+                        },
+                        {
+                          "fileName": "Act1-TerrenceOwPetunia-alexa.mp3",
+                          "sequence": 1
+                        },
+                        {
+                          "text": "You open your mouth and make a lunge for the keys, but your porcine snout knocks Terrence back before you can grab them.",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        },
+        {
+          "id": 41,
+          "name": "TryTheKimchee",
+          "responseSet": [
+            {
+              "id": 11,
+              "localizedResponses": [
+                {
+                  "id": 62,
+                  "cardTitle": "Try The Cabbage",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Say close the fridge then you are ready to move on.",
+                  "speechResponses": [
+                    {
+                      "id": 14,
+                      "speechFragments": [
+                        {
+                          "text": "<say-as interpret-as=\"interjection\">yowzer</say-as>! Okay that’s definitely not sauerkraut – it tastes more like <phoneme alphabet=\"ipa\" ph=\"kɪm.t͡ʃi\">kimchee</phoneme>. You find it delicious even though it gives you gas. You should probably look somewhere else. Say close the fridge when you are ready to move on.",
+                          "sequence": 3
+                        },
+                        {
+                          "fileName": "Act3-PigFart-alexa.mp3",
+                          "sequence": 2
+                        },
+                        {
+                          "text": "You open the container of fermented cabbage and hear the reassuring sound of gas hissing out.  Only one way to make sure this is sauerkraut – you take a nice healthy <phoneme alphabet=\"ipa\" ph=\"baɪt\">bite</phoneme>.",
+                          "sequence": 1
+                        },
+                        {
+                          "fileName": "Act3-OpenContainer-alexa.mp3",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 33,
+                  "locale": "en-GB",
+                  "cardTitle": "Try The Cabbage",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Say close the fridge then you are ready to move on.",
+                  "speechResponses": [
+                    {
+                      "id": 13,
+                      "speechFragments": [
+                        {
+                          "text": "<say-as interpret-as=\"interjection\">yowza</say-as>! Okay that’s definitely not sauerkraut – it tastes more like <phoneme alphabet=\"ipa\" ph=\"kɪm.t͡ʃi\">kimchee</phoneme>. You find it delicious even though it gives you gas. You should probably look somewhere else. Say close the fridge when you are ready to move on.",
+                          "sequence": 3
+                        },
+                        {
+                          "fileName": "Act3-PigFart-alexa.mp3",
+                          "sequence": 2
+                        },
+                        {
+                          "text": "You open the container of fermented cabbage and hear the reassuring sound of gas hissing out.  Only one way to make sure this is sauerkraut – you take a nice healthy <phoneme alphabet=\"ipa\" ph=\"baɪt\">bite</phoneme>.",
+                          "sequence": 1
+                        },
+                        {
+                          "fileName": "Act3-OpenContainer-alexa.mp3",
+                          "sequence": 0
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 32,
+                  "locale": "en-AU",
+                  "cardTitle": "Try The Cabbage",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Say close the fridge then you are ready to move on.",
+                  "speechResponses": [
+                    {
+                      "id": 12,
+                      "speechFragments": [
+                        {
+                          "fileName": "Act3-OpenContainer-alexa.mp3",
+                          "sequence": 0
+                        },
+                        {
+                          "text": "You open the container of fermented cabbage and hear the reassuring sound of gas hissing out.  Only one way to make sure this is sauerkraut – you take a nice healthy <phoneme alphabet=\"ipa\" ph=\"baɪt\">bite</phoneme>.",
+                          "sequence": 1
+                        },
+                        {
+                          "fileName": "Act3-PigFart-alexa.mp3",
+                          "sequence": 2
+                        },
+                        {
+                          "text": "<say-as interpret-as=\"interjection\">yowza</say-as>! Okay that’s definitely not sauerkraut – it tastes more like <phoneme alphabet=\"ipa\" ph=\"kɪm.t͡ʃi\">kimchee</phoneme>. You find it delicious even though it gives you gas. You should probably look somewhere else. Say close the fridge when you are ready to move on.",
+                          "sequence": 3
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": 10,
+                  "locale": "en-IN",
+                  "cardTitle": "Try The Cabbage",
+                  "sendCardResponse": true,
+                  "repromptTextResponse": "Say close the fridge then you are ready to move on.",
+                  "speechResponses": [
+                    {
+                      "id": 20,
+                      "speechFragments": [
+                        {
+                          "fileName": "Act3-OpenContainer-alexa.mp3",
+                          "sequence": 0
+                        },
+                        {
+                          "text": "<say-as interpret-as=\"interjection\">eesh</say-as>! Okay that’s definitely not sauerkraut – it tastes more like <phoneme alphabet=\"ipa\" ph=\"kɪm.t͡ʃi\">kimchee</phoneme>. You find it delicious even though it gives you gas. You should probably look somewhere else. Say close the fridge when you are ready to move on.",
+                          "sequence": 3
+                        },
+                        {
+                          "fileName": "Act3-PigFart-alexa.mp3",
+                          "sequence": 2
+                        },
+                        {
+                          "text": "You open the container of fermented cabbage and hear the reassuring sound of gas hissing out.  Only one way to make sure this is sauerkraut – you take a nice healthy <phoneme alphabet=\"ipa\" ph=\"baɪt\">bite</phoneme>.",
+                          "sequence": 1
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "responseBehavior": "selectFirst"
+        }
+      ]
+    }
+  ],
+  "intents": [
+    {
+      "id": 19,
+      "name": "VerbTheItemIntent",
+      "localizedIntents": [
+        {
+          "id": 15,
+          "plainTextPrompt": "verb the item",
+          "utterances": [
+            "{verb} the {item}",
+            "{verb} in {item}",
+            "{verb} inside {item}",
+            "{verb} inside the {item}",
+            "{verb} in the {item}",
+            "{verb} {item}",
+            "{verb} your {item}",
+            "{verb} a {item}"
+          ]
+        }
+      ],
+      "slotTypeMappings": [
+        {
+          "id": 15,
+          "alias": "character",
+          "slotType": {
+            "id": 1,
+            "name": "FarmCharacters",
+            "values": [
+              {
+                "id": 16,
+                "value": "terrence",
+                "synonyms": [
+                  "rat",
+                  "the rat"
+                ]
+              },
+              {
+                "id": 17,
+                "value": "arnold",
+                "synonyms": [
+                  "driver"
+                ]
+              },
+              {
+                "id": 18,
+                "value": "animals",
+                "synonyms": [
+                  "more animals"
+                ]
+              },
+              {
+                "id": 19,
+                "value": "him"
+              },
+              {
+                "id": 20,
+                "value": "farmer",
+                "synonyms": [
+                  "Old Man MacDonald",
+                  "MacDonald"
+                ]
+              },
+              {
+                "id": 21,
+                "value": "person",
+                "synonyms": [
+                  "someone",
+                  "somebody"
+                ]
+              },
+              {
+                "id": 22,
+                "value": "delivery service",
+                "synonyms": [
+                  "delivery",
+                  "sauerkraut delivery",
+                  "uber sauer"
+                ]
+              },
+              {
+                "id": 23,
+                "value": "Milfred",
+                "synonyms": [
+                  "cat",
+                  "the cat"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 15,
+          "alias": "character",
+          "slotType": {
+            "id": 1,
+            "name": "FarmCharacters",
+            "values": [
+              {
+                "id": 16,
+                "value": "terrence",
+                "synonyms": [
+                  "rat",
+                  "the rat"
+                ]
+              },
+              {
+                "id": 17,
+                "value": "arnold",
+                "synonyms": [
+                  "driver"
+                ]
+              },
+              {
+                "id": 18,
+                "value": "animals",
+                "synonyms": [
+                  "more animals"
+                ]
+              },
+              {
+                "id": 19,
+                "value": "him"
+              },
+              {
+                "id": 20,
+                "value": "farmer",
+                "synonyms": [
+                  "Old Man MacDonald",
+                  "MacDonald"
+                ]
+              },
+              {
+                "id": 21,
+                "value": "person",
+                "synonyms": [
+                  "someone",
+                  "somebody"
+                ]
+              },
+              {
+                "id": 22,
+                "value": "delivery service",
+                "synonyms": [
+                  "delivery",
+                  "sauerkraut delivery",
+                  "uber sauer"
+                ]
+              },
+              {
+                "id": 23,
+                "value": "Milfred",
+                "synonyms": [
+                  "cat",
+                  "the cat"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "name": "VerbTheItemAtTheCharacterIntent",
+      "localizedIntents": [
+        {
+          "id": 18,
+          "plainTextPrompt": "verb the item at the character",
+          "utterances": [
+            "{verb} the {item} at the {character}",
+            "{verb} {item} at {character}",
+            "{verb} the {item} at {character}",
+            "{verb} {item} at the {character}"
+          ]
+        }
+      ],
+      "slotTypeMappings": [
+        {
+          "id": 15,
+          "alias": "character",
+          "slotType": {
+            "id": 1,
+            "name": "FarmCharacters",
+            "values": [
+              {
+                "id": 16,
+                "value": "terrence",
+                "synonyms": [
+                  "rat",
+                  "the rat"
+                ]
+              },
+              {
+                "id": 17,
+                "value": "arnold",
+                "synonyms": [
+                  "driver"
+                ]
+              },
+              {
+                "id": 18,
+                "value": "animals",
+                "synonyms": [
+                  "more animals"
+                ]
+              },
+              {
+                "id": 19,
+                "value": "him"
+              },
+              {
+                "id": 20,
+                "value": "farmer",
+                "synonyms": [
+                  "Old Man MacDonald",
+                  "MacDonald"
+                ]
+              },
+              {
+                "id": 21,
+                "value": "person",
+                "synonyms": [
+                  "someone",
+                  "somebody"
+                ]
+              },
+              {
+                "id": 22,
+                "value": "delivery service",
+                "synonyms": [
+                  "delivery",
+                  "sauerkraut delivery",
+                  "uber sauer"
+                ]
+              },
+              {
+                "id": 23,
+                "value": "Milfred",
+                "synonyms": [
+                  "cat",
+                  "the cat"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 15,
+          "alias": "character",
+          "slotType": {
+            "id": 1,
+            "name": "FarmCharacters",
+            "values": [
+              {
+                "id": 16,
+                "value": "terrence",
+                "synonyms": [
+                  "rat",
+                  "the rat"
+                ]
+              },
+              {
+                "id": 17,
+                "value": "arnold",
+                "synonyms": [
+                  "driver"
+                ]
+              },
+              {
+                "id": 18,
+                "value": "animals",
+                "synonyms": [
+                  "more animals"
+                ]
+              },
+              {
+                "id": 19,
+                "value": "him"
+              },
+              {
+                "id": 20,
+                "value": "farmer",
+                "synonyms": [
+                  "Old Man MacDonald",
+                  "MacDonald"
+                ]
+              },
+              {
+                "id": 21,
+                "value": "person",
+                "synonyms": [
+                  "someone",
+                  "somebody"
+                ]
+              },
+              {
+                "id": 22,
+                "value": "delivery service",
+                "synonyms": [
+                  "delivery",
+                  "sauerkraut delivery",
+                  "uber sauer"
+                ]
+              },
+              {
+                "id": 23,
+                "value": "Milfred",
+                "synonyms": [
+                  "cat",
+                  "the cat"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 15,
+          "alias": "character",
+          "slotType": {
+            "id": 1,
+            "name": "FarmCharacters",
+            "values": [
+              {
+                "id": 16,
+                "value": "terrence",
+                "synonyms": [
+                  "rat",
+                  "the rat"
+                ]
+              },
+              {
+                "id": 17,
+                "value": "arnold",
+                "synonyms": [
+                  "driver"
+                ]
+              },
+              {
+                "id": 18,
+                "value": "animals",
+                "synonyms": [
+                  "more animals"
+                ]
+              },
+              {
+                "id": 19,
+                "value": "him"
+              },
+              {
+                "id": 20,
+                "value": "farmer",
+                "synonyms": [
+                  "Old Man MacDonald",
+                  "MacDonald"
+                ]
+              },
+              {
+                "id": 21,
+                "value": "person",
+                "synonyms": [
+                  "someone",
+                  "somebody"
+                ]
+              },
+              {
+                "id": 22,
+                "value": "delivery service",
+                "synonyms": [
+                  "delivery",
+                  "sauerkraut delivery",
+                  "uber sauer"
+                ]
+              },
+              {
+                "id": 23,
+                "value": "Milfred",
+                "synonyms": [
+                  "cat",
+                  "the cat"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "name": "TakeItemIntent",
+      "localizedIntents": [
+        {
+          "id": 7,
+          "plainTextPrompt": "take",
+          "utterances": [
+            "take {item}",
+            "pick {item}",
+            "beg for {item}",
+            "take the {item}",
+            "pickup the {item}",
+            "pickup {item}"
+          ]
+        }
+      ],
+      "slotTypeMappings": [
+        {
+          "id": 15,
+          "alias": "character",
+          "slotType": {
+            "id": 1,
+            "name": "FarmCharacters",
+            "values": [
+              {
+                "id": 16,
+                "value": "terrence",
+                "synonyms": [
+                  "rat",
+                  "the rat"
+                ]
+              },
+              {
+                "id": 17,
+                "value": "arnold",
+                "synonyms": [
+                  "driver"
+                ]
+              },
+              {
+                "id": 18,
+                "value": "animals",
+                "synonyms": [
+                  "more animals"
+                ]
+              },
+              {
+                "id": 19,
+                "value": "him"
+              },
+              {
+                "id": 20,
+                "value": "farmer",
+                "synonyms": [
+                  "Old Man MacDonald",
+                  "MacDonald"
+                ]
+              },
+              {
+                "id": 21,
+                "value": "person",
+                "synonyms": [
+                  "someone",
+                  "somebody"
+                ]
+              },
+              {
+                "id": 22,
+                "value": "delivery service",
+                "synonyms": [
+                  "delivery",
+                  "sauerkraut delivery",
+                  "uber sauer"
+                ]
+              },
+              {
+                "id": 23,
+                "value": "Milfred",
+                "synonyms": [
+                  "cat",
+                  "the cat"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "name": "GotoLocationIntent",
+      "localizedIntents": [
+        {
+          "id": 8,
+          "plainTextPrompt": "gotolocation",
+          "utterances": [
+            "go to {location}",
+            "go back to the {location}",
+            "go back to {location}",
+            "go to the {location}",
+            "see {location}",
+            "back to {location}",
+            "to the {location}",
+            "back to {location}",
+            "walk to {location}",
+            "walk the {location}",
+            "to {location}",
+            "go {location}",
+            "wait {location}",
+            "visit {location}"
+          ]
+        }
+      ],
+      "slotTypeMappings": [
+        {
+          "id": 15,
+          "alias": "character",
+          "slotType": {
+            "id": 1,
+            "name": "FarmCharacters",
+            "values": [
+              {
+                "id": 16,
+                "value": "terrence",
+                "synonyms": [
+                  "rat",
+                  "the rat"
+                ]
+              },
+              {
+                "id": 17,
+                "value": "arnold",
+                "synonyms": [
+                  "driver"
+                ]
+              },
+              {
+                "id": 18,
+                "value": "animals",
+                "synonyms": [
+                  "more animals"
+                ]
+              },
+              {
+                "id": 19,
+                "value": "him"
+              },
+              {
+                "id": 20,
+                "value": "farmer",
+                "synonyms": [
+                  "Old Man MacDonald",
+                  "MacDonald"
+                ]
+              },
+              {
+                "id": 21,
+                "value": "person",
+                "synonyms": [
+                  "someone",
+                  "somebody"
+                ]
+              },
+              {
+                "id": 22,
+                "value": "delivery service",
+                "synonyms": [
+                  "delivery",
+                  "sauerkraut delivery",
+                  "uber sauer"
+                ]
+              },
+              {
+                "id": 23,
+                "value": "Milfred",
+                "synonyms": [
+                  "cat",
+                  "the cat"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "name": "ResumeIntent",
+      "localizedIntents": [
+        {
+          "id": 1,
+          "plainTextPrompt": "resume"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "TalkToIntent",
+      "localizedIntents": [
+        {
+          "id": 16,
+          "plainTextPrompt": "talk",
+          "utterances": [
+            "talk to {character}",
+            "talk {character}",
+            "speak to {character}",
+            "speak {character}"
+          ]
+        }
+      ],
+      "slotTypeMappings": [
+        {
+          "id": 15,
+          "alias": "character",
+          "slotType": {
+            "id": 1,
+            "name": "FarmCharacters",
+            "values": [
+              {
+                "id": 16,
+                "value": "terrence",
+                "synonyms": [
+                  "rat",
+                  "the rat"
+                ]
+              },
+              {
+                "id": 17,
+                "value": "arnold",
+                "synonyms": [
+                  "driver"
+                ]
+              },
+              {
+                "id": 18,
+                "value": "animals",
+                "synonyms": [
+                  "more animals"
+                ]
+              },
+              {
+                "id": 19,
+                "value": "him"
+              },
+              {
+                "id": 20,
+                "value": "farmer",
+                "synonyms": [
+                  "Old Man MacDonald",
+                  "MacDonald"
+                ]
+              },
+              {
+                "id": 21,
+                "value": "person",
+                "synonyms": [
+                  "someone",
+                  "somebody"
+                ]
+              },
+              {
+                "id": 22,
+                "value": "delivery service",
+                "synonyms": [
+                  "delivery",
+                  "sauerkraut delivery",
+                  "uber sauer"
+                ]
+              },
+              {
+                "id": 23,
+                "value": "Milfred",
+                "synonyms": [
+                  "cat",
+                  "the cat"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "YesIntent",
+      "localizedIntents": [
+        {
+          "id": 6,
+          "plainTextPrompt": "yes"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "NoIntent",
+      "localizedIntents": [
+        {
+          "id": 4,
+          "plainTextPrompt": "no"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "MakeSandwichIntent",
+      "localizedIntents": [
+        {
+          "id": 2,
+          "plainTextPrompt": "make a sandwich for Terrence",
+          "utterances": [
+            "make a sandwich for Terrence",
+            "make sandwich for Terrence",
+            "make a sandwich",
+            "make sandwich",
+            "make mackerel and sauerkraut sandwich",
+            "make mackerel sandwich",
+            "make sauerkraut sandwich",
+            "sandwich"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "VerbTheItemToTheCharacterIntent",
+      "localizedIntents": [
+        {
+          "id": 3,
+          "plainTextPrompt": "verb the item to the character",
+          "utterances": [
+            "{verb} the {item} to the {character}",
+            "{verb} {item} to {character}",
+            "{verb} the {item} to {character}",
+            "{verb} {item} to the {character}"
+          ]
+        }
+      ],
+      "slotTypeMappings": [
+        {
+          "id": 15,
+          "alias": "character",
+          "slotType": {
+            "id": 1,
+            "name": "FarmCharacters",
+            "values": [
+              {
+                "id": 16,
+                "value": "terrence",
+                "synonyms": [
+                  "rat",
+                  "the rat"
+                ]
+              },
+              {
+                "id": 17,
+                "value": "arnold",
+                "synonyms": [
+                  "driver"
+                ]
+              },
+              {
+                "id": 18,
+                "value": "animals",
+                "synonyms": [
+                  "more animals"
+                ]
+              },
+              {
+                "id": 19,
+                "value": "him"
+              },
+              {
+                "id": 20,
+                "value": "farmer",
+                "synonyms": [
+                  "Old Man MacDonald",
+                  "MacDonald"
+                ]
+              },
+              {
+                "id": 21,
+                "value": "person",
+                "synonyms": [
+                  "someone",
+                  "somebody"
+                ]
+              },
+              {
+                "id": 22,
+                "value": "delivery service",
+                "synonyms": [
+                  "delivery",
+                  "sauerkraut delivery",
+                  "uber sauer"
+                ]
+              },
+              {
+                "id": 23,
+                "value": "Milfred",
+                "synonyms": [
+                  "cat",
+                  "the cat"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 15,
+          "alias": "character",
+          "slotType": {
+            "id": 1,
+            "name": "FarmCharacters",
+            "values": [
+              {
+                "id": 16,
+                "value": "terrence",
+                "synonyms": [
+                  "rat",
+                  "the rat"
+                ]
+              },
+              {
+                "id": 17,
+                "value": "arnold",
+                "synonyms": [
+                  "driver"
+                ]
+              },
+              {
+                "id": 18,
+                "value": "animals",
+                "synonyms": [
+                  "more animals"
+                ]
+              },
+              {
+                "id": 19,
+                "value": "him"
+              },
+              {
+                "id": 20,
+                "value": "farmer",
+                "synonyms": [
+                  "Old Man MacDonald",
+                  "MacDonald"
+                ]
+              },
+              {
+                "id": 21,
+                "value": "person",
+                "synonyms": [
+                  "someone",
+                  "somebody"
+                ]
+              },
+              {
+                "id": 22,
+                "value": "delivery service",
+                "synonyms": [
+                  "delivery",
+                  "sauerkraut delivery",
+                  "uber sauer"
+                ]
+              },
+              {
+                "id": 23,
+                "value": "Milfred",
+                "synonyms": [
+                  "cat",
+                  "the cat"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 15,
+          "alias": "character",
+          "slotType": {
+            "id": 1,
+            "name": "FarmCharacters",
+            "values": [
+              {
+                "id": 16,
+                "value": "terrence",
+                "synonyms": [
+                  "rat",
+                  "the rat"
+                ]
+              },
+              {
+                "id": 17,
+                "value": "arnold",
+                "synonyms": [
+                  "driver"
+                ]
+              },
+              {
+                "id": 18,
+                "value": "animals",
+                "synonyms": [
+                  "more animals"
+                ]
+              },
+              {
+                "id": 19,
+                "value": "him"
+              },
+              {
+                "id": 20,
+                "value": "farmer",
+                "synonyms": [
+                  "Old Man MacDonald",
+                  "MacDonald"
+                ]
+              },
+              {
+                "id": 21,
+                "value": "person",
+                "synonyms": [
+                  "someone",
+                  "somebody"
+                ]
+              },
+              {
+                "id": 22,
+                "value": "delivery service",
+                "synonyms": [
+                  "delivery",
+                  "sauerkraut delivery",
+                  "uber sauer"
+                ]
+              },
+              {
+                "id": 23,
+                "value": "Milfred",
+                "synonyms": [
+                  "cat",
+                  "the cat"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "StartInvestigationIntent",
+      "localizedIntents": [
+        {
+          "id": 19,
+          "plainTextPrompt": "start investigation",
+          "utterances": [
+            "start",
+            "begin",
+            "begin investigation",
+            "start investigation",
+            "start game",
+            "begin game"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "WallowIntent",
+      "localizedIntents": [
+        {
+          "id": 14,
+          "plainTextPrompt": "wallow",
+          "utterances": [
+            "wallow",
+            "wallow in mud",
+            "wallow a bit",
+            "stay and wallow",
+            "stay",
+            "play in mud"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "DarkAndStormyIntent",
+      "localizedIntents": [
+        {
+          "id": 11,
+          "plainTextPrompt": "dark and stormy",
+          "utterances": [
+            "dark",
+            "dark and stormy",
+            "stormy"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "BrightAndChipperIntent",
+      "localizedIntents": [
+        {
+          "id": 12,
+          "plainTextPrompt": "bright and chipper",
+          "utterances": [
+            "bright",
+            "bright and chipper",
+            "chipper"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "EndGameIntent",
+      "localizedIntents": [
+        {
+          "id": 13,
+          "plainTextPrompt": "End Game",
+          "utterances": [
+            "stop",
+            "stop game",
+            "stop adventure",
+            "end",
+            "end game",
+            "end adventure"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "TurnOffItemIntent",
+      "localizedIntents": [
+        {
+          "id": 5,
+          "plainTextPrompt": "turn off",
+          "utterances": [
+            "turn off the {item}",
+            "turn off {item}",
+            "shut off {item}",
+            "shut off the {item}"
+          ]
+        }
+      ],
+      "slotTypeMappings": [
+        {
+          "id": 15,
+          "alias": "character",
+          "slotType": {
+            "id": 1,
+            "name": "FarmCharacters",
+            "values": [
+              {
+                "id": 16,
+                "value": "terrence",
+                "synonyms": [
+                  "rat",
+                  "the rat"
+                ]
+              },
+              {
+                "id": 17,
+                "value": "arnold",
+                "synonyms": [
+                  "driver"
+                ]
+              },
+              {
+                "id": 18,
+                "value": "animals",
+                "synonyms": [
+                  "more animals"
+                ]
+              },
+              {
+                "id": 19,
+                "value": "him"
+              },
+              {
+                "id": 20,
+                "value": "farmer",
+                "synonyms": [
+                  "Old Man MacDonald",
+                  "MacDonald"
+                ]
+              },
+              {
+                "id": 21,
+                "value": "person",
+                "synonyms": [
+                  "someone",
+                  "somebody"
+                ]
+              },
+              {
+                "id": 22,
+                "value": "delivery service",
+                "synonyms": [
+                  "delivery",
+                  "sauerkraut delivery",
+                  "uber sauer"
+                ]
+              },
+              {
+                "id": 23,
+                "value": "Milfred",
+                "synonyms": [
+                  "cat",
+                  "the cat"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "VerbTheCharacterIntent",
+      "localizedIntents": [
+        {
+          "id": 9,
+          "plainTextPrompt": "verb the character",
+          "utterances": [
+            "{verb} {character}",
+            "{verb} a {character}",
+            "{verb} the {character}"
+          ]
+        }
+      ],
+      "slotTypeMappings": [
+        {
+          "id": 15,
+          "alias": "character",
+          "slotType": {
+            "id": 1,
+            "name": "FarmCharacters",
+            "values": [
+              {
+                "id": 16,
+                "value": "terrence",
+                "synonyms": [
+                  "rat",
+                  "the rat"
+                ]
+              },
+              {
+                "id": 17,
+                "value": "arnold",
+                "synonyms": [
+                  "driver"
+                ]
+              },
+              {
+                "id": 18,
+                "value": "animals",
+                "synonyms": [
+                  "more animals"
+                ]
+              },
+              {
+                "id": 19,
+                "value": "him"
+              },
+              {
+                "id": 20,
+                "value": "farmer",
+                "synonyms": [
+                  "Old Man MacDonald",
+                  "MacDonald"
+                ]
+              },
+              {
+                "id": 21,
+                "value": "person",
+                "synonyms": [
+                  "someone",
+                  "somebody"
+                ]
+              },
+              {
+                "id": 22,
+                "value": "delivery service",
+                "synonyms": [
+                  "delivery",
+                  "sauerkraut delivery",
+                  "uber sauer"
+                ]
+              },
+              {
+                "id": 23,
+                "value": "Milfred",
+                "synonyms": [
+                  "cat",
+                  "the cat"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 15,
+          "alias": "character",
+          "slotType": {
+            "id": 1,
+            "name": "FarmCharacters",
+            "values": [
+              {
+                "id": 16,
+                "value": "terrence",
+                "synonyms": [
+                  "rat",
+                  "the rat"
+                ]
+              },
+              {
+                "id": 17,
+                "value": "arnold",
+                "synonyms": [
+                  "driver"
+                ]
+              },
+              {
+                "id": 18,
+                "value": "animals",
+                "synonyms": [
+                  "more animals"
+                ]
+              },
+              {
+                "id": 19,
+                "value": "him"
+              },
+              {
+                "id": 20,
+                "value": "farmer",
+                "synonyms": [
+                  "Old Man MacDonald",
+                  "MacDonald"
+                ]
+              },
+              {
+                "id": 21,
+                "value": "person",
+                "synonyms": [
+                  "someone",
+                  "somebody"
+                ]
+              },
+              {
+                "id": 22,
+                "value": "delivery service",
+                "synonyms": [
+                  "delivery",
+                  "sauerkraut delivery",
+                  "uber sauer"
+                ]
+              },
+              {
+                "id": 23,
+                "value": "Milfred",
+                "synonyms": [
+                  "cat",
+                  "the cat"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "WaitForIntent",
+      "localizedIntents": [
+        {
+          "id": 10,
+          "plainTextPrompt": "wait",
+          "utterances": [
+            "wait for {character}",
+            "wait {character}",
+            "wait for the {character}"
+          ]
+        }
+      ],
+      "slotTypeMappings": [
+        {
+          "id": 15,
+          "alias": "character",
+          "slotType": {
+            "id": 1,
+            "name": "FarmCharacters",
+            "values": [
+              {
+                "id": 16,
+                "value": "terrence",
+                "synonyms": [
+                  "rat",
+                  "the rat"
+                ]
+              },
+              {
+                "id": 17,
+                "value": "arnold",
+                "synonyms": [
+                  "driver"
+                ]
+              },
+              {
+                "id": 18,
+                "value": "animals",
+                "synonyms": [
+                  "more animals"
+                ]
+              },
+              {
+                "id": 19,
+                "value": "him"
+              },
+              {
+                "id": 20,
+                "value": "farmer",
+                "synonyms": [
+                  "Old Man MacDonald",
+                  "MacDonald"
+                ]
+              },
+              {
+                "id": 21,
+                "value": "person",
+                "synonyms": [
+                  "someone",
+                  "somebody"
+                ]
+              },
+              {
+                "id": 22,
+                "value": "delivery service",
+                "synonyms": [
+                  "delivery",
+                  "sauerkraut delivery",
+                  "uber sauer"
+                ]
+              },
+              {
+                "id": 23,
+                "value": "Milfred",
+                "synonyms": [
+                  "cat",
+                  "the cat"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "RepeatIntent",
+      "localizedIntents": [
+        {
+          "id": 17,
+          "plainTextPrompt": "repeat"
+        }
+      ]
+    }
+  ],
+  "dataInventoryConditions": [
+    {
+      "name": "HasAirhorn",
+      "requiredOutcome": true,
+      "inventoryItems": [
+        []
+      ]
+    },
+    {
+      "name": "NotHasBread",
+      "requiredOutcome": false,
+      "inventoryItems": [
+        [
+          {
+            "id": 5,
+            "name": "Bread",
+            "isMultiItem": false
+          }
+        ]
+      ]
+    },
+    {
+      "name": "HasBread",
+      "requiredOutcome": true,
+      "inventoryItems": [
+        [
+          {
+            "id": 6,
+            "name": "Bread",
+            "isMultiItem": false
+          }
+        ]
+      ]
+    },
+    {
+      "name": "HasSauerkraut",
+      "requiredOutcome": true,
+      "inventoryItems": [
+        [
+          {
+            "id": 1,
+            "name": "Sauerkraut",
+            "isMultiItem": false
+          }
+        ]
+      ]
+    },
+    {
+      "name": "HasMackerel",
+      "requiredOutcome": true,
+      "inventoryItems": [
+        [
+          {
+            "id": 4,
+            "name": "Mackerel",
+            "isMultiItem": false
+          }
+        ]
+      ]
+    },
+    {
+      "name": "NotHasMackerel",
+      "requiredOutcome": false,
+      "inventoryItems": [
+        [
+          {
+            "id": 3,
+            "name": "Mackerel",
+            "isMultiItem": false
+          }
+        ]
+      ]
+    },
+    {
+      "name": "NotHasSauerkraut",
+      "requiredOutcome": false,
+      "inventoryItems": [
+        [
+          {
+            "id": 2,
+            "name": "Sauerkraut",
+            "isMultiItem": false
+          }
+        ]
+      ]
+    }
+  ],
+  "dataNodeVisitConditions": [
+    {
+      "id": 6,
+      "name": "DroppedAirhorn",
+      "requiredOutcome": true,
+      "nodes": [
+        []
+      ]
+    },
+    {
+      "id": 5,
+      "name": "AlreadySawArnold",
+      "requiredOutcome": true,
+      "nodes": [
+        []
+      ]
+    },
+    {
+      "id": 4,
+      "name": "FedTheDucksAlready",
+      "requiredOutcome": true,
+      "nodes": [
+        []
+      ]
+    },
+    {
+      "id": 3,
+      "name": "NotWentBackToBarn",
+      "requiredOutcome": false,
+      "nodes": [
+        []
+      ]
+    },
+    {
+      "id": 2,
+      "name": "WentBackToBarn",
+      "requiredOutcome": true,
+      "nodes": [
+        []
+      ]
+    },
+    {
+      "id": 1,
+      "name": "NotDroppedAirhorn",
+      "requiredOutcome": false,
+      "nodes": [
+        []
+      ]
+    }
+  ],
+  "slots": [
+    {
+      "id": 4,
+      "name": "FarmLocations",
+      "values": [
+        {
+          "id": 1,
+          "value": "outside"
+        },
+        {
+          "id": 2,
+          "value": "garden"
+        },
+        {
+          "id": 3,
+          "value": "terrence",
+          "synonyms": [
+            "rat",
+            "the rat"
+          ]
+        },
+        {
+          "id": 4,
+          "value": "tractor"
+        },
+        {
+          "id": 5,
+          "value": "him"
+        },
+        {
+          "id": 24,
+          "value": "milfred"
+        },
+        {
+          "id": 25,
+          "value": "barn"
+        },
+        {
+          "id": 27,
+          "value": "pond",
+          "synonyms": [
+            "duck pond"
+          ]
+        },
+        {
+          "id": 29,
+          "value": "kitchen"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "FarmItems",
+      "values": [
+        {
+          "id": 28,
+          "value": "mackerel",
+          "synonyms": [
+            "fish",
+            "the fish"
+          ]
+        },
+        {
+          "id": 30,
+          "value": "oregano"
+        },
+        {
+          "id": 31,
+          "value": "cabbage"
+        },
+        {
+          "id": 32,
+          "value": "fridge",
+          "synonyms": [
+            "refrigerator",
+            "ice box"
+          ]
+        },
+        {
+          "id": 33,
+          "value": "airhorn"
+        },
+        {
+          "id": 34,
+          "value": "briefcase"
+        },
+        {
+          "id": 35,
+          "value": "wastebasket"
+        },
+        {
+          "id": 36,
+          "value": "bread"
+        },
+        {
+          "id": 37,
+          "value": "music"
+        },
+        {
+          "id": 38,
+          "value": "record",
+          "synonyms": [
+            "skipping record"
+          ]
+        },
+        {
+          "id": 39,
+          "value": "phonograph",
+          "synonyms": [
+            "record player"
+          ]
+        },
+        {
+          "id": 40,
+          "value": "bag"
+        },
+        {
+          "id": 41,
+          "value": "ducks",
+          "synonyms": [
+            "duck"
+          ]
+        },
+        {
+          "id": 42,
+          "value": "turnips",
+          "synonyms": [
+            "turnip",
+            "more turnips"
+          ]
+        },
+        {
+          "id": 43,
+          "value": "catnip"
+        },
+        {
+          "id": 44,
+          "value": "sandwich"
+        },
+        {
+          "id": 45,
+          "value": "keys",
+          "synonyms": [
+            "key"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Verbs",
+      "values": [
+        {
+          "id": 6,
+          "value": "throw",
+          "synonyms": [
+            "toss",
+            "hurl"
+          ]
+        },
+        {
+          "id": 7,
+          "value": "look"
+        },
+        {
+          "id": 8,
+          "value": "open"
+        },
+        {
+          "id": 9,
+          "value": "close",
+          "synonyms": [
+            "shut"
+          ]
+        },
+        {
+          "id": 10,
+          "value": "feed"
+        },
+        {
+          "id": 11,
+          "value": "try"
+        },
+        {
+          "id": 12,
+          "value": "eat"
+        },
+        {
+          "id": 13,
+          "value": "call"
+        },
+        {
+          "id": 14,
+          "value": "play"
+        },
+        {
+          "id": 15,
+          "value": "wake",
+          "synonyms": [
+            "wake up"
+          ]
+        },
+        {
+          "id": 26,
+          "value": "give"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "FarmCharacters",
+      "values": [
+        {
+          "id": 16,
+          "value": "terrence",
+          "synonyms": [
+            "rat",
+            "the rat"
+          ]
+        },
+        {
+          "id": 17,
+          "value": "arnold",
+          "synonyms": [
+            "driver"
+          ]
+        },
+        {
+          "id": 18,
+          "value": "animals",
+          "synonyms": [
+            "more animals"
+          ]
+        },
+        {
+          "id": 19,
+          "value": "him"
+        },
+        {
+          "id": 20,
+          "value": "farmer",
+          "synonyms": [
+            "Old Man MacDonald",
+            "MacDonald"
+          ]
+        },
+        {
+          "id": 21,
+          "value": "person",
+          "synonyms": [
+            "someone",
+            "somebody"
+          ]
+        },
+        {
+          "id": 22,
+          "value": "delivery service",
+          "synonyms": [
+            "delivery",
+            "sauerkraut delivery",
+            "uber sauer"
+          ]
+        },
+        {
+          "id": 23,
+          "value": "Milfred",
+          "synonyms": [
+            "cat",
+            "the cat"
+          ]
+        }
+      ]
+    }
+  ],
+  "inventoryItems": [
+    {
+      "id": 7,
+      "name": "Airhorn",
+      "isMultiItem": false
+    },
+    {
+      "id": 6,
+      "name": "Bread",
+      "isMultiItem": false
+    },
+    {
+      "id": 5,
+      "name": "Bread",
+      "isMultiItem": false
+    },
+    {
+      "id": 4,
+      "name": "Mackerel",
+      "isMultiItem": false
+    },
+    {
+      "id": 3,
+      "name": "Mackerel",
+      "isMultiItem": false
+    },
+    {
+      "id": 2,
+      "name": "Sauerkraut",
+      "isMultiItem": false
+    },
+    {
+      "id": 1,
+      "name": "Sauerkraut",
+      "isMultiItem": false
+    }
+  ]
+}

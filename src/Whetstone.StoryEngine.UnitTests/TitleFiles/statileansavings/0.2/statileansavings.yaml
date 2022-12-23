@@ -1,0 +1,770 @@
+id: statileansavings
+dataTitleId: 754653a7-a132-41c0-99c0-0bdb9522ec7b
+dataVersionTitleId: a1b73399-21f5-4c36-8fda-8d9023732bac
+title: Statilean Savings
+version: 0.2
+description: The text
+invocationNames:
+- text: statilean savings
+startNodeName: WelcomeNewUser
+newUserNodeName: WelcomeNewUser
+returningUserNodeName: ReturningUser
+resumeNodeName: Resume
+helpNodeName: Help
+stopNodeName: StopFinder
+endOfGameNodeName: EndofAppNode
+nodes:
+- name: AskForNumberNode
+  responseSet:
+  - localizedResponses:
+    - clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I'll try to listen better this time. What's your phone number?
+  choices:
+  - intentName: PhoneNumberIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - supportssmscond
+      trueConditionResult: !nm-singlenode
+        nodeName: PhoneDiscountVerification
+      falseConditionResult: !nm-conditional
+        conditions:
+        - isphonenumbervalidcond
+        trueConditionResult: !nm-singlenode
+          nodeName: CannotGetSmsMessageNode
+        falseConditionResult: !nm-singlenode
+          nodeName: BadPhoneFormatNode
+- name: BadPhoneFormatNode
+  responseSet:
+  - localizedResponses:
+    - clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: The number I heard you say, <say-as interpret-as="telephone">{phonenumber}</say-as>, is not a valid phone number. I'll try to listen better. Please repeat the phone number.
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-ssmlfrag
+          ssml: The number I heard you say, <say-as interpret-as="telephone">@@String.Format("{0:###-###-####}", {phonenumber})@@</say-as>, is not a valid phone number. I'll try to listen better. Please repeat the phone number.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Please provide a phone number or ask for help.
+  choices:
+  - intentName: PhoneNumberIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - supportssmscond
+      trueConditionResult: !nm-singlenode
+        nodeName: PhoneDiscountVerification
+      falseConditionResult: !nm-conditional
+        conditions:
+        - isphonenumbervalidcond
+        trueConditionResult: !nm-singlenode
+          nodeName: CannotGetSmsMessageNode
+        falseConditionResult: !nm-singlenode
+          nodeName: BadPhoneFormatNode
+- name: CannotGetSmsMessageNode
+  responseSet:
+  - localizedResponses:
+    - clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: The number I heard you say, <say-as interpret-as="telephone">{phonenumber}</say-as>, is not a valid phone number. Please provide a number that can receive text messages.
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-ssmlfrag
+          ssml: The number I heard you say, <say-as interpret-as="telephone">@@String.Format("{0:###-###-####}", {phonenumber})@@</say-as>, is not a valid phone number. Please provide a number that can receive text messages.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Please provide a number that can get text messages or ask for help.
+  choices:
+  - intentName: PhoneNumberIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - supportssmscond
+      trueConditionResult: !nm-singlenode
+        nodeName: PhoneDiscountVerification
+      falseConditionResult: !nm-conditional
+        conditions:
+        - isphonenumbervalidcond
+        trueConditionResult: !nm-singlenode
+          nodeName: CannotGetSmsMessageNode
+        falseConditionResult: !nm-singlenode
+          nodeName: BadPhoneFormatNode
+- name: DiscountCouponSearch
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Savings Offers Search
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: There are savings offers for Statilean.  Are you age 18 or older?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: There are savings offers for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="stædəlin">Statilean</phoneme>
+        - !sf-textfrag
+          text: . Are you age 18 or older?
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-textfrag
+          text: There are savings offers for Statilean. Are you age 18 or older?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you age 18 or older?  You can say yes or no.
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StatileanInsuranceCheck
+      localizedSuggestionText:
+      - text: yes
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FailedAgeCheck
+      localizedSuggestionText:
+      - text: no
+- name: EndofAppNode
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Exiting Statilean Savings Offers
+      textFragments:
+      - !tf-simple
+        text: Thanks for using Statilean Savings Offers
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Thanks for using
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="stædəlin">Statilean</phoneme>
+        - !sf-textfrag
+          text: ' Savings Offers.'
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-textfrag
+          text: Thanks for using Statilean Savings Offers.
+  coordinates:
+    x: -14
+    y: 806
+- name: FailedAgeCheck
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Invalid Age
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: I'm sorry, but you must be 18 or older to get savings offers for Statilean.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I'm sorry, but you must be 18 or older to get savings offers for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="stædəlin">Statilean</phoneme>.
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-textfrag
+          text: I'm sorry, but you must be 18 or older to get savings offers for Statilean.
+- name: Help
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Statilean Savings Help
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You can start a search for savings offers for Statilean by saying a phrase like "Find savings offers for Statilean."  If offers are available and you are eligible, a discount code will be sent to your mobile phone.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You can start a search for savings offers for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="stædəlin">Statilean</phoneme>
+        - !sf-textfrag
+          text: by saying a phrase like "Find savings offers for Statilean."  If offers are available and you are eligible, a discount code will be sent to your mobile phone.
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-textfrag
+          text: You can start a search for savings offers for Statilean by saying a phrase like "Find savings offers for Statilean."  If offers are available and you are eligible, a discount code will be sent to your mobile phone.
+  coordinates:
+    x: -717
+    y: 144
+- name: PhoneDiscountVerification
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Phone Confirmation
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: I heard you say {phonenumber}. If this is correct and you agree to receive a text message with a discount code for Statilean, say yes.
+      clientResponses:
+      - speechFragments:
+        - !sf-ssmlfrag
+          ssml: I heard you say <say-as interpret-as="telephone">{phonenumber}</say-as>. If this is correct and you agree to receive a text message with a discount code for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="stædəlin">Statilean</phoneme>
+        - !sf-textfrag
+          text: ', say yes.'
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-ssmlfrag
+          ssml: I heard you say <say-as interpret-as="telephone">@@String.Format("{0:###-###-####}", {phonenumber})@@</say-as>. If this is correct and you agree to receive a text message with a discount code for Statilean
+        - !sf-textfrag
+          text: ', say yes.'
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: I heard you say <say-as interpret-as="telephone">{phonenumber}</say-as>. If this is correct and you agree to receive a text message with a discount code for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="stædəlin">Statilean</phoneme>
+        - !sf-textfrag
+          text: ', say yes.'
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-ssmlfrag
+          ssml: I heard you say <say-as interpret-as="telephone">@@String.Format("{0:###-###-####}", {phonenumber})@@</say-as>. If this is correct and you agree to receive a text message with a discount code for Statilean
+        - !sf-textfrag
+          text: ', say yes.'
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: SendDiscountCodeNode
+      localizedSuggestionText:
+      - text: yes
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: AskForNumberNode
+      localizedSuggestionText:
+      - text: no
+- name: Resume
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome Back to Statilean Savings Offers
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: There are savings offers for Statilean.  Are you age 18 or older?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: There are savings offers for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="stædəlin">Statilean</phoneme>
+        - !sf-textfrag
+          text: .  Are you age 18 or older?
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-textfrag
+          text: There are savings offers for Statilean. Are you age 18 or older?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you age 18 or older?
+  - {}
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StatileanInsuranceCheck
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FailedAgeCheck
+  - intentName: FindDiscountCoupon
+    nodeMapping: !nm-singlenode
+      nodeName: DiscountCouponSearch
+  coordinates:
+    x: -715
+    y: 41
+- name: ReturningUser
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome Back to Statilean Savings Offers
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: There are savings offers for Statilean.  Are you age 18 or older?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: There are savings offers for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="stædəlin">Statilean</phoneme>
+        - !sf-textfrag
+          text: .  Are you age 18 or older?
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-textfrag
+          text: There are savings offers for Statilean. Are you age 18 or older?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you age 18 or older?
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StatileanInsuranceCheck
+      localizedSuggestionText:
+      - text: yes
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FailedAgeCheck
+      localizedSuggestionText:
+      - text: no
+  - intentName: FindDiscountCoupon
+    nodeMapping: !nm-singlenode
+      nodeName: DiscountCouponSearch
+  - intentName: FindDiscountCouponForDrug
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: StatileanAgeCheck
+        requiredSlotValues:
+          drug:
+          - Statilean
+  coordinates:
+    x: -246
+    y: -104
+- name: SendDiscountCodeNode
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Sending Discount Codes For Statilean
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Thank you! I'll send you a text message shortly.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Thank you!  I'll send you a text message shortly.  Goodbye.
+  actions:
+  - !na-phonemessage
+    phoneNumberSlot: phonenumber
+    phoneInfo:
+      sourcePhone: +1215551212
+      applicationId: SOME_TWILIO_APP_ID
+      smsService: Twilio
+    phoneMessages:
+    - message: Welcome to Whetstone for STATILEAN (statilean extended-release)! Commercially insured patients may pay $0 on each Rx up to a year.
+    - message: >+
+        Please show the following discount codes to your pharmacist:
+
+
+
+        BIN#: $BIN_CODE$
+
+        PCN#: $PCN_CODE$
+
+        GRP#: $GROUP_CODE$
+
+        ID#: $ID_CODE$
+
+
+
+        Pharmacist help: 800-123-4567
+
+      tags:
+        brand: statilean
+    - message: >+
+        See terms at http://bit.ly/2P0DzJh
+
+
+
+        View full PI for STATILEAN(statilean extended-release) at http://bit.ly/2Rjl30z
+
+
+
+        Msg&data rates may apply.
+
+    confirmationNameSlot: consentnameslot
+- name: StatileanAgeCheck
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Verify Age (Statilean)
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: There are savings offers for Statilean.  Are you 18 or older?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: There are savings offers for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="stædəlin">Statilean</phoneme>
+        - !sf-textfrag
+          text: . Are you 18 or older?
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-ssmlfrag
+          ssml: There are savings offers for Statilean. Are you 18 or over?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you 18 or older?  You can say yes or no.
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StatileanInsuranceCheck
+      localizedSuggestionText:
+      - text: yes
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FailedAgeCheck
+      localizedSuggestionText:
+      - text: no
+- name: StatileanInsuranceCheck
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Check Insurance (Statilean)
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Are you currently covered by commercial health insurance?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you currently covered by commercial health insurance?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you currently covered by commercial health insurance?  You can say yes or no.
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StatileanRegularDiscount
+      localizedSuggestionText:
+      - text: yes
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StatileanInsuranceFailure
+      localizedSuggestionText:
+      - text: no
+- name: StatileanInsuranceFailure
+  responseSet:
+  - localizedResponses:
+    - cardTitle: No Commercial Insurance
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: I'm sorry, you must be on commercial insurance to qualify for Statilean savings offers.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I'm sorry, you must be on commercial insurance to qualify for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="stædəlin">Statilean</phoneme>
+        - !sf-textfrag
+          text: ' Savings Offers.'
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-textfrag
+          text: I'm sorry, you must be on commercial insurance to qualify for Statilean savings offers.
+- name: StatileanRegularDiscount
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Statilean Discount Card (12 Month)
+      sendCardResponse: false
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Great! You are qualified for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="stædəlin">Statilean</phoneme>
+        - !sf-textfrag
+          text: " savings offers. Please provide your phone number and a I'll send you a discount code."
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-textfrag
+          text: Great! You are qualified for Statilean
+        - !sf-textfrag
+          text: " savings offers. Please provide your phone number and a I'll send you a discount code."
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Please provide your phone number and a I'll send you a discount code.
+  choices:
+  - intentName: PhoneNumberIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - supportssmscond
+      trueConditionResult: !nm-singlenode
+        nodeName: PhoneDiscountVerification
+      falseConditionResult: !nm-conditional
+        conditions:
+        - isphonenumbervalidcond
+        trueConditionResult: !nm-singlenode
+          nodeName: CannotGetSmsMessageNode
+        falseConditionResult: !nm-singlenode
+          nodeName: BadPhoneFormatNode
+  actions:
+  - !na-assignvalue
+    slotName: consentnameslot
+    value: statilean
+- name: StopFinder
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Exiting Statilean Savings Offers
+      textFragments:
+      - !tf-simple
+        text: Thanks for using Statilean Savings Offers
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Thanks for using
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="stædəlin">Statilean</phoneme>
+        - !sf-textfrag
+          text: ' Savings Offers.'
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-textfrag
+          text: Thanks for using Statilean Savings Offers.
+  coordinates:
+    x: 841
+    y: 776
+- name: WelcomeNewUser
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome to Statilean Savings Offers
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: There are savings offers for Statilean.  Are you age 18 or older?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: There are savings offers for
+        - !sf-ssmlfrag
+          ssml: <phoneme alphabet="ipa" ph="stædəlin">Statilean</phoneme>
+        - !sf-textfrag
+          text: .  Are you age 18 or older?
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-textfrag
+          text: There are savings offers for Statilean.  Are you age 18 or older?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Are you age 18 or older?
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StatileanInsuranceCheck
+      localizedSuggestionText:
+      - text: yes
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FailedAgeCheck
+      localizedSuggestionText:
+      - text: no
+  - intentName: FindDiscountCoupon
+    nodeMapping: !nm-singlenode
+      nodeName: DiscountCouponSearch
+  - intentName: FindDiscountCouponForDrug
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: StatileanAgeCheck
+        requiredSlotValues:
+          drug:
+          - Statilean
+  coordinates:
+    x: 494
+    y: -126
+intents:
+- name: EndGameIntent
+  localizedIntents:
+  - plainTextPrompt: Exit
+    utterances:
+    - stop
+    - stop finder
+    - stop coupon finder
+    - stop discount coupons finder
+    - end
+    - end finder
+    - end coupon finder
+    - end discount coupons finder
+    - exit
+    - exit finder
+    - exit coupon finder
+    - exit discount coupons finder
+- name: FindDiscountCoupon
+  localizedIntents:
+  - plainTextPrompt: find discount coupon
+    utterances:
+    - find discount coupons
+    - find discount coupon
+    - get discount coupons
+    - get discount coupon
+    - find coupons
+    - find coupon
+    - get coupons
+    - get coupon
+    - discount coupons
+    - discount coupon
+    - coupons
+    - coupon
+    - search discount coupons
+    - search discount coupon
+    - search for discount coupons
+    - search for discount coupon
+    - search coupons
+    - search coupon
+    - search for coupons
+    - search for coupon
+    - find savings offers
+    - find savings offer
+    - get savings offers
+    - get savings offer
+    - find savings
+    - find offers
+    - find savings
+    - get savings
+    - get offers
+    - get offer
+    - get savings
+    - savings offers
+    - savings offer
+    - offers
+    - offer
+    - savings
+    - search savings offers
+    - search savings offer
+    - search for savings offers
+    - search for savings offer
+    - search offers
+    - search offer
+    - search savings
+    - search for offers
+    - search for offer
+    - search for savings
+- name: FindDiscountCouponForDrug
+  localizedIntents:
+  - plainTextPrompt: find discount coupons for drug
+    utterances:
+    - find discount coupons for {drug}
+    - find discount coupon for {drug}
+    - get discount coupons for {drug}
+    - get discount coupon for {drug}
+    - find coupons for {drug}
+    - find coupon for {drug}
+    - get coupons for {drug}
+    - get coupon for {drug}
+    - discount coupons for {drug}
+    - discount coupon for {drug}
+    - coupons for {drug}
+    - coupon for {drug}
+    - search discount coupons for {drug}
+    - search discount coupon for {drug}
+    - search for discount coupons for {drug}
+    - search for discount coupon for {drug}
+    - search coupons for {drug}
+    - search coupon for {drug}
+    - search for coupons for {drug}
+    - search for coupon for {drug}
+    - find savings offers for {drug}
+    - find savings offer for {drug}
+    - get savings offers for {drug}
+    - get savings offer for {drug}
+    - find savings for {drug}
+    - find offers for {drug}
+    - find savings for {drug}
+    - get savings for {drug}
+    - get offers for {drug}
+    - get offer for {drug}
+    - get savings for {drug}
+    - savings offers for {drug}
+    - savings offer for {drug}
+    - offers for {drug}
+    - offer for {drug}
+    - savings for {drug}
+    - search savings offers for {drug}
+    - search savings offer for {drug}
+    - search for savings offers for {drug}
+    - search for savings offer for {drug}
+    - search offers for {drug}
+    - search offer for {drug}
+    - search savings for {drug}
+    - search for offers for {drug}
+    - search for offer for {drug}
+    - search for savings for {drug}
+  slotMappings:
+    drug: Drugs
+  actions:
+  - !na-recordselecteditem {}
+- name: NoIntent
+  localizedIntents:
+  - plainTextPrompt: no
+- name: PhoneNumberIntent
+  localizedIntents:
+  - plainTextPrompt: Phone Number
+    utterances:
+    - '{phonenumber}'
+    - my number is {phonenumber}
+    - it is {phonenumber}
+    - it's {phonenumber}
+  slotMappings:
+    phonenumber: WHETSTONE.US_PHONENUMBER
+  actions:
+  - !na-recordselecteditem
+    slots:
+    - phonenumber
+  - !na-validatephone
+    phoneNumberSlot: phonenumber
+    phoneTypeSlot: phonetype
+    supportsSmsSlot: supportssms
+    isValidFormatSlot: isphonenumbervalid
+- name: RepeatIntent
+  localizedIntents:
+  - plainTextPrompt: repeat
+- name: ResumeIntent
+  localizedIntents:
+  - plainTextPrompt: resume
+- name: TryAgainIntent
+  localizedIntents:
+  - plainTextPrompt: try again
+- name: YesIntent
+  localizedIntents:
+  - plainTextPrompt: yes
+conditions:
+- !ci-slotvalue
+  conditionType: SlotValue
+  slotName: supportssms
+  valueCheckType: Equals
+  value: true
+  name: supportssmscond
+- !ci-slotvalue
+  conditionType: SlotValue
+  slotName: isphonenumbervalid
+  valueCheckType: Equals
+  value: true
+  name: isphonenumbervalidcond
+badIntentResponses:
+- name: FirstBadIntentResponse
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Unknown Response
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I can't help you with that. You can say something like find savings offers for Statilean.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Say something like find savings offers for Statilean.
+- name: SecondBadIntentResponse
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Unknown Response
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Sorry, I didn't get that. If you're having trouble you can ask for help or exit by saying exit. To use Statilean savings offers, say something like find savings offers for Statilean.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Say something like find savings offers for Statilean.
+slotTypes:
+- name: Drugs
+  values:
+  - value: Statilean

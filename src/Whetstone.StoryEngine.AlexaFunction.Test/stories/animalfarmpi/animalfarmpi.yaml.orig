@@ -1,0 +1,1466 @@
+id: animalfarmpi
+title: Animal Farm PI
+description: Investigate the farm as a pig.
+invocationNames:
+- text: animal farm PI
+- locale: en-CA
+  text: animal farm PI
+startNodeName: Opening
+newUserNodeName: WelcomeNewUser
+returningUserNodeName: ReturningUser
+resumeNodeName: Resume
+helpNodeName: Help
+stopNodeName: StopGame
+endOfGameNodeName: EndofGame
+nodes:
+- name: Opening
+  responseSet:
+  - - cardTitle: Beautiful Morning
+      sendCardResponse: true
+      text: It was a dark and stormy night. Hey! That doesn’t make any sense! That music didn’t sound dark and stormy! It sounds more like a bright and chipper morning! Should we go with dark and stormy or clear bright and chipper?
+      repromptTextResponse: Should we go with dark and stormy or clear bright and chipper?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: It was a dark and stormy night. Hey! That doesn’t make any sense! That music didn’t sound dark and stormy! It sounds more like a bright and chipper morning! Should we go with dark and stormy or clear bright and chipper?
+  choices:
+  - intentName: BrightPathIntent
+    nodeMapping: !nm-singlenode
+      nodeName: BrightPath1
+  - intentName: DarkPathIntent
+    nodeMapping: !nm-singlenode
+      nodeName: DarkPath1
+- name: ReturningUser
+  responseSet:
+  - - cardTitle: Welcome Back to Animal Farm PI
+      sendCardResponse: true
+      text: Welcome back to the farm! When you are ready to begin the investigation, say begin.
+      repromptTextResponse: Say begin to begin the investigation.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Welcome back to the farm! When you are ready to being the animal farm investigation, say begin.
+  choices:
+  - intentName: StartInvestigationIntent
+    nodeMapping: !nm-singlenode
+      nodeName: Opening
+- name: Help
+  responseSet:
+  - - cardTitle: Animal Farm PI Help
+      sendCardResponse: true
+      text: You can end the game by saying end game.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You repeat the current location by saying repeat. End the game by saying end game or restart by saying restart.
+- name: WelcomeNewUser
+  responseSet:
+  - - cardTitle: Welcome to Animal Farm PI
+      sendCardResponse: true
+      text: Since this your first time here, I'll give you the intro. You play the part of Petunia the Pig and help resolve problems around McDonald's farm as they come up. You can ask for help at any time.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Since this your first time here, I'll give you the intro. You play the part of Petunia the Pig and help resolve problems around McDonald's farm as they come up. You can ask for help at any time. You can stop the investigation at any time by saying stop or exit. When you are ready to begin, say being.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Say begin to begin the investigation.
+  choices:
+  - intentName: StartInvestigationIntent
+    nodeMapping: !nm-singlenode
+      nodeName: Opening
+- name: Resume
+  responseSet:
+  - - cardTitle: Welcome Back to Animal Farm PI
+      sendCardResponse: true
+      text: You have an investigation in progress. You can resume where you left off or restart.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You have an investigation in progress. You can resume where you left off or restart.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: To resume, say resume. To restart, say restart. You can also ask for help by saying help.
+- name: StopGame
+  responseSet:
+  - - cardTitle: Exiting Animal Farm PI
+      text: Thanks for playing Animal Farm PI!
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Thanks for playing!
+- name: EndofGame
+  responseSet:
+  - - cardTitle: End Game
+      text: That's it for this path, but there are others to explore. Would you like to end the game or try again?
+      repromptTextResponse: Restart or end game?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: That's it for this path, but there are others to explore. Would you like to end the game or try again?
+  choices:
+  - intentName: TryAgainIntent
+    nodeMapping: !nm-singlenode
+      nodeName: Opening
+  - intentName: EndGameIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StopGame
+- name: DarkPath1
+  responseSet:
+  - - cardTitle: Dark Path
+      sendCardResponse: false
+      text: Oh really?  Does this really sound like dark and stormy to you? I’m guessing you might be into Depeche Mode and brood a lot. Can we please just go with bright and chipper?
+      repromptTextResponse: Say yes for bright and chipper, no for dark and stormy.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Oh really?  Does this really sound like dark and stormy to you? I’m guessing you might be into Depeche Mode and brood a lot. Can we please just go with bright and chipper?
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: BrightPath1
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: DarkPath2
+- name: DarkPath2
+  responseSet:
+  - - cardTitle: Dark Path
+      sendCardResponse: false
+      text: Sigh. When I was young, life seemed so fully of promise.  I had dreams.  Big dreams.  I have better things to do. Can we please just go with bright and chipper?
+      repromptTextResponse: Say yes for bright and chipper, no for dark and stormy.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Sigh. When I was young, life seemed so fully of promise.  I had dreams.  Big dreams.  I have better things to do. Can we please just go with bright and chipper?
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: BrightPath1
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: DarkPath3
+- name: DarkPath3
+  responseSet:
+  - - cardTitle: Dark Path
+      text: You’re just not going to let this go are you?  Alright.  Cards on the table.  If you say no, I’m just going to start repeating myself. So how about you be a good egg and let me go with bright and chipper?
+      repromptTextResponse: Say yes for bright and chipper, no for dark and stormy.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You’re just not going to let this go are you?  Alright.  Cards on the table.  If you say no, I’m just going to start repeating myself. So how about you be a good egg and let me go with bright and chipper?
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: BrightPath1
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: DarkPath1
+  actions:
+  - !na-inventory
+    item: !nt-uniqueitem
+      name: DarkAlbum
+    actionType: Add
+- name: BrightPath1
+  responseSet:
+  - - cardTitle: Bright Morning
+      text: It was a bright and chipper morning at the farm.  Old Man McDonald was starting up the tractor for some field work.  Dadgummit, where the heck are my keys?  Mother!  Mother!!! Old Man McDonald kicks the tractor in disgust and storms back to the house. You open your eyes at the sound of the kick and sleepily look around the sty at the rest of your fellow pigs and decide if you should wallow a bit or go to the tractor?
+      repromptTextResponse: Do you want to wallow in the sty or go to the tractor?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: It was a bright and chipper morning at the farm.  Old Man McDonald was starting up the tractor for some field work.  Dadgummit, where the heck are my keys?  Mother!  Mother!!! Old Man McDonald kicks the tractor in disgust and storms back to the house. You open your eyes at the sound of the kick and sleepily look around the sty at the rest of your fellow pigs and decide if you should wallow a bit or go to the tractor?
+      clientSpeechReprompts:
+      - speechClient: Alexa
+        speechFragments:
+        - !sf-textfrag
+          text: Do you want to wallow in the sty or go to the tractor?
+  choices:
+  - intentName: WallowIntent
+    nodeMapping: !nm-singlenode
+      nodeName: WallowInMud
+  - intentName: TractorIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VisitTractor
+- name: WallowInMud
+  responseSet:
+  - - cardTitle: Wallow
+      text: As you happily wallow in the sty, it briefly occurs to you that it’s not just mud that you’re wallowing in, but hey – you’re a pig and you’re happy! Your reverie is interrupted as you see Terrence the rat scampering in your direction.  He’s carrying something shiny. Do you want to wait for Terrence or go to him?
+      repromptTextResponse: Do you want to wait for Terrence or go to him?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: As you happily wallow in the sty, it briefly occurs to you that it’s not just mud that you’re wallowing in, but hey – you’re a pig and you’re happy! Your reverie is interrupted as you see Terrence the rat scampering in your direction.  He’s carrying something shiny. Do you want to wait for Terrence or go to him?
+  choices:
+  - intentName: WaitForTerrenceIntent
+    nodeMapping: !nm-singlenode
+      nodeName: WaitForTerrence
+  - intentName: GoToTerrenceIntent
+    nodeMapping: !nm-singlenode
+      nodeName: GoToTerrence
+- name: VisitTractor
+  responseSet:
+  - - cardTitle: Go to the tractor
+      text: You heave yourself up from the noxious filth you’ve been luxuriating in, lumber out the gate and head towards the tractor.  You see Terrence the rat scampering towards you.  He’s carrying something shiny.  Do you want to wait for Terrence or go to him?
+      repromptTextResponse: Do you want to wait for Terrence or go to him?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You heave yourself up from the noxious filth you’ve been luxuriating in, lumber out the gate and head towards the tractor.  You see Terrence the rat scampering towards you.  He’s carrying something shiny.  Do you want to wait for Terrence or go to him?
+  choices:
+  - intentName: WaitForTerrenceIntent
+    nodeMapping: !nm-singlenode
+      nodeName: WaitForTerrence
+  - intentName: GoToTerrenceIntent
+    nodeMapping: !nm-singlenode
+      nodeName: GoToTerrence
+- name: WaitForTerrence
+  responseSet:
+  - - cardTitle: Wait for Terrence
+      text: As he gets closer, you can clearly see that Terrence is carrying a set of keys.  Oh the look on his face. Would you like to talk to Terrence or take the keys?
+      repromptTextResponse: Would you like to talk to Terrence or take the keys?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: As he gets closer, you can clearly see that Terrence is carrying a set of keys.  Oh the look on his face. Would you like to talk to Terrence or take the keys?
+  choices:
+  - intentName: TakeKeysIntent
+    nodeMapping: !nm-singlenode
+      nodeName: TakeKeys
+  - intentName: TalkToTerrenceIntent
+    nodeMapping: !nm-singlenode
+      nodeName: TalkToTerrence
+- name: GoToTerrence
+  responseSet:
+  - - cardTitle: Go to Terrence
+      text: As you approach him, you can clearly see that Terrence is carrying a set of keys.  Oh the look on his face.  Would you like to talk to Terrence or take the keys?
+      repromptTextResponse: Would you like to talk to Terrence or take the keys?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: As you approach him, you can clearly see that Terrence is carrying a set of keys.  Oh the look on his face.  Would you like to talk to Terrence or take the keys?
+  choices:
+  - intentName: TakeKeysIntent
+    nodeMapping: !nm-singlenode
+      nodeName: TakeKeys
+  - intentName: TalkToTerrenceIntent
+    nodeMapping: !nm-singlenode
+      nodeName: TalkToTerrence
+- name: TakeKeys
+  responseSet:
+  - - cardTitle: Take the Keys
+      text: You open your mouth and make a lunge for the keys but your porcine snout knocks Terrence back before you can snag the keys. OW!  That hurt! Petunia, why are you trying to bite me? You can’t have them – they’re mine - finders keepers!!!  You know, all this talk of biting is making me hungry.  I could use a stinky mackerel and sauerkraut sandwich.  Mmmmmm…stinky mackerel… Hmmmm…I’ll bet if you get Terrence a sandwich, you can get the tractor keys from him and then give them back to Old Man McDonald.  Let’s do it!  Would you like to go to the barn, the pond or the kitchen?
+      repromptTextResponse: Would you like to go to the barn, the pond or the kitchen?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You open your mouth and make a lunge for the keys but your porcine snout knocks Terrence back before you can snag the keys. OW!  That hurt! Petunia, why are you trying to bite me? You can’t have them – they’re mine - finders keepers!!!  You know, all this talk of biting is making me hungry.  I could use a stinky mackerel and sauerkraut sandwich.  Mmmmmm…stinky mackerel… Hmmmm…I’ll bet if you get Terrence a sandwich, you can get the tractor keys from him and then give them back to Old Man McDonald.  Let’s do it!  Would you like to go to the barn, the pond or the kitchen?
+  choices:
+  - intentName: BarnIntent
+    nodeMapping: !nm-singlenode
+      nodeName: BarnStart
+  - intentName: PondIntent
+    nodeMapping: !nm-singlenode
+      nodeName: PondStart
+  - intentName: KitchenIntent
+    nodeMapping: !nm-singlenode
+      nodeName: KitchenStart
+- name: TalkToTerrence
+  responseSet:
+  - - cardTitle: Talk to Terrence
+      text: You meet up with Terrence. Terrence, why did you take Old Man McDonald’s keys? Keys?  What keys? The keys you’re holding.  Oh THOOOOSE keys.  C’mon – the old man’s mad give them to me and I’ll take –  No!  They’re mine!  I found them first!  I…  Terrence trails off and seems to be thinking hard… You know?  Now that I think about it, I sure could use a stinky mackerel and sauerkraut sandwich.  Tell you what – if you get me a sandwich you can have the stupid keys. Well that seems simple – now all you need to do is find everything to make a stinky mackerel and sauerkraut sandwich!  Would you like to start at the barn, the pond or the kitchen?
+      repromptTextResponse: Would you like to go to the barn, the pond or the kitchen?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You meet up with Terrence. Terrence, why did you take Old Man McDonald’s keys? Keys?  What keys? The keys you’re holding.  Oh THOOOOSE keys.  C’mon – the old man’s mad give them to me and I’ll take –  No!  They’re mine!  I found them first!  I…  Terrence trails off and seems to be thinking hard… You know?  Now that I think about it, I sure could use a stinky mackerel and sauerkraut sandwich.  Tell you what – if you get me a sandwich you can have the stupid keys. Well that seems simple – now all you need to do is find everything to make a stinky mackerel and sauerkraut sandwich!  Would you like to start at the barn, the pond or the kitchen?
+  choices:
+  - intentName: BarnIntent
+    nodeMapping: !nm-singlenode
+      nodeName: BarnStart
+  - intentName: PondIntent
+    nodeMapping: !nm-singlenode
+      nodeName: PondStart
+  - intentName: KitchenIntent
+    nodeMapping: !nm-singlenode
+      nodeName: KitchenStart
+- name: BarnStart
+  responseSet:
+  - - cardTitle: Visit Barn
+      text: You walk to the barn.  Thinking about the sandwich, it occurs to you that you do know someone with an unhealthy fixation on fish who may be able to help.  You enter to the greetings of the various denizens.  Oh Hi Petunia!  Morning!  Morning everybody?  Anyone seen Milfred?  I need to talk to her about something.  That catnip-addled kitty’s back in her usual spot listening to her bleeping catniphead music.  Would you like to see Milfred or talk to more animals?
+      repromptTextResponse: Would you like to see Milfred or talk to more animals?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You walk to the barn.  Thinking about the sandwich, it occurs to you that you do know someone with an unhealthy fixation on fish who may be able to help.  You enter to the greetings of the various denizens.  Oh Hi Petunia!  Morning!  Morning everybody?  Anyone seen Milfred?  I need to talk to her about something.  That catnip-addled kitty’s back in her usual spot listening to her bleeping catniphead music.  Would you like to see Milfred or talk to more animals?
+  choices:
+  - intentName: SeeMilfredIntent
+    nodeMapping: !nm-singlenode
+      nodeName: MilfredStart
+  - intentName: TalkToAnimalsIntent
+    nodeMapping: !nm-singlenode
+      nodeName: TalkToAnimals
+- name: TalkToAnimals
+  responseSet:
+  - - cardTitle: Talk To More Animals
+      text: It’s a beautiful day!  You too!  You too!  It IS a beautiful day!  The rest of the animals are too busy eating their morning slop to talk to you.  Let me know when you’re ready to see Milfred by saying “go to Milfred”.
+      repromptTextResponse: Let me know when you’re ready to see Milfred by saying “go to Milfred”.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: It’s a beautiful day!  You too!  You too!  It IS a beautiful day!  The rest of the animals are too busy eating their morning slop to talk to you.  Let me know when you’re ready to see Milfred by saying “go to Milfred”.
+  choices:
+  - intentName: SeeMilfredIntent
+    nodeMapping: !nm-singlenode
+      nodeName: MilfredStart
+- name: MilfredStart
+  responseSet:
+  - - cardTitle: Visit Milfred
+      text: You head towards a dark corner at the back of the barn.  As you get closer, you can just make out the strains of Incense and Peppermints by the Strawberry Alarm Clock playing on a skipping record.  You finally come upon a slightly mangy orange tabby sprawled on a ratty couch illuminated by the soft glow of a couple of lava lamps.  The cat is purring and clutching what looks like a partially decomposed fish.  Would you like to wake up the cat or stop the skipping record?
+      repromptTextResponse: Would you like to wake up the cat or stop the skipping record?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You head towards a dark corner at the back of the barn.  As you get closer, you can just make out the strains of Incense and Peppermints by the Strawberry Alarm Clock playing on a skipping record.  You finally come upon a slightly mangy orange tabby sprawled on a ratty couch illuminated by the soft glow of a couple of lava lamps.  The cat is purring and clutching what looks like a partially decomposed fish.  Would you like to wake up the cat or stop the skipping record?
+  choices:
+  - intentName: WakeMilfredIntent
+    nodeMapping: !nm-singlenode
+      nodeName: WakeMilfred1
+  - intentName: StopRecordIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StopRecord
+- name: WakeMilfred1
+  responseSet:
+  - - cardTitle: Wake Milfred 1
+      text: You are about to gently prod Milfred with your snout but the horrible smell coming from the fish prevents you from getting any closer.  Would you like to still try prodding Milfred or stop the skipping record?
+      repromptTextResponse: Would you like to still try gently waking Milfred or stop the skipping record?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You are about to gently prod Milfred with your snout but the horrible smell coming from the fish prevents you from getting any closer.  Would you like to still try prodding Milfred or stop the skipping record?
+  choices:
+  - intentName: WakeMilfredIntent
+    nodeMapping: !nm-singlenode
+      nodeName: WakeMilfred2
+  - intentName: StopRecordIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StopRecord
+- name: WakeMilfred2
+  responseSet:
+  - - cardTitle: Wake Milfred Again
+      text: You try to prod Milfred with your snout but accidentally bump the record player.  Oh oh – now you’ve done it. Apparently the music was keeping Milfred in dreamland.  Now she’s awake and she’s not happy.  Hey man – why’d you have to go and do that?  Geez…  I’m sorry, I’m sorry.  Look – I really need a fish and maybe I could have yours?  Fish? What Fish?  Oh…giggle…you mean Ferb.  Ferb’s not a fish silly, Ferb’s a mackerel.  A mackerel you think to yourself.  It’s even stinky.  How convenient…  Okayyyyy…  Can I have Ferb?  Sure – I guesss – but maybe you could get me a little something to trade first…like maybe some catnip?  I’m kinda like out…  You can try to take the mackerel or you can go to the garden to get some catnip.
+      repromptTextResponse: You can try to take the mackerel or you can go to the garden to get some catnip.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You try to prod Milfred with your snout but accidentally bump the record player.  Oh oh – now you’ve done it. Apparently the music was keeping Milfred in dreamland.  Now she’s awake and she’s not happy.  Hey man – why’d you have to go and do that?  Geez…  I’m sorry, I’m sorry.  Look – I really need a fish and maybe I could have yours?  Fish? What Fish?  Oh…giggle…you mean Ferb.  Ferb’s not a fish silly, Ferb’s a mackerel.  A mackerel you think to yourself.  It’s even stinky.  How convenient…  Okayyyyy…  Can I have Ferb?  Sure – I guesss – but maybe you could get me a little something to trade first…like maybe some catnip?  I’m kinda like out…  You can try to take the mackerel or you can go to the garden to get some catnip.
+  choices:
+  - intentName: TakeMackerelIntent
+    nodeMapping: !nm-singlenode
+      nodeName: TakeMackerel
+  - intentName: GoToGardenIntent
+    nodeMapping: !nm-singlenode
+      nodeName: GoToGarden
+- name: StopRecord
+  responseSet:
+  - - cardTitle: Stop The Record
+      text: Oh oh – now you’ve done it. Apparently the music was keeping Milfred in dreamland.  Now she’s awake and she’s not happy.  Hey man – why’d you have to go and do that?  Geez…  I’m sorry, I’m sorry.  Look – I really need a fish and maybe I could have yours?  Fish? What Fish?  Oh…giggle…you mean Ferb.  Ferb’s not a fish silly, Ferb’s a mackerel.  A mackerel you think to yourself.  It’s even stinky.  How convenient…  Okayyyyy…  Can I have Ferb?  Sure – I guesss – but maybe you could get me a little something to trade first…like maybe some catnip?  I’m kinda like out…  You can try to take the mackerel or you can go to the garden to get some catnip.
+      repromptTextResponse: You can try to take the mackerel or you can go to the garden to get some catnip.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Oh oh – now you’ve done it. Apparently the music was keeping Milfred in dreamland.  Now she’s awake and she’s not happy.  Hey man – why’d you have to go and do that?  Geez…  I’m sorry, I’m sorry.  Look – I really need a fish and maybe I could have yours?  Fish? What Fish?  Oh…giggle…you mean Ferb.  Ferb’s not a fish silly, Ferb’s a mackerel.  A mackerel you think to yourself.  It’s even stinky.  How convenient…  Okayyyyy…  Can I have Ferb?  Sure – I guesss – but maybe you could get me a little something to trade first…like maybe some catnip?  I’m kinda like out…  You can try to take the mackerel or you can go to the garden to get some catnip.
+  choices:
+  - intentName: TakeMackerelIntent
+    nodeMapping: !nm-singlenode
+      nodeName: TakeMackerel
+  - intentName: GoToGardenIntent
+    nodeMapping: !nm-singlenode
+      nodeName: GoToGarden
+- name: TakeMackerel
+  responseSet:
+  - - cardTitle: Take The Mackerel
+      text: You look Milfred in the eyes and slowly and deliberately reach for the mackerel.  Well that was unexpected!!!  Milfred may be a cat, but deep down she just doesn’t believe in violence – so she tried to startle you with an airhorn, but ended up scaring herself, dropped the airhorn and is now cowering under the couch with Ferb, her stinky mackerel.  You can pick up the airhorn or go to the garden.
+      repromptTextResponse: You can pick up the airhorn or go to the garden.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You look Milfred in the eyes and slowly and deliberately reach for the mackerel.  Well that was unexpected!!!  Milfred may be a cat, but deep down she just doesn’t believe in violence – so she tried to startle you with an airhorn, but ended up scaring herself, dropped the airhorn and is now cowering under the couch with Ferb, her stinky mackerel.  You can pick up the airhorn or go to the garden.
+  choices:
+  - intentName: PickupAirhornIntent
+    nodeMapping: !nm-singlenode
+      nodeName: PickupAirhorn
+  - intentName: GoToGardenIntent
+    nodeMapping: !nm-singlenode
+      nodeName: GoToGarden
+- name: PickupAirhorn
+  responseSet:
+  - - cardTitle: Pickup The Airhorn
+      text: You pickup the airhorn and leave the barn for the garden.  Milfred and Ferb don’t look like they’re going anywhere soon.  After a brisk jaunt, you arrive at the garden.  You head for the herb section and browse past some oregano to a section labelled catnip.  A couple of crows circle overhead.   You can pick some oregano, pick some catnip or play your airhorn.
+      repromptTextResponse: You can pick some oregano, pick some catnip or play your airhorn.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You pickup the airhorn and leave the barn for the garden.  Milfred and Ferb don’t look like they’re going anywhere soon.  After a brisk jaunt, you arrive at the garden.  You head for the herb section and browse past some oregano to a section labelled catnip.  A couple of crows circle overhead.   You can pick some oregano, pick some catnip or play your airhorn.
+  choices:
+  - intentName: PickOreganoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: PickOregano
+  - intentName: PickCatnipIntent
+    nodeMapping: !nm-singlenode
+      nodeName: PickCatnip
+  - intentName: PlayAirhornIntent
+    nodeMapping: !nm-singlenode
+      nodeName: PlayAirhorn
+  actions:
+  - !na-inventory
+    item: !nt-uniqueitem
+      name: Airhorn
+    actionType: Add
+- name: GotoGarden
+  responseSet:
+  - - cardTitle: Pickup The Airhorn
+      text: After a brisk jaunt, you arrive at the garden.  You head for the herb section and browse past some oregano to a section labelled catnip.  A couple of crows circle overhead.   You can pick some oregano, pick some catnip or play your airhorn.
+      repromptTextResponse: You can pick some oregano, pick some catnip or play your airhorn.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: After a brisk jaunt, you arrive at the garden.  You head for the herb section and browse past some oregano to a section labelled catnip. A couple of crows circle overhead.
+        - !sf-condition
+          conditions:
+          - HasAirhorn
+          trueResultFragments:
+          - !sf-textfrag
+            text: You can pick some oregano, pick some catnip or play your airhorn.
+          falseResultFragments:
+          - !sf-textfrag
+            text: You can pick some oregano or pick some catnip.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-condition
+          conditions:
+          - HasAirhorn
+          trueResultFragments:
+          - !sf-textfrag
+            text: You can pick some oregano, pick some catnip or play your airhorn.
+          falseResultFragments:
+          - !sf-textfrag
+            text: You can pick some oregano or pick some catnip.
+  choices:
+  - intentName: PickOreganoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: PickOregano
+  - intentName: PickCatnipIntent
+    nodeMapping: !nm-singlenode
+      nodeName: PickCatnip
+  - intentName: PlayAirhornIntent
+    conditions:
+    - HasAirhorn
+    nodeMapping: !nm-singlenode
+      nodeName: PlayAirhorn
+- name: PickOregano
+  responseSet:
+  - - cardTitle: Pick Some Oregano
+      text: Really?  Really?  You’re going to try to fool Milfred with oregano instead of catnip?  That’s not very nice. The crows in the garden shake their heads at you.
+      repromptTextResponse: You can pick some oregano, pick some catnip or play your airhorn.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Really?  Really?  You’re going to try to fool Milfred with oregano instead of catnip?  That’s not very nice. The crows in the garden shake their heads at you. Let me know when you want to pick some catnip.
+        - !sf-condition
+          conditions:
+          - HasAirhorn
+          trueResultFragments:
+          - !sf-textfrag
+            text: or play your airhorn.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: You can pick catnip.
+        - !sf-condition
+          conditions:
+          - HasAirhorn
+          trueResultFragments:
+          - !sf-textfrag
+            text: Or play your airhorn.
+  choices:
+  - intentName: PickCatnipIntent
+    nodeMapping: !nm-singlenode
+      nodeName: PickCatnip
+  - intentName: PlayAirhornIntent
+    conditions:
+    - HasAirhorn
+    nodeMapping: !nm-singlenode
+      nodeName: PlayAirhorn
+- name: PickCatnip
+  responseSet:
+  - - cardTitle: Pick Some Catnip
+      text: As you approach the catnip plants, the crows relieve themselves on you and drive you back.  How rude!
+      repromptTextResponse: You know, now might be a good time to play your airhorn.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: As you approach the catnip plants, the crows relieve themselves on you and drive you back.  How rude! You can return to the barn.
+        - !sf-condition
+          conditions:
+          - HasAirhorn
+          trueResultFragments:
+          - !sf-textfrag
+            text: Or, you know, now might be a good time to play your airhorn.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Say back to the barn to return to the barn.
+        - !sf-condition
+          conditions:
+          - HasAirhorn
+          trueResultFragments:
+          - !sf-textfrag
+            text: Or play airhorn to play your airhorn.
+  choices:
+  - intentName: BarnIntent
+    nodeMapping: !nm-singlenode
+      nodeName: BackToBarn
+  - intentName: PlayAirhornIntent
+    conditions:
+    - HasAirhorn
+    nodeMapping: !nm-singlenode
+      nodeName: PlayAirhorn
+- name: BackToBarn
+  responseSet:
+  - - cardTitle: Back To The Barn
+      text: You go back to the barn and find Milfred on the couch whispering sweet nothings to the stinky mackerel.  You can try to take the mackerel or you can go to the garden to get some catnip.
+      repromptTextResponse: You can try to take the mackerel or you can go to the garden to get some catnip.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You go back to the barn and find Milfred on the couch whispering sweet nothings to the stinky mackerel.  You can try to take the mackerel or you can go to the garden to get some catnip.
+  choices:
+  - intentName: TakeMackerelIntent
+    nodeMapping: !nm-singlenode
+      nodeName: TakeMackerel
+  - intentName: GoToGardenIntent
+    nodeMapping: !nm-singlenode
+      nodeName: GoToGarden
+- name: PlayAirhorn
+  responseSet:
+  - - cardTitle: Play Your Airhorn
+      text: You whip out your trusty airhorn, valiantly point it at the crows and press the button.  The crows really didn’t like that and flew away.  You get to the catnip, pick a handful and place it in a plastic baggy.  One stinky mackerel coming right up!  When you are ready to go back to the barn, say back to barn.
+      repromptTextResponse: Say back to barn when you’re ready to head back.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You whip out your trusty airhorn, valiantly point it at the crows and press the button.  The crows really didn’t like that and flew away.  You get to the catnip, pick a handful and place it in a plastic baggy.  One stinky mackerel coming right up!  When you are ready to go back to the barn, say back to barn.
+  choices:
+  - intentName: BarnIntent
+    nodeMapping: !nm-singlenode
+      nodeName: BackToBarnVictory
+- name: BackToBarnVictory
+  responseSet:
+  - - cardTitle: Give Catnip To Milfred
+      text: Looks like Milfred is still under the couch.  You drop the plastic baggy of catnip in front of the couch.  An orange paw reaches out, grabbing the baggy and exchanging it for Ferb, the stinky mackerel.  You grab the decomposing fish, place it in a tightly sealed bag and beat a hasty retreat.  Let me know if you would like to go to the pond or the kitchen next.
+      repromptTextResponse: Let me know if you would like to go to the pond or the kitchen next.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Looks like Milfred is still under the couch.  You drop the plastic baggy of catnip in front of the couch.  An orange paw reaches out, grabbing the baggy and exchanging it for Ferb, the stinky mackerel.  You grab the decomposing fish, place it in a tightly sealed bag and beat a hasty retreat.
+        - !sf-condition
+          conditions:
+          - HasBread
+          trueResultFragments:
+          - !sf-condition
+            conditions:
+            - HasSauerkraut
+            trueResultFragments:
+            - !sf-textfrag
+              text: Say sandwich when you are ready to make a sandwich for Terrence the Rat.
+            falseResultFragments:
+            - !sf-textfrag
+              text: Say kitchen when you are ready to go to the kitchen.
+          falseResultFragments:
+          - !sf-condition
+            conditions:
+            - HasSauerkraut
+            trueResultFragments:
+            - !sf-textfrag
+              text: Say pond when you are ready to go to the pond.
+            falseResultFragments:
+            - !sf-textfrag
+              text: Let me know if you would like to go to the pond or the kitchen next.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-condition
+          conditions:
+          - HasBread
+          trueResultFragments:
+          - !sf-condition
+            conditions:
+            - HasSauerkraut
+            trueResultFragments:
+            - !sf-textfrag
+              text: Say sandwich when you are ready to make a sandwich for Terrence the Rat.
+            falseResultFragments:
+            - !sf-textfrag
+              text: Say kitchen when you are ready to go to the kitchen.
+          falseResultFragments:
+          - !sf-condition
+            conditions:
+            - HasSauerkraut
+            trueResultFragments:
+            - !sf-textfrag
+              text: Say pond when you are ready to go to the pond.
+            falseResultFragments:
+            - !sf-textfrag
+              text: Let me know if you would like to go to the pond or the kitchen next.
+  choices:
+  - intentName: PondIntent
+    nodeMapping: !nm-singlenode
+      nodeName: PondStart
+  - intentName: KitchenIntent
+    nodeMapping: !nm-singlenode
+      nodeName: KitchenStart
+  - intentName: MakeSandwichIntent
+    conditions:
+    - HasBread
+    - HasSauerkraut
+    nodeMapping: !nm-singlenode
+      nodeName: MakeASandwich
+  actions:
+  - !na-inventory
+    item: !nt-uniqueitem
+      name: Mackerel
+    actionType: Add
+- name: KitchenStart
+  responseSet:
+  - - cardTitle: Visit Kitchen.
+      text: The Macdonalds are a kind, gentle, trusting couple who never lock their front door.  A habit that often works to your advantage.  You snuffle your way into the kitchen and find a cell phone on the counter and a refrigerator that looks like a very promising place to find some sauerkraut.  Would you like to place a call or look in the refrigerator?
+      repromptTextResponse: Would you like to place a call or look in the refrigerator?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: The Macdonalds are a kind, gentle, trusting couple who never lock their front door.  A habit that often works to your advantage.  You snuffle your way into the kitchen and find a cell phone on the counter and a refrigerator that looks like a very promising place to find some sauerkraut.  Would you like to place a call or look in the refrigerator?
+  choices:
+  - intentName: PhoneCallIntent
+    nodeMapping: !nm-singlenode
+      nodeName: PlaceACall
+  - intentName: RefrigeratorIntent
+    nodeMapping: !nm-singlenode
+      nodeName: LookInRefrigerator
+- name: PlaceACall
+  responseSet:
+  - - cardTitle: Place a phone call
+      text: Hello?  Martha, I think it’s a pig – do we know any pigs?   Oh – you don’t say?  Well I don’t like you.  And my wife Martha?  She doesn’t like you either.  You better watch yourself!  Well, that didn’t go so well.  Maybe you should be more specific about who you’re calling instead of dialing some random yahoo.  When you’re ready to look in the refrigerator, say refrigerator.
+      repromptTextResponse: When you’re ready to look in the refrigerator, say refrigerator.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Hello?  Martha, I think it’s a pig – do we know any pigs?   Oh – you don’t say?  Well I don’t like you.  And my wife Martha?  She doesn’t like you either.  You better watch yourself!  Well, that didn’t go so well.  Maybe you should be more specific about who you’re calling instead of dialing some random yahoo.  When you’re ready to look in the refrigerator, say refrigerator.
+  choices:
+  - intentName: RefrigeratorIntent
+    nodeMapping: !nm-singlenode
+      nodeName: LookInRefrigerator
+- name: LookInRefrigerator
+  responseSet:
+  - - cardTitle: Look In Refrigerator
+      text: You open the refrigerator and see a plastic container that looks like it’s got some sort of fermented cabbage in it.  That fermented cabbage may very well be the sauerkraut you’re looking for.  Would you like to try the cabbage or close the refrigerator?
+      repromptTextResponse: Would you like to try the cabbage or close the refrigerator?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You open the refrigerator and see a plastic container that looks like it’s got some sort of fermented cabbage in it.  That fermented cabbage may very well be the sauerkraut you’re looking for.  Would you like to try the cabbage or close the refrigerator?
+  choices:
+  - intentName: TryTheCabbageIntent
+    nodeMapping: !nm-singlenode
+      nodeName: TryTheKimchee
+  - intentName: CloseTheFridgeIntent
+    nodeMapping: !nm-singlenode
+      nodeName: CloseTheRefrigerator
+- name: TryTheKimchee
+  responseSet:
+  - - cardTitle: Try The Kimchee
+      text: You open the container of fermented cabbage and hear a reassuring sound of gas hissing out.  Only one way to make sure tjhis is sauerkraut – you take a nice healthy bite.  Wow!  Okay that’s definitely not sauerkraut – tastes more like kimchee.  You find it delicious even though it gives you gas.  You should probably look somewhere else.  Let me know when you are ready to close the refrigerator.
+      repromptTextResponse: Let me know when you are ready to close the refrigerator.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You open the container of fermented cabbage and hear a reassuring sound of gas hissing out.  Only one way to make sure tjhis is sauerkraut – you take a nice healthy bite.  Wow!  Okay that’s definitely not sauerkraut – tastes more like kimchee.  You find it delicious even though it gives you gas.  You should probably look somewhere else.  Let me know when you are ready to close the refrigerator.
+  choices:
+  - intentName: CloseTheFridgeIntent
+    nodeMapping: !nm-singlenode
+      nodeName: CloseTheRefrigerator
+- name: CloseTheRefrigerator
+  responseSet:
+  - - cardTitle: Close The Refrigerator
+      text: As the refrigerator door shuts, you notice a sign on it.  It’s an advertisement for a home sauerkraut delivery service with the unlikely name of UberSauer.  Their phone number is 867-5309.  How convenient!  Let me know when you are ready to call the delivery service.
+      repromptTextResponse: Let me know when you are ready to call the delivery service.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: As the refrigerator door shuts, you notice a sign on it.  It’s an advertisement for a home sauerkraut delivery service with the unlikely name of UberSauer.  Their phone number is 867-5309.  How convenient!  Let me know when you are ready to call the delivery service.
+  choices:
+  - intentName: CallDeliveryServiceIntent
+    nodeMapping: !nm-singlenode
+      nodeName: CallUberSauer
+- name: CallUberSauer
+  responseSet:
+  - - cardTitle: Close The Refrigerator
+      text: UberSauer – where our sauerkraut is über alles.  This is Arnold – how may I – oh it’s you Mrs. McDonald – I’m guessing you would like more of our delicious sauerkraut?  Hmmm, it sounds like you have a bit of a cold – but nothing a little sauerkraut can’t cure.  We will be right over!  What a strange man.  But, if that’s what it takes to get some sauerkraut, who am I to judge?  Would you like to wait for Arnold to come to the door or go outside?
+      repromptTextResponse: Would you like to wait for Arnold to come to the door or go outside?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: UberSauer – where our sauerkraut is über alles.  This is Arnold – how may I – oh it’s you Mrs. McDonald – I’m guessing you would like more of our delicious sauerkraut?  Hmmm, it sounds like you have a bit of a cold – but nothing a little sauerkraut can’t cure.  We will be right over!  What a strange man.  But, if that’s what it takes to get some sauerkraut, who am I to judge?  Would you like to wait for Arnold to come to the door or go outside?
+  choices:
+  - intentName: WaitForArnoldIntent
+    nodeMapping: !nm-singlenode
+      nodeName: WaitForArnold
+  - intentName: GoOutsideIntent
+    nodeMapping: !nm-singlenode
+      nodeName: GoOutsideHouse
+- name: WaitForArnold
+  responseSet:
+  - - cardTitle: Wait For Arnold
+      text: You open the door and see a dark haired man in a white jumpsuit with the UberSauer logo and the name Arnold on it.  He’s carrying a box that must contain the sauerkraut and is making a big show of looking everwhere but at you.  Mrs. Macdonald, yoohoo, anyone hoooommmee?  Mrs. Macdonald?  You annoyedly butt him with your head.  Oh what a cute little piggy!  He pats you on your head much to your annoyance.  Now, now little piggy, any more of that and I’ll turn you into delicious bratwurst.  Mrs.  Macdonald?  Yoohoo!  Arnold steps away from the door and then looks pointedly at you.   No sauerkraut for you piggy.  I’ll be back.  Well, that wasn’t very helpful, maybe you should try waiting outside until he returns.  Let me know when you are ready to wait outside.
+      repromptTextResponse: Let me know when you are ready to wait outside.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You open the door and see a dark haired man in a white jumpsuit with the UberSauer logo and the name Arnold on it.  He’s carrying a box that must contain the sauerkraut and is making a big show of looking everwhere but at you.  Mrs. Macdonald, yoohoo, anyone hoooommmee?  Mrs. Macdonald?  You annoyedly butt him with your head.  Oh what a cute little piggy!  He pats you on your head much to your annoyance.  Now, now little piggy, any more of that and I’ll turn you into delicious bratwurst.  Mrs.  Macdonald?  Yoohoo!  Arnold steps away from the door and then looks pointedly at you.   No sauerkraut for you piggy.  I’ll be back.  Well, that wasn’t very helpful, maybe you should try waiting outside until he returns.  Let me know when you are ready to wait outside.
+  choices:
+  - intentName: GoOutsideIntent
+    nodeMapping: !nm-singlenode
+      nodeName: GoOutsideHouse
+- name: GoOutsideHouse
+  responseSet:
+  - - cardTitle: Go Outside House
+      text: Leaving the house door open, you plop lazily into some tall grass at the side of the house and quietly groom your twisty little tail.  A van with the UberSauer logo has arrived, a man in a white jumpsuit with the same logo and the name “Arnold” on it walks to the open front door carrying a package of what must be sauerkraut.  Arnold stops at the door and leans in.  Mrs. Macdonald, yoohoo, anyone hoooommmee?  Mrs. Macdonald?  After a minute or two of standing patiently at the door, he shrugs, sets the package of sauerkraut down and heads back to the van.   You let go of your freshly groomed tail and it springs back into space.  You then grab the sauerkraut and need to decide where to go to next.
+      repromptTextResponse: Let me know if you would like to go to the pond or the barn next.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Leaving the house door open, you plop lazily into some tall grass at the side of the house and quietly groom your twisty little tail.  A van with the UberSauer logo has arrived, a man in a white jumpsuit with the same logo and the name “Arnold” on it walks to the open front door carrying a package of what must be sauerkraut.  Arnold stops at the door and leans in.  Mrs. Macdonald, yoohoo, anyone hoooommmee?  Mrs. Macdonald?  After a minute or two of standing patiently at the door, he shrugs, sets the package of sauerkraut down and heads back to the van.   You let go of your freshly groomed tail and it springs back into space.  You then grab the sauerkraut and need to decide where to go to next.
+        - !sf-condition
+          conditions:
+          - HasBread
+          trueResultFragments:
+          - !sf-condition
+            conditions:
+            - HasMackerel
+            trueResultFragments:
+            - !sf-textfrag
+              text: Say sandwich when you are ready to make a sandwich for Terrence the Rat.
+            falseResultFragments:
+            - !sf-textfrag
+              text: Say barn when you are ready to go to the barn.
+          falseResultFragments:
+          - !sf-condition
+            conditions:
+            - HasMackerel
+            trueResultFragments:
+            - !sf-textfrag
+              text: Say pond when you are ready to go to the pond.
+            falseResultFragments:
+            - !sf-textfrag
+              text: Let me know if you would like to go to the pond or the barn next.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-condition
+          conditions:
+          - HasBread
+          trueResultFragments:
+          - !sf-condition
+            conditions:
+            - HasMackerel
+            trueResultFragments:
+            - !sf-textfrag
+              text: Say sandwich when you are ready to make a sandwich for Terrence the Rat.
+            falseResultFragments:
+            - !sf-textfrag
+              text: Say barn when you are ready to go to the barn.
+          falseResultFragments:
+          - !sf-condition
+            conditions:
+            - HasMackerel
+            trueResultFragments:
+            - !sf-textfrag
+              text: Say pond when you are ready to go to the pond.
+            falseResultFragments:
+            - !sf-textfrag
+              text: Let me know if you would like to go to the pond or the barn next.
+  choices:
+  - intentName: BarnIntent
+    nodeMapping: !nm-singlenode
+      nodeName: BarnStart
+  - intentName: PondIntent
+    nodeMapping: !nm-singlenode
+      nodeName: PondStart
+  - intentName: MakeSandwichIntent
+    conditions:
+    - HasBread
+    - HasMackerel
+    nodeMapping: !nm-singlenode
+      nodeName: MakeASandwich
+  actions:
+  - !na-inventory
+    item: !nt-uniqueitem
+      name: Sauerkraut
+    actionType: Add
+- name: PondStart
+  responseSet:
+  - - cardTitle: Visit Pond.
+      text: Nothing like a bracing walk to the pond through the crisp morning air to collect your thoughts and rejoice in the solitude of nature and…what the?  And now, the end is near, and so I face my final curtain, ya da da daaaa – I did it my wayyyyyy…   Hmmm…  Looks like the missing keys really got to old man Macdonald.  Looks like he’s come down to the pond to feed the ducks.  He’s carrying a briefcase.  He pulls a loaf of bread out of the briefcase and sets the briefcase down.  The loaf of bread is in a plastic bag.  He takes the bread out of the bag and then throws the bag in a nearby wastebasket and starts feeding the ducks.  You’ll need bread to make your sandwich.  I bet he wouldn’t mind feeding a pig.
+      repromptTextResponse: Would you like to beg for bread or look in the wastebasket?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Nothing like a bracing walk to the pond through the crisp morning air to collect your thoughts and rejoice in the solitude of nature and…what the?  And now, the end is near, and so I face my final curtain, ya da da daaaa – I did it my wayyyyyy…   Hmmm…  Looks like the missing keys really got to old man Macdonald.  Looks like he’s come down to the pond to feed the ducks.  He’s carrying a briefcase.  He pulls a loaf of bread out of the briefcase and sets the briefcase down.  The loaf of bread is in a plastic bag.  He takes the bread out of the bag and then throws the bag in a nearby wastebasket and starts feeding the ducks.  You’ll need bread to make your sandwich.  I bet he wouldn’t mind feeding a pig.  Would you like to beg for bread or look in the wastebasket?
+  choices:
+  - intentName: BegForBreadIntent
+    nodeMapping: !nm-singlenode
+      nodeName: BegForBread1
+  - intentName: LookInWastebasketIntent
+    nodeMapping: !nm-singlenode
+      nodeName: LookInWastebasket
+- name: BegForBread1
+  responseSet:
+  - - cardTitle: Beg For Bread
+      text: You approach old man Macdonald, flop on your back, sinuously wiggle around and make the cutest pig noises you can think of.  Oh hey there Petunia!  That’s awful cute, but this bread is for the ducks.  Well, that’s just great – once again, you’ve debased yourself for nothing.
+      repromptTextResponse: Would you like to continue begging for bread or look in the wastebasket?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You approach old man Macdonald, flop on your back, sinuously wiggle around and make the cutest pig noises you can think of.  Oh hey there Petunia!  That’s awful cute, but this bread is for the ducks.  Well, that’s just great – once again, you’ve debased yourself for nothing.  Would you like to continue begging for bread or look in the wastebasket?
+  choices:
+  - intentName: BegForBreadIntent
+    nodeMapping: !nm-singlenode
+      nodeName: BegForBread2
+  - intentName: LookInWastebasketIntent
+    nodeMapping: !nm-singlenode
+      nodeName: LookInWastebasket
+- name: BegForBread2
+  responseSet:
+  - - cardTitle: Beg For Bread
+      text: No.  I’m not letting you do that again.  Ick.  I have my limits you know.
+      repromptTextResponse: Let me know when you’d like to look in the wastebasket.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: No.  I’m not letting you do that again.  Ick.  I have my limits you know.  Let me know when you’d like to look in the wastebasket.
+  choices:
+  - intentName: LookInWastebasketIntent
+    nodeMapping: !nm-singlenode
+      nodeName: LookInWastebasket
+- name: LookInWastebasket
+  responseSet:
+  - - cardTitle: Look In Wastebasket
+      text: Well not much to see in there.  It is a wastebasket after all.  There’s the plastic bag old man Macdonald pitched and a bunch of old turnips.
+      repromptTextResponse: Would you like to take the bag or take the turnips?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Well not much to see in there.  It is a wastebasket after all.  There’s the plastic bag old man Macdonald pitched and a bunch of old turnips.  Would you like to take the bag or take the turnips?
+  choices:
+  - intentName: TakeTheBagIntent
+    nodeMapping: !nm-singlenode
+      nodeName: TakeTheBag
+  - intentName: TakeTheTurnipsIntent
+    nodeMapping: !nm-singlenode
+      nodeName: TakeTheTurnips
+- name: TakeTheBag
+  responseSet:
+  - - cardTitle: Take The Bag
+      text: Well, it was a nice try, but aside from a few sad looking crumbs, the bag is empty.  No…wait a minute…you look closer and see…nothing.  Absolutely nothing.  Zero, zilch, nada.
+      repromptTextResponse: Might I suggest you take the turnips?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Well, it was a nice try, but aside from a few sad looking crumbs, the bag is empty.  No…wait a minute…you look closer and see…nothing.  Absolutely nothing.  Zero, zilch, nada.  Might I suggest you take the turnips?
+  choices:
+  - intentName: TakeTheTurnipsIntent
+    nodeMapping: !nm-singlenode
+      nodeName: TakeTheTurnips
+- name: TakeTheTurnips
+  responseSet:
+  - - cardTitle: Take The Turnips
+      text: Ewwww…  The turnips look and smell like they’ve been in the wastebasket for quite awhile.  They do look about the right size for throwing though.
+      repromptTextResponse: Would you like to feed some turnips to the ducks or throw them at the farmer?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Ewwww…  The turnips look and smell like they’ve been in the wastebasket for quite awhile.  They do look about the right size for throwing though.  Would you like to feed some turnips to the ducks or throw them at the farmer?
+  choices:
+  - intentName: FeedTheDucksIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FeedTheDucks1
+  - intentName: ThrowTurnipsIntent
+    nodeMapping: !nm-singlenode
+      nodeName: ThrowTheTurnips1
+- name: FeedTheDucks1
+  responseSet:
+  - - cardTitle: Feed The Ducks
+      text: You throw some of the turnips in the water.  The ducks hastily swim over to you in the hopes of finding food.   The ducks nose the turnips a few times – glare at you accusatorily and swim away.  Clearly they are not amused.
+      repromptTextResponse: I think you should throw turnips at the farmer.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You throw some of the turnips in the water.  The ducks hastily swim over to you in the hopes of finding food.   The ducks nose the turnips a few times – glare at you accusatorily and swim away.  Clearly they are not amused.   I think you should throw turnips at the farmer.
+  choices:
+  - intentName: ThrowTurnipsIntent
+    nodeMapping: !nm-singlenode
+      nodeName: ThrowTheTurnips1
+- name: ThrowTheTurnips1
+  responseSet:
+  - - cardTitle: Throw The Turnips
+      text: You wind up and throw a large, particularly odiferous turnip at old man Macdonald.  Oh man – I don’t think that was a turnip.  The farmer looks at you angrily.  Hey!  What’s the idea?  You think you’re a chimpanzee or something?  The farmer grabs his suitcase and bodily hurls it at you.  The suitcase misses you and lands in the pond just out of your reach.
+      repromptTextResponse: Would you like to throw more um turnips at the farmer or try feeding the ducks again?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You wind up and throw a large, particularly odiferous turnip at old man Macdonald.  Oh man – I don’t think that was a turnip.  The farmer looks at you angrily.  Hey!  What’s the idea?  You think you’re a chimpanzee or something?  The farmer grabs his suitcase and bodily hurls it at you.  The suitcase misses you and lands in the pond just out of your reach.  Would you like to throw more um turnips at the farmer or try feeding the ducks again?
+  choices:
+  - intentName: ThrowTurnipsIntent
+    nodeMapping: !nm-singlenode
+      nodeName: ThrowTheTurnips2
+  - intentName: FeedTheDucksIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FeedTheDucks2
+- name: ThrowTheTurnips2
+  responseSet:
+  - - cardTitle: Throw The Turnips
+      text: You wind up for another throw at the farmer, but he looks at you and shakes his finger.   Bad Pig!  I don’t think that’s such a good idea.
+      repromptTextResponse: Why don’t you try feeding the ducks?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You wind up for another throw at the farmer, but he looks at you and shakes his finger.   Bad Pig!  I don’t think that’s such a good idea.  Why don’t you try feeding the ducks?
+  choices:
+  - intentName: FeedTheDucksIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FeedTheDucks2
+- name: FeedTheDucks2
+  responseSet:
+  - - cardTitle: Feed The Ducks
+      text: You throw some of the turnips in the water.  The ducks hastily swim over to you in the hopes of finding food.  In their haste, the ducks create a wake and push the briefcase towards you.  Upon reaching the turnips, the ducks glare at you once again and swim away.  The briefcase floats to the shore.
+      repromptTextResponse: Let me know when you’re ready to open the briefcase.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You throw some of the turnips in the water.  The ducks hastily swim over to you in the hopes of finding food.  In their haste, the ducks create a wake and push the briefcase towards you.  Upon reaching the turnips, the ducks glare at you once again and swim away.  The briefcase floats to the shore.  Let me know when you’re ready to open the briefcase.
+  choices:
+  - intentName: OpenTheBriefcaseIntent
+    nodeMapping: !nm-singlenode
+      nodeName: OpenTheBriefcase
+- name: OpenTheBriefcase
+  responseSet:
+  - - cardTitle: Open The Briefcase
+      text: Aside from some water and a several confused looking fish, the briefcase appears to contain of all things, an inflatable rubber alligator suit.  Remembering the farmer’s perfectly normal fear of being swaddled by an alligator, you put on the rubber suit and slither towards the farmer.  I did it my wa---. He stops singing.  Oh my god there’s a huge alligator coming to swaddle me!!!  Old man Macdonald drops the loaf of bread and runs away.  You pick up the bread and safely tuck it away.
+      repromptTextResponse: Let me know if you would like to go to the barn or the kitchen next.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Aside from some water and a several confused looking fish, the briefcase appears to contain of all things, an inflatable rubber alligator suit.  Remembering the farmer’s perfectly normal fear of being swaddled by an alligator, you put on the rubber suit and slither towards the farmer.  I did it my wa---. He stops singing.  Oh my god there’s a huge alligator coming to swaddle me!!!  Old man Macdonald drops the loaf of bread and runs away.  You pick up the bread and safely tuck it away.
+        - !sf-condition
+          conditions:
+          - HasSauerkraut
+          trueResultFragments:
+          - !sf-condition
+            conditions:
+            - HasMackerel
+            trueResultFragments:
+            - !sf-textfrag
+              text: Say sandwich when you are ready to make a sandwich for Terrence the Rat.
+            falseResultFragments:
+            - !sf-textfrag
+              text: Say barn when you are ready to go to the barn.
+          falseResultFragments:
+          - !sf-condition
+            conditions:
+            - HasMackerel
+            trueResultFragments:
+            - !sf-textfrag
+              text: Say kitchen when you are ready to go to the kitchen.
+            falseResultFragments:
+            - !sf-textfrag
+              text: Let me know if you would like to go to the barn or the kitchen next.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-condition
+          conditions:
+          - HasSauerkraut
+          trueResultFragments:
+          - !sf-condition
+            conditions:
+            - HasMackerel
+            trueResultFragments:
+            - !sf-textfrag
+              text: Say sandwich when you are ready to make a sandwich for Terrence the Rat.
+            falseResultFragments:
+            - !sf-textfrag
+              text: Say barn when you are ready to go to the barn.
+          falseResultFragments:
+          - !sf-condition
+            conditions:
+            - HasMackerel
+            trueResultFragments:
+            - !sf-textfrag
+              text: Say kitchen when you are ready to go to the kitchen.
+            falseResultFragments:
+            - !sf-textfrag
+              text: Let me know if you would like to go to the barn or the kitchen next.
+  choices:
+  - intentName: BarnIntent
+    nodeMapping: !nm-singlenode
+      nodeName: BarnStart
+  - intentName: KitchenIntent
+    nodeMapping: !nm-singlenode
+      nodeName: KitchenStart
+  - intentName: MakeSandwichIntent
+    conditions:
+    - HasMackerel
+    - HasSauerkraut
+    nodeMapping: !nm-singlenode
+      nodeName: MakeASandwich
+  actions:
+  - !na-inventory
+    item: !nt-uniqueitem
+      name: Bread
+    actionType: Add
+- name: MakeASandwich
+  responseSet:
+  - - cardTitle: Make A Sandwich
+      text: Congratulations!  You’ve got all the fixings for a stinky mackerel and sauerkraut sandwich!  You should be proud of yourself.  You make the sandwich and then head back to the tractor.  You find old man Macdonald on his hands and knees looking underneath the tractor.  Terrence the rat is leaning up against a fencepost and snickering to himself.
+      repromptTextResponse: Would you like to give the sandwich to the farmer or the rat?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Congratulations!  You’ve got all the fixings for a stinky mackerel and sauerkraut sandwich!  You should be proud of yourself.  You make the sandwich and then head back to the tractor.  You find old man Macdonald on his hands and knees looking underneath the tractor.  Terrence the rat is leaning up against a fencepost and snickering to himself.  Would you like to give the sandwich to the farmer or the rat?
+  choices:
+  - intentName: GiveFarmerSandwichIntent
+    nodeMapping: !nm-singlenode
+      nodeName: GiveFarmerSandwich
+  - intentName: GiveRatSandwichIntent
+    nodeMapping: !nm-singlenode
+      nodeName: GiveRatSandwich
+- name: GiveFarmerSandwich
+  responseSet:
+  - - cardTitle: Give Sandwich To Farmer
+      text: You carry the sandwich to Old Man Macdonald.   Stupid keys must be around here stupid, stupid…oh is that sandwich for me?  The farmer takes the sandwich from you and takes a large bite.  Holy – what the?  Spits. What the heck was that?  Are you trying to poison me?  He gives the sandwich back to you and goes back to searching under the tractor.  Why did you think giving a stinky mackerel and sauerkraut sandwich to the farmer was a good idea?
+      repromptTextResponse: Let me know when you’re ready to give the sandwich to the rat.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You carry the sandwich to Old Man Macdonald.   Stupid keys must be around here stupid, stupid…oh is that sandwich for me?  The farmer takes the sandwich from you and takes a large bite.  Holy – what the?  Spits. What the heck was that?  Are you trying to poison me?  He gives the sandwich back to you and goes back to searching under the tractor.  Why did you think giving a stinky mackerel and sauerkraut sandwich to the farmer was a good idea?   Let me know when you’re ready to give the sandwich to the rat.
+  choices:
+  - intentName: GiveRatSandwichIntent
+    nodeMapping: !nm-singlenode
+      nodeName: GiveRatSandwich
+- name: GiveRatSandwich
+  responseSet:
+  - - cardTitle: Give Sandwich To Rat
+      text: You carry the sandwich to Terrence the rat.   Oh boy oh boy oh boy!  Did you actually get me a stinky mackerel and sauerkraut sandwich?  Why yes.  Yes I did Terrence.  I feel used.  Please hand me the tractor keys now.  Terrence grabs the sandwich and takes a huge bite.  Oh stinky mackerel – where have you been all my life?  Terrence drops the tractor keys and scampers off with his prized sandwich. You pick up the keys and take them to Old Man Macdonald, nudging him firmly in the seat of his pants.   Oh what now?  I – say!  Those look like my tractor keys!. Thanks Petunia, you really are some pig!!!  The sun is out. Old man Macdonald is happy and Terrence is curled up with his stinky mackerel and sauerkraut sandwich.  He’s named the sandwich Sally.  It’s really quite disturbing.  The developers at Small Basket Studios would like to thank you for playing Animal Farm, PI and are hard at work on a new and disturbed chapter that should be available soon.  If you liked the story or have other comments, please email them at developers@smallbasketstudios.com.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You carry the sandwich to Terrence the rat.   Oh boy oh boy oh boy!  Did you actually get me a stinky mackerel and sauerkraut sandwich?  Why yes.  Yes I did Terrence.  I feel used.  Please hand me the tractor keys now.  Terrence grabs the sandwich and takes a huge bite.  Oh stinky mackerel – where have you been all my life?  Terrence drops the tractor keys and scampers off with his prized sandwich. You pick up the keys and take them to Old Man Macdonald, nudging him firmly in the seat of his pants.   Oh what now?  I – say!  Those look like my tractor keys!. Thanks Petunia, you really are some pig!!!  The sun is out. Old man Macdonald is happy and Terrence is curled up with his stinky mackerel and sauerkraut sandwich.  He’s named the sandwich Sally.  It’s really quite disturbing.  The developers at Small Basket Studios would like to thank you for playing Animal Farm, PI and are hard at work on a new and disturbed chapter that should be available soon.  If you liked the story or have other comments, please email them at developers@smallbasketstudios.com.
+intents:
+- name: DarkPathIntent
+  localizedIntents:
+  - plainTextPrompt: dark path
+    utterances:
+    - dark path
+    - dark
+    - dark and stormy
+- name: BrightPathIntent
+  localizedIntents:
+  - plainTextPrompt: bright path
+    utterances:
+    - bright path
+    - bright
+    - bright and chipper
+    - clear bright and chipper
+- name: TractorIntent
+  localizedIntents:
+  - plainTextPrompt: tractor
+    utterances:
+    - tractor
+    - go to tractor
+    - visit tractor
+- name: YesIntent
+  localizedIntents:
+  - plainTextPrompt: yes
+- name: NoIntent
+  localizedIntents:
+  - plainTextPrompt: no
+- name: WaitForTerrenceIntent
+  localizedIntents:
+  - plainTextPrompt: wait for Terrence
+    utterances:
+    - wait
+    - wait for Terrence
+    - wait for rat
+    - wait for the rat
+- name: GoToTerrenceIntent
+  localizedIntents:
+  - plainTextPrompt: go to Terrence
+    utterances:
+    - go
+    - go to Terrence
+    - go to rat
+    - go to the rat
+- name: BarnIntent
+  localizedIntents:
+  - plainTextPrompt: barn
+    utterances:
+    - go to barn
+    - go back to the barn
+    - go back to barn
+    - go to the barn
+    - back to barn
+    - to barn
+    - to the barn
+    - barn
+- name: PondIntent
+  localizedIntents:
+  - plainTextPrompt: pond
+    utterances:
+    - pond
+    - go to pond
+- name: KitchenIntent
+  localizedIntents:
+  - plainTextPrompt: kitchen
+    utterances:
+    - kitchen
+    - go to kitchen
+- name: TakeKeysIntent
+  localizedIntents:
+  - plainTextPrompt: take the keys
+    utterances:
+    - take the keys
+    - take keys
+    - keys
+- name: TalkToTerrenceIntent
+  localizedIntents:
+  - plainTextPrompt: talk to Terrence
+    utterances:
+    - talk to Terrence
+    - talk
+    - talk to rat
+- name: SeeMilfredIntent
+  localizedIntents:
+  - plainTextPrompt: see Milfred
+    utterances:
+    - see Milfred
+    - Milfred
+    - go to Milfred
+- name: WakeMilfredIntent
+  localizedIntents:
+  - plainTextPrompt: wake up the cat
+    utterances:
+    - wake up the cat
+    - wake up cat
+    - wake up Milfred
+    - wake cat
+    - wake Milfred
+    - wake
+- name: StopRecordIntent
+  localizedIntents:
+  - plainTextPrompt: stop the record
+    utterances:
+    - stop the record
+    - stop the skipping record
+    - stop skipping record
+    - stop record
+    - stop it
+    - stop
+- name: TakeMackerelIntent
+  localizedIntents:
+  - plainTextPrompt: take the mackerel
+    utterances:
+    - take the mackerel
+    - take mackerel
+    - mackerel
+    - take
+- name: GoToGardenIntent
+  localizedIntents:
+  - plainTextPrompt: go to the garden to get some catnip
+    utterances:
+    - go to the garden
+    - go to garden
+    - garden
+    - get catnip
+    - get some catnip
+    - catnip
+- name: PickupAirhornIntent
+  localizedIntents:
+  - plainTextPrompt: pickup the airhorn
+    utterances:
+    - pickup the airhorn
+    - pickup airhorn
+    - take airhorn
+    - take the airhorn
+    - airhorn
+- name: PickOreganoIntent
+  localizedIntents:
+  - plainTextPrompt: pick some oregano
+    utterances:
+    - pick some oregano
+    - pick oregano
+    - oregano
+- name: PickCatnipIntent
+  localizedIntents:
+  - plainTextPrompt: pick some catnip
+    utterances:
+    - pick some catnip
+    - pick catnip
+    - catnip
+- name: PlayAirhornIntent
+  localizedIntents:
+  - plainTextPrompt: play your airhorn
+    utterances:
+    - play your airhorn
+    - play the airhorn
+    - play airhorn
+    - airhorn
+- name: TalkToAnimalsIntent
+  localizedIntents:
+  - plainTextPrompt: talk to more animals
+    utterances:
+    - talk to animals
+    - talk to more animals
+    - animals
+- name: MakeSandwichIntent
+  localizedIntents:
+  - plainTextPrompt: make a sandwich for Terrence
+    utterances:
+    - make a sandwich for Terrence
+    - make sandwich for Terrence
+    - make a sandwich
+    - make sandwich
+    - make mackerel and sauerkraut sandwich
+    - make mackerel sandwich
+    - make sauerkraut sandwich
+    - sandwich
+- name: PhoneCallIntent
+  localizedIntents:
+  - plainTextPrompt: make a phone call
+    utterances:
+    - make a phone call
+    - make a call
+    - place a phone call
+    - place a call
+    - phone call
+    - phone
+- name: RefrigeratorIntent
+  localizedIntents:
+  - plainTextPrompt: look in the refrigerator
+    utterances:
+    - look in refrigerator
+    - look in the refrigerator
+    - refrigerator
+    - fridge
+    - look in fridge
+    - look in the fridge
+- name: TryTheCabbageIntent
+  localizedIntents:
+  - plainTextPrompt: try the cabbage
+    utterances:
+    - try the cabbage
+    - eat the cabbage
+    - try cabbage
+    - eat cabbage
+    - cabbage
+- name: CloseTheFridgeIntent
+  localizedIntents:
+  - plainTextPrompt: close the refrigerator
+    utterances:
+    - close the refrigerator
+    - close the fridge
+    - close refrigerator
+    - close fridge
+    - close
+    - refrigerator
+    - fridge
+- name: CallDeliveryServiceIntent
+  localizedIntents:
+  - plainTextPrompt: call delivery service
+    utterances:
+    - call delivery service
+    - call uber sauer
+    - call service
+    - delivery service
+    - Uber Sauer
+- name: WaitForArnoldIntent
+  localizedIntents:
+  - plainTextPrompt: wait for Arnold
+    utterances:
+    - wait for Arnold
+    - wait for Uber Sauer
+    - Arnold
+    - Uber Sauer
+- name: GoOutsideIntent
+  localizedIntents:
+  - plainTextPrompt: go outside
+    utterances:
+    - go outside
+    - wait outside
+    - outside
+- name: BegForBreadIntent
+  localizedIntents:
+  - plainTextPrompt: beg for bread
+    utterances:
+    - beg for bread
+    - beg
+- name: LookInWastebasketIntent
+  localizedIntents:
+  - plainTextPrompt: look in wastebasket
+    utterances:
+    - look in wastebasket
+    - look inside wastebasket
+    - look in the wastebasket
+    - look inside the wastebasket
+    - wastebasket
+- name: TakeTheBagIntent
+  localizedIntents:
+  - plainTextPrompt: take the bag
+    utterances:
+    - take the bag
+    - take bag
+    - bag
+- name: TakeTheTurnipsIntent
+  localizedIntents:
+  - plainTextPrompt: take the turnips
+    utterances:
+    - take the turnips
+    - take turnips
+    - turnips
+- name: FeedTheDucksIntent
+  localizedIntents:
+  - plainTextPrompt: feed the ducks
+    utterances:
+    - feed the ducks
+    - feed ducks
+    - feed
+    - ducks
+- name: ThrowTurnipsIntent
+  localizedIntents:
+  - plainTextPrompt: throw the turnips
+    utterances:
+    - throw the turnips
+    - throw turnips
+    - throw
+    - turnips
+- name: OpenTheBriefcaseIntent
+  localizedIntents:
+  - plainTextPrompt: open the briefcase
+    utterances:
+    - open the briefcase
+    - open briefcase
+    - open
+    - briefcase
+- name: GiveFarmerSandwichIntent
+  localizedIntents:
+  - plainTextPrompt: give sandwich to farmer
+    utterances:
+    - give sandwich to the farmer
+    - give sandwich to farmer
+    - give to the farmer
+    - give to farmer
+    - give it to the farmer
+    - give it to farmer
+    - farmer
+- name: GiveRatSandwichIntent
+  localizedIntents:
+  - plainTextPrompt: give sandwich to rat
+    utterances:
+    - give sandwich to the rat
+    - give sandwich to rat
+    - give to the rat
+    - give to rat
+    - give it to the rat
+    - give it to rat
+    - to the rat
+    - the rat
+    - rat
+- name: StartInvestigationIntent
+  localizedIntents:
+  - plainTextPrompt: start investigation
+    utterances:
+    - start
+    - begin
+    - begin investigation
+    - start investigation
+    - start game
+    - begin game
+- name: WallowIntent
+  localizedIntents:
+  - plainTextPrompt: wallow
+    utterances:
+    - wallow
+    - wallow in mud
+    - wallow a bit
+    - stay and wallow
+    - stay
+    - play in mud
+- name: EndGameIntent
+  localizedIntents:
+  - plainTextPrompt: End Game
+    utterances:
+    - stop
+    - stop game
+    - stop adventure
+    - end
+    - end game
+    - end adventure
+- name: ResumeIntent
+  localizedIntents:
+  - plainTextPrompt: resume
+- name: RepeatIntent
+  localizedIntents:
+  - plainTextPrompt: repeat
+conditions:
+- !ci-inventory
+  requiredInventoryItems:
+  - !nt-uniqueitem
+    name: Airhorn
+  name: HasAirhorn
+- !ci-inventory
+  requiredInventoryItems:
+  - !nt-uniqueitem
+    name: Mackerel
+  name: HasMackerel
+- !ci-inventory
+  requiredInventoryItems:
+  - !nt-uniqueitem
+    name: Sauerkraut
+  name: HasSauerkraut
+- !ci-inventory
+  requiredInventoryItems:
+  - !nt-uniqueitem
+    name: Bread
+  name: HasBread
+badIntentResponses:
+- name: FirstBadIntentResponse
+  responseSet:
+  - - cardTitle: Unknown Response
+      text: Unrecognized response.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I don't recognize that response.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: You can also say repeat to repeat the current story location.
+- name: SecondBadIntentResponse
+  responseSet:
+  - - cardTitle: Unknown Response
+      text: Unrecognized response.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Unrecognized response. You can say repeat to repeat the current story location.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: You can say stop the end the game or say repeat to repeat the current story location.

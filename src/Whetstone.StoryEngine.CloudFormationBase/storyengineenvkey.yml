@@ -1,0 +1,319 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Creates an environment encryption key for the given environment
+Parameters:
+  EnvironmentName:
+    Description: Environment Name is attached to the name of every resource created
+    Type: String
+    Default: dev
+    MaxLength: '12'
+  Purpose:
+    Description: Purpose specifies the use of the environment.
+    Type: String
+    AllowedValues:
+      - dev
+      - prod
+      - staging
+      - test
+    Default: dev
+  AdminAccounts:
+    Type: CommaDelimitedList
+    Default: 'arn:aws:iam::940085449815:user/sanj,arn:aws:iam::940085449815:user/jiwasz'
+    Description: >-
+      List of accounts that can encrypt and decrypt secure strings like API
+      tokens and connection strings
+Resources:
+  ActionKeyPolicyFunctionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      Path: !Join
+        - ''
+        - - /
+          - !Ref EnvironmentName
+          - /
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+        - PolicyName: 'GetRole'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'iam:GetRole'
+                Resource: '*'
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Action: 'sts:AssumeRole'
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+  EnvironmentKey:
+    Type: 'AWS::KMS::Key'
+    Properties:
+      Description: !Join
+        - ''
+        - - 'Key used to encrypt and decrypt secured credentials for the '
+          - !Ref EnvironmentName
+          - ' environment'
+      KeyPolicy:
+        Version: 2012-10-17
+        Id: !Join
+          - '-'
+          - - key
+            - !Ref EnvironmentName
+            - '1'
+        Statement:
+          - Sid: Allow administration of the key
+            Effect: Allow
+            Principal:
+              AWS: !Ref AdminAccounts
+            Action:
+              - 'kms:Create*'
+              - 'kms:Describe*'
+              - 'kms:Enable*'
+              - 'kms:List*'
+              - 'kms:Put*'
+              - 'kms:Update*'
+              - 'kms:Revoke*'
+              - 'kms:Disable*'
+              - 'kms:Get*'
+              - 'kms:Delete*'
+              - 'kms:ScheduleKeyDeletion'
+              - 'kms:CancelKeyDeletion'
+              - 'kms:Decrypt'
+              - 'kms:Encrypt'
+              - 'kms:Reencrypt'
+              - 'kms:GenerateDataKey'
+            Resource: '*'
+          - Sid: Allow attachment of persistent resources
+            Effect: Allow
+            Principal:
+              AWS: !Ref AdminAccounts
+            Action:
+              - 'kms:CreateGrant'
+              - 'kms:ListGrants'
+              - 'kms:RevokeGrant'
+            Resource: '*'
+            Condition:
+              Bool:
+                'kms:GrantIsForAWSResource': 'true'
+          - Sid: Allow custom action access
+            Effect: Allow
+            Principal:
+              AWS: !GetAtt
+                - ActionKeyPolicyFunctionRole
+                - Arn
+            Action:
+              - 'kms:GetKeyPolicy'
+              - 'kms:ListGrants'
+              - 'kms:ListKeyPolicies'
+              - 'kms:PutKeyPolicy'
+              - 'kms:RevokeGrant'
+              - 'kms:RetireGrant'
+              - 'kms:CreateGrant'
+            Resource: '*'
+      Tags:
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Stack
+          Value: !Ref 'AWS::StackName'
+        - Key: Purpose
+          Value: !Ref Purpose
+        - Key: Name
+          Value: !Join
+            - '-'
+            - - !Ref EnvironmentName
+              - key
+              - !Ref 'AWS::StackName'
+    DeletionPolicy: Retain
+  ErrorAlertQueue:
+    Type: 'AWS::SQS::Queue'
+    Properties:
+      ReceiveMessageWaitTimeSeconds: 20
+      VisibilityTimeout: 30
+      MessageRetentionPeriod: 345600
+      KmsMasterKeyId: !Ref EnvironmentKey
+      KmsDataKeyReusePeriodSeconds: 86400
+      Tags:
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Stack
+          Value: !Ref 'AWS::StackName'
+        - Key: Purpose
+          Value: !Ref Purpose
+        - Key: Name
+          Value: !Join
+            - '-'
+            - - !Ref EnvironmentName
+              - key
+              - !Ref 'AWS::StackName'
+    DeletionPolicy: Delete
+  EnvironmentKeyAlias:
+    Type: 'AWS::KMS::Alias'
+    Properties:
+      AliasName: !Join
+        - ''
+        - - alias/
+          - !Ref EnvironmentName
+          - EnvironmentKey
+      TargetKeyId: !Ref EnvironmentKey
+  EnvironmentKeyReaderPolicy:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'kms:Decrypt'
+            Resource: !GetAtt
+              - EnvironmentKey
+              - Arn
+      ManagedPolicyName: !Join
+        - '-'
+        - - !Ref EnvironmentName
+          - keyreader
+          - policy
+  S3UtilityBucket:
+    Type: 'AWS::S3::Bucket'
+    DeletionPolicy: Retain
+    Properties:
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: Environment
+          Value: !Ref EnvironmentName
+        - Key: Purpose
+          Value: !Ref Purpose
+        - Key: Stack
+          Value: !Ref 'AWS::StackName'
+  HttpsBucketPolicy:
+    Type: 'AWS::S3::BucketPolicy'
+    DeletionPolicy: Retain
+    Properties:
+      PolicyDocument:
+        Id: !Join
+          - '-'
+          - - !Ref EnvironmentName
+            - utilitybucketpolicy
+        Version: 2012-10-17
+        Statement:
+          - Sid: Enforce HTTPS Connections
+            Action: s3:*
+            Effect: Deny
+            Principal: '*'
+            Resource:
+              - !Join
+                - ''
+                - - 'arn:aws:s3:::'
+                  - !Ref S3UtilityBucket
+                  - /*
+            Condition:
+              Bool:
+                aws:SecureTransport: false
+      Bucket: !Ref S3UtilityBucket
+  EnvironmentErrorTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      Subscription:
+        - Protocol: sqs
+          Endpoint:
+            Fn::GetAtt:
+              - ErrorAlertQueue
+              - Arn
+      DisplayName: !Join
+        - ' '
+        - - 'Error in'
+          - !Ref EnvironmentName
+      TopicName: !Join
+        - '-'
+        - - whetstone-error
+          - !Ref EnvironmentName
+  BucketReaderPolicy:
+    Type: 'AWS::IAM::ManagedPolicy'
+    DeletionPolicy: Delete
+    Properties:
+      Path: !Join
+        - ''
+        - - /
+          - !Ref EnvironmentName
+          - /
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: 's3:GetObject'
+            Resource: !Join
+              - /
+              - - !GetAtt
+                  - S3UtilityBucket
+                  - Arn
+                - '*'
+Outputs:
+  EnvironmentKeyPolicy:
+    Description: ARN of the Key Decryptor Policy
+    Value: !Ref EnvironmentKeyReaderPolicy
+    Export:
+      Name: !Sub '${AWS::StackName}-EnvironmentKeyReaderPolicyArn'
+  EnvironmentKeyArn:
+    Description: Key Arn of the created environment key
+    Value: !GetAtt
+      - EnvironmentKey
+      - Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-EnvironmentKeyArn'
+  EnvironmentKeyAlias:
+    Description: Alias of the environment key
+    Value: !Join
+      - ''
+      - - alias/
+        - !Ref EnvironmentName
+        - EnvironmentKey
+    Export:
+      Name: !Sub '${AWS::StackName}-EnvironmentKeyAlias'
+  EnvironmentPurpose:
+    Description: Purpose of the environment created by this stack
+    Value: !Ref Purpose
+    Export:
+      Name: !Sub '${AWS::StackName}-Purpose'
+  EnvironmentName:
+    Description: Name of the environment
+    Value: !Ref EnvironmentName
+    Export:
+      Name: !Sub '${AWS::StackName}-EnvironmentName'
+  BucketArn:
+    Description: ARN of the StoryEngine Utility Bucket
+    Value: !GetAtt
+      - S3UtilityBucket
+      - Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-S3UtilityBucketArn'
+  BucketName:
+    Description: Name of the StoryEngine Utility Bucket
+    Value: !Ref S3UtilityBucket
+    Export:
+      Name: !Sub '${AWS::StackName}-S3UtilityBucketBucket'
+  BucketReaderPolicy:
+    Description: Name of the policy to grant read access to the bucket
+    Value: !Ref BucketReaderPolicy
+    Export:
+      Name: !Sub '${AWS::StackName}-BucketReaderPolicy'
+  ErrorTopicName:
+    Description: SNS Topic Name that CloudWatch errors are populated to
+    Value: !GetAtt
+      - EnvironmentErrorTopic
+      - TopicName
+    Export:
+      Name: !Sub '${AWS::StackName}-ErrorTopicName'
+  ErrorTopicArn:
+    Description: SNS Topic Arn that CloudWatch errors are populated to
+    Value: !Ref EnvironmentErrorTopic
+    Export:
+      Name: !Sub '${AWS::StackName}-ErrorTopicArn'
+  KeyManagerRoleArn:
+    Description: Key management role for updating the key policy
+    Value: !GetAtt
+      - ActionKeyPolicyFunctionRole
+      - Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-ActionKeyPolicyFunctionRoleArn'

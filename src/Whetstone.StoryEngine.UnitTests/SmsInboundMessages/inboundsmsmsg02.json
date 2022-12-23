@@ -1,0 +1,18 @@
+{
+  "body": "ToCountry=US&ToState=PA&SmsMessageSid=SM5526e94a6a0a78f84e88e74b91ff4e45&NumMedia=0&ToCity=&FromZip=19320&SmsSid=SM5526e94a6a0a78f84e88e74b91ff4e45&FromState=PA&SmsStatus=received&FromCity=NAZARETH&Body=YES&FromCountry=US&To=%2B12675553923&ToZip=&NumSegments=1&MessageSid=SM5526e94a6a0a78f84e88e74b91ff4e45&AccountSid=ACd7392bfa712dd3ddf3d87dfe73d61cb7&From=%2B16105551212&ApiVersion=2010-04-01",
+  "alias": "",
+  "path": "/prod/api/v1/processmessage",
+  "headers": {
+    "Accept": "*/*",
+    "Cache-Control": "max-age=259200",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Host": "llt1uml9c6.execute-api.us-west-2.amazonaws.com",
+    "I-Twilio-Idempotency-Token": "20ddc248-9101-4288-a080-a7db49147692",
+    "User-Agent": "TwilioProxy/1.1",
+    "X-Amzn-Trace-Id": "Root=1-5e70e970-df9fdf8572c5c073521e1aa7",
+    "X-Forwarded-For": "52.23.239.167",
+    "X-Forwarded-Port": "443",
+    "X-Forwarded-Proto": "https",
+    "X-Twilio-Signature": "jXEJXY2GkeWtIwMNldcGnnO1fXY="
+  }
+}

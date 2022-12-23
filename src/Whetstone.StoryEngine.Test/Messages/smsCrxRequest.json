@@ -1,0 +1,26 @@
+{
+  "id": "62a85780-e337-4f23-8fdd-c24da7b5fa5d",
+  "notificationType": "Sms",
+  "textMessages": [
+    "symbicort-alexa"
+  ],
+  "tags": {
+    "application": "symbicort-web-begin"
+  },
+  "sourceNumber": null,
+  "destinationNumberId": "5367a954-5c56-43d9-8535-1941efbdf46d",
+  "smsProvider": "SomeProvider",
+  "source": {
+    "notificationSourceType": "PhoneMessageAction",
+    "consent": {
+      "id": "4ede4eec-bbd0-43ba-addf-bc4daa192a60",
+      "titleClientUserId": "e9cbcf85-a401-41b2-9067-66ee9e3e1f83",
+      "phoneId": "5367a954-5c56-43d9-8535-1941efbdf46d",
+      "titleVersionId": "1436dc8a-65ec-43a9-bd17-f40d8770255d",
+      "name": "symbicortsavings01",
+      "isConsentGranted": true,
+      "smsConsentDate": "2019-09-23T23:44:34Z",
+      "engineRequestId": "bf5ff8b5-abf5-4ea7-9cbd-95eb9909f25c"
+    }
+  }
+}

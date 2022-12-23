@@ -1,0 +1,16 @@
+ENFORCEALEXAPOLICY: true
+ABSCACHEEXPIREMIN: 120
+ENABLECACHE: true
+REDISCACHESERVER: dev-cache-sanjtest.prgrxr.ng.0001.use1.cache.amazonaws.com
+ENGINESESSIONLOGGER: Queue
+SESSIONAUDITQUEUE: sessionauditdev
+ENGINESMSHANDLER: StepFunction
+NOTIFICATIONSTEPFUNCTIONARN: arn:aws:states:us-east-1:940085449815:stateMachine:OutboundSmsDev
+RECORDMESSAGES: false
+DATABASEKEY: /storyengine/dev/enginedb
+TWILIOKEY: /storyengine/dev/twiliokeys
+MESSAGERESENDDELAYSECONDS: 0
+MESSAGERESENDRETRYLIMIT: 3
+SMSSENDER: Twilio
+TWILIOSTATUSCALLBACKURL: https://reeaf6p08d.execute-api.us-east-1.amazonaws.com/Prod/v1/smsmessagestatus
+SOURCENUMBER: +12157099492

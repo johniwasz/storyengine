@@ -1,0 +1,9 @@
+{
+  "DelaySeconds": 0,
+  "MessageAttributes": {},
+  "MessageBody": "{\"engineRequestId\":\"3462712a-ea83-4b0d-b153-083f6880f6d2\",\"engineSessionId\":\"3042cedf-dc62-49ec-9666-7834567e5fd9\",\"engineUserId\":\"91d1cab4-f776-4de4-92f7-495d42960a54\",\"sessionId\":\"SessionId.4c9813dc-ec67-4383-8f71-12a01e44c6a8\",\"userId\":\"amzn1.ask.account.AGLBOTXJWVQYVNWTY6FJ3OZKWF7QSV2JVOTZQ5O7F35MZVK4RJHFHN22HDNVKZWD5C4UZKXIHABXCYZJX7FEKSTIQ4TWKH2HPPPEITVQCU2JDPOICMP6NAVFTSGC7NWZ5Z4W7L3BZJPQBNA7HXTO7QVI2BSQBNWNBRJICU3NBZ4XLIMMYUT5PPESHWGCK5UGJT2PY7B3HA4FWII\",\"locale\":\"en-US\",\"deploymentId\":\"572b85f3-2079-4c65-aeb2-a16ffe0aeb51\",\"requestId\":\"EdwRequestId.fbb2ae47-7223-4d2a-8447-3f3701da43d5\",\"time\":\"2019-12-14T02:09:33.6962739Z\",\"isNewSession\":false,\"processDuration\":1028,\"mappedNode\":\"ReturningUser\",\"requestType\":\"Launch\",\"isFirstSession\":false}",
+  "MessageDeduplicationId": null,
+  "MessageGroupId": null,
+  "MessageSystemAttributes": {},
+  "QueueUrl": "https://sqs.us-east-1.amazonaws.com/940085449815/WhetstoneQueue-Dev-SessionAuditQueue-ZQNCFM1I9XSL"
+}

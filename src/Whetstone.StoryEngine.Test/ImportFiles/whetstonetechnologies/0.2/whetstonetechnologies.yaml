@@ -1,0 +1,1145 @@
+id: whetstonetechnologies
+title: Whetstone Technologies
+version: 0.2
+description: A voice application for Whetstone Technologies
+invocationNames:
+- text: whetstone technologies
+startNodeName: WelcomeNewUser
+newUserNodeName: WelcomeNewUser
+returningUserNodeName: ReturningUser
+resumeNodeName: Resume
+helpNodeName: Help
+stopNodeName: StopWhetstone
+endOfGameNodeName: EndOfWhetstone
+nodes:
+- name: AskForNumberNode
+  responseSet:
+  - localizedResponses:
+    - clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I'll try to listen better this time. What's your phone number?
+  choices:
+  - intentName: PhoneNumberIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - supportssmscond
+      trueConditionResult: !nm-singlenode
+        nodeName: GetPhoneNumberVerification
+      falseConditionResult: !nm-conditional
+        conditions:
+        - isphonenumbervalidcond
+        trueConditionResult: !nm-singlenode
+          nodeName: CannotGetSmsMessageNode
+        falseConditionResult: !nm-singlenode
+          nodeName: BadPhoneFormatNode
+  - intentName: LearnAboutWhetstone
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: WhetstoneInfo
+        requiredSlotValues:
+          whetstonename:
+          - Whetstone Technologies
+      - nodeMap: !nm-singlenode
+          nodeName: VoiceConnectrInfo
+        requiredSlotValues:
+          whetstonename:
+          - Voice Connector
+  - intentName: HearOurStory
+    nodeMapping: !nm-singlenode
+      nodeName: WhetstoneInfo
+  - intentName: GetContactInfo
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: ContactWhetstone
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: SeeADemoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VoiceConnectrDemo
+- name: BadPhoneFormatNode
+  responseSet:
+  - localizedResponses:
+    - clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: The number I heard you say, <say-as interpret-as="telephone">{phonenumber}</say-as>, is not a valid phone number. I'll try to listen better. Please repeat the phone number.
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-ssmlfrag
+          ssml: The number I heard you say, <say-as interpret-as="telephone">@@String.Format("{0:###-###-####}", {phonenumber})@@</say-as>, is not a valid phone number. I'll try to listen better. Please repeat the phone number.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Please provide a phone number or ask for help.
+  choices:
+  - intentName: PhoneNumberIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - supportssmscond
+      trueConditionResult: !nm-singlenode
+        nodeName: GetPhoneNumberVerification
+      falseConditionResult: !nm-conditional
+        conditions:
+        - isphonenumbervalidcond
+        trueConditionResult: !nm-singlenode
+          nodeName: CannotGetSmsMessageNode
+        falseConditionResult: !nm-singlenode
+          nodeName: BadPhoneFormatNode
+  - intentName: LearnAboutWhetstone
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: WhetstoneInfo
+        requiredSlotValues:
+          whetstonename:
+          - Whetstone Technologies
+      - nodeMap: !nm-singlenode
+          nodeName: VoiceConnectrInfo
+        requiredSlotValues:
+          whetstonename:
+          - Voice Connector
+  - intentName: HearOurStory
+    nodeMapping: !nm-singlenode
+      nodeName: WhetstoneInfo
+  - intentName: GetContactInfo
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: ContactWhetstone
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: SeeADemoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VoiceConnectrDemo
+- name: CannotGetSmsMessageNode
+  responseSet:
+  - localizedResponses:
+    - clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: The number I heard you say, <say-as interpret-as="telephone">{phonenumber}</say-as>, does not appear capable of receiving text messages. Please provide a number that can receive text messages.
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-ssmlfrag
+          ssml: The number I heard you say, <say-as interpret-as="telephone">@@String.Format("{0:###-###-####}", {phonenumber})@@</say-as>, does not appear capable of receiving text messages. Please provide a number that can receive text messages.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Please provide a number that can receive text messages or ask for help.
+  choices:
+  - intentName: PhoneNumberIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - supportssmscond
+      trueConditionResult: !nm-singlenode
+        nodeName: GetPhoneNumberVerification
+      falseConditionResult: !nm-conditional
+        conditions:
+        - isphonenumbervalidcond
+        trueConditionResult: !nm-singlenode
+          nodeName: CannotGetSmsMessageNode
+        falseConditionResult: !nm-singlenode
+          nodeName: BadPhoneFormatNode
+  - intentName: LearnAboutWhetstone
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: WhetstoneInfo
+        requiredSlotValues:
+          whetstonename:
+          - Whetstone Technologies
+      - nodeMap: !nm-singlenode
+          nodeName: VoiceConnectrInfo
+        requiredSlotValues:
+          whetstonename:
+          - Voice Connector
+  - intentName: HearOurStory
+    nodeMapping: !nm-singlenode
+      nodeName: WhetstoneInfo
+  - intentName: GetContactInfo
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: ContactWhetstone
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: SeeADemoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VoiceConnectrDemo
+- name: ContactUs
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Contact Us
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You can get in touch with us by calling us at 610-345-7384 or emailing us at info@whetstonetechnologies.io.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You can get in touch with us by calling us at <say-as interpret-as="telephone">610-345-7384</say-as>, or emailing us at info at Whetstone Technologies dot eye oh.  Thanks for visiting Whetstone Technologies!
+      smallImageFile: whetstoneimage-small.png
+      largeImageFile: whetstoneimage-large.png
+  actions:
+  - !na-resetstate {}
+- name: EndOfWhetstone
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Exiting Whetstone Technologies.
+      textFragments:
+      - !tf-simple
+        text: Thanks for visiting Whetstone Technologies.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Thanks for visiting Whetstone Technologies.
+  actions:
+  - !na-resetstate {}
+- name: GetPhoneNumberVerification
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Verify Phone Number
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: I heard you say {phonenumber}.  If this is correct and you agree to receive a text message from Whetstone Technologies using an automatic telephone dialing system, say yes.  Message and Data rates may apply.
+      clientResponses:
+      - speechFragments:
+        - !sf-ssmlfrag
+          ssml: I heard you say <say-as interpret-as="telephone">{phonenumber}</say-as>. If this is correct and you agree to receive a text message from Whetstone Technologies using an automatic telephone dialing system, say yes.  Message and Data rates may apply.
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-ssmlfrag
+          ssml: I heard you say <say-as interpret-as="telephone">@@String.Format("{0:###-###-####}", {phonenumber})@@</say-as>.  If this is correct and you agree to receive a text message from Whetstone Technologies using an automatic telephone dialing system, say yes.  Message and Data rates may apply.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-ssmlfrag
+          ssml: I heard you say <say-as interpret-as="telephone">{phonenumber}</say-as>. If this is correct and you agree to receive a text message from Whetstone Technologies using an automatic telephone dialing system, say yes.  Message and Data rates may apply.
+      - speechClient: GoogleHome
+        speechFragments:
+        - !sf-ssmlfrag
+          ssml: I heard you say <say-as interpret-as="telephone">@@String.Format("{0:###-###-####}", {phonenumber})@@</say-as>.  If this is correct and you agree to receive a text message from Whetstone Technologies using an automatic telephone dialing system, say yes.  Message and Data rates may apply.
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: SendContactUsLink
+      localizedSuggestionText:
+      - text: yes
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: AskForNumberNode
+      localizedSuggestionText:
+      - text: no
+  - intentName: LearnAboutWhetstone
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: WhetstoneInfo
+        requiredSlotValues:
+          whetstonename:
+          - Whetstone Technologies
+      - nodeMap: !nm-singlenode
+          nodeName: VoiceConnectrInfo
+        requiredSlotValues:
+          whetstonename:
+          - Voice Connector
+  - intentName: HearOurStory
+    nodeMapping: !nm-singlenode
+      nodeName: WhetstoneInfo
+  - intentName: GetContactInfo
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: ContactWhetstone
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: SeeADemoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VoiceConnectrDemo
+- name: Help
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Whetstone Technologies Help
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: This skill provides information about the Whetstone Technologies software company and its services.  At any time, you can ask me to learn more about Whetstone Technologies, their VoiceConnectr platform or how to contact them.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I provide information about Whetstone Technologies and its services.  At any time, you can ask me to learn more about Whetstone Technologies, their VoiceConnectr platform, or how to contact them.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: I provide information about Whetstone Technologies and its services.  At any time, you can ask me to learn more about Whetstone Technologies, their VoiceConnectr platform, or how to contact them.
+      smallImageFile: whetstoneimage-small.png
+      largeImageFile: whetstoneimage-large.png
+  choices:
+  - intentName: LearnMoreIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VoiceConnectrInfo
+  - intentName: HearMoreIntent
+    nodeMapping: !nm-singlenode
+      nodeName: WhetstoneInfo
+  - intentName: HearOurStory
+    nodeMapping: !nm-singlenode
+      nodeName: WhetstoneInfo
+  - intentName: LearnAboutWhetstone
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: WhetstoneInfo
+        requiredSlotValues:
+          whetstonename:
+          - Whetstone Technologies
+      - nodeMap: !nm-singlenode
+          nodeName: VoiceConnectrInfo
+        requiredSlotValues:
+          whetstonename:
+          - Voice Connector
+  - intentName: GetContactInfo
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: ContactWhetstone
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: SeeADemoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VoiceConnectrDemo
+- name: NoVoiceConnectrDemo
+  responseSet:
+  - localizedResponses:
+    - cardTitle: More About Whetstone Technologies
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: >
+          No problem. Want to learn more?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: >
+            No problem.
+        - !sf-condition
+          conditions:
+          - HeardAboutWhetstone
+          trueResultFragments:
+          - !sf-textfrag
+            text: Want to learn about how to get in touch with us?
+          falseResultFragments:
+          - !sf-textfrag
+            text: Want to learn more about Whetstone Technologies?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-condition
+          conditions:
+          - HeardAboutWhetstone
+          trueResultFragments:
+          - !sf-textfrag
+            text: Want to learn about how to get in touch with us?
+          falseResultFragments:
+          - !sf-textfrag
+            text: Want to learn more about Whetstone Technologies?
+      smallImageFile: whetstoneimage-small.png
+      largeImageFile: whetstoneimage-large.png
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - HeardAboutWhetstone
+      trueConditionResult: !nm-singlenode
+        nodeName: ContactUs
+        localizedSuggestionText:
+        - text: yes
+      falseConditionResult: !nm-singlenode
+        nodeName: WhetstoneInfo
+        localizedSuggestionText:
+        - text: yes
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: EndOfWhetstone
+      localizedSuggestionText:
+      - text: no
+  - intentName: LearnMoreIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - HeardAboutWhetstone
+      trueConditionResult: !nm-singlenode
+        nodeName: ContactUs
+      falseConditionResult: !nm-singlenode
+        nodeName: WhetstoneInfo
+  - intentName: HearMoreIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - HeardAboutWhetstone
+      trueConditionResult: !nm-singlenode
+        nodeName: ContactUs
+      falseConditionResult: !nm-singlenode
+        nodeName: WhetstoneInfo
+  - intentName: LearnAboutWhetstone
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: WhetstoneInfo
+        requiredSlotValues:
+          whetstonename:
+          - Whetstone Technologies
+      - nodeMap: !nm-singlenode
+          nodeName: VoiceConnectrInfo
+        requiredSlotValues:
+          whetstonename:
+          - Voice Connector
+  - intentName: HearOurStory
+    nodeMapping: !nm-singlenode
+      nodeName: WhetstoneInfo
+  - intentName: GetContactInfo
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: ContactWhetstone
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: SeeADemoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VoiceConnectrDemo
+  actions:
+  - !na-recordvisit {}
+- name: Resume
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome Back to Whetstone Technologies
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Welcome back to Whetstone Technologies.  Would you like to learn about Voice Connectr, or hear more about Whetstone Technologies?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Welcome back to Whetstone Technologies.  Would you like to learn about Voice Connector, or hear more about Whetstone Technologies?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Would you like to learn about Voice Connector, or hear more about Whetstone Technologies?
+      smallImageFile: whetstoneimage-small.png
+      largeImageFile: whetstoneimage-large.png
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VoiceConnectrInfo
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: EndOfWhetstone
+  - intentName: LearnMoreIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VoiceConnectrInfo
+      localizedSuggestionText:
+      - text: VoiceConnectr
+  - intentName: HearMoreIntent
+    nodeMapping: !nm-singlenode
+      nodeName: WhetstoneInfo
+      localizedSuggestionText:
+      - text: Whetstone
+  - intentName: HearOurStory
+    nodeMapping: !nm-singlenode
+      nodeName: WhetstoneInfo
+  - intentName: LearnAboutWhetstone
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: WhetstoneInfo
+        requiredSlotValues:
+          whetstonename:
+          - Whetstone Technologies
+      - nodeMap: !nm-singlenode
+          nodeName: VoiceConnectrInfo
+        requiredSlotValues:
+          whetstonename:
+          - Voice Connector
+  - intentName: GetContactInfo
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: ContactWhetstone
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: SeeADemoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VoiceConnectrDemo
+  actions:
+  - !na-resetstate {}
+  coordinates:
+    x: -715
+    y: 41
+- name: ReturningUser
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome Back to Whetstone Technologies
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Welcome back to Whetstone Technologies.  Would you like to learn about VoiceConnectr, or hear more about Whetstone Technologies?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Welcome back to Whetstone Technologies.  Would you like to learn about Voice Connector, or hear more about Whetstone Technologies?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Would you like to learn about Voice Connector, or hear more about Whetstone Technologies?
+      smallImageFile: whetstoneimage-small.png
+      largeImageFile: whetstoneimage-large.png
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VoiceConnectrInfo
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: EndOfWhetstone
+  - intentName: LearnMoreIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VoiceConnectrInfo
+      localizedSuggestionText:
+      - text: VoiceConnectr
+  - intentName: HearMoreIntent
+    nodeMapping: !nm-singlenode
+      nodeName: WhetstoneInfo
+      localizedSuggestionText:
+      - text: Whetstone
+  - intentName: HearOurStory
+    nodeMapping: !nm-singlenode
+      nodeName: WhetstoneInfo
+  - intentName: LearnAboutWhetstone
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: WhetstoneInfo
+        requiredSlotValues:
+          whetstonename:
+          - Whetstone Technologies
+      - nodeMap: !nm-singlenode
+          nodeName: VoiceConnectrInfo
+        requiredSlotValues:
+          whetstonename:
+          - Voice Connector
+  - intentName: GetContactInfo
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: ContactWhetstone
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: SeeADemoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VoiceConnectrDemo
+  actions:
+  - !na-resetstate {}
+  coordinates:
+    x: -246
+    y: -104
+- name: SendContactUsLink
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Sending Info From VoiceConnectr
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Thank you, I'll send you a text message shortly.  Please note that consent to receive text messages is not a requirement of purchase.  Goodbye.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Thank you, I'll send you a text message shortly.  Please note that consent to receive text messages is not a requirement of purchase.  Goodbye.
+  actions:
+  - !na-phonemessage
+    phoneNumberSlot: phonenumber
+    phoneInfo:
+      sourcePhone: +12672140948
+      smsService: Twilio
+    phoneMessages:
+    - message: >
+        Thank you for your interest in Whetstone Technologies.  To enroll to receive a FREE whitepaper view terms at: bit.ly/2J0gEP6
+
+
+        Reply YES to agree to terms and continue.
+
+
+        Msg & data rates may apply.
+    confirmationNameSlot: consentnameslot
+- name: StopWhetstone
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Exiting Whetstone Technologies.
+      textFragments:
+      - !tf-simple
+        text: Thanks for visiting Whetstone Technologies.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Thanks for visiting Whetstone Technologies.
+  actions:
+  - !na-resetstate {}
+- name: VoiceConnectrDemo
+  responseSet:
+  - localizedResponses:
+    - cardTitle: VoiceConnectr Demo
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Great! I'll need you to provide a ten-digit mobile phone number so I can send you a text message from Whetstone Technologies using VoiceConnectr.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Great! I'll need you to provide a ten-digit mobile phone number so I can send you a text message from Whetstone Technologies using Voice Connector.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: I'll need you to provide a mobile phone number so I can send you a text message from Whetstone Technologies using Voice Connector.
+  choices:
+  - intentName: PhoneNumberIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - supportssmscond
+      trueConditionResult: !nm-singlenode
+        nodeName: GetPhoneNumberVerification
+      falseConditionResult: !nm-conditional
+        conditions:
+        - isphonenumbervalidcond
+        trueConditionResult: !nm-singlenode
+          nodeName: CannotGetSmsMessageNode
+        falseConditionResult: !nm-singlenode
+          nodeName: BadPhoneFormatNode
+  - intentName: LearnAboutWhetstone
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: WhetstoneInfo
+        requiredSlotValues:
+          whetstonename:
+          - Whetstone Technologies
+      - nodeMap: !nm-singlenode
+          nodeName: VoiceConnectrInfo
+        requiredSlotValues:
+          whetstonename:
+          - Voice Connector
+  - intentName: HearOurStory
+    nodeMapping: !nm-singlenode
+      nodeName: WhetstoneInfo
+  - intentName: GetContactInfo
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: ContactWhetstone
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: SeeADemoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VoiceConnectrDemo
+  actions:
+  - !na-assignvalue
+    slotName: consentnameslot
+    value: whetstonetechnologies
+- name: VoiceConnectrInfo
+  responseSet:
+  - localizedResponses:
+    - cardTitle: About VoiceConnectr
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: >
+          VoiceConnectr is our patent-pending cloud based platform for connecting voice interfaces such as Alexa, or Google Assistant to our customers' data sources.
+
+          What makes us different is that we work with you every step of the way, from designing the voice interface to connecting to your data.
+
+          Want to see how VoiceConnectr works?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: >
+            VoiceConnectr is our patent-pending cloud based platform for connecting voice interfaces such as Alexa, or Google Assistant to our customer's data sources.
+
+            What makes us different is that we work with you every step of the way, from designing the voice interface to connecting to your data.
+
+            Want to see how Voice Connector works?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Want to see how Voice Connector works?
+      smallImageFile: whetstoneimage-small.png
+      largeImageFile: whetstoneimage-large.png
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VoiceConnectrDemo
+      localizedSuggestionText:
+      - text: yes
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: NoVoiceConnectrDemo
+      localizedSuggestionText:
+      - text: no
+  - intentName: LearnMoreIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - HeardAboutWhetstone
+      trueConditionResult: !nm-singlenode
+        nodeName: ContactUs
+      falseConditionResult: !nm-singlenode
+        nodeName: WhetstoneInfo
+  - intentName: HearMoreIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - HeardAboutWhetstone
+      trueConditionResult: !nm-singlenode
+        nodeName: ContactUs
+      falseConditionResult: !nm-singlenode
+        nodeName: WhetstoneInfo
+  - intentName: LearnAboutWhetstone
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: WhetstoneInfo
+        requiredSlotValues:
+          whetstonename:
+          - Whetstone Technologies
+      - nodeMap: !nm-singlenode
+          nodeName: VoiceConnectrInfo
+        requiredSlotValues:
+          whetstonename:
+          - Voice Connector
+  - intentName: HearOurStory
+    nodeMapping: !nm-singlenode
+      nodeName: WhetstoneInfo
+  - intentName: GetContactInfo
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: ContactWhetstone
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: SeeADemoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VoiceConnectrDemo
+  actions:
+  - !na-recordvisit {}
+- name: WelcomeNewUser
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome to Whetstone Technologies
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Welcome to Whetstone Technologies where we use our patent-pending VoiceConnectr platform to help you leverage voice interfaces as a new way to connect with your customers.  Would you like to learn about Voice Connectr, or hear more about Whetstone Technologies?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Welcome to Whetstone Technologies where we use our patent-pending Voice Connector platform to help you leverage voice interfaces as a new way to connect with your customers.  Would you like to learn about Voice Connector, or hear more about Whetstone Technologies?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Would you like to learn about Voice Connector, or hear more about Whetstone Technologies?
+      smallImageFile: whetstoneimage-small.png
+      largeImageFile: whetstoneimage-large.png
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VoiceConnectrInfo
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: EndOfWhetstone
+  - intentName: LearnMoreIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VoiceConnectrInfo
+      localizedSuggestionText:
+      - text: VoiceConnectr
+  - intentName: HearMoreIntent
+    nodeMapping: !nm-singlenode
+      nodeName: WhetstoneInfo
+      localizedSuggestionText:
+      - text: Whetstone
+  - intentName: LearnAboutWhetstone
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: WhetstoneInfo
+        requiredSlotValues:
+          whetstonename:
+          - Whetstone Technologies
+      - nodeMap: !nm-singlenode
+          nodeName: VoiceConnectrInfo
+        requiredSlotValues:
+          whetstonename:
+          - Voice Connector
+  - intentName: GetContactInfo
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: ContactWhetstone
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: SeeADemoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VoiceConnectrDemo
+  actions:
+  - !na-resetstate {}
+  coordinates:
+    x: 494
+    y: -126
+- name: WhetstoneInfo
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Our Story
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: >
+          Whetstone Technologies was founded by Sanjeev Surati and John Iwasz in October of 2017. Having been professional software developers for over 25 years they decided we wanted to step out on their own and get involved in the emerging field of voice technology.
+
+
+          Instead of just creating a simple voice application, though, they wrote a cloud-based infrastructure called VoiceConnectr to make it easy for them to create multipurpose voice apps for their customers.
+
+
+          Want to learn more?
+      clientResponses:
+      - speechFragments:
+        - !sf-audio
+          fileName: WhetstoneInfo_mixdown.mp3
+        - !sf-condition
+          conditions:
+          - HeardAboutVoiceConnectr
+          trueResultFragments:
+          - !sf-textfrag
+            text: Want to learn about how to work with us?
+          falseResultFragments:
+          - !sf-textfrag
+            text: Want to learn more about Voice Connector?
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-condition
+          conditions:
+          - HeardAboutVoiceConnectr
+          trueResultFragments:
+          - !sf-textfrag
+            text: Want to learn about how to work with us?
+          falseResultFragments:
+          - !sf-textfrag
+            text: Want to learn more about Voice Connector?
+      smallImageFile: whetstoneimage-small.png
+      largeImageFile: whetstoneimage-large.png
+  choices:
+  - intentName: YesIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - HeardAboutVoiceConnectr
+      trueConditionResult: !nm-singlenode
+        nodeName: ContactUs
+        localizedSuggestionText:
+        - text: yes
+      falseConditionResult: !nm-singlenode
+        nodeName: VoiceConnectrInfo
+        localizedSuggestionText:
+        - text: yes
+  - intentName: NoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: EndOfWhetstone
+      localizedSuggestionText:
+      - text: no
+  - intentName: LearnMoreIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - HeardAboutVoiceConnectr
+      trueConditionResult: !nm-singlenode
+        nodeName: ContactUs
+      falseConditionResult: !nm-singlenode
+        nodeName: VoiceConnectrInfo
+  - intentName: HearMoreIntent
+    nodeMapping: !nm-conditional
+      conditions:
+      - HeardAboutVoiceConnectr
+      trueConditionResult: !nm-singlenode
+        nodeName: ContactUs
+      falseConditionResult: !nm-singlenode
+        nodeName: VoiceConnectrInfo
+  - intentName: LearnAboutWhetstone
+    nodeMapping: !nm-slotmap
+      mappings:
+      - nodeMap: !nm-singlenode
+          nodeName: WhetstoneInfo
+        requiredSlotValues:
+          whetstonename:
+          - Whetstone Technologies
+      - nodeMap: !nm-singlenode
+          nodeName: VoiceConnectrInfo
+        requiredSlotValues:
+          whetstonename:
+          - Voice Connector
+  - intentName: HearOurStory
+    nodeMapping: !nm-singlenode
+      nodeName: WhetstoneInfo
+  - intentName: GetContactInfo
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: ContactWhetstone
+    nodeMapping: !nm-singlenode
+      nodeName: ContactUs
+  - intentName: SeeADemoIntent
+    nodeMapping: !nm-singlenode
+      nodeName: VoiceConnectrDemo
+  actions:
+  - !na-recordvisit {}
+intents:
+- name: ContactWhetstone
+  supportsNamelessInvocation: true
+  localizedIntents:
+  - plainTextPrompt: contact Whetstone
+    utterances:
+    - contact {whetstonename}
+    - contact {whetstonename}
+    - get {whetstonename} phone number
+    - get {whetstonename} phone number
+    - get {whetstonename} phone
+    - get {whetstonename} phone
+    - get {whetstonename} email address
+    - get {whetstonename} email address
+    - get {whetstonename} email
+    - get {whetstonename} email
+    - get {whetstonename} email
+  slotMappings:
+    whetstonename: WhetstoneNames
+- name: EndGameIntent
+  localizedIntents:
+  - plainTextPrompt: Exit
+    utterances:
+    - stop
+    - stop whetstone
+    - stop whetstone technologies
+    - end
+    - end whetstone
+    - end whetstone technologies
+    - exit
+    - exit whetstone
+    - exit whetstone technologies
+- name: GetContactInfo
+  localizedIntents:
+  - plainTextPrompt: get contact info
+    utterances:
+    - get more info
+    - hear more info
+    - get info
+    - hear info
+    - listen to info
+    - listen to more info
+    - contact us
+    - contact you
+    - get in touch
+    - get in touch with you
+    - get in touch with them
+    - talk to you
+    - contact them
+    - how to contact you
+    - how to contact us
+    - how to get in touch
+    - how to contact them
+    - how to get more info
+    - how to hear more info
+    - how to get info
+    - get your phone number
+    - get your email address
+    - give me your phone number
+    - give me your email address
+    - give me your email
+    - get your email
+    - get your phone
+    - get your number
+    - give me your phone
+    - give me your number
+    - call you
+    - email you
+- name: HearMoreIntent
+  localizedIntents:
+  - plainTextPrompt: hear more
+    utterances:
+    - hear
+    - hear more
+    - hear about
+- name: SeeADemoIntent
+  localizedIntents:
+  - plainTextPrompt: see a demo
+    utterances:
+    - see a demo
+    - do a demo
+    - show me a demo
+    - a demo
+    - demo
+    - demo {whetstonenames}
+    - demo of {whetstonenames}
+    - see a demo of {whetstonenames}
+    - show me a demo of {whetstonenames}
+  slotMappings:
+    whetstonenames: WhetstoneNames
+- name: HearOurStory
+  localizedIntents:
+  - plainTextPrompt: hear our story
+    utterances:
+    - hear our story
+    - hear your story
+    - hear about you
+    - hear about them
+    - learn about you
+    - learn your story
+    - learn about them
+    - learn our story
+    - our story
+    - your story
+    - about you
+    - about us
+    - about them
+    - hear Sanj
+    - listen to our story
+    - listen to your story
+    - listen about you
+    - listen to you
+    - listen to Sanj
+    - how did you get started
+    - who are you
+    - how you started
+    - how they started
+    - learn how you started
+    - learn how they started
+- name: LearnAboutWhetstone
+  supportsNamelessInvocation: true
+  localizedIntents:
+  - plainTextPrompt: learn more about Whetstone Technologies
+    utterances:
+    - '{whetstonename}'
+    - find information on {whetstonename}
+    - find information about {whetstonename}
+    - find info on {whetstonename}
+    - find info about {whetstonename}
+    - for information on {whetstonename}
+    - for information about {whetstonename}
+    - for info on {whetstonename}
+    - for info about {whetstonename}
+    - search for {whetstonename}
+    - find {whetstonename}
+    - about {whetstonename}
+    - find out about {whetstonename}
+    - get information on {whetstonename}
+    - get information about {whetstonename}
+    - get info on {whetstonename}
+    - get info about {whetstonename}
+    - learn more about {whetstonename}
+    - learn about {whetstonename}
+    - learn information on {whetstonename}
+    - learn info on {whetstonename}
+    - hear about {whetstonename}
+    - hear more about {whetstonename}
+    - listen about {whetstonename}
+    - talk about {whetstonename}
+    - find {whetstonename}
+    - who is {whetstonename}
+    - what is {whetstonename}
+  slotMappings:
+    whetstonename: WhetstoneNames
+- name: LearnMoreIntent
+  localizedIntents:
+  - plainTextPrompt: learn more
+    utterances:
+    - learn
+    - learn more
+    - learn about
+- name: NoIntent
+  localizedIntents:
+  - plainTextPrompt: no
+- name: PhoneNumberIntent
+  localizedIntents:
+  - plainTextPrompt: Phone Number
+    utterances:
+    - '{phonenumber}'
+    - my number is {phonenumber}
+    - it is {phonenumber}
+    - it's {phonenumber}
+    - my phone is {phonenumber}
+    - my phone's {phonenumber}
+    - the phone's {phonenumber}
+    - the phone is {phonenumber}
+    - phone's {phonenumber}
+    - phone is {phonenumber}
+  slotMappings:
+    phonenumber: WHETSTONE.US_PHONENUMBER
+  actions:
+  - !na-recordselecteditem
+    slots:
+    - phonenumber
+  - !na-validatephone
+    phoneNumberSlot: phonenumber
+    phoneTypeSlot: phonetype
+    supportsSmsSlot: supportssms
+    isValidFormatSlot: isphonenumbervalid
+- name: RepeatIntent
+  localizedIntents:
+  - plainTextPrompt: repeat
+- name: ResumeIntent
+  localizedIntents:
+  - plainTextPrompt: resume
+- name: TryAgainIntent
+  localizedIntents:
+  - plainTextPrompt: try again
+- name: YesIntent
+  localizedIntents:
+  - plainTextPrompt: yes
+conditions:
+- !ci-nodevisit
+  requiredNodes:
+  - WhetstoneInfo
+  conditionType: NodeVisit
+  name: HeardAboutWhetstone
+- !ci-nodevisit
+  requiredNodes:
+  - VoiceConnectrInfo
+  conditionType: NodeVisit
+  name: HeardAboutVoiceConnectr
+- !ci-nodevisit
+  requiredNodes:
+  - WhetstoneInfo
+  conditionType: NodeVisit
+  name: NotHeardAboutWhetstone
+  requiredOutcome: false
+- !ci-slotvalue
+  conditionType: SlotValue
+  slotName: supportssms
+  valueCheckType: Equals
+  value: true
+  name: supportssmscond
+- !ci-slotvalue
+  conditionType: SlotValue
+  slotName: isphonenumbervalid
+  valueCheckType: Equals
+  value: true
+  name: isphonenumbervalidcond
+badIntentResponses:
+- name: FirstBadIntentResponse
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Unknown Response
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Sorry, I didn't quite get that.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: You can ask me about VoiceConnectr or Whetstone Technologies.
+slotTypes:
+- name: WhetstoneNames
+  values:
+  - value: Whetstone Technologies
+    synonyms:
+    - Wet Stone Technologies
+    - Whetstone
+    - Wet stone
+    - Whetstone Tech
+    - Wet Stone Tech
+    - Whetstone's
+    - Wet Stones
+    - Wet Stone's
+    - Whetstone Technologies's
+    - Wetstone Technologies's
+    - What Stone Technologies
+    - What Stone
+  - value: Voice Connector
+    synonyms:
+    - VoiceConnectr
+    - voice connectr
+    - voiceconnector

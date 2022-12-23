@@ -1,0 +1,95 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: 'CloudFormation Template to create PostgreSQL DB Access policy and bootstrap config reader policy'
+
+###############################################################################
+# Parameters
+###############################################################################
+
+Parameters:
+  EnvironmentKeyStack:
+    Type: String
+    Default: WhetstoneKey-Dev
+    Description: Root environment stack that defines the environment key and purpose.
+    AllowedPattern: '^[a-zA-Z]+[0-9a-zA-Z\-]*$'
+
+  DatabaseId:
+    Description: >-
+      ID of the database. Can be found by using "aws rds describe-db-instances and getting the DbiResourceId"
+    Type: String
+
+  EngineDatabaseUserName:
+    Description: >-
+      User name used to connect to the datsbase.
+    Type: String
+    Default: lambda_proxy
+
+  BootstrapParameter:
+    Description: >-
+      Parameter that contains environment bootstrapping settings.
+    Type: String
+    Default: /storyengine/dev/bootstrap
+
+###############################################################################
+# Resources
+###############################################################################
+
+Resources:
+  EngineDbAuthPolicy:
+    Type: 'AWS::IAM::ManagedPolicy'
+    DeletionPolicy: Delete
+    Properties:
+      Path: !Join
+        - ''
+        - - /
+          - !ImportValue
+            'Fn::Sub': '${EnvironmentKeyStack}-EnvironmentName'
+          - /
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: 'rds-db:connect'
+            Resource: !Sub 'arn:aws:rds-db:${AWS::Region}:${AWS::AccountId}:dbuser:${DatabaseId}/${EngineDatabaseUserName}'
+
+  BootstrapAccessPolicy:
+    Type: 'AWS::IAM::ManagedPolicy'
+    DeletionPolicy: Delete
+    Properties:
+      Path: !Join
+        - ''
+        - - /
+          - !ImportValue
+            'Fn::Sub': '${EnvironmentKeyStack}-EnvironmentName'
+          - /
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: 'ssm:GetParameter'
+            Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter${BootstrapParameter}'
+
+###############################################################################
+# Outputs
+###############################################################################
+Outputs:
+  EngineDbAuthPolicy:
+    Description: Database authentication policy
+    Value: !Ref EngineDbAuthPolicy
+    Export:
+      Name: !Sub '${AWS::StackName}-EngineDbAuthPolicy'
+  BootstrapAccessPolicy:
+    Description: This policy grants read access to the bootstrap configuration parameter
+    Value: !Ref BootstrapAccessPolicy
+    Export:
+      Name: !Sub '${AWS::StackName}-BootstrapConfigPolicy'
+  BootstrapParameter:
+    Description: Name of the parameter that contains environment settings
+    Value: !Ref BootstrapParameter
+    Export:
+      Name: !Sub '${AWS::StackName}-BootstrapParameter'
+  DatabaseId:
+    Description: Environment database id
+    Value: !Ref DatabaseId
+    Export:
+      Name: !Sub '${AWS::StackName}-DatabaseId'

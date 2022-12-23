@@ -1,0 +1,5 @@
+GeneralConfig:
+  NodeSource: Yaml
+  LogLevel: Debug
+  EnforceAlexaPolicy: false
+  SaveAlexaMessages: true

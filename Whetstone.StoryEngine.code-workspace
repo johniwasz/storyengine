@@ -1,0 +1,31 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"yaml.format.singleQuote": true,
+		"yaml.customTags": [
+			"!Ref sequence",
+			"!Ref scalar",
+			"!Ref mapping",
+			"!Equals sequence",
+			"!Equals scalar",
+			"!Equals mapping",
+			"!Not sequence",
+			"!Or sequence",
+			"!And sequence",
+			"!Sub sequence",
+			"!Sub scalar",
+			"!Select sequence",
+			"!Select scalar",
+			"!Join sequence",
+			"!GetAtt",
+			"!Not sequence",
+			"!Not scalar",
+			"!Not mapping"
+		],
+		"yaml.validate": false
+	}
+}

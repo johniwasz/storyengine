@@ -1,0 +1,545 @@
+{
+   "AWSTemplateFormatVersion":"2010-09-09",
+   "Transform":"AWS::Serverless-2016-10-31",
+   "Description":"Handles inbound SMS requests.",
+   "Parameters":{
+    "ParentVpcStack": {
+      "Description": "Name of stack used to create the VPN and/or subnets. Example: WhetstoneVpc-Dev",
+      "Type": "String",
+      "Default": "WhetstoneVpc-Dev",
+      "AllowedPattern": "^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+    },
+	"DatabaseStack": {
+      "Description": "Name of stack used to create the database or provide a security group. Example: WhetstoneD-Aurora-Dev",
+      "Type": "String",
+      "Default": "Whetstone-Aurora-Dev",
+      "AllowedPattern": "^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+    },
+      "KeyStack":{
+         "Description":"Name of stack used to create environment key for decryption. Example: WhetstoneKey-Dev",
+         "Type":"String",
+         "Default":"WhetstoneKey-Dev",
+         "AllowedPattern":"^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+      },
+      "VersionDescription":{
+         "Type":"String",
+         "Description":"Associate the deployed version with the build",
+         "Default":"Out of band"
+      },
+      "LambdaNetSerializerDebug":{
+         "Type":"String",
+         "AllowedValues":[
+            "true",
+            "false"
+         ],
+         "Description":"Indicates if the lambda serialization is enabled or not.",
+         "Default":"false"
+      },
+      "SlidingExpirationTime":{
+         "Type":"Number",
+         "Description":"Cache sliding expiration time. Value is in milliseconds.",
+         "Default":"9000"
+      },
+      "CodeDeployRule":{
+         "AllowedValues":[
+            "AllAtOnce",
+            "Linear10PercentEvery1Minute",
+            "Linear10PercentEvery2Minutes",
+            "Linear10PercentEvery3Minutes",
+            "Linear10PercentEvery10Minutes",
+            "Canary10Percent5Minutes",
+            "Canary10Percent10Minutes"
+         ],
+         "Default":"Linear10PercentEvery1Minute",
+         "Description":"Determine whether or not to use a blue/green deployment when pushing out this lambda",
+         "Type":"String"
+      },
+      "DynamoTableStack":{
+         "Description":"Name of stack used to create dynamodb table stores. Example: Whetstone-DynamoDbStore-Dev",
+         "Type":"String",
+         "Default":"Whetstone-DynamoDbStore-Dev",
+         "AllowedPattern":"^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+      },
+      "CustomActionLambdaStack":{
+         "Description":"Stack that defines lambdas for custom resources",
+         "Type":"String",
+         "Default":"Whetstone-LambdaCustomActions-Dev"
+      },
+	  	  "SmsCallbackQueueUserName" : {
+	    "Type": "String",
+		"Description": "Database user with rights required to insert into session audit tables",
+		"Default": "lambda_sessionaudit"
+	  },
+	    "PolicyStack": {
+      "Description": "Name of stack used to create supplemental policies. Example: WhetstoneSharedPolicies-Dev",
+      "Type": "String",
+      "Default": "WhetstoneSharedPolicies-Dev",
+      "AllowedPattern": "^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+    }
+   },
+   "Resources":{
+      "KeyPolicyUpdate":{
+         "Type":"AWS::CloudFormation::CustomResource",
+         "Properties":{
+            "ServiceToken":{
+               "Fn::ImportValue":{
+                  "Fn::Sub":"${CustomActionLambdaStack}-KeyPolicyUpdateArn"
+               }
+            },
+            "Key":{
+               "Fn::ImportValue":{
+                  "Fn::Sub":"${KeyStack}-EnvironmentKeyArn"
+               }
+            },
+            "RoleArn":{
+               "Fn::GetAtt":[
+                  "SmsStatusCallbackLoggerRole",
+                  "Arn"
+               ]
+            },
+            "GrantType":"EncryptDecrypt"
+         }
+      },
+  
+ 
+      "InboundSmsStateMachineRole":{
+         "Type":"AWS::IAM::Role",
+         "Properties":{
+            "Path":{
+               "Fn::Join":[
+                  "",
+                  [
+                     "/",
+                     {
+                        "Fn::ImportValue":{
+                           "Fn::Sub":"${KeyStack}-EnvironmentName"
+                        }
+                     },
+                     "/"
+                  ]
+               ]
+            },
+            "AssumeRolePolicyDocument":{
+               "Version":"2012-10-17",
+               "Statement":[
+                  {
+                     "Effect":"Allow",
+                     "Principal":{
+                        "Service":{
+                           "Fn::Sub":"states.${AWS::Region}.amazonaws.com"
+                        }
+                     },
+                     "Action":"sts:AssumeRole"
+                  }
+               ]
+            },
+            "Policies":[
+               {
+                  "PolicyName":"StepFunctionLambdaInvoke",
+                  "PolicyDocument":{
+                     "Version":"2012-10-17",
+                     "Statement":[
+                        {
+                           "Effect":"Allow",
+                           "Action":[
+                              "lambda:InvokeFunction"
+                           ],
+                           "Resource":[
+                              {
+                                 "Fn::Sub":"${SmsHandlerTask.Arn}:LIVE"
+                              }
+                           ]
+                        }
+                     ]
+                  }
+               }
+            ]
+         }
+      },
+
+	  "SmsStatusCallbackFunction": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+                "FunctionName": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            "SmsStatusCallback",
+                            {
+                                "Fn::ImportValue": {
+                                    "Fn::Sub": "${KeyStack}-EnvironmentName"
+                                }
+                            }
+                        ]
+                    ]
+                },
+		"AutoPublishAlias": "LIVE",
+		"DeploymentPreference": {	
+		  "Enabled": true,
+		  "Type":  { "Ref": "CodeDeployRule"}
+		},		
+		"VersionDescription": { "Fn::Sub": "${VersionDescription}" },
+        "CodeUri": "",
+        "Description": "Log sms status callbacks in the database",
+        "Environment": {
+          "Variables": {
+            "DOTNET_SHARED_STORE": "/opt/dotnetcore/store/",
+            "BOOTSTRAP": {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${PolicyStack}-BootstrapParameter"
+              }
+            },
+            "LAMBDA_NET_SERIALIZER_DEBUG": {
+              "Ref": "LambdaNetSerializerDebug"
+            },
+            "DBUSERTYPE": "SessionLoggingUser"
+          }
+        },
+        "Events": {
+          "SqsReadResource": {
+            "Type": "SQS",
+            "Properties": {
+              "Queue": {
+                        "Fn::GetAtt": [
+                            "TwilioCallbackQueue",
+                            "Arn"
+                        ]
+                    },
+              "BatchSize": 10
+            }
+          }
+        },
+        "Handler": "Whetstone.StoryEngine.InboundSmsHandler::Whetstone.StoryEngine.InboundSmsHandler.StatusUpdateFunction::StatusUpdateFunction",
+        "MemorySize": 1024,
+        "Role": {
+          "Fn::GetAtt": [
+            "SmsStatusCallbackLoggerRole",
+            "Arn"
+          ]
+        },
+        "Runtime": "dotnetcore2.1",
+        "Timeout": 20,
+        "VpcConfig": {
+          "SubnetIds": [
+            {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${ParentVpcStack}-SubnetAPrivate"
+              }
+            },
+            {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${ParentVpcStack}-SubnetBPrivate"
+              }
+            },
+            {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${ParentVpcStack}-SubnetCPrivate"
+              }
+            }
+          ],
+          "SecurityGroupIds": [
+            {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${DatabaseStack}-SecurityGroup"
+              }
+            },
+            {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${ParentVpcStack}-SSMSecurityGroup"
+              }
+            }
+          ]
+        }
+	
+      }
+    },
+
+	  "SmsStatusCallbackLoggerRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "Path": {
+          "Fn::Join": [
+            "",
+            [
+              "/",
+              {
+                "Fn::ImportValue": {
+                  "Fn::Sub": "${KeyStack}-EnvironmentName"
+                }
+              },
+              "/"
+            ]
+          ]
+        },
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::ImportValue": {
+              "Fn::Sub": "${PolicyStack}-BootstrapConfigPolicy"
+            }
+          },
+          {
+            "Ref": "TwilioCallbackQueueReaderPolicy"
+          },
+          "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+        ]
+      }
+    },
+
+	   "TwilioCallbackQueueDeadLetter": {
+            "Type": "AWS::SQS::Queue",
+            "Properties": {
+                "ReceiveMessageWaitTimeSeconds": 20,
+                "VisibilityTimeout": 30,
+                "MessageRetentionPeriod": 1209600,
+                "KmsMasterKeyId": {
+                    "Fn::ImportValue": {
+                        "Fn::Sub": "${KeyStack}-EnvironmentKeyAlias"
+                    }
+                },
+                "KmsDataKeyReusePeriodSeconds": 86400,
+                "Tags": [
+                    {
+                        "Key": "Environment",
+                        "Value": {
+                            "Fn::ImportValue": {
+                                "Fn::Sub": "${KeyStack}-EnvironmentName"
+                            }
+                        }
+                    },
+                    {
+                        "Key": "Purpose",
+                        "Value": {
+                            "Fn::ImportValue": {
+                                "Fn::Sub": "${KeyStack}-Purpose"
+                            }
+                        }
+                    },
+                    {
+                        "Key": "Stack",
+                        "Value": {
+                            "Ref": "AWS::StackName"
+                        }
+                    },
+                    {
+                        "Key": "Name",
+                        "Value": {
+                            "Fn::Join": [
+                                "-",
+                                [
+                                    {
+                                        "Fn::ImportValue": {
+                                            "Fn::Sub": "${KeyStack}-EnvironmentName"
+                                        }
+                                    },
+                                    "key",
+                                    {
+                                        "Ref": "AWS::StackName"
+                                    }
+                                ]
+                            ]
+                        }
+                    }
+                ]
+            },
+            "DeletionPolicy": "Delete"
+        },
+        "TwilioCallbackQueue": {
+            "Type": "AWS::SQS::Queue",
+            "Properties": {
+                "ReceiveMessageWaitTimeSeconds": 20,
+                "VisibilityTimeout": 30,
+                "MessageRetentionPeriod": 345600,
+                "KmsMasterKeyId": {
+                    "Fn::ImportValue": {
+                        "Fn::Sub": "${KeyStack}-EnvironmentKeyAlias"
+                    }
+                },
+                "KmsDataKeyReusePeriodSeconds": 86400,
+                "RedrivePolicy": {
+                    "deadLetterTargetArn": {
+                        "Fn::GetAtt": [
+                            "TwilioCallbackQueueDeadLetter",
+                            "Arn"
+                        ]
+                    },
+                    "maxReceiveCount": 6
+                },
+                "Tags": [
+                    {
+                        "Key": "Environment",
+                        "Value": {
+                            "Fn::ImportValue": {
+                                "Fn::Sub": "${KeyStack}-EnvironmentName"
+                            }
+                        }
+                    },
+                    {
+                        "Key": "Purpose",
+                        "Value": {
+                            "Fn::ImportValue": {
+                                "Fn::Sub": "${KeyStack}-Purpose"
+                            }
+                        }
+                    },
+                    {
+                        "Key": "Stack",
+                        "Value": {
+                            "Ref": "AWS::StackName"
+                        }
+                    },
+                    {
+                        "Key": "Name",
+                        "Value": {
+                            "Fn::Join": [
+                                "-",
+                                [
+                                    {
+                                        "Fn::ImportValue": {
+                                            "Fn::Sub": "${KeyStack}-EnvironmentName"
+                                        }
+                                    },
+                                    "key",
+                                    {
+                                        "Ref": "AWS::StackName"
+                                    }
+                                ]
+                            ]
+                        }
+                    }
+                ]
+            },
+            "DeletionPolicy": "Delete"
+        },
+        "TwilioCallbackQueuePostPolicy": {
+            "Type": "AWS::IAM::ManagedPolicy",
+            "DependsOn": "TwilioCallbackQueue",
+            "Properties": {
+                "Path": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            "/",
+                            {
+                                "Fn::ImportValue": {
+                                    "Fn::Sub": "${KeyStack}-EnvironmentName"
+                                }
+                            },
+                            "/"
+                        ]
+                    ]
+                },
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "sqs:SendMessage",
+                                "sqs:GetQueueAttributes",
+                                "sqs:GetQueueUrl"
+                            ],
+                            "Resource": {
+                                "Fn::GetAtt": [
+                                    "TwilioCallbackQueue",
+                                    "Arn"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "TwilioCallbackQueueReaderPolicy": {
+            "Type": "AWS::IAM::ManagedPolicy",
+            "Properties": {
+                "Path": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            "/",
+                            {
+                                "Fn::ImportValue": {
+                                    "Fn::Sub": "${KeyStack}-EnvironmentName"
+                                }
+                            },
+                            "/"
+                        ]
+                    ]
+                },
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "sqs:DeleteMessage",
+                                "sqs:ReceiveMessage",
+                                "sqs:GetQueueAttributes"
+                            ],
+                            "Resource": {
+                                "Fn::GetAtt": [
+                                    "TwilioCallbackQueue",
+                                    "Arn"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "TwilioCallbackDeadLetterQueueReaderPolicy": {
+            "Type": "AWS::IAM::ManagedPolicy",
+            "DependsOn": "TwilioCallbackQueue",
+            "Properties": {
+                "Path": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            "/",
+                            {
+                                "Fn::ImportValue": {
+                                    "Fn::Sub": "${KeyStack}-EnvironmentName"
+                                }
+                            },
+                            "/"
+                        ]
+                    ]
+                },
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Action": [
+                                "sqs:DeleteMessage",
+                                "sqs:ReceiveMessage",
+                                "sqs:GetQueueAttributes"
+                            ],
+                            "Resource": {
+                                "Fn::GetAtt": [
+                                    "TwilioCallbackQueueDeadLetter",
+                                    "Arn"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+   },
+   "Outputs":{
+    
+   }
+}

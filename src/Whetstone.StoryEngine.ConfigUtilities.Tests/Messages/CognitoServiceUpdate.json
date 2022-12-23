@@ -1,0 +1,55 @@
+{
+  "ServiceToken": "arn:aws:lambda:us-east-1:940085449815:function:ConfigActiondev",
+  "RequestType": "Update",
+  "ResponseURL": "https://cloudformation-custom-resource-response-useast1.s3.amazonaws.com/arn%3Aaws%3Acloudformation%3Aus-east-1%3A940085449815%3Astack/Whetstone-Cognito-Dev/b11a6070-fd8e-11e9-a4ab-0e6c2daa9b2c%7CBootstrapConfigUpdate%7Ca26ce628-e6eb-4b25-b4f6-29be9949bcde?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200425T152525Z&X-Amz-SignedHeaders=host&X-Amz-Expires=7200&X-Amz-Credential=AKIA6L7Q4OWTROUDBTSZ%2F20200425%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=dae44ed9c4bfff65cbc965bd1f30f80681b4cbf231dc403f32f16e32c64e0dd5",
+  "StackId": "arn:aws:cloudformation:us-east-1:940085449815:stack/Whetstone-Cognito-Dev/b11a6070-fd8e-11e9-a4ab-0e6c2daa9b2c",
+  "RequestId": "a26ce628-e6eb-4b25-b4f6-29be9949bcde",
+  "ResourceType": "AWS::CloudFormation::CustomResource",
+  "PhysicalResourceId": "BootstrapConfigUpdate",
+  "LogicalResourceId": "BootstrapConfigUpdate",
+  "ResourceProperties": {
+    "ServiceToken": "arn:aws:lambda:us-east-1:940085449815:function:ConfigActiondev",
+    "ConfigEntries": [
+      {
+        "Value": "us-east-1_xu0geY2cC",
+        "ConfigType": "CognitoUserPoolId"
+      },
+      {
+        "Value": "4o29k16f10ir3o7job8mmiabad",
+        "ConfigType": "CognitoUserClientId"
+      },
+      {
+        "Value": "ClientSecret attribute not supported at this time, please use the CLI or Console to retrieve this value",
+        "ConfigType": "CognitoUserClientSecret"
+      }
+    ],
+    "Parameter": "/storyengine/dev/bootstrap",
+    "KeyId": "alias/devEnvironmentKey"
+  },
+  "OldResourceProperties": {
+    "ServiceToken": "arn:aws:lambda:us-east-1:940085449815:function:ConfigActiondev",
+    "ConfigEntries": [
+      {
+        "Value": "us-east-1_xu0geY2cC",
+        "ConfigType": "CognitoUserPoolId"
+      },
+      {
+        "Value": "4o29k16f10ir3o7job8mmiabad",
+        "ConfigType": "CognitoUserClientId"
+      },
+      {
+        "Value": [
+          "us-east-1_xu0geY2cC",
+          "4o29k16f10ir3o7job8mmiabad"
+        ],
+        "ConfigType": "CognitoUserClientSecret"
+      },
+      {
+        "Value": "Cognito",
+        "ConfigType": "AuthenticatorType"
+      }
+    ],
+    "Parameter": "/storyengine/dev/bootstrap",
+    "KeyId": "alias/devEnvironmentKey"
+  }
+}

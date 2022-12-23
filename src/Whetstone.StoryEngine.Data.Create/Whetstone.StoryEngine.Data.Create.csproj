@@ -1,0 +1,106 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>Whetstone.StoryEngine.Data.Create</AssemblyName>
+    <RootNamespace>Whetstone.StoryEngine.Data.Create</RootNamespace>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrationsbackup\**" />
+    <EmbeddedResource Remove="Migrationsbackup\**" />
+    <None Remove="Migrationsbackup\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Migrations\Functions\addintentaction_consolidate.sql" />
+    <None Remove="Migrations\Functions\addoutboundmessagelog.sql" />
+    <None Remove="Migrations\Functions\addsmstwiliolog.sql" />
+    <None Remove="Migrations\Functions\addupdatephonenumber.sql" />
+    <None Remove="Migrations\Functions\addupdatesmsconsent.sql" />
+    <None Remove="Migrations\Functions\addupdatetitleuser.sql" />
+    <None Remove="Migrations\Functions\addupdatetitleuser_isguest.sql" />
+    <None Remove="Migrations\Functions\add_getconsentreport.sql" />
+    <None Remove="Migrations\Functions\add_intentaction_isguest.sql" />
+    <None Remove="Migrations\Functions\add_intentaction_isnewuser.sql" />
+    <None Remove="Migrations\Functions\drop_addoutboundmessagelog.sql" />
+    <None Remove="Migrations\Functions\drop_addupdatephonenumber.sql" />
+    <None Remove="Migrations\Functions\drop_addupdatesmsconsent.sql" />
+    <None Remove="Migrations\Functions\drop_addupdatetitleuser.sql" />
+    <None Remove="Migrations\Functions\drop_addupdatetitleuser_isguest.sql" />
+    <None Remove="Migrations\Functions\drop_getconsentreport.sql" />
+    <None Remove="Migrations\Functions\drop_intentaction_consolidate.sql" />
+    <None Remove="Migrations\Functions\drop_intentaction_isguest.sql" />
+    <None Remove="Migrations\Functions\drop_intentaction_isnewuser.sql" />
+    <None Remove="Migrations\Scripts\addservicelevels.sql" />
+    <None Remove="Migrations\Scripts\addtwitterentitlements.sql" />
+    <None Remove="Migrations\Scripts\add_messageconsentview.sql" />
+    <None Remove="Migrations\Scripts\add_messageconsentview_2.sql" />
+    <None Remove="Migrations\Scripts\deletetwitterentitlements.sql" />
+    <None Remove="Migrations\Scripts\drop_messageconsentview.sql" />
+    <None Remove="Migrations\Scripts\lambdausercreate.sql" />
+    <None Remove="Migrations\Scripts\lambdausergrants.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\Scripts\addservicelevels.sql" />
+    <EmbeddedResource Include="Migrations\Scripts\addtwitterentitlements.sql" />
+    <EmbeddedResource Include="Migrations\Scripts\add_messageconsentview_2.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\Functions\addoutboundmessagelog.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.4" />
+    <EmbeddedResource Include="Migrations\Functions\addintentaction_consolidate.sql" />
+    <EmbeddedResource Include="Migrations\Functions\addsmstwiliolog.sql" />
+    <EmbeddedResource Include="Migrations\Functions\addupdatephonenumber.sql" />
+    <EmbeddedResource Include="Migrations\Functions\addupdatesmsconsent.sql" />
+    <EmbeddedResource Include="Migrations\Functions\addupdatetitleuser.sql" />
+    <EmbeddedResource Include="Migrations\Functions\addupdatetitleuser_isguest.sql" />
+    <EmbeddedResource Include="Migrations\Functions\add_intentaction_isguest.sql" />
+    <EmbeddedResource Include="Migrations\Functions\add_intentaction_isnewuser.sql" />
+    <EmbeddedResource Include="Migrations\Functions\drop_addoutboundmessagelog.sql" />
+    <EmbeddedResource Include="Migrations\Functions\drop_addupdatephonenumber.sql" />
+    <EmbeddedResource Include="Migrations\Functions\drop_addupdatesmsconsent.sql" />
+    <EmbeddedResource Include="Migrations\Functions\drop_addupdatetitleuser.sql" />
+    <EmbeddedResource Include="Migrations\Functions\drop_addupdatetitleuser_isguest.sql" />
+    <EmbeddedResource Include="Migrations\Functions\drop_getconsentreport.sql" />
+    <EmbeddedResource Include="Migrations\Functions\drop_intentaction_consolidate.sql" />
+    <EmbeddedResource Include="Migrations\Functions\add_getconsentreport.sql" />
+    <EmbeddedResource Include="Migrations\Functions\drop_intentaction_isguest.sql" />
+    <EmbeddedResource Include="Migrations\Functions\drop_intentaction_isnewuser.sql" />
+    <EmbeddedResource Include="Migrations\Scripts\deletetwitterentitlements.sql" />
+    <EmbeddedResource Include="Migrations\Scripts\drop_messageconsentview.sql" />
+    <EmbeddedResource Include="Migrations\Scripts\lambdausercreate.sql" />
+    <EmbeddedResource Include="Migrations\Scripts\lambdausergrants.sql" />
+    <EmbeddedResource Include="Migrations\Scripts\add_messageconsentview.sql" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
+    <PackageReference Include="Npgsql" Version="5.0.1.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whetstone.StoryEngine.Data.EntityFramework\Whetstone.StoryEngine.Data.EntityFramework.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Data\Whetstone.StoryEngine.Data.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.Repository\Whetstone.StoryEngine.Repository.csproj" />
+  </ItemGroup>
+
+  
+  
+  
+  
+</Project>

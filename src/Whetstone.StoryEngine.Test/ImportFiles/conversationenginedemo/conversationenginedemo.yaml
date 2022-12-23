@@ -1,0 +1,463 @@
+id: conversationenginedemo
+title: Conversation Engine Demo
+version: 0.1
+description: A demonstration of the conversation engine
+invocationNames:
+- text: conversation engine demo
+startNodeName: Opening
+newUserNodeName: WelcomeNewUser
+returningUserNodeName: ReturningUser
+resumeNodeName: Resume
+helpNodeName: Help
+stopNodeName: StopGame
+endOfGameNodeName: EndofGame
+nodes:
+- name: Opening
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Opening
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You stand on a mountain side overlooking a slope that descends into a valley that disappears into forest. Miles away, it ends in a beach where land yields to sea in a crumble of sand. You are at a fork in the road. Would you like to go left or right?
+      repromptTextResponse: Left or right?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You stand on a mountain side overlooking a slope that descends into a valley that disappears into forest. Miles away, it ends in a beach where land yields to sea in a crumble of sand. You are at a fork in the road. Would you like to go left or right?
+  choices:
+  - intentName: LeftIntent
+    nodeMapping: !nm-singlenode
+      nodeName: Troll in Path
+  - intentName: RightIntent
+    nodeMapping: !nm-singlenode
+      nodeName: Animal Across Path
+  coordinates:
+    x: 103
+    y: 87
+- name: ReturningUser
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome Back to Conversation Engine Demo
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Welcome back to the game! When you are ready to begin the adventure, say begin.
+      repromptTextResponse: Say begin to begin the adventure.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Welcome back to the game! When you are ready to begin the adventure, say begin.
+  choices:
+  - intentName: StartAdventureIntent
+    nodeMapping: !nm-singlenode
+      nodeName: Opening
+  coordinates:
+    x: -246
+    y: -104
+- name: Help
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Animal Farm PI Help
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You can end the game by saying end game.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You repeat the current location by saying repeat. End the game by saying end game or restart by saying restart.
+  coordinates:
+    x: -717
+    y: 144
+- name: WelcomeNewUser
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome to Animal Farm P.I.
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Since this is your first time here, I'll give you the intro. This is a sample of Whetstone Technologies Conversation Engine. You can ask for help at any time by saying help.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Since this is your first time here, I'll give you the intro. This is a sample of Whetstone Technologies Conversation Engine. You can ask for help at any time by saying help. You can stop the investigation at any time by saying stop or exit. When you are ready to begin, say begin.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Say begin to begin the adventure.
+  choices:
+  - intentName: StartAdventureIntent
+    nodeMapping: !nm-singlenode
+      nodeName: Opening
+  coordinates:
+    x: 494
+    y: -126
+- name: Resume
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome Back to Animal Farm P.I.
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You have an investigation in progress. You can resume where you left off or restart.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You have an investigation in progress. You can resume where you left off or restart.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: To resume, say resume. To restart, say restart. You can also ask for help by saying help.
+      smallImageFile: afi-welcome-sm.png
+      largeImageFile: afi-welcome-lg.png
+  coordinates:
+    x: -715
+    y: 41
+- name: StopGame
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Exiting Animal Farm P.I.
+      textFragments:
+      - !tf-simple
+        text: Thanks for playing Animal Farm P.I.!
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Thanks for playing!
+  coordinates:
+    x: 841
+    y: 776
+- name: EndofGame
+  responseSet:
+  - localizedResponses:
+    - cardTitle: End Game
+      textFragments:
+      - !tf-simple
+        text: That's it for this path, but there are others to explore. Would you like to end the game or try again?
+      repromptTextResponse: Restart or end game?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: That's it for this path, but there are others to explore. Would you like to end the game or try again?
+  choices:
+  - intentName: TryAgainIntent
+    nodeMapping: !nm-singlenode
+      nodeName: Opening
+  - intentName: EndGameIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StopGame
+  coordinates:
+    x: -14
+    y: 806
+- name: Good Tea
+  responseSet:
+  - localizedResponses:
+    - cardTitle: He Likes Tea
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: He takes a sip and seems happy with the tea. He smiles. He looks like he would enjoy a conversation. You can talk to the troll or keep walking.
+      repromptTextResponse: Would you like to talk to the troll or keep walking?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: He takes a sip and seems happy with the tea. He smiles. He looks like he would enjoy a conversation.
+  choices:
+  - intentName: WalkIntent
+    nodeMapping: !nm-singlenode
+      nodeName: Out of the Woods
+  - intentName: TalkToTrollIntent
+    nodeMapping: !nm-singlenode
+      nodeName: Talk To Troll
+  coordinates:
+    x: 755
+    y: 457
+- name: Troll Laughs
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Troll Laughs
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: His skin is too tough. You scrape your knuckles and the troll just laughs at you. Ha ha! Perhaps you should try giving him some tea instead. To serve tea, say serve tea.
+      repromptTextResponse: To serve tea, say serve tea.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: His skin is too tough. You scrape your knuckles and the troll just laughs at you. Ha ha! Perhaps you should try giving him some tea instead. To serve tea, say serve tea.
+  choices:
+  - intentName: TeaIntent
+    nodeMapping: !nm-singlenode
+      nodeName: Good Tea
+  coordinates:
+    x: 409
+    y: 656
+- name: Troll in Path
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Oh no, a Troll!
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: There's a troll in your way. Would you like to punch him or serve him tea?
+      repromptTextResponse: Punch him or serve tea?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: There's a troll in your way. Would you like to punch him or serve him tea?
+  choices:
+  - intentName: PunchIntent
+    nodeMapping: !nm-singlenode
+      nodeName: Troll Laughs
+  - intentName: TeaIntent
+    nodeMapping: !nm-singlenode
+      nodeName: Good Tea
+  coordinates:
+    x: 437
+    y: 280
+- name: Out of the Woods
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Out of the Woods
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: The sun is shining. The birds are chirping and you're out of the woods. Hurray! You won!
+      repromptTextResponse: Restart or end game?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: The sun is shining. The birds are chirping and you're out of the woods. Hurray! You won!
+  choices:
+  - intentName: StartAdventureIntent
+    nodeMapping: !nm-singlenode
+      nodeName: Opening
+  - intentName: EndGameIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StopGame
+  coordinates:
+    x: 417
+    y: 833
+- name: Search Hedge
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Nothing Here
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: Hmm... There's nothing here. Maybe you were imagining things? To keep going, say keep going.
+      repromptTextResponse: To keep going, say keep going.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Hmm... There's nothing here. Maybe you were imagining things? To keep going, say keep going.
+  choices:
+  - intentName: WalkIntent
+    nodeMapping: !nm-singlenode
+      nodeName: Out of the Woods
+  coordinates:
+    x: -105
+    y: 466
+- name: Animal Across Path
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Rustle in the Hedgerow
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You see a small animal dart into a bush. Would you like to look in the bush or keep walking?
+      repromptTextResponse: Look in bush or keep walking?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You see a small animal dart into a bush. Would you like to look in the bush or keep walking?
+  choices:
+  - intentName: BushIntent
+    nodeMapping: !nm-singlenode
+      nodeName: Search Hedge
+  - intentName: WalkIntent
+    nodeMapping: !nm-singlenode
+      nodeName: Out of the Woods
+  coordinates:
+    x: -419
+    y: 228
+- name: Talk to Troll
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Talk to Troll
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: He regales you about the virtues of Earl Grey and Darjeeling. He goes on and on. Maybe you should just walk on.
+      repromptTextResponse: To walk on, say walk on.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: He regales you about the virtues of Earl Grey and Darjeeling. He goes on and on. Maybe you should just walk on.
+  choices:
+  - intentName: WalkIntent
+    nodeMapping: !nm-singlenode
+      nodeName: Out of the Woods
+  coordinates:
+    x: 961
+    y: 279
+intents:
+- name: YesIntent
+  localizedIntents:
+  - plainTextPrompt: yes
+- name: NoIntent
+  localizedIntents:
+  - plainTextPrompt: no
+- name: ResumeIntent
+  localizedIntents:
+  - plainTextPrompt: resume
+- name: RepeatIntent
+  localizedIntents:
+  - plainTextPrompt: repeat
+- name: MakeSandwichIntent
+  localizedIntents:
+  - plainTextPrompt: make a sandwich for Terrence
+    utterances:
+    - make a sandwich for Terrence
+    - make sandwich for Terrence
+    - make a sandwich
+    - make sandwich
+    - make mackerel and sauerkraut sandwich
+    - make mackerel sandwich
+    - make sauerkraut sandwich
+    - sandwich
+- name: TryAgainIntent
+  localizedIntents:
+  - plainTextPrompt: try again
+- name: TeaIntent
+  localizedIntents:
+  - plainTextPrompt: Tea
+    utterances:
+    - tea
+    - serve tea
+    - serve him tea
+    - serve troll tea
+- name: LeftIntent
+  localizedIntents:
+  - plainTextPrompt: Left
+    utterances:
+    - left
+    - go left
+    - walk left
+    - run left
+- name: RightIntent
+  localizedIntents:
+  - plainTextPrompt: Right
+    utterances:
+    - right
+    - go right
+    - walk right
+    - run right
+- name: WalkIntent
+  localizedIntents:
+  - plainTextPrompt: walk
+    utterances:
+    - walk
+    - walk on
+    - keep walking
+    - keep going
+    - go
+    - go on
+    - walk it off
+- name: BushIntent
+  localizedIntents:
+  - plainTextPrompt: Bush
+    utterances:
+    - look in bush
+    - bush
+    - look
+    - animal
+    - look for animal
+    - look in bush for animal
+- name: PunchIntent
+  localizedIntents:
+  - plainTextPrompt: Punch
+    utterances:
+    - punch him
+    - punch troll
+    - punch
+    - hit him
+    - hit troll
+    - hit
+- name: TalkToTrollIntent
+  localizedIntents:
+  - plainTextPrompt: Talk to troll
+    utterances:
+    - talk to troll
+    - talk
+    - talk to him
+- name: StartAdventureIntent
+  localizedIntents:
+  - plainTextPrompt: start adventure
+    utterances:
+    - start
+    - begin
+    - begin adventure
+    - start adventure
+    - start game
+    - begin game
+- name: EndGameIntent
+  localizedIntents:
+  - plainTextPrompt: End Game
+    utterances:
+    - stop
+    - stop game
+    - stop adventure
+    - end
+    - end game
+    - end adventure
+conditions:
+- !ci-nodevisit
+  requiredNodes:
+  - Opening
+  conditionType: NodeVisit
+  name: VisitedOpening
+badIntentResponses:
+- name: FirstBadIntentResponse
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Unknown Response
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I don't recognize that response.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: You can also say repeat to repeat the current story location.
+- name: SecondBadIntentResponse
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Unknown Response
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Unrecognized response. You can say repeat to repeat the current story location.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: You can say stop the end the game or say repeat to repeat the current story location.
+slotTypes:
+- name: FarmLocations
+  values:
+  - value: pond
+    synonyms:
+    - duck pond
+  - value: kitchen
+  - value: barn
+  - value: milfred
+  - value: outside
+  - value: garden
+  - value: terrence
+    synonyms:
+    - rat
+    - the rat
+  - value: tractor
+  - value: him
+- name: ENGINE.City

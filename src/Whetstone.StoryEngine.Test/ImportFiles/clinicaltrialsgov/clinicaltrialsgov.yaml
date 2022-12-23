@@ -1,0 +1,583 @@
+id: clinicaltrialsgov
+title: Government Clinical Trials
+version: 0.1
+description: A voice search application for clinical trials
+invocationNames:
+- text: clinical trial finder
+startNodeName: WelcomeNewUser
+newUserNodeName: WelcomeNewUser
+returningUserNodeName: ReturningUser
+resumeNodeName: Resume
+helpNodeName: Help
+stopNodeName: StopFinder
+endOfGameNodeName: EndofGame
+nodes:
+- name: EndofGame
+  responseSet:
+  - localizedResponses:
+    - cardTitle: End Game
+      textFragments:
+      - !tf-simple
+        text: That's it for this path, but there are others to explore. Would you like to end the game or try again?
+      repromptTextResponse: Restart or end game?
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: That's it for this path, but there are others to explore. Would you like to end the game or try again?
+  choices:
+  - intentName: FindTrialByCityAndConditionIntent
+    nodeMapping: !nm-singlenode
+      nodeName: TrialByCityAndCondition
+  - intentName: FindAnyTrialIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FindAny
+  - intentName: FindAnyTrialInCityIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FindAnyInCity
+  - intentName: TryAgainIntent
+    nodeMapping: !nm-singlenode
+      nodeName: Opening
+  - intentName: EndGameIntent
+    nodeMapping: !nm-singlenode
+      nodeName: StopGame
+  coordinates:
+    x: -14
+    y: 806
+- name: FindAny
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Find Any Clinical Trial
+      sendCardResponse: false
+      textFragments:
+      - !tf-simple
+        text: Please specify a health condition and city. For example, say something like find lung cancer trials in Boston.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Please specify a health condition and city. For example, say something like find lung cancer trials in Boston.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Say something like find lung cancer trials in Boston.
+  choices:
+  - intentName: FindAnyTrialIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FindAny
+  - intentName: FindTrialByCityAndConditionIntent
+    nodeMapping: !nm-singlenode
+      nodeName: TrialByCityAndCondition
+  - intentName: FindAnyTrialInCityIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FindAnyInCity
+- name: FindAnyInCity
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Find Any Clinical Trial
+      sendCardResponse: false
+      textFragments:
+      - !tf-simple
+        text: Please specify a health condition. For example, say something like find lung cancer trials in Boston.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Please specify a health condition. For example, say something like find lung cancer trials in Boston.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Say something like find lung cancer trials in Boston.
+  choices:
+  - intentName: FindAnyTrialIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FindAny
+  - intentName: FindTrialByCityAndConditionIntent
+    nodeMapping: !nm-singlenode
+      nodeName: TrialByCityAndCondition
+  - intentName: FindAnyTrialInCityIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FindAnyInCity
+- name: Help
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Clinical Trial Finder Help
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: You can search for a clinical trial by saying "Find clinical trials for lung cancer in Boston." If a trial is found, details about the locations and contact infromation will be sent to your Alexa mobile app. You can also say repeat to have Alexa repeat the search result. If more than one result is found, you can say next to get the next result.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: You can search for a clinical trial by saying find clinical trials for lung cancer in Boston. If a trial is found, details about the locations and contact infromation will be sent to your Alexa mobile app. You can also say repeat to have Alexa repeat the search result. If more than one result is found, you can say next to get the next result.
+  choices:
+  - intentName: FindTrialByCityAndConditionIntent
+    nodeMapping: !nm-singlenode
+      nodeName: TrialByCityAndCondition
+  - intentName: FindAnyTrialIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FindAny
+  - intentName: FindAnyTrialInCityIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FindAnyInCity
+  coordinates:
+    x: -717
+    y: 144
+- name: Resume
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome Back to the Clinical Trial Finder
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: To use the clinical trial finder, say something like find lung cancer trials in Boston.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: To use the clinical trial finder, say something like find lung cancer trials in Boston.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Say something like find trials in Boston or find lung cancer trials in Boston.
+  choices:
+  - intentName: FindTrialByCityAndConditionIntent
+    nodeMapping: !nm-singlenode
+      nodeName: TrialByCityAndCondition
+  - intentName: FindAnyTrialIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FindAny
+  - intentName: FindAnyTrialInCityIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FindAnyInCity
+  coordinates:
+    x: -715
+    y: 41
+- name: ReturningUser
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome Back to the Clinical Trial Finder
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: To use the clinical trial finder, say something like find lung cancer trials in Boston.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: To use the clinical trial finder, say something like find lung cancer trials in Boston.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Say something like find trials in Boston or find lung cancer trials in Boston.
+  choices:
+  - intentName: FindTrialByCityAndConditionIntent
+    nodeMapping: !nm-singlenode
+      nodeName: TrialByCityAndCondition
+  - intentName: FindAnyTrialIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FindAny
+  - intentName: FindAnyTrialInCityIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FindAnyInCity
+  actions:
+  - !na-recordselecteditem
+    slots:
+    - city
+    - condition
+    isPermanent: false
+  - !na-inventory
+    item: !nt-multiitem
+      name: Index
+    actionType: Clear
+  coordinates:
+    x: -246
+    y: -104
+- name: StopFinder
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Exiting Clinical Trial Finder
+      textFragments:
+      - !tf-simple
+        text: Thanks for using the Clinical Trial Finder
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Thanks for using the Clinical Trial Finder
+  coordinates:
+    x: 841
+    y: 776
+- name: TrialByCityAndCondition
+  dataRetrievalActions:
+  - !dr-externalfunction
+    functionName: ClinicalTrial
+    alias: DeborahAlpha
+    indexItem: Index
+    cacheResult: true
+  choices:
+  - intentName: NextIntent
+    nodeMapping: !nm-singlenode
+      nodeName: TrialByCityAndCondition
+  - intentName: FindTrialByCityAndConditionIntent
+    nodeMapping: !nm-singlenode
+      nodeName: TrialByCityAndCondition
+  - intentName: FindAnyTrialIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FindAny
+  - intentName: FindAnyTrialInCityIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FindAnyInCity
+- name: WelcomeNewUser
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Welcome to the Clinical Trial Finder
+      sendCardResponse: true
+      textFragments:
+      - !tf-simple
+        text: To use the clinical trial finder, say something like find lung cancer trials in Boston.
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: To use the clinical trial finder, say something like find lung cancer trials in Boston.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Say something like find lung cancer trials in Boston.
+  choices:
+  - intentName: FindTrialByCityAndConditionIntent
+    nodeMapping: !nm-singlenode
+      nodeName: TrialByCityAndCondition
+  - intentName: FindAnyTrialIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FindAny
+  - intentName: FindAnyTrialInCityIntent
+    nodeMapping: !nm-singlenode
+      nodeName: FindAnyInCity
+  coordinates:
+    x: 494
+    y: -126
+intents:
+- name: EndGameIntent
+  localizedIntents:
+  - plainTextPrompt: Exit
+    utterances:
+    - stop
+    - stop finder
+    - stop trial finder
+    - stop clinical trial finder
+    - end
+    - end finder
+    - end trial finder
+    - end clincal trial finder
+    - exit
+    - exit finder
+    - exit trial finder
+    - exit clinical trial finder
+    - goodbye
+    - shut down
+    - alexa shut down
+    - thank you
+    - thank you finder
+    - thank you clinical trial finder
+    - thank you trial finder
+    - thanks
+    - thanks finder
+    - thanks trial finder
+    - thanks clinical trial finder
+    - thanks Alexa
+    - that's enough
+    - that's enough finder
+    - that's enough trial finder
+    - that's enough clinical trial finder
+    - abort
+    - abort finder
+    - abort trial finder
+    - abort clinical trial finder
+    - I'm done
+    - I'm finished
+    - end session
+    - exit session
+    - finish
+- name: FindAnyTrialInCityIntent
+  localizedIntents:
+  - plainTextPrompt: find trial in city
+    utterances:
+    - retrieve trial in {city}
+    - retrieve trials in {city}
+    - search trial in {city}
+    - search trials in {city}
+    - get trial in {city}
+    - get trials in {city}
+    - find trial in {city}
+    - find trials in {city}
+    - all trials in {city}
+    - any trial in {city}
+    - any trials in {city}
+    - get all trials in {city}
+  slotMappings:
+    city: WHETSTONE.US_CITY
+- name: FindAnyTrialIntent
+  localizedIntents:
+  - plainTextPrompt: find any
+    utterances:
+    - all trials
+    - all clinical trials
+    - all studies
+    - any study
+    - get any study
+    - any trial
+    - find trials
+    - find trial
+    - find clinical trials
+    - find all trials
+    - find any trial
+    - find all studies
+    - find any study
+    - get all studies
+    - get study
+    - get studies
+    - get trials
+    - get trial
+    - get all clinical trials
+    - get any clinical trials
+    - get any clinical trial
+- name: FindTrialByCityAndConditionIntent
+  localizedIntents:
+  - plainTextPrompt: find all trials with condition in city
+    utterances:
+    - retrieve {condition} trials in {city}
+    - retrieve {condition} clinical trials in {city}
+    - retrieve {condition} tests in {city}
+    - retrieve {condition} screenings in {city}
+    - to retrieve {condition} trials in {city}
+    - to retrieve {condition} clinical trials in {city}
+    - to retrieve {condition} tests in {city}
+    - to retrieve {condition} screenings in {city}
+    - retrieve all {condition} trials in {city}
+    - retrieve all {condition} clinical trials in {city}
+    - retrieve all {condition} tests in {city}
+    - retrieve all {condition} screenings in {city}
+    - to retrieve all {condition} trials in {city}
+    - to retrieve all {condition} clinical trials in {city}
+    - to retrieve all {condition} tests in {city}
+    - to retrieve all {condition} screenings in {city}
+    - search {condition} trials in {city}
+    - search {condition} clinical trials in {city}
+    - search {condition} tests in {city}
+    - search {condition} screenings in {city}
+    - to search {condition} trials in {city}
+    - to search {condition} clinical trials in {city}
+    - to search {condition} tests in {city}
+    - to search {condition} screenings in {city}
+    - search all {condition} trials in {city}
+    - search all {condition} clinical trials in {city}
+    - search all {condition} tests in {city}
+    - search all {condition} screenings in {city}
+    - to search all {condition} trials in {city}
+    - to search all {condition} clinical trials in {city}
+    - to search all {condition} tests in {city}
+    - to search all {condition} screenings in {city}
+    - get {condition} trials in {city}
+    - get {condition} clinical trials in {city}
+    - get {condition} tests in {city}
+    - get {condition} screenings in {city}
+    - to get {condition} trials in {city}
+    - to get {condition} clinical trials in {city}
+    - to get {condition} tests in {city}
+    - to get {condition} screenings in {city}
+    - get all {condition} trials in {city}
+    - get all {condition} clinical trials in {city}
+    - get all {condition} tests in {city}
+    - get all {condition} screenings in {city}
+    - to get all {condition} trials in {city}
+    - to get all {condition} clinical trials in {city}
+    - to get all {condition} tests in {city}
+    - to get all {condition} screenings in {city}
+    - find {condition} trials in {city}
+    - find {condition} clinical trials in {city}
+    - find {condition} tests in {city}
+    - find {condition} screenings in {city}
+    - to find {condition} trials in {city}
+    - to find {condition} clinical trials in {city}
+    - to find {condition} tests in {city}
+    - to find {condition} screenings in {city}
+    - find trials for {condition} in {city}
+    - find clinical trials for {condition} in {city}
+    - find tests for {condition} in {city}
+    - find screenings for {condition} in {city}
+    - to find trials for {condition} in {city}
+    - to find clinical trials for {condition} in {city}
+    - to find tests for {condition} in {city}
+    - to find screenings for {condition} in {city}
+    - find all trials for {condition} in {city}
+    - find all clinical trials for {condition} in {city}
+    - find all tests for {condition} in {city}
+    - find all screenings for {condition} in {city}
+    - to find all trials for {condition} in {city}
+    - to find all clinical trials for {condition} in {city}
+    - to find all tests for {condition} in {city}
+    - to find all screenings for {condition} in {city}
+    - get trials for {condition} in {city}
+    - get clinical trials for {condition} in {city}
+    - get tests for {condition} in {city}
+    - get screenings for {condition} in {city}
+    - to get trials for {condition} in {city}
+    - to get clinical trials for {condition} in {city}
+    - to get tests for {condition} in {city}
+    - to get screenings for {condition} in {city}
+    - get all trials for {condition} in {city}
+    - get all clinical trials for {condition} in {city}
+    - get all tests for {condition} in {city}
+    - get all screenings for {condition} in {city}
+    - to get all trials for {condition} in {city}
+    - to get all clinical trials for {condition} in {city}
+    - to get all tests for {condition} in {city}
+    - to get all screenings for {condition} in {city}
+    - get trials covering {condition} in {city}
+    - get clinical trials covering {condition} in {city}
+    - get tests covering {condition} in {city}
+    - get screenings covering {condition} in {city}
+    - to get trials covering {condition} in {city}
+    - to get clinical trials covering {condition} in {city}
+    - to get tests covering {condition} in {city}
+    - to get screenings covering {condition} in {city}
+    - get all trials covering {condition} in {city}
+    - get all clinical trials covering {condition} in {city}
+    - get all tests covering {condition} in {city}
+    - get all screenings covering {condition} in {city}
+    - to get all trials covering {condition} in {city}
+    - to get all clinical trials covering {condition} in {city}
+    - to get all tests covering {condition} in {city}
+    - to get all screenings covering {condition} in {city}
+    - find trials covering {condition} in {city}
+    - find clinical trials covering {condition} in {city}
+    - find tests covering {condition} in {city}
+    - find screenings covering {condition} in {city}
+    - to find trials covering {condition} in {city}
+    - to find clinical trials covering {condition} in {city}
+    - to find tests covering {condition} in {city}
+    - to find screenings covering {condition} in {city}
+    - find all trials covering {condition} in {city}
+    - find all clinical trials covering {condition} in {city}
+    - find all tests covering {condition} in {city}
+    - find all screenings covering {condition} in {city}
+    - to find all trials covering {condition} in {city}
+    - to find all clinical trials covering {condition} in {city}
+    - to find all tests covering {condition} in {city}
+    - to find all screenings covering {condition} in {city}
+    - '{condition} trials in {city}'
+    - '{condition} clinical trials in {city}'
+    - '{condition} screenings in {city}'
+  slotMappings:
+    city: WHETSTONE.US_CITY
+    condition: HealthCondition
+  actions:
+  - !na-recordselecteditem
+    slots:
+    - city
+    - condition
+    isPermanent: false
+  - !na-inventory
+    item: !nt-multiitem
+      name: Index
+    actionType: Clear
+  supportsNamelessInvocation: true
+  canInvokeSlotValidator: !dr-externalfunction
+    functionName: ClinicalTrial
+- name: NextIntent
+  localizedIntents:
+  - plainTextPrompt: next
+    utterances:
+    - get next
+    - next
+    - go next
+    - go to next
+    - go to next study
+    - go to next screening
+    - go to next trial
+    - go to next clinical trial
+    - get next study
+    - get next trial
+    - get next clinical trial
+    - get next screening
+    - next trial
+    - next study
+    - next clinical trial
+    - next screening
+  actions:
+  - !na-inventory
+    item: !nt-multiitem
+      name: Index
+- name: RepeatIntent
+  localizedIntents:
+  - plainTextPrompt: repeat
+- name: ResumeIntent
+  localizedIntents:
+  - plainTextPrompt: resume
+- name: TryAgainIntent
+  localizedIntents:
+  - plainTextPrompt: try again
+conditions:
+- !ci-nodevisit
+  requiredNodes:
+  - Opening
+  conditionType: NodeVisit
+  name: VisitedOpening
+badIntentResponses:
+- name: FirstBadIntentResponse
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Unknown Response
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: I can't help you with that. You can say something like find epilepsy trials in Boston.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Say something like find epilepsy trials in Boston.
+- name: SecondBadIntentResponse
+  responseSet:
+  - localizedResponses:
+    - cardTitle: Unknown Response
+      clientResponses:
+      - speechFragments:
+        - !sf-textfrag
+          text: Sorry, I didn't get that. If you're having trouble you can ask for help or exit by saying exit clinical trial finder. To use the clinical trial finder, say something like find epilepsy trials in boston.
+      clientSpeechReprompts:
+      - speechFragments:
+        - !sf-textfrag
+          text: Say something like find epilepsy trials in Boston.
+slotTypes:
+- name: WHETSTONE.US_CITY
+- name: HealthCondition
+  values:
+  - value: lung cancer
+  - value: breast cancer
+  - value: cerebral palsy
+  - value: prostate cancer
+  - value: migraine
+    synonyms:
+    - headache
+    - headaches
+  - value: lymphoma
+  - value: leukemia
+  - value: sarcoma
+  - value: vaginal odor
+  - value: lung neoplasms
+  - value: major depressive disorder
+    synonyms:
+    - depression
+  - value: hiv infections
+    synonyms:
+    - hiv infection
+    - aids
+    - hiv
+  - value: sleep apnea
+  - value: pancreatic cancer
+  - value: sepsis
+  - value: thyroid cancer
+  - value: arthritis
+  - value: cystic fibrosis
+  - value: asthma
+  - value: eczema
+  - value: epilepsy
+  - value: fibromyalgia
+  - value: fatigue
+  - value: cervical cancer
+  - value: cardiovascular disease

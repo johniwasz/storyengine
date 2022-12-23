@@ -1,0 +1,62 @@
+﻿bucket: whetstonebucket-dev-s3bucket-sdfgdgdf
+cacheConfig:
+  dynamoDBTableName: Whetstone-CacheTable-Dev-CacheTable-dfgsdfsdfgdsfg
+  defaultSlidingExpirationSeconds: 10000
+  isEnabled: true
+logLevel: Debug
+enforceAlexaPolicy: true
+sessionLoggerType: Queue
+sessionAuditQueue: https://sqs.us-east-1.amazonaws.com/940085449815/WhetstoneQueue-Dev-SessionAuditQueue-sdfsdfgsdfg
+databaseSettings:
+  settings:
+    Application Name: VoiceConnectr_Dev
+    CommandTimeout: 10
+    Connection Idle Lifetime: 5
+    Connection Pruning Interval: 1
+    Database: storyenginedev
+    Host: whetstone-aurora-dev-auroradbcluster-sfgsdfgsdfg.cluster-c1z3wkpsmw56.us-east-1.rds.amazonaws.com
+    Maximum Pool Size: 5
+    Pooling: false
+    SSL Mode: Require
+    Timeout: 3
+    Trust Server Certificate: true
+  engineUser: storyengineuser
+  adminUser: storyengineuser
+  sessionLoggingUser: storyengineuser
+  smsUser: storyengineuser
+  enableSensitiveLogging: false
+  connectionRetrieverType: Direct
+  directConnect:
+    clientSecret: dfgsdfgsdfgsdfg
+    userName: storyengineuser
+smsConfig:
+  messageSendRetryLimit: 4
+  notificationStepFunctionArn: arn:aws:states:us-east-1:940085449815:stateMachine:MessageSenderStateMachine-sdfdsfdfg
+  smsSenderType: Twilio
+  sourceNumber: 12157094534
+  twilioConfig:
+    statusCallbackUrl: https://dfgsdgsdgsdfg.execute-api.us-east-1.amazonaws.com/Prod/v1/smsmessagestatus
+    liveCredentials: dev/twilio/live/Whetstone
+    testCredentials: dev/twilio/test/Whetstone
+  discountRxApiSecret: dev/discountproviderrxapi/Whetstone
+dynamoDBTables:
+  userTable: Whetstone-DynamoDb-Dev-UserTable-V0KS2V0Z2Y4J
+  endpointTimeout: 1500
+  errorRetries: 2
+reportBucket: whetstonebucket-dev-reportingbucket-1ody0ub0db8ln
+reportStepFunction: arn:aws:states:us-east-1:940085449815:stateMachine:ReportingStateMachine-T4j9gUT7ukOn
+openIdSecurity:
+  clientId: dfsdgsdfgsdfdsg
+  metadataAddress: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_dfsdfgsdfdf/.well-known/openid-configuration
+  responseType: code
+security:
+  cognito:
+    userPoolId: us-east-1_fgfghfgh
+    userPoolClientId: xfgdfgdfgfd
+    userPoolClientSecret: dsfsdfgsdfgsdf
+socketConfig:
+  socketConnectionTableName: Whetstone-SocketInfrastructure-Dev-ConnectionMappingTable-dfgsdfgsdfg
+  socketWriteEndpoint: https://fcsrptrf9e.execute-api.us-east-1.amazonaws.com/Prod
+  pendingNotificationsTableName: Whetstone-SocketInfrastructure-Dev-PendingNotificationsTable-dfsdfdf
+  notificationsLambdaArn: arn:aws:lambda:us-east-1:940085449815:function:Whetstone-Notifications-Dev-NotificationsFunction-dfgsdfdf
+  notificationsLambdaName: Whetstone-Notifications-Dev-NotificationsFunction-1RH7J6IHQ9CHR

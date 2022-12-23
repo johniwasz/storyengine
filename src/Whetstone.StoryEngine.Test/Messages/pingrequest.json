@@ -1,0 +1,17 @@
+﻿{
+  "version": "ping",
+  "session": {
+    "sessionId": "4D0682D2-94DD-4D8E-9D06-661DCC4CB63D",
+    "application": {
+      "applicationId": "amzn1.ask.skill.92304d4d-42a5-4371-9b13-97b4a79b9ad0"
+    },
+    "user": {
+      "userId": "PingUser"
+    },
+    "new": true
+  },
+  "request": {
+    "type": "LaunchRequest",
+    "locale": "en-us"
+  }
+}

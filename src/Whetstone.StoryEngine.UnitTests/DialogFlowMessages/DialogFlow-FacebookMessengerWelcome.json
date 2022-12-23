@@ -1,0 +1,55 @@
+{
+  "responseId": "46222755-eb5a-466d-8b36-d3cd70c1316d-425db6e2",
+  "queryResult": {
+    "queryText": "FACEBOOK_WELCOME",
+    "action": "input.welcome",
+    "parameters": {},
+    "allRequiredParamsPresent": true,
+    "fulfillmentMessages": [
+      {
+        "text": {
+          "text": [
+            ""
+          ]
+        }
+      }
+    ],
+    "outputContexts": [
+      {
+        "name": "projects/whetstone-technologies/agent/sessions/3b5e9797-349d-3b0b-bad2-a03fba9b278e/contexts/facebook_welcome"
+      },
+      {
+        "name": "projects/whetstone-technologies/agent/sessions/3b5e9797-349d-3b0b-bad2-a03fba9b278e/contexts/__system_counters__",
+        "parameters": {
+          "no-input": 0,
+          "no-match": 0
+        }
+      }
+    ],
+    "intent": {
+      "name": "projects/whetstone-technologies/agent/intents/e96b0030-cd9e-4923-a066-39bcfef3b747",
+      "displayName": "Default Welcome Intent"
+    },
+    "intentDetectionConfidence": 1,
+    "languageCode": "en"
+  },
+  "originalDetectIntentRequest": {
+    "source": "facebook",
+    "payload": {
+      "data": {
+        "recipient": {
+          "id": "2581404155417581"
+        },
+        "sender": {
+          "id": "3193375657412538"
+        },
+        "postback": {
+          "payload": "FACEBOOK_WELCOME",
+          "title": "Get Started"
+        },
+        "timestamp": "1594835823691"
+      }
+    }
+  },
+  "session": "projects/whetstone-technologies/agent/sessions/3b5e9797-349d-3b0b-bad2-a03fba9b278e"
+}

@@ -1,0 +1,62 @@
+{
+  "id": "e5f9f6a2-2843-459b-a3f9-7864190e4495",
+  "titleclientid": "9fd5f7cc-8135-46b0-97af-7a3e24e81feb",
+  "engineRequestId": "000dfa16-97b6-4d3f-a1b3-144909e4d552",
+  "smsToNumberid": null,
+  "smsFromNumberId": "a582f5fa-2c3c-4a27-8fa3-eeb87934ce39",
+  "consentId": "d657e52a-1f33-4fc7-8a09-3e7da9420f28",
+  "smsprovider": "Twilio",
+  "allSent": false,
+  "sendAttemptsCount": 0,
+  "isSaved": true,
+  "messages": [
+    {
+      "id": "02954011-352b-4d71-abb8-328df9598a70",
+      "outboundBatchRecordId": "e5f9f6a2-2843-459b-a3f9-7864190e4495",
+      "message": "Reply YES\nto accept terms and agree to receive messages from Whetstone Technologies.\n\nThen you'll get your offer code and the whitepaper link in another text message.\n\nMsg & data rates may apply.\n\nView terms at: http://bit.ly/2LseYQm\n",
+      "status": "Requested",
+      "results": [
+        {
+          "outboundMessageId": "02954011-352b-4d71-abb8-328df9598a70",
+          "id": "5b0782cd-9354-4640-ab73-6fdd60b74850",
+          "isException": false,
+          "extendedStatus": "Message received by workflow",
+          "status": 1,
+          "time": "2019-12-25T18:36:52.726839Z"
+        },
+        {
+          "outboundMessageId": "02954011-352b-4d71-abb8-328df9598a70",
+          "id": "81dd5627-631d-4738-8ee5-0cc3ea9b0fc6",
+          "isException": true,
+          "extendedStatus": "System.InvalidOperationException: Nullable object must have a value.\n   at System.Nullable`1.get_Value()\n   at Whetstone.StoryEngine.OutboutSmsSender.SmsDirectSendHandler.SendOutboundSmsMessagesAsync(OutboundBatchRecord message) in /myagent/_work/1/s/src/Whetstone.StoryEngine.Repository/Messaging/SmsDirectSendHandler.cs:line 100",
+          "status": 0,
+          "time": "2019-12-25T18:36:55.4109093Z"
+        },
+        {
+          "outboundMessageId": "02954011-352b-4d71-abb8-328df9598a70",
+          "id": "4e7d7c0c-7eba-4b12-9784-a71ec5107421",
+          "isException": true,
+          "extendedStatus": "System.InvalidOperationException: Nullable object must have a value.\n   at System.Nullable`1.get_Value()\n   at Whetstone.StoryEngine.OutboutSmsSender.SmsDirectSendHandler.SendOutboundSmsMessagesAsync(OutboundBatchRecord message) in /myagent/_work/1/s/src/Whetstone.StoryEngine.Repository/Messaging/SmsDirectSendHandler.cs:line 100",
+          "status": 0,
+          "time": "2019-12-25T18:37:07.6098272Z"
+        }
+      ]
+    }
+  ],
+  "sentFromPhone": {
+    "id": "a582f5fa-2c3c-4a27-8fa3-eeb87934ce39",
+    "phoneNumber": "+12672140345",
+    "type": "Voip",
+    "isVerified": true,
+    "nationalFormat": "(267) 214-0345",
+    "canGetSmsMessage": false,
+    "countryCode": "US",
+    "carrierName": "Twilio - Inteliquent - SMS-Sybase365/MMS-SVR",
+    "url": "https://lookups.twilio.com/v1/PhoneNumbers/+12672140345?Type=carrier",
+    "phonesService": "Twilio",
+    "systemStatus": 1,
+    "createDate": "2019-12-25T17:01:05.723685",
+    "sentFromSmsBatches": []
+  },
+  "notificationType": "Sms"
+}

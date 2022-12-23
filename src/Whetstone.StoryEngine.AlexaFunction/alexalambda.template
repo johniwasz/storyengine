@@ -1,0 +1,585 @@
+{
+   "AWSTemplateFormatVersion":"2010-09-09",
+   "Transform":"AWS::Serverless-2016-10-31",
+   "Description":"Generates the Alexa Lambda function and associated role.",
+  "Parameters": {
+    "KeyStack": {
+      "Description": "Name of stack used to create environment key for decryption. Example: WhetstoneKey-Dev",
+      "Type": "String",
+      "Default": "WhetstoneKey-Dev",
+      "AllowedPattern": "^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+    },
+    "ApiSecretsStack": {
+      "Description": "Name of stack used to create API Secret settings for Twilio. Example: Whetstone-APISecrets-Dev",
+      "Type": "String",
+      "Default": "Whetstone-APISecrets-Dev",
+      "AllowedPattern": "^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+
+    },
+    "DynamoTableStack": {
+      "Description": "Name of stack used to create dynamodb table stores. Example: Whetstone-DynamoDbStore-Dev",
+      "Type": "String",
+      "Default": "Whetstone-DynamoDbStore-Dev",
+      "AllowedPattern": "^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+    },
+    "BucketStack": {
+      "Description": "Name of stack used to create the Story Engine bucket. Example: WhetstoneBucket-Dev",
+      "Type": "String",
+      "Default": "WhetstoneBucket-Dev",
+      "AllowedPattern": "^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+    },
+    "CacheStack": {
+      "Description": "Name of stack used to create the dynamo db cache table: Whetstone-CacheTable-Dev",
+      "Type": "String",
+      "Default": "Whetstone-CacheTable-Dev",
+      "AllowedPattern": "^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+    },
+    "QueueStack": {
+      "Description": "Name of stack used to create the audit queue. Example: WhetstoneQueue-Dev",
+      "Type": "String",
+      "Default": "WhetstoneQueue-Dev",
+      "AllowedPattern": "^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+    },
+    "LambdaNetSerializerDebug": {
+      "Type": "String",
+      "AllowedValues": [
+        "true",
+        "false"
+      ],
+      "Description": "Indicates if the lambda serialization is enabled or not.",
+      "Default": "false"
+    },
+    "MessageSenderStepFunctionStack": {
+      "Description": "Name of stack used to create the audit queue. Example: Whetstone-MessageSender-Dev",
+      "Type": "String",
+      "Default": "Whetstone-MessageSender-Dev",
+      "AllowedPattern": "^[a-zA-Z]+[0-9a-zA-Z\\-]*$"
+    },
+    "VersionDescription": {
+      "Type": "String",
+      "Description": "Associate the deployed version with the build",
+      "Default": "Out of band"
+    },
+    "DurationThreshold": {
+      "Type": "Number",
+      "Description": "If the lambda execution duration exceeds this maximum, then an alarm is raised. Value is in milliseconds.",
+      "Default": "3000"
+    },
+    "SlidingExpirationTime": {
+      "Type": "Number",
+      "Description": "Cache sliding expiration time. Value is in milliseconds.",
+      "Default": "9000"
+    },
+    "CodeDeployRule": {
+      "AllowedValues": [
+        "AllAtOnce",
+        "Linear10PercentEvery1Minute",
+        "Linear10PercentEvery2Minutes",
+        "Linear10PercentEvery3Minutes",
+        "Linear10PercentEvery10Minutes",
+        "Canary10Percent5Minutes",
+        "Canary10Percent10Minutes"
+      ],
+      "Default": "Linear10PercentEvery1Minute",
+      "Description": "Determine whether or not to use a blue/green deployment when pushing out this lambda",
+      "Type": "String"
+    },
+    "CustomActionLambdaStack": {
+      "Description": "Stack that defines lambdas for custom resources",
+      "Type": "String",
+      "Default": "Whetstone-LambdaCustomActions-Dev"
+    },
+    "AlexaFuncBucket": {
+      "Description": "S3 Bucket of the Alexa Function zip deployment",
+      "Type": "String"
+    },
+    "AlexaFuncBucketKey": {
+      "Description": "S3 Bucket key of the Alexa Function zip deployment",
+      "Type": "String"
+    },
+    "DynamoDBMaxRetries": {
+      "Type": "Number",
+      "Description": "Number of times DynamoDB will retry the operation before abandoning.",
+      "Default": "3"
+    },
+    "DynamoDBTimeout": {
+      "Type": "Number",
+      "Description": "How many milliseconds the DynamoDB request will wait before timing out.",
+      "Default": "2000"
+    }
+  },
+   "Resources":{
+      "KeyPolicyUpdate":{
+         "Type":"AWS::CloudFormation::CustomResource",
+         "Properties":{
+            "ServiceToken":{
+               "Fn::ImportValue":{
+                  "Fn::Sub":"${CustomActionLambdaStack}-KeyPolicyUpdateArn"
+               }
+            },
+            "Key":{
+               "Fn::ImportValue":{
+                  "Fn::Sub":"${KeyStack}-EnvironmentKeyArn"
+               }
+            },
+            "RoleArn":{
+               "Fn::GetAtt":[
+                  "AlexaFunctionRole",
+                  "Arn"
+               ]
+            },
+            "GrantType":"EncryptDecrypt"
+         }
+      },
+      "AlexaFunctionRole":{
+         "Type":"AWS::IAM::Role",
+         "Properties":{
+            "Path":{
+               "Fn::Join":[
+                  "",
+                  [
+                     "/",
+                     {
+                        "Fn::ImportValue":{
+                           "Fn::Sub":"${KeyStack}-EnvironmentName"
+                        }
+                     },
+                     "/"
+                  ]
+               ]
+            },
+            "AssumeRolePolicyDocument":{
+               "Version":"2012-10-17",
+               "Statement":[
+                  {
+                     "Action":"sts:AssumeRole",
+                     "Effect":"Allow",
+                     "Principal":{
+                        "Service":"lambda.amazonaws.com"
+                     }
+                  }
+               ]
+            },
+            "ManagedPolicyArns":[
+               {
+                  "Fn::ImportValue":{
+                     "Fn::Sub":"${BucketStack}-BucketReaderPolicy"
+                  }
+               },
+               {
+                  "Fn::ImportValue":{
+                     "Fn::Sub":"${QueueStack}-SessionAuditPostPolicy"
+                  }
+               },
+               {
+                  "Fn::ImportValue":{
+                     "Fn::Sub":"${CacheStack}-CacheTableAccessPolicyArn"
+                  }
+               },
+               {
+                  "Fn::ImportValue":{
+                     "Fn::Sub":"${MessageSenderStepFunctionStack}-MessageDispatcherStepFunctionPolicyArn"
+                  }
+               },
+               {
+                  "Fn::ImportValue":{
+                     "Fn::Sub":"${DynamoTableStack}-UserTableAccessPolicyArn"
+                  }
+               },
+               {
+                  "Fn::ImportValue":{
+                     "Fn::Sub":"${ApiSecretsStack}-TwilioLiveReaderPolicy"
+                  }
+               },
+               "arn:aws:iam::aws:policy/service-role/AWSLambdaRole",
+               "arn:aws:iam::aws:policy/AWSLambdaExecute",
+               "arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess"
+            ],
+            "Policies":[
+               {
+                  "PolicyName":"DeadLetterWriterPolicy",
+                  "PolicyDocument":{
+                     "Version":"2012-10-17",
+                     "Statement":[
+                        {
+                           "Effect":"Allow",
+                           "Action":[
+                              "sqs:SendMessage",
+                              "sqs:GetQueueAttributes",
+                              "sqs:GetQueueUrl"
+                           ],
+                           "Resource":{
+                              "Fn::GetAtt":[
+                                 "AlexaRequestDeadLetter",
+                                 "Arn"
+                              ]
+                           }
+                        }
+                     ]
+                  }
+               }
+            ]
+         }
+      },
+      "AlexaFunction":{
+         "Type":"AWS::Serverless::Function",
+         "Properties":{
+            "FunctionName":{
+               "Fn::Join":[
+                  "",
+                  [
+                     "WhetstoneAlexa",
+                     {
+                        "Fn::ImportValue":{
+                           "Fn::Sub":"${KeyStack}-EnvironmentName"
+                        }
+                     }
+                  ]
+               ]
+            },
+            "CodeUri":{ "Bucket":  { "Ref": "AlexaFuncBucket" },
+			"Key": { "Ref": "AlexaFuncBucketKey"  } },
+            "AutoPublishAlias":"LIVE",
+            "DeploymentPreference":{
+               "Enabled":true,
+               "Type":{
+                  "Ref":"CodeDeployRule"
+               }
+            },
+            "VersionDescription":{
+               "Fn::Sub":"${VersionDescription}"
+            },
+            "Description":"Function handles Alexa Story Engine requests.",
+			"Tracing" : "Active",	
+			"Environment":{
+        "Variables": {
+          "AWS_XRAY_TRACING_NAME": {
+            "Fn::Join": [
+              "",
+              [
+                "WhetstoneAlexa",
+                {
+                  "Fn::ImportValue": {
+                    "Fn::Sub": "${KeyStack}-EnvironmentName"
+                  }
+                }
+              ]
+            ]
+          },
+          "LAMBDA_NET_SERIALIZER_DEBUG": {
+            "Ref": "LambdaNetSerializerDebug"
+          },
+          "BUCKET": {
+            "Fn::ImportValue": {
+              "Fn::Sub": "${BucketStack}-StoryEngineBucketName"
+            }
+          },
+          "CACHESLIDINGSECONDS": {
+            "Ref": "SlidingExpirationTime"
+          },
+          "CACHETABLE": {
+            "Fn::ImportValue": {
+              "Fn::Sub": "${CacheStack}-CacheTableName"
+            }
+          },
+          "USERTABLE": {
+            "Fn::ImportValue": {
+              "Fn::Sub": "${DynamoTableStack}-UserTableName"
+            }
+          },
+          "LOGLEVEL": "Debug",
+          "MESSAGESTEPFUNCTION": {
+            "Fn::ImportValue": {
+              "Fn::Sub": "${MessageSenderStepFunctionStack}-MessageSenderStepFunctionArn"
+            }
+          },
+          "DYNAMODBMAXERRORRETRIES": {
+            "Ref": "DynamoDBMaxRetries"
+          },
+          "DYNAMODBTIMEOUT": {
+            "Ref": "DynamoDBTimeout"
+          },
+          "SESSIONQUEUEURL": {
+            "Fn::ImportValue": {
+              "Fn::Sub": "${QueueStack}-SessionAuditUrl"
+            }
+          },
+          "TWILIOLIVESECRETKEY": {
+            "Fn::ImportValue": {
+              "Fn::Sub": "${ApiSecretsStack}-TwilioLiveSecretName"
+            }
+          },
+          "TWILIOTESTSECRETKEY": {
+            "Fn::ImportValue": {
+              "Fn::Sub": "${ApiSecretsStack}-TwilioTestSecretName"
+            }
+          },
+          "AWS_XRAY_CONTEXT_MISSING": "LOG_ERROR"
+        }
+            },
+            "Events":{
+               "AlexaResource":{
+                  "Type":"AlexaSkill",
+                  "Properties":{
+
+                  }
+               }
+            },
+         "Handler": "not-required",
+        "Runtime": "provided",
+		"MemorySize":1024,
+            "Role":{
+               "Fn::GetAtt":[
+                  "AlexaFunctionRole",
+                  "Arn"
+               ]
+            },
+            "Timeout":30
+         }
+      },
+      "AlexaErrorMetricFilter":{
+         "Type":"AWS::Logs::MetricFilter",
+         "Properties":{
+            "LogGroupName":{
+               "Fn::Sub":"/aws/lambda/${AlexaFunction}"
+            },
+            "FilterPattern":"?Error ?Exception ?ERROR ?error",
+            "MetricTransformations":[
+               {
+                  "MetricValue":"1",
+                  "MetricNamespace":"Whetstone/AlexaErrors",
+                  "MetricName":"Error"
+               }
+            ]
+         }
+      },
+      "AlexaFunctionUnexpectedErrorErrorAlarm":{
+         "Type":"AWS::CloudWatch::Alarm",
+         "Properties":{
+            "AlarmDescription":"Unexpected alert alarm for the Alexa Function",
+            "Namespace":"AWS/Lambda",
+            "MetricName":"Error",
+            "Dimensions":[
+               {
+                  "Name":"Resource",
+                  "Value":{
+                     "Fn::Join":[
+                        ":",
+                        [
+                           {
+                              "Ref":"AlexaFunction"
+                           },
+                           "LIVE"
+                        ]
+                     ]
+                  }
+               },
+               {
+                  "Name":"FunctionName",
+                  "Value":{
+                     "Ref":"AlexaFunction"
+                  }
+               }
+            ],
+            "ActionsEnabled":true,
+            "Statistic":"Sum",
+            "Period":300,
+            "EvaluationPeriods":1,
+            "Threshold":0,
+            "ComparisonOperator":"GreaterThanThreshold",
+            "TreatMissingData":"notBreaching",
+            "AlarmActions":[
+               {
+                  "Fn::ImportValue":{
+                     "Fn::Sub":"${KeyStack}-ErrorTopicArn"
+                  }
+               }
+            ]
+         }
+      },
+      "AlexaFunctionErrorLogAlarm":{
+         "Type":"AWS::CloudWatch::Alarm",
+         "DependsOn":[
+            "AlexaErrorMetricFilter"
+         ],
+         "Properties":{
+            "AlarmDescription":"Error log alert alarm for the Alexa Function",
+            "Namespace":"Whetstone/AlexaErrors",
+            "MetricName":"Error",
+            "ActionsEnabled":true,
+            "Statistic":"Sum",
+            "Period":300,
+            "EvaluationPeriods":1,
+            "Threshold":0,
+            "ComparisonOperator":"GreaterThanThreshold",
+            "TreatMissingData":"notBreaching",
+            "AlarmActions":[
+               {
+                  "Fn::ImportValue":{
+                     "Fn::Sub":"${KeyStack}-ErrorTopicArn"
+                  }
+               }
+            ]
+         }
+      },
+      "AlexaFunctionThrottleAlarm":{
+         "Type":"AWS::CloudWatch::Alarm",
+         "Properties":{
+            "AlarmDescription":"Throttle alert alarm for the Alexa Function",
+            "Namespace":"AWS/Lambda",
+            "MetricName":"Throttle",
+            "Dimensions":[
+               {
+                  "Name":"Resource",
+                  "Value":{
+                     "Fn::Join":[
+                        ":",
+                        [
+                           {
+                              "Ref":"AlexaFunction"
+                           },
+                           "LIVE"
+                        ]
+                     ]
+                  }
+               },
+               {
+                  "Name":"FunctionName",
+                  "Value":{
+                     "Ref":"AlexaFunction"
+                  }
+               }
+            ],
+            "ActionsEnabled":true,
+            "Statistic":"Sum",
+            "Period":300,
+            "EvaluationPeriods":1,
+            "Threshold":0,
+            "ComparisonOperator":"GreaterThanThreshold",
+            "TreatMissingData":"ignore",
+            "AlarmActions":[
+               {
+                  "Fn::ImportValue":{
+                     "Fn::Sub":"${KeyStack}-ErrorTopicArn"
+                  }
+               }
+            ]
+         }
+      },
+      "AlexaFunctionDurationAlarm":{
+         "Type":"AWS::CloudWatch::Alarm",
+         "Properties":{
+            "AlarmDescription":"Duration alert alarm for the Alexa Function",
+            "Namespace":"AWS/Lambda",
+            "MetricName":"Duration",
+            "Dimensions":[
+               {
+                  "Name":"Resource",
+                  "Value":{
+                     "Fn::Join":[
+                        ":",
+                        [
+                           {
+                              "Ref":"AlexaFunction"
+                           },
+                           "LIVE"
+                        ]
+                     ]
+                  }
+               },
+               {
+                  "Name":"FunctionName",
+                  "Value":{
+                     "Ref":"AlexaFunction"
+                  }
+               }
+            ],
+            "ActionsEnabled":true,
+            "Statistic":"Maximum",
+            "Period":300,
+            "EvaluationPeriods":1,
+            "Threshold":{
+               "Ref":"DurationThreshold"
+            },
+            "ComparisonOperator":"GreaterThanThreshold",
+            "TreatMissingData":"ignore",
+            "AlarmActions":[
+               {
+                  "Fn::ImportValue":{
+                     "Fn::Sub":"${KeyStack}-ErrorTopicArn"
+                  }
+               }
+            ]
+         }
+      },
+      "AlexaRequestDeadLetter":{
+         "Type":"AWS::SQS::Queue",
+         "Properties":{
+            "ReceiveMessageWaitTimeSeconds":20,
+            "VisibilityTimeout":30,
+            "MessageRetentionPeriod":1209600,
+            "KmsMasterKeyId":{
+               "Fn::ImportValue":{
+                  "Fn::Sub":"${KeyStack}-EnvironmentKeyAlias"
+               }
+            },
+            "KmsDataKeyReusePeriodSeconds":86400,
+            "Tags":[
+               {
+                  "Key":"Environment",
+                  "Value":{
+                     "Fn::ImportValue":{
+                        "Fn::Sub":"${KeyStack}-EnvironmentName"
+                     }
+                  }
+               },
+               {
+                  "Key":"Purpose",
+                  "Value":{
+                     "Fn::ImportValue":{
+                        "Fn::Sub":"${KeyStack}-Purpose"
+                     }
+                  }
+               },
+               {
+                  "Key":"Stack",
+                  "Value":{
+                     "Ref":"AWS::StackName"
+                  }
+               },
+               {
+                  "Key":"Name",
+                  "Value":{
+                     "Fn::Join":[
+                        "-",
+                        [
+                           {
+                              "Fn::ImportValue":{
+                                 "Fn::Sub":"${KeyStack}-EnvironmentName"
+                              }
+                           },
+                           "key",
+                           {
+                              "Ref":"AWS::StackName"
+                           }
+                        ]
+                     ]
+                  }
+               }
+            ]
+         },
+         "DeletionPolicy":"Delete"
+      }
+   },
+   "Outputs":{
+      "AlexaFunctionRoleArn":{
+         "Description":"ARN of the role used by this API",
+         "Value":{
+            "Fn::GetAtt":[
+               "AlexaFunctionRole",
+               "Arn"
+            ]
+         }
+      }
+   }
+}

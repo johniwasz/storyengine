@@ -1,0 +1,28 @@
+version: "3.8"
+secrets:
+  MYAZPTOKEN:
+    external: true
+services:
+  buildagent:
+    container_name: build_agent
+    build: .
+    image: agentbuild:latest
+    labels:
+      com.whetstonetechnologies.io.description: "Build agent for AWS Lambda native projects"
+    environment:
+      AZP_TOKEN: ${MYAZPTOKEN}
+      AZP_AGENT_NAME: AWS Native
+      AZP_POOL: AWSBuild
+      AZP_WORK: build
+      AZP_URL: https://dev.azure.com/whetstonetechnologies
+    cap_add:
+      - SYS_ADMIN
+    tty: true
+    stdin_open: true
+    privileged: true
+    secrets:
+      - MYAZPTOKEN
+    volumes:
+      - type: bind
+        source: //var/run/docker.sock
+        target: //var/run/docker.sock

@@ -1,0 +1,34 @@
+﻿--- 
+bucket: whetstonebucket-dev-s3bucket-1nridm382p5vm
+cacheConfig: 
+  defaultSlidingExpirationSeconds: 900
+  isEnabled: true
+  dynamoDBTableName: Whetstone-CacheTable-Dev-CacheTable-1A0X189QJZXYD
+databaseSettings: 
+  adminUser: lambda_proxy
+  engineUser: lambda_proxy
+  sessionLoggingUser: lambda_sessionaudit
+  settings: 
+    ? "Application Name"
+    : VoiceConnectr_Dev
+    Database: devsbsstoryengine
+    Host: devsbsstoryengine.c1z3wkpsmw56.us-east-1.rds.amazonaws.com
+    ? "SSL Mode"
+    : Require
+    ? "Trust Server Certificate"
+    : true
+  smsUser: lambda_proxy
+enforceAlexaPolicy: true
+logLevel: Debug
+sessionAuditQueue: WhetstoneQueue-Dev-SessionAuditQueue-ZQNCFM1I9XSL
+sessionLoggerType: Queue
+smsConfig: 
+  engineSmsHandler: StepFunctionSender
+  messageSendRetryLimit: 3
+  notificationStepFunctionArn: "arn:aws:states:us-east-1:940085449815:stateMachine:OutboundSmsDev"
+  smsSenderType: Twilio
+  sourceNumber: 12157099492
+  twilioConfig: 
+    accountSid: AC20acb144f2dd194bfefdf4e005d618fd
+    statusCallbackUrl: "https://reeaf6p08d.execute-api.us-east-1.amazonaws.com/Prod/v1/smsmessagestatus"
+    token: 37f11c0e396df9cce9f24d05abe88e79 
