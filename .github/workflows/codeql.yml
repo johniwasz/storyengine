@@ -38,7 +38,10 @@ jobs:
         # Use only 'javascript' to analyze code written in JavaScript, TypeScript or both
         # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
 
-    steps:
+    steps:    
+    - name: List Environment Variables
+      run: env
+      
     - name: Checkout repository
       uses: actions/checkout@v3
 
@@ -56,6 +59,11 @@ jobs:
         # Details on CodeQL's query packs refer to : https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
         # queries: security-extended,security-and-quality
 
+
+    - name: setup-dotnet
+      uses: xt0rted/setup-dotnet@v1.5.0
+      with:
+        dotnet-version: '5.0'
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, Go, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
