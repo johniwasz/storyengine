@@ -10,7 +10,7 @@
     <Product>Whetstone.StoryEngine.Repository</Product>
     <AssemblyName>Whetstone.StoryEngine.Repository</AssemblyName>
     <RootNamespace>Whetstone.StoryEngine.Repository</RootNamespace>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <IsPackable>true</IsPackable>
   </PropertyGroup>
 

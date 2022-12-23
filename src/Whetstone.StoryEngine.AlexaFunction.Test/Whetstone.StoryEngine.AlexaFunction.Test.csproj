@@ -9,7 +9,7 @@
     <AssemblyName>Whetstone.StoryEngine.LambdaHost.Test</AssemblyName>
 
     <RootNamespace>Whetstone.StoryEngine.LambdaHost.Test</RootNamespace>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -206,7 +206,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Amazon.Lambda.Core" Version="1.2.0" />
+    <PackageReference Include="Amazon.Lambda.Core" Version="2.1.0" />
     <PackageReference Include="Amazon.Lambda.SQSEvents" Version="2.1.0" />
     <PackageReference Include="Amazon.Lambda.TestUtilities" Version="1.2.0" />
     <PackageReference Include="MartinCostello.Testing.AwsLambdaTestServer" Version="0.3.0" />

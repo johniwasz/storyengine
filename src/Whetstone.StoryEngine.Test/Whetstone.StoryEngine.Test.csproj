@@ -229,7 +229,7 @@
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.3.101" />
     <PackageReference Include="Google.Cloud.Dialogflow.V2" Version="1.2.0" />
     <PackageReference Include="MartinCostello.Testing.AwsLambdaTestServer" Version="0.3.0" />
-    <PackageReference Include="Amazon.Lambda.Core" Version="1.2.0" />
+    <PackageReference Include="Amazon.Lambda.Core" Version="2.1.0" />
     <PackageReference Include="Amazon.Lambda.TestUtilities" Version="1.2.0" />
     <PackageReference Include="AWSSDK.Pinpoint" Version="3.3.108.10" />
     <PackageReference Include="AWSSDK.SecurityToken" Version="3.3.104.62" />

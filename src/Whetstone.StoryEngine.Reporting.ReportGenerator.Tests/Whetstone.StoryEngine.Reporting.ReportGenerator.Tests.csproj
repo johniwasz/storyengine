@@ -11,7 +11,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Amazon.Lambda.Core" Version="1.2.0" />
+    <PackageReference Include="Amazon.Lambda.Core" Version="2.1.0" />
     <PackageReference Include="Amazon.Lambda.TestUtilities" Version="1.1.0" />
     <PackageReference Include="AWSSDK.KeyManagementService" Version="3.3.105.32" />
     <PackageReference Include="AWSSDK.StepFunctions" Version="3.3.104.28" />
