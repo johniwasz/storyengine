@@ -37,7 +37,7 @@ namespace Whetstone.StoryEngine.Models.Serialization
             {
                 throw new JsonSerializationException(string.Format("Error converting value {0} to type '{1}'.", 
                     reader.Value, 
-                    objectType, ex));
+                    objectType), ex);
             }
 
             return retGuid;

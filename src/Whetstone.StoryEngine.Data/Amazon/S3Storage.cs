@@ -550,17 +550,13 @@ namespace Whetstone.StoryEngine.Data.Amazon
                 dirPathRoot = string.Concat(dirPathRoot, '/');
             }
 
-
             List<Exception> deleteExceptions = new List<Exception>();
 
-
             List<DeleteObjectsRequest> deleteRequests = new List<DeleteObjectsRequest>();
-
 
             string[] audioFileArray = dirFiles.ToArray();
 
             int portions = 10;
-            List<string[]> breakdowns = new List<string[]>();
 
             for (int i = 0; i < audioFileArray.Length; i += portions)
             {

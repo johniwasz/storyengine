@@ -65,14 +65,8 @@ namespace Whetstone.StoryEngine.Test.DbTests
 
         private RedisCache GetSecuredCache()
         {
-
-
-            //ParameterStoreProvider storeProvider = new ParameterStoreProvider(RegionEndpoint.USEast1);
-
-            //storeProvider.TryGet("/storyengine/dev/cachetoken", out var tokenPassword);
-
             string tokenPassword =
-                "NUki9d^g6yUsF!0ju#h3AM$+PfSecjJQ$cyw|rqoZvL*j|XANZ#UDIJUBxGX-401c!x*?d4zwDm-HEE!Wrn^98Z7BiT8Sb*pZt7iQbZf!*WI2OlT#!wiFXD2A+lX!HF7";
+                "NOLONGERVALID";
 
 
             var redisOpts = new ConfigurationOptions

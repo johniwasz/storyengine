@@ -585,7 +585,6 @@ namespace Whetstone.UnitTests
             StoryTitle title = CreateStoryTitle(titleId);
 
             TitleVersion titleVer = new TitleVersion();
-            titleVer.Version = titleVer.Version;
             titleVer.ShortName = title.Title;
             titleVer.VersionId = Guid.NewGuid();
             titleVer.TitleId = Guid.NewGuid();

@@ -1231,13 +1231,13 @@ namespace Whetstone.StoryEngine.Repository
 
             if (string.IsNullOrWhiteSpace(cardResp.CardTitle))
             {
-                cardIssues.Add(string.Format("Card response {2} for response set {0} and localized response index {1} is missing the card title", responseSetIndex, locIndex, cardIndex));
+                cardIssues.Add(string.Format("Card response {0} for response set {1} and localized response index {2} is missing the card title", cardIndex, responseSetIndex, locIndex));
             }
 
 
             if ((cardResp.TextFragments?.Any()).GetValueOrDefault(false) == false)
             {
-                cardIssues.Add(string.Format("Card response {2} for response set {0} and localized response index {1} is missing text fragments", responseSetIndex, locIndex, cardIndex));
+                cardIssues.Add(string.Format("Card response {0} for response set {1} and localized response index {2} is missing text fragments", cardIndex, responseSetIndex, locIndex));
             }
 
             if (!string.IsNullOrWhiteSpace(cardResp.SmallImageFile))
@@ -1245,7 +1245,7 @@ namespace Whetstone.StoryEngine.Repository
                 bool doesExist = await DoesFileExistAsync(titleVersion, cardResp.SmallImageFile);
 
                 if (!doesExist)
-                    cardIssues.Add(string.Format("Card response {2} for response set {0} and localized response index {1} smallImageFile {2} not found", responseSetIndex, locIndex, cardIndex, cardResp.SmallImageFile));
+                    cardIssues.Add(string.Format("Card response {0} for response set {1} and localized response index {2} smallImageFile {3} not found", cardIndex, responseSetIndex, locIndex, cardResp.SmallImageFile));
             }
 
 
@@ -1254,7 +1254,7 @@ namespace Whetstone.StoryEngine.Repository
                 bool doesExist = await DoesFileExistAsync(titleVersion, cardResp.LargeImageFile);
 
                 if (!doesExist)
-                    cardIssues.Add(string.Format("Card response {2} for response set {0} and localized response index {1} largeImageFile {2} not found", responseSetIndex, locIndex, cardIndex, cardResp.LargeImageFile));
+                    cardIssues.Add(string.Format("Card response {0} for response set {1} and localized response index {2} largeImageFile {3} not found", cardIndex, responseSetIndex, locIndex, cardResp.LargeImageFile));
 
 
             }

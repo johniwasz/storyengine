@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29519.87
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whetstone.StoryEngine.Test", "Whetstone.StoryEngine.Test\Whetstone.StoryEngine.Test.csproj", "{84ECC5EE-6EC5-45E4-9618-D1A13193C6C9}"
 EndProject
@@ -129,10 +129,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whetstone.StoryEngine.AudioProcessor.Lambda", "Whetstone.StoryEngine.AudioProcessor.Lambda\Whetstone.StoryEngine.AudioProcessor.Lambda.csproj", "{65C3D429-E76E-4F5C-A7D1-54A9B823B7DC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whetstone.StoryEngine.AudioProcessor.Repository", "Whetstone.StoryEngine.AudioProcessor.Repository\Whetstone.StoryEngine.AudioProcessor.Repository.csproj", "{95771D8E-32D0-4E22-BC88-52DB1507AD55}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Twitter", "Twitter", "{749A4DB3-705E-4D3D-B2C1-286416A8FC2B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whetstone.StoryEngine.Twitter.WebHookValidation", "Whetstone.StoryEngine.Twitter.WebHookValidation\Whetstone.StoryEngine.Twitter.WebHookValidation.csproj", "{3E320F9D-AA81-446C-A63A-129B3A60A9A8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whetstone.Google.Actions", "Whetstone.Google.Actions\Whetstone.Google.Actions.csproj", "{22A0DAD0-9977-45D4-9947-DFDD487885A9}"
 EndProject
@@ -536,14 +532,6 @@ Global
 		{95771D8E-32D0-4E22-BC88-52DB1507AD55}.Release|Any CPU.Build.0 = Release|Any CPU
 		{95771D8E-32D0-4E22-BC88-52DB1507AD55}.Release|x86.ActiveCfg = Release|Any CPU
 		{95771D8E-32D0-4E22-BC88-52DB1507AD55}.Release|x86.Build.0 = Release|Any CPU
-		{3E320F9D-AA81-446C-A63A-129B3A60A9A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3E320F9D-AA81-446C-A63A-129B3A60A9A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3E320F9D-AA81-446C-A63A-129B3A60A9A8}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3E320F9D-AA81-446C-A63A-129B3A60A9A8}.Debug|x86.Build.0 = Debug|Any CPU
-		{3E320F9D-AA81-446C-A63A-129B3A60A9A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3E320F9D-AA81-446C-A63A-129B3A60A9A8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3E320F9D-AA81-446C-A63A-129B3A60A9A8}.Release|x86.ActiveCfg = Release|Any CPU
-		{3E320F9D-AA81-446C-A63A-129B3A60A9A8}.Release|x86.Build.0 = Release|Any CPU
 		{22A0DAD0-9977-45D4-9947-DFDD487885A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{22A0DAD0-9977-45D4-9947-DFDD487885A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22A0DAD0-9977-45D4-9947-DFDD487885A9}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -656,7 +644,6 @@ Global
 		{E71D7364-5837-4D56-A353-AA491C561C58} = {7373B4DD-6866-4B4C-BC43-2F462D654FF9}
 		{65C3D429-E76E-4F5C-A7D1-54A9B823B7DC} = {3953C426-D53D-4A87-9C1E-B38F6380EDC7}
 		{95771D8E-32D0-4E22-BC88-52DB1507AD55} = {3953C426-D53D-4A87-9C1E-B38F6380EDC7}
-		{3E320F9D-AA81-446C-A63A-129B3A60A9A8} = {749A4DB3-705E-4D3D-B2C1-286416A8FC2B}
 		{22A0DAD0-9977-45D4-9947-DFDD487885A9} = {E086AB02-A21C-4CD7-BFD0-80B76BAC5D47}
 		{67EFE4F6-3C48-4710-8D3F-292B0E583222} = {E086AB02-A21C-4CD7-BFD0-80B76BAC5D47}
 		{621F8EE6-DA27-492C-9AE1-6C5B19C12C8B} = {98E6EB68-4A8F-4957-A354-F5D2468F8A75}

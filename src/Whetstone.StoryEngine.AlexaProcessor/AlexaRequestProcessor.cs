@@ -207,9 +207,6 @@ namespace Whetstone.StoryEngine.AlexaProcessor
             if (request == null)
                 throw new ArgumentException("AlexaRequest is null");
 
-            Dictionary<string, object> requestDict = new Dictionary<string, object>();
-
-
 
             AlexaResponse response;
             try

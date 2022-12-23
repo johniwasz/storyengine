@@ -43,7 +43,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
             //CanFulfillIntentRequest
             var fulfillResponse = await GetIntentResult(sessionContext, function, "FindTrialByCityAndConditionIntent", trialSlots, RequestType.CanFulfillIntentRequest);
 
-            Debug.Assert(fulfillResponse == null, "fulfillResponse cannot be null");
+            Debug.Assert(fulfillResponse != null, "fulfillResponse cannot be null");
 
 
             Debug.Assert(fulfillResponse.Response.CanFulfillIntent.Slots[0].CanFulfill == Whetstone.Alexa.CanFulfill.CanFulfillEnum.Yes, "First slot should be fulfilled");
