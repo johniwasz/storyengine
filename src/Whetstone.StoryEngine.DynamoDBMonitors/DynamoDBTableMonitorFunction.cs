@@ -17,7 +17,6 @@ using Whetstone.StoryEngine.Data.EntityFramework;
 using Whetstone.StoryEngine.DependencyInjection;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Data;
-using Whetstone.StoryEngine.Repository.Phone;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
@@ -34,10 +33,8 @@ namespace Whetstone.StoryEngine.DynamoDBMonitors
             Unknown = 0,
             User = 1,
             Phone = 2,
-            UserPhoneConsent = 3
-
-
         }
+
         /// <summary>
         /// Default constructor. This constructor is used by Lambda to construct the instance. When invoked in a Lambda environment
         /// the AWS credentials will come from the IAM role associated with the function and the AWS region will be set to the
@@ -67,9 +64,6 @@ namespace Whetstone.StoryEngine.DynamoDBMonitors
 
             ILogger<DynamoDBTableMonitorFunction> dbLogger = Services.GetService<ILogger<DynamoDBTableMonitorFunction>>();
 
-            var consentRepFunc = this.Services.GetService<Func<SmsConsentRepositoryType, ISmsConsentRepository>>();
-
-            ISmsConsentRepository databaseConsentRep = consentRepFunc(SmsConsentRepositoryType.Database);
             List<Exception> exList = new List<Exception>();
             foreach (var streamItem in request.Records.OrderBy(x => x.Dynamodb.SequenceNumber))
             {
@@ -90,8 +84,6 @@ namespace Whetstone.StoryEngine.DynamoDBMonitors
                                 propType = PropagationType.User;
                             else if (keyVal.Equals(DataPhone.SORT_KEY_VALUE))
                                 propType = PropagationType.Phone;
-                            else if (keyVal.StartsWith(UserPhoneConsent.SORT_KEY_PREFIX))
-                                propType = PropagationType.UserPhoneConsent;
                         }
 
                         switch (propType)
@@ -101,10 +93,6 @@ namespace Whetstone.StoryEngine.DynamoDBMonitors
                                 break;
                             case PropagationType.Phone:
                                 await ProcessPhoneUpdateAsync(newStreamImage, userContextRetriever,
-                                    streamItem.Dynamodb.SequenceNumber);
-                                break;
-                            case PropagationType.UserPhoneConsent:
-                                await ProcessUserPhoneConsent(newStreamImage, databaseConsentRep,
                                     streamItem.Dynamodb.SequenceNumber);
                                 break;
                         }
@@ -121,7 +109,7 @@ namespace Whetstone.StoryEngine.DynamoDBMonitors
 
         }
 
-        private async Task ProcessUserPhoneConsent(Dictionary<string, AttributeValue> newStreamImage, ISmsConsentRepository smsConsentRep, string sequenceNumber)
+        private async Task ProcessUserPhoneConsent(Dictionary<string, AttributeValue> newStreamImage, string sequenceNumber)
         {
             UserPhoneConsent consentInfo = null;
 
@@ -150,10 +138,6 @@ namespace Whetstone.StoryEngine.DynamoDBMonitors
 
                 try
                 {
-
-                    await smsConsentRep.SaveConsentAsync(consentInfo);
-
-
                     dbLogger.LogInformation(
                         $"Saved consent with id {consentIdText} to database");
 
@@ -310,31 +294,7 @@ namespace Whetstone.StoryEngine.DynamoDBMonitors
                 return retUserRep;
             });
 
-
-
-            services.AddTransient<SmsConsentDatabaseRepository>();
-
-            services.AddSingleton<Func<SmsConsentRepositoryType, ISmsConsentRepository>>(serviceProvider => consentRepKey =>
-            {
-                ISmsConsentRepository consentRep = null;
-                switch (consentRepKey)
-                {
-                    case SmsConsentRepositoryType.Database:
-                        consentRep = serviceProvider.GetService<SmsConsentDatabaseRepository>();
-                        break;
-                    case SmsConsentRepositoryType.DynamoDb:
-                        consentRep = serviceProvider.GetService<SmsConsentDynamoDBRepository>();
-                        break;
-                    default:
-                        throw new KeyNotFoundException(); // or maybe return null, up to you
-                }
-
-                return consentRep;
-            });
-
-
             base.ConfigureServices(services, config);
-
         }
 
 

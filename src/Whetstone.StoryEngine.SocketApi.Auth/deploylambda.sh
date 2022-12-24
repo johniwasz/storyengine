@@ -1,1 +1,0 @@
-dotnet lambda deploy-serverless -sn Whetstone-SocketAuth-Dev -sb whetstone-utility -sp Whetstone.StoryEngine.SocketApi.Auth/ --region us-east-1 -t socketapiauthserverless.dev.template --profile default

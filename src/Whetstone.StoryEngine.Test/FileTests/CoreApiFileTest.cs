@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
@@ -10,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models.Admin;
-using Whetstone.StoryEngine.Security;
 using Xunit;
 
 namespace Whetstone.StoryEngine.Test.FileTests
@@ -27,23 +25,10 @@ namespace Whetstone.StoryEngine.Test.FileTests
 
                 byte[] audioFile = File.ReadAllBytes(FILE_PATH);
 
-                List<Claim> claims = new List<Claim>();
-                claims.Add(new Claim(JwtRegisteredClaimNames.Sub, "f3a7a9bf-4a30-4864-86bc-f058f8f041e3"));
-
-                JwtSecurityToken token = new JwtSecurityToken("issuer", "audience", claims);
-
-                IAuthenticator cogAuth = Services.GetRequiredService<Whetstone.StoryEngine.Security.IAuthenticator>();
-                var claimsId = await cogAuth.GetUserClaimsAsync(token);
-                ClaimsPrincipal prin = new ClaimsPrincipal(claimsId);
-
-                Thread.CurrentPrincipal = prin;
 
                 IProjectRepository projectRepository = Services.GetRequiredService<IProjectRepository>();
 
                 IFileRepository fileRep = Services.GetRequiredService<IFileRepository>();
-
-
-
 
 
                 // Find the Whetstone Technologies project

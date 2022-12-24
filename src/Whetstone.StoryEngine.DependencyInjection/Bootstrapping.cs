@@ -19,12 +19,10 @@ using Whetstone.StoryEngine.Data.Yaml;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Messaging;
 using Whetstone.StoryEngine.Models.Messaging.Sms;
-using Whetstone.StoryEngine.OutboutSmsSender;
 using Whetstone.StoryEngine.Repository;
 using Whetstone.StoryEngine.Repository.Actions;
 using Whetstone.StoryEngine.Repository.Amazon;
-using Whetstone.StoryEngine.Repository.Messaging;
-using Whetstone.StoryEngine.Repository.Phone;
+
 
 namespace Whetstone.StoryEngine.DependencyInjection
 {
@@ -280,128 +278,14 @@ namespace Whetstone.StoryEngine.DependencyInjection
 
             services.AddTransient<ISecretStoreReader, SecretStoreReader>();
 
-            services.AddTransient<ITwilioVerifier, TwilioVerifier>();
-
-
-            services.AddTransient<IPhoneInfoRetriever, TwilioPhoneInfoRetriever>();
-
-
-            // --- Add SMS handlers. These are used either send a message to a queue, a step function
-            //     or directly to a message dispatcher, like Twilio, Pinpoint, or SNS.
-
-
-            services.AddSingleton<StepFuncNotificationDispatcher>();
-
-            services.AddSingleton<Func<NotificationsDispatchTypeEnum, INotificationDispatcher>>(dispatcherFunc => key =>
-           {
-               INotificationDispatcher dispatcher = null;
-
-               switch (key)
-               {
-                   case NotificationsDispatchTypeEnum.Direct:
-                       dispatcher = null;
-                       break;
-                   case NotificationsDispatchTypeEnum.StepFunction:
-                       dispatcher = dispatcherFunc.GetService<StepFuncNotificationDispatcher>();
-                       break;
-               }
-
-               return dispatcher;
-           });
-
-
-            services.AddTransient<SmsDirectSendHandler>();
-            services.AddTransient<SmsStepFunctionHandler>();
-
-            services.AddSingleton<ISmsHandler>(x =>
-            {
-                ISmsHandler retSmsHandler = null;
-
-                switch (handlerType)
-                {
-                    case SmsHandlerType.DirectSender:
-                        retSmsHandler = x.GetService<SmsDirectSendHandler>();
-                        break;
-                    case SmsHandlerType.StepFunctionSender:
-                        retSmsHandler = x.GetService<SmsStepFunctionHandler>();
-                        break;
-                    default:
-                        throw new KeyNotFoundException(); // or maybe return null, up to you
-                }
-
-                return retSmsHandler;
-            });
-
-            // For use when the handler type is known.
-            services.AddSingleton<Func<SmsHandlerType, ISmsHandler>>(serviceProvider => handlerKey =>
-            {
-                ISmsHandler retSmsHandler = null;
-                switch (handlerKey)
-                {
-                    case SmsHandlerType.DirectSender:
-                        retSmsHandler = serviceProvider.GetService<SmsDirectSendHandler>();
-                        break;
-                    case SmsHandlerType.StepFunctionSender:
-                        retSmsHandler = serviceProvider.GetService<SmsStepFunctionHandler>();
-                        break;
-                    default:
-                        throw new KeyNotFoundException(); // or maybe return null, up to you
-                }
-
-                return retSmsHandler;
-            });
-
-
             services.AddScoped<IStoryRequestProcessor, StoryRequestProcessor>();
 
             services.AddSingleton<ISessionStoreManager, SessionStoreManager>();
 
             services.AddTransient<ITitleCacheRepository, TitleCacheRepository>();
 
-            services.AddTransient<SessionQueueLogger>();
-
-
-
             SmsSenderType envSmsSenderType =
                 (bootstrapConfig.SmsConfig?.SmsSenderType).GetValueOrDefault(SmsSenderType.Twilio);
-
-            // Configure the default SMS Sender
-            switch (envSmsSenderType)
-            {
-                case SmsSenderType.Sns:
-
-                    services.AddTransient<ISmsSender, SmsSnsSender>();
-                    break;
-                case SmsSenderType.Twilio:
-                    services.AddTransient<ISmsSender, SmsTwilioSender>();
-                    break;
-                default:
-                    throw new KeyNotFoundException(); // or maybe return null, up to you
-            }
-
-
-            services.AddTransient<SmsSnsSender>();
-
-            services.AddTransient<SmsTwilioSender>();
-
-            // Add a function to dynamically get the SMS Sender
-            services.AddSingleton<Func<SmsSenderType, ISmsSender>>(serviceProvider => handlerKey =>
-            {
-                ISmsSender retSmsSender = null;
-                switch (handlerKey)
-                {
-                    case SmsSenderType.Sns:
-                        retSmsSender = serviceProvider.GetService<SmsSnsSender>();
-                        break;
-                    case SmsSenderType.Twilio:
-                        retSmsSender = serviceProvider.GetService<SmsTwilioSender>();
-                        break;
-                    default:
-                        throw new KeyNotFoundException(); // or maybe return null, up to you
-                }
-
-                return retSmsSender;
-            });
 
 
             //    services.AddTransient<UserDataRepository>();
@@ -422,13 +306,6 @@ namespace Whetstone.StoryEngine.DependencyInjection
 
             services.AddTransient<IMediaLinker, S3MediaLinker>();
 
-            // Add the queue and SMS services
-            services.AddTransient<IWhetstoneQueue, SqsWhetstoneQueue>();
-            services.AddTransient<ISmsHandler, SmsStepFunctionHandler>();
-
-            // services.AddTransient<SmsConsentDatabaseRepository>();
-            services.AddTransient<SmsConsentDynamoDBRepository>();
-            services.AddTransient<ISmsConsentRepository, SmsConsentDynamoDBRepository>();
 
             configServiceTimer.Stop();
 
@@ -460,23 +337,6 @@ namespace Whetstone.StoryEngine.DependencyInjection
             });
 
 
-            services.AddSingleton<Func<SmsConsentRepositoryType, ISmsConsentRepository>>(serviceProvider => consentRepKey =>
-            {
-                ISmsConsentRepository consentRep = null;
-                switch (consentRepKey)
-                {
-                    case SmsConsentRepositoryType.Database:
-                        throw new KeyNotFoundException();
-                    case SmsConsentRepositoryType.DynamoDb:
-                        consentRep = serviceProvider.GetService<SmsConsentDynamoDBRepository>();
-                        break;
-                    default:
-                        throw new KeyNotFoundException(); // or maybe return null, up to you
-                }
-
-                return consentRep;
-            });
-
             if (string.IsNullOrWhiteSpace(bootConfig.Debug?.LocalFileConfig?.RootPath))
             {
                 services.AddTransient<IFileReader, S3FileReader>();
@@ -485,26 +345,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
             {
                 services.AddTransient<IFileReader, LocalFileReader>();
             }
-
-
-            // services.AddTransient<SessionDataLogger>();
-            services.AddTransient<ISessionLogger, SessionQueueLogger>();
-            //switch (envLoggerType)
-            //{
-            //    case SessionLoggerType.Queue:
-            //        services.AddTransient<ISessionLogger, SessionQueueLogger>();
-            //        break;
-            //    case SessionLoggerType.Database:
-            //        services.AddTransient<ISessionLogger, SessionDataLogger>();
-            //        break;
-            //    default:
-            //        throw new KeyNotFoundException(); // or maybe return null, up to you
-            //}
-
         }
-
-
-
         public static DbUserType? GetDbUserType(IConfiguration config)
         {
             string dbUserType = config[DBUSERTYPE];

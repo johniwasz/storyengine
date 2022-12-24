@@ -32,67 +32,7 @@ namespace Whetstone.UnitTests
 
         }
 
-        [Fact]
-        public async Task ApplyPhoneActionWithMockSmsHandlerTest()
-        {
-            SetEnvironmentVariables();
-
-
-            string titleId = "SampleTitle";
-            string phoneSlot = "userphone";
-
-            // Setup environment variables
-
-            var mocker = new MockFactory();
-
-            IServiceCollection serviceCol = mocker.InitServiceCollection(titleId);
-
-            var provider = serviceCol.BuildServiceProvider();
-
-            Func<NodeActionEnum, INodeActionProcessor> actionFunc = provider.GetService<Func<NodeActionEnum, INodeActionProcessor>>();
-            PhoneMessageActionProcessor phoneProcessor = (PhoneMessageActionProcessor)actionFunc(NodeActionEnum.PhoneMessage);
-            Assert.NotNull(phoneProcessor);
-
-            (StoryRequest, List<IStoryCrumb>) storyParams = BuildStoryRequest(titleId, "2675551212", phoneSlot);
-
-            StoryRequest request = storyParams.Item1;
-
-            List<IStoryCrumb> crumbs = storyParams.Item2;
-
-            string confirmationSlotName = "confirmationSlot";
-            SelectedItem selItem = new SelectedItem();
-            selItem.Name = confirmationSlotName;
-            selItem.Value = "confirmation";
-            crumbs.Add(selItem);
-
-            PhoneMessageActionData phoneActionData = new PhoneMessageActionData
-            {
-                Messages = new List<PhoneMessage>()
-            };
-
-            PhoneMessage phoneMessage = new PhoneMessage
-            {
-                Message = "This is a text message from the OutboundSmsProcessor Lambda"
-            };
-            phoneActionData.Messages.Add(phoneMessage);
-            phoneActionData.PhoneInfo = new PhoneInfo
-            {
-                SmsService = SmsSenderType.Twilio,
-                SourcePhone = "+18005551212"
-            };
-            phoneActionData.IsPermanent = false;
-            phoneActionData.PhoneNumberSlot = phoneSlot;
-            phoneActionData.ConfirmationNameSlot = confirmationSlotName;
-
-            string phoneSendMessage = await phoneProcessor.ApplyActionAsync(request, crumbs, phoneActionData);
-
-            Assert.True(phoneSendMessage.Contains("This is a text message from the OutboundSmsProcessor Lambda"), "unexpected return string");
-
-        }
-
-
-
-
+    
 
         public static (StoryRequest, List<IStoryCrumb>) BuildStoryRequest(string titleId, string phoneNumber, string phoneSlot)
         {
