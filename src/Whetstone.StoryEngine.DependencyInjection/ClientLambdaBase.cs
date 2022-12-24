@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System;
+using System.Diagnostics;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Diagnostics;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Messaging.Sms;
 
@@ -78,12 +78,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
                     SmsHandlerType = SmsHandlerType.StepFunctionSender,
                     NotificationStepFunctionArn = Configuration[MESSAGESTEPFUNCTIONCONFIG],
                     SmsSenderType = GetSmsSenderType(Configuration),
-                    SourceNumber = Configuration[DEFAULTSMSSOURCENUMBERCONFIG],
-                    TwilioConfig = new TwilioConfig()
-                    {
-                        LiveCredentials = Configuration[TWILIOLIVESECRETKEYCONFIG],
-                        TestCredentials = Configuration[TWILIOTESTSECRETKEYCONFIG]
-                    }
+                    SourceNumber = Configuration[DEFAULTSMSSOURCENUMBERCONFIG]
                 },
                 SessionAuditQueue = Configuration[SESSIONAUDITURLCONFIG],
                 EnforceAlexaPolicy = true,
@@ -249,10 +244,6 @@ namespace Whetstone.StoryEngine.DependencyInjection
             }
 
             return retVal;
-
-
-
-
         }
 
 

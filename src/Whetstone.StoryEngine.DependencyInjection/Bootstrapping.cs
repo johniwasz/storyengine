@@ -214,9 +214,6 @@ namespace Whetstone.StoryEngine.DependencyInjection
                   options.DbUserType = userType;
               });
 
-
-
-
             services.AddSingleton<IStepFunctionSender, StepFunctionSender>();
 
             services.Configure<Models.Configuration.StepFunctionNotificationConfig>(
@@ -246,17 +243,6 @@ namespace Whetstone.StoryEngine.DependencyInjection
                 options.MessageSendDelayInterval =
                     (bootstrapConfig.SmsConfig?.MessageDelaySeconds).GetValueOrDefault(0);
             });
-
-            if (bootstrapConfig.SmsConfig?.TwilioConfig != null)
-            {
-                services.Configure<TwilioConfig>(options =>
-                {
-                    options.StatusCallbackUrl = bootstrapConfig.SmsConfig.TwilioConfig.StatusCallbackUrl;
-                    options.LiveCredentials = bootstrapConfig.SmsConfig.TwilioConfig.LiveCredentials;
-                    options.TestCredentials = bootstrapConfig.SmsConfig.TwilioConfig.TestCredentials;
-                });
-            }
-
 
             if (!string.IsNullOrWhiteSpace(bootstrapConfig.Debug?.LocalFileConfig?.RootPath))
             {

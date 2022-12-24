@@ -15,8 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whetstone.StoryEngine.Data.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3DCF86EB-31A2-456C-96D0-BA4F26947836}"
 	ProjectSection(SolutionItems) = preProject
-		.filenesting.json = .filenesting.json
-		global.json = global.json
+		.analyzerconfig = .analyzerconfig
 		NuGet\NuGet.config = NuGet\NuGet.config
 	EndProjectSection
 EndProject
@@ -61,6 +60,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whetstone.StoryEngine.AlexaFunction", "Whetstone.StoryEngine.AlexaFunction\Whetstone.StoryEngine.AlexaFunction.csproj", "{9F49F5D3-61C5-4569-A328-AB67C161DB15}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whetstone.StoryEngine.AlexaFunction.Test", "Whetstone.StoryEngine.AlexaFunction.Test\Whetstone.StoryEngine.AlexaFunction.Test.csproj", "{D27BE93F-4070-48A9-BB27-477C3AFA6EC5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AzureFunction", "AzureFunction", "{5A8C3BD1-D96E-4BF4-A2D3-647C57B5FF57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whetstone.Azure.AlexaFunction", "Whetstone.Azure.AlexaFunction\Whetstone.Azure.AlexaFunction.csproj", "{6703D235-B790-448A-8B8B-1FE9A67649F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -246,6 +249,14 @@ Global
 		{D27BE93F-4070-48A9-BB27-477C3AFA6EC5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D27BE93F-4070-48A9-BB27-477C3AFA6EC5}.Release|x86.ActiveCfg = Release|Any CPU
 		{D27BE93F-4070-48A9-BB27-477C3AFA6EC5}.Release|x86.Build.0 = Release|Any CPU
+		{6703D235-B790-448A-8B8B-1FE9A67649F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6703D235-B790-448A-8B8B-1FE9A67649F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6703D235-B790-448A-8B8B-1FE9A67649F3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6703D235-B790-448A-8B8B-1FE9A67649F3}.Debug|x86.Build.0 = Debug|Any CPU
+		{6703D235-B790-448A-8B8B-1FE9A67649F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6703D235-B790-448A-8B8B-1FE9A67649F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6703D235-B790-448A-8B8B-1FE9A67649F3}.Release|x86.ActiveCfg = Release|Any CPU
+		{6703D235-B790-448A-8B8B-1FE9A67649F3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -269,6 +280,7 @@ Global
 		{7B2DAA68-6BC5-4694-A3C5-D345BB9CA391} = {CDF301AF-74C9-4737-90C9-EA15FDE8F372}
 		{9F49F5D3-61C5-4569-A328-AB67C161DB15} = {16D22821-F7AC-4A85-9AAF-B50903179246}
 		{D27BE93F-4070-48A9-BB27-477C3AFA6EC5} = {16D22821-F7AC-4A85-9AAF-B50903179246}
+		{6703D235-B790-448A-8B8B-1FE9A67649F3} = {5A8C3BD1-D96E-4BF4-A2D3-647C57B5FF57}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F4AE9EE7-1D0F-4550-B7F8-925D3C9AE7D6}

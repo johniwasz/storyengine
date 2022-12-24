@@ -23,8 +23,6 @@ namespace Whetstone.StoryEngine.Models.Configuration
         [YamlMember(Alias = "sourceNumber")]
         public string SourceNumber { get; set; }
 
-        [YamlMember(Alias = "twilioConfig")]
-        public TwilioConfig TwilioConfig { get; set; }
 
     }
 }

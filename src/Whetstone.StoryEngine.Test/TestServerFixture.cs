@@ -103,17 +103,8 @@ namespace Whetstone.StoryEngine.Test
 
             System.Environment.SetEnvironmentVariable(ClientLambdaBase.LOGLEVELCONFIG, bootConfig.LogLevel.GetValueOrDefault(LogLevel.Debug).ToString());
 
-            System.Environment.SetEnvironmentVariable(ClientLambdaBase.TWILIOLIVESECRETKEYCONFIG, bootConfig.SmsConfig.TwilioConfig.LiveCredentials);
-
-            System.Environment.SetEnvironmentVariable(ClientLambdaBase.TWILIOTESTSECRETKEYCONFIG, bootConfig.SmsConfig.TwilioConfig.TestCredentials);
-
-
-
             Bootstrapping.ConfigureServices(ServiceCollection, Configuration, bootConfig);
             DataBootstrapping.ConfigureDatabaseService(this.ServiceCollection, bootConfig.DatabaseSettings);
-
-
-
 
             this.ServiceCollection.AddTransient<UserDataRepository>();
 

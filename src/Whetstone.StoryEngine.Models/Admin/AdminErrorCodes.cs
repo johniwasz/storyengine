@@ -3,6 +3,6 @@
     public class AdminErrorCodes
     {
         // Request does not pass validation
-        public static string INVALID_REQUEST = "REQ001";
+        public const string INVALID_REQUEST = "REQ001";
     }
 }
