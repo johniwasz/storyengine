@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using Amazon.Lambda.Core;
+using LogLevel = Amazon.Lambda.Core.LogLevel;
 
 namespace Whetstone.StoryEngine.Data.EntityFramework
 {
@@ -25,6 +26,11 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
         public bool IsEnabled(LogLevel logLevel)
         {
             return true;
+        }
+
+        public bool IsEnabled(Microsoft.Extensions.Logging.LogLevel logLevel)
+        {
+            throw new NotImplementedException();
         }
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
@@ -79,6 +85,10 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
 
         }
 
+        public void Log<TState>(Microsoft.Extensions.Logging.LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+        {
+            throw new NotImplementedException();
+        }
 
         private string GetFullExceptionText(Exception ex)
         {

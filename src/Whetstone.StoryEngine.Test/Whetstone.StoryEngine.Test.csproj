@@ -228,25 +228,25 @@
     <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.101.14" />
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.2" />
     <PackageReference Include="Google.Cloud.Dialogflow.V2" Version="1.2.0" />
-    <PackageReference Include="MartinCostello.Testing.AwsLambdaTestServer" Version="0.3.0" />
+    <PackageReference Include="MartinCostello.Testing.AwsLambdaTestServer" Version="0.7.0" />
     <PackageReference Include="Amazon.Lambda.Core" Version="2.1.0" />
     <PackageReference Include="Amazon.Lambda.TestUtilities" Version="2.0.0" />
    <PackageReference Include="AWSSDK.SimpleSystemsManagement" Version="3.7.102.25" />
     <PackageReference Include="AWSSDK.SQS" Version="3.7.100.44" />
     <PackageReference Include="AWSSDK.StepFunctions" Version="3.7.102.17" />
     <PackageReference Include="Flowroute" Version="1.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.8.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.8.0" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
     <PackageReference Include="Moq" Version="4.18.3" />
     <PackageReference Include="NETStandard.Library" Version="2.0.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.1" />
-    <PackageReference Include="Twilio" Version="5.39.1" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.1" />
+    <PackageReference Include="Twilio" Version="6.2.0" />
+    <PackageReference Include="xunit" Version="2.4.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>

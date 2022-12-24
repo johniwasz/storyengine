@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>Whetstone.Google.Actions</AssemblyName>    
     <RootNamespace>Whetstone.Google.Actions</RootNamespace>
     <LangVersion>latest</LangVersion>

@@ -11,7 +11,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
-using Npgsql.Logging;
 using Org.BouncyCastle.Crypto.Tls;
 using Whetstone.StoryEngine.Models.Configuration;
 

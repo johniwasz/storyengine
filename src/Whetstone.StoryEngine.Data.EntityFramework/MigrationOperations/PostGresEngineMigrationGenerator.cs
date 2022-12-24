@@ -12,7 +12,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.MigrationOperations
     {
 
         public PostGresEngineMigrationGenerator(MigrationsSqlGeneratorDependencies dependencies,
-            INpgsqlOptions npgsqlOptions)
+            INpgsqlSingletonOptions npgsqlOptions)
             : base(dependencies, npgsqlOptions)
         {
            

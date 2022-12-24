@@ -4,8 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
-
 
 namespace Whetstone.StoryEngine.WebLibrary
 {
@@ -21,7 +19,7 @@ namespace Whetstone.StoryEngine.WebLibrary
 
         public async Task Invoke(HttpContext context)
         {
-            context.Request.EnableRewind();
+            context.Request.EnableBuffering();
             try
             {
                 await _next(context);

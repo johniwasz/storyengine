@@ -11,6 +11,11 @@
     <DebugType>portable</DebugType>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Properties\**" />
+    <EmbeddedResource Remove="Properties\**" />
+    <None Remove="Properties\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="appsettings.Development.json" />
     <None Remove="appsettings.json" />
     <None Remove="bootstrap" />
@@ -24,9 +29,6 @@
     <PackageReference Include="Amazon.Lambda.Core" Version="2.1.0" />
     <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="2.1.0" />
     <PackageReference Include="Amazon.Lambda.RuntimeSupport" Version="1.8.2" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Whetstone.StoryEngine.AlexaProcessor\Whetstone.StoryEngine.AlexaProcessor.csproj" />

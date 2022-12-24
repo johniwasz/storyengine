@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Description>This is the Whetstone Technologies StoryEngine respository.</Description>
     <PackageId>Whetstone.StoryEngine.Repository</PackageId>
@@ -28,15 +28,15 @@
 
     <PackageReference Include="AWSSDK.StepFunctions" Version="3.7.102.17" />
 
-    <PackageReference Include="AWSXRayRecorder.Core" Version="2.9.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+    <PackageReference Include="AWSXRayRecorder.Core" Version="2.13.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="SSH.NET" Version="2020.0.2" />
     <PackageReference Include="System.Net.NameResolution" Version="4.3.0" />
     <PackageReference Include="System.Net.Primitives" Version="4.3.1" />
     <PackageReference Include="System.Threading.ThreadPool" Version="4.3.0" />
-    <PackageReference Include="TweetinviAPI" Version="5.0.3" />
-    <PackageReference Include="Twilio" Version="5.39.1" />
+    <PackageReference Include="TweetinviAPI" Version="5.0.4" />
+    <PackageReference Include="Twilio" Version="6.2.0" />
   </ItemGroup>
 
   <ItemGroup>

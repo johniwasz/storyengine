@@ -62,8 +62,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Alexa", "Alexa", "{16D22821
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AdminApi", "AdminApi", "{601234AC-CA07-4B82-A8B6-00F63C410B3C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{2DF56FBD-37D8-4183-AA4A-B531499873CF}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConfigUtilities", "ConfigUtilities", "{98E6EB68-4A8F-4957-A354-F5D2468F8A75}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whetstone.StoryEngine.Cache.DynamoDB", "Whetstone.StoryEngine.Cache.DynamoDB\Whetstone.StoryEngine.Cache.DynamoDB.csproj", "{BA4FE652-6F41-4817-B483-3AA335B25D40}"

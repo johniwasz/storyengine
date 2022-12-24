@@ -208,7 +208,7 @@ namespace Whetstone.StoryEngine.Repository.Phone
                 retPhone.IsVerified = isVerfied;
 
 
-                Dictionary<string, string> carrierInfo = phoneResponse.Carrier;
+                Dictionary<string, string> carrierInfo = (Dictionary<string, string>) phoneResponse.Carrier;
 
                 retPhone.CountryCode = phoneResponse.CountryCode;
                 retPhone.NationalFormat = phoneResponse.NationalFormat;
