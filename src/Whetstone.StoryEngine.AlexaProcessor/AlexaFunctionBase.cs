@@ -53,14 +53,32 @@ namespace Whetstone.StoryEngine.AlexaProcessor
                 dataLogger.LogInformation($"Cold start timer: {_coldStartTimer.ElapsedMilliseconds}ms, Alexa Request difference time: {coldStartDelay.Milliseconds}, Request Time: {alexaRequestTime.Value}, Compare Time: {compareTime}");
             }
 
-
-
             AlexaResponse resp = null;
             IAlexaRequestProcessor alexaProcessor = Services.GetRequiredService<IAlexaRequestProcessor>();
 
+
+            // configure the lambda logger. Anything from this point
+            // will be logged to the lambda logger. When running in AWS
+            // this will send the output to CloudWatch
+            string alias = null;
+
+            string arn = context.InvokedFunctionArn;
+
+            if (!string.IsNullOrWhiteSpace(arn))
+            {
+                // sample ARN :  "arn:aws:lambda:us-east-1:#######:function:SbsStoryEngine"
+                string[] parsedArn = arn.Split(':');
+
+                if (parsedArn.Length == 8)
+                {
+
+                    alias = parsedArn[7];
+                }
+            }
+
             try
             {
-                resp = await alexaProcessor.ProcessAlexaLambdaRequestAsync(request, context);
+                resp = await alexaProcessor.ProcessAlexaRequestAsync(request, alias);
             }
             catch (Exception ex)
             {

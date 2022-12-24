@@ -225,7 +225,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Whetstone.Queue.TwiliosStatusUpdate\Whetstone.Queue.TwiliosStatusUpdate.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine.AlexaFunction\Whetstone.StoryEngine.AlexaFunction.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine.AlexaProcessor\Whetstone.StoryEngine.AlexaProcessor.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine.DependencyInjection\Whetstone.StoryEngine.DependencyInjection.csproj" />

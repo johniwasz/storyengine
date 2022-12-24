@@ -1,1 +1,0 @@
-dotnet lambda deploy-serverless -sn Whetstone-SocketHandler-Dev -sb whetstone-utility -sp Whetstone.StoryEngine.SocketApi/ --region us-east-1 -t sockethandlerserverless.dev.template --profile default

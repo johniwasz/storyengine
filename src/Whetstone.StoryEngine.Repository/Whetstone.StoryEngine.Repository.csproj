@@ -15,10 +15,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="StoryExtensions.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
 
     <PackageReference Include="AWSSDK.Lambda" Version="3.7.102.20" />
 
@@ -36,7 +32,6 @@
     <PackageReference Include="System.Net.Primitives" Version="4.3.1" />
     <PackageReference Include="System.Threading.ThreadPool" Version="4.3.0" />
     <PackageReference Include="TweetinviAPI" Version="5.0.4" />
-    <PackageReference Include="Twilio" Version="6.2.0" />
   </ItemGroup>
 
   <ItemGroup>

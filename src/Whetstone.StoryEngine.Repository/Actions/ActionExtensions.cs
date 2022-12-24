@@ -17,12 +17,10 @@ namespace Whetstone.StoryEngine.Repository.Actions
             services.AddTransient<NodeVisitRecordActionProcessor>();
             services.AddTransient<RemoveSelectedItemActionProcessor>();
             services.AddTransient<RecordSelectedItemActionProcessor>();
-            services.AddTransient<PhoneMessageActionProcessor>();
+
             services.AddTransient<InventoryActionProcessor>();
             services.AddTransient<ResetStateActionProcessor>();
             services.AddTransient<GetPersonalInfoActionProcessor>();
-            services.AddTransient<ValidatePhoneNumberActionProcessor>();
-            services.AddTransient<SmsConfirmationActionProcessor>();
 
             services.AddTransient<Func<NodeActionEnum, INodeActionProcessor>>(serviceProvider => key =>
             {
@@ -36,18 +34,12 @@ namespace Whetstone.StoryEngine.Repository.Actions
                         return serviceProvider.GetService<InventoryActionProcessor>();
                     case NodeActionEnum.NodeVisit:
                         return serviceProvider.GetService<NodeVisitRecordActionProcessor>();
-                    case NodeActionEnum.PhoneMessage:
-                        return serviceProvider.GetService<PhoneMessageActionProcessor>();
                     case NodeActionEnum.RemoveSelectedItem:
                         return serviceProvider.GetService<RemoveSelectedItemActionProcessor>();
                     case NodeActionEnum.ResetState:
                         return serviceProvider.GetService<ResetStateActionProcessor>();
                     case NodeActionEnum.SelectedItem:
                         return serviceProvider.GetService<RecordSelectedItemActionProcessor>();
-                    case NodeActionEnum.ValidatePhoneNumber:
-                        return serviceProvider.GetService<ValidatePhoneNumberActionProcessor>();
-                    case NodeActionEnum.SmsConfirmation:
-                        return serviceProvider.GetService<SmsConfirmationActionProcessor>();
                     default:
                         throw new KeyNotFoundException();
                 }

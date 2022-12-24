@@ -1,5 +1,4 @@
 ﻿using Amazon;
-using Amazon.CognitoIdentityProvider;
 using Amazon.DynamoDBv2;
 using Amazon.S3;
 using Amazon.XRay.Recorder.Core;
@@ -19,10 +18,8 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Reflection;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Data.Amazon;
@@ -40,11 +37,6 @@ using Whetstone.StoryEngine.Models.Story;
 using Whetstone.StoryEngine.Models.Story.Cards;
 using Whetstone.StoryEngine.Repository;
 using Whetstone.StoryEngine.Repository.Amazon;
-using Whetstone.StoryEngine.Repository.Messaging;
-using Whetstone.StoryEngine.Repository.Phone;
-using Whetstone.StoryEngine.Repository.Twitter;
-using Whetstone.StoryEngine.Security;
-using Whetstone.StoryEngine.Security.Amazon;
 using Whetstone.StoryEngine.Test.DbTests;
 
 namespace Whetstone.StoryEngine.Test
@@ -90,9 +82,6 @@ namespace Whetstone.StoryEngine.Test
             //SessionLoggingUser = 2,
             //SmsUser = 3
 
-
-            Bootstrapping bootstrapping = new Bootstrapping();
-
             ServiceCollection = new ServiceCollection();
 
             Configuration = Bootstrapping.BuildConfiguration();
@@ -111,17 +100,8 @@ namespace Whetstone.StoryEngine.Test
 
             System.Environment.SetEnvironmentVariable(ClientLambdaBase.LOGLEVELCONFIG, bootConfig.LogLevel.GetValueOrDefault(LogLevel.Debug).ToString());
 
-            System.Environment.SetEnvironmentVariable(ClientLambdaBase.TWILIOLIVESECRETKEYCONFIG, bootConfig.SmsConfig.TwilioConfig.LiveCredentials);
-
-            System.Environment.SetEnvironmentVariable(ClientLambdaBase.TWILIOTESTSECRETKEYCONFIG, bootConfig.SmsConfig.TwilioConfig.TestCredentials);
-
-
-
             Bootstrapping.ConfigureServices(ServiceCollection, Configuration, bootConfig);
             DataBootstrapping.ConfigureDatabaseService(this.ServiceCollection, bootConfig.DatabaseSettings);
-
-
-
 
             this.ServiceCollection.AddTransient<UserDataRepository>();
 
@@ -144,31 +124,6 @@ namespace Whetstone.StoryEngine.Test
                 return retUserRep;
             });
 
-            this.ServiceCollection.AddTransient<SmsConsentDatabaseRepository>();
-
-            ServiceCollection.AddSingleton<Func<SmsConsentRepositoryType, ISmsConsentRepository>>(serviceProvider => consentRepKey =>
-            {
-                ISmsConsentRepository consentRep = null;
-                switch (consentRepKey)
-                {
-                    case SmsConsentRepositoryType.Database:
-                        consentRep = serviceProvider.GetService<SmsConsentDatabaseRepository>();
-                        break;
-                    case SmsConsentRepositoryType.DynamoDb:
-                        consentRep = serviceProvider.GetService<SmsConsentDynamoDBRepository>();
-                        break;
-                    default:
-                        throw new KeyNotFoundException(); // or maybe return null, up to you
-                }
-
-                return consentRep;
-            });
-
-            // services.AddTransient<SessionDataLogger>();
-            ServiceCollection.AddTransient<ISessionLogger, SessionQueueLogger>();
-
-            ServiceCollection.AddTransient<SmsConsentDatabaseRepository>();
-
             ServiceCollection.AddTransient<IStoryVersionRepository, DataTitleVersionRepository>();
 
             ServiceCollection.AddTransient<IFileReader, S3FileReader>();
@@ -179,21 +134,7 @@ namespace Whetstone.StoryEngine.Test
 
             ServiceCollection.AddTransient<IStoryVersionRepository, DataTitleVersionRepository>();
 
-            ServiceCollection.AddTransient<Whetstone.StoryEngine.Security.IAuthenticator, CognitoAuthenticator>();
-
-            ServiceCollection.AddAWSService<IAmazonCognitoIdentityProvider>();
-
             ServiceCollection.AddTransient<IOrganizationRepository, OrganizationRepository>();
-
-            ServiceCollection.AddTransient<IWebHookManager, WebHookManager>();
-
-            ServiceCollection.AddTransient<ITwitterApplicationManager, TwitterApplicationManager>();
-
-            ServiceCollection.AddTransient<IJwtTokenParser, CognitoTokenParser>();
-            //IUserContextRetriever userContextRetriever, 
-            //IOptions<CognitoConfig> cogOptions,
-            //IJwtTokenParser tokenParser,
-            //ILogger<CognitoAuthenticator> logger)
 
             ServiceCollection.Configure<AmazonDynamoDBConfig>(x =>
             {
@@ -533,32 +474,6 @@ namespace Whetstone.StoryEngine.Test
         }
 
 
-        internal async Task<AuthCredentials> GetTestCredentialsAsync(string testCredentialStore)
-        {
-            IMemoryCache memCache = Services.GetService<IMemoryCache>();
-            AuthCredentials retCreds = null;
-
-            if (memCache.TryGetValue(testCredentialStore, out object value))
-            {
-                retCreds = value as AuthCredentials;
-
-            }
-            else
-            {
-                ISecretStoreReader secretReader = Services.GetService<ISecretStoreReader>();
-
-                string credValues = await secretReader.GetValueAsync(testCredentialStore);
-
-                retCreds = JsonConvert.DeserializeObject<AuthCredentials>(credValues);
-
-                memCache.Set(testCredentialStore, retCreds);
-
-            }
-
-            return retCreds;
-        }
-
-
         internal async Task<T> GetSecretAsync<T>(string secretStore) where T : class
         {
             IMemoryCache memCache = Services.GetService<IMemoryCache>();
@@ -601,53 +516,8 @@ namespace Whetstone.StoryEngine.Test
             return titleCacheRep;
         }
 
-        internal async Task<ClaimsPrincipal> GetClaimsPrincipalAsync()
-        {
-            var authenticator = Services.GetService<IAuthenticator>();
 
-            List<Claim> claims = new List<Claim>();
-            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, "f3a7a9bf-4a30-4864-86bc-f058f8f041e3"));
-            string expiration = DateTimeOffset.UtcNow.AddHours(1).ToUnixTimeSeconds().ToString();
-            claims.Add(new Claim(JwtRegisteredClaimNames.Exp, expiration));
-
-            JwtSecurityToken token = new JwtSecurityToken("issuer", "audience", claims);
-
-            //Check is user a super admin
-            var claimIdentities =
-                await authenticator.GetUserClaimsAsync(token);
-
-
-
-            ClaimsPrincipal prin = new ClaimsPrincipal(claimIdentities);
-
-            return prin;
-        }
-
-
-        protected IAuthenticator GetCognitoAuthenticator()
-        {
-            IAmazonCognitoIdentityProvider cogProvider = new AmazonCognitoIdentityProviderClient();
-
-            IOptions<CognitoConfig> cogOpts = GetCognitoConfig();
-
-
-            ILogger<CognitoAuthenticator> logger = CreateLogger<CognitoAuthenticator>();
-
-            //  IUserDataContext dataContext = this.Services.GetService<IUserDataContext>();
-
-            IUserContextRetriever dataContext = this.GetLocalUserContext();
-
-            ILogger<CognitoTokenParser> tokenParserLogger = CreateLogger<CognitoTokenParser>();
-            IJwtTokenParser jwtParser = new CognitoTokenParser(cogOpts, tokenParserLogger);
-            IDistributedCache cache = this.Services.GetService<IDistributedCache>();
-
-
-            IAuthenticator auth = new CognitoAuthenticator(cogProvider, dataContext, cogOpts, jwtParser, cache, logger);
-
-            return auth;
-
-
-        }
+    
 
         protected IOptions<CognitoConfig> GetCognitoConfig()
         {

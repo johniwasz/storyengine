@@ -10,8 +10,6 @@ namespace Whetstone.UnitTests
         internal static string GetJsonContents(string fileName)
         {
 
-
-
             var assembly = Assembly.GetExecutingAssembly();
             string resourceName = $"Whetstone.StoryEngine.UnitTests.{fileName}.json";
             string retContent = null;

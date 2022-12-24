@@ -42,11 +42,6 @@ namespace Whetstone.UnitTests
             NodeVisitRecordActionProcessor nodeVisitProcessor = (NodeVisitRecordActionProcessor)actionFunc(NodeActionEnum.NodeVisit);
             Assert.NotNull(nodeVisitProcessor);
 
-
-            PhoneMessageActionProcessor phoneProcessor = (PhoneMessageActionProcessor)actionFunc(NodeActionEnum.PhoneMessage);
-            Assert.NotNull(phoneProcessor);
-
-
             ResetStateActionProcessor resetProcessor = (ResetStateActionProcessor)actionFunc(NodeActionEnum.ResetState);
             Assert.NotNull(resetProcessor);
 

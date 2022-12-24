@@ -1,1 +1,0 @@
-dotnet lambda deploy-serverless -sn Whetstone-AudioProcessor-Dev -sb whetstone-utility -sp Whetstone.StoryEngine.AudioProcessor.Lambda/ --region us-east-1 -t audioprocessorserverless.dev.template --profile default

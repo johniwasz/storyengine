@@ -6,7 +6,6 @@ using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Data.Caching;
 using Whetstone.StoryEngine.Data.Yaml;
 using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Repository.Messaging;
 using Xunit;
 
 namespace Whetstone.StoryEngine.Test.User
@@ -52,10 +51,10 @@ namespace Whetstone.StoryEngine.Test.User
 
 
             var dbOptions = GetUserDatabaseOptions();
-            ISessionLogger sessionRep = Services.GetService<SessionQueueLogger>();
+            //ISessionLogger sessionRep = Services.GetService<SessionQueueLogger>();
 
 
-            await sessionRep.LogRequestAsync(req, resp);
+            //await sessionRep.LogRequestAsync(req, resp);
 
 
             req.IsNewSession = false;
@@ -67,7 +66,7 @@ namespace Whetstone.StoryEngine.Test.User
 
             resp.NodeName = "A3";
 
-            await sessionRep.LogRequestAsync(req, resp);
+           // await sessionRep.LogRequestAsync(req, resp);
         }
 
 

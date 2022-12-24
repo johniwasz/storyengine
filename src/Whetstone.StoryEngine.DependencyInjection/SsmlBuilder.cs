@@ -56,7 +56,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
                 if (fragment is AudioFile)
                 {
                     AudioFile audioFile = (AudioFile)fragment;
-                    ssmlBuilder.AppendFormat("<audio src='{0}'/>", mediaLinker.GetFileLink(titleVer, audioFile.FileName));
+                    ssmlBuilder.AppendFormat($"<audio src='{mediaLinker.GetFileLink(titleVer, audioFile.FileName)}'/>");
                 }
 
                 if (fragment is SsmlSpeechFragment)

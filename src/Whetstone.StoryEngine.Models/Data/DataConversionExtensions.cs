@@ -118,13 +118,15 @@ namespace Whetstone.StoryEngine.Models.Data
                     if (foundSlotType != null)
                     {
 
-                        DataIntentSlotMapping mapping = new DataIntentSlotMapping();
-                        mapping.Alias = intentSlot.Alias;
+                        DataIntentSlotMapping mapping = new DataIntentSlotMapping
+                        {
+                            Alias = intentSlot.Alias,
 
-                        mapping.Intent = dataIntent;
-                        mapping.IntentId = dataIntent.Id;
-                        mapping.SlotTypeId = foundSlotType.Id;
-                        mapping.SlotType = foundSlotType;
+                            Intent = dataIntent,
+                            IntentId = dataIntent.Id,
+                            SlotTypeId = foundSlotType.Id,
+                            SlotType = foundSlotType
+                        };
 
                         dataIntent.SlotTypeMappings.Add(mapping);
 

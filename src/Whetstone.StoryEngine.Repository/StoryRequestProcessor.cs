@@ -62,7 +62,7 @@ namespace Whetstone.StoryEngine.Repository
 
             bool isRequestProcessed = false;
             string engineError = null;
-            Stopwatch fulfillIntentDuration = new Stopwatch();
+            Stopwatch fulfillIntentDuration = new();
 
             // Retrieves the title version from the dynamo db. This should never go directly against the database.
             request.SessionContext.TitleVersion = await GetTitleIdAsync(request.Client, request.ApplicationId, request.Alias);

@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Whetstone.StoryEngine.Data\Whetstone.StoryEngine.Data.csproj" />
-    <ProjectReference Include="..\Whetstone.StoryEngine.Security\Whetstone.StoryEngine.Security.csproj" />
   </ItemGroup>
 
 </Project>

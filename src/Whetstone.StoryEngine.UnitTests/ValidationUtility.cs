@@ -2,8 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Google.Repository;
-using Whetstone.StoryEngine.Google.Repository.Models;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Data;
 using Whetstone.StoryEngine.Repository;
@@ -62,25 +60,6 @@ namespace Whetstone.UnitTests
             await ResponseHelper.WriteResponseAsync(request, resp, linker, sessLogger);
 
             return resp;
-        }
-
-        internal static Task ValidateGoogleResponse(StoryResponse response, SurfaceCapabilities surfaceCaps, IMediaLinker mediaLinker, ILogger logger, string userId, string contextPrefix, bool? requireCard = false)
-        {
-
-            var webHookResp = response.ToDialogFlowResponse(surfaceCaps, mediaLinker, logger, userId, contextPrefix);
-
-
-            response.ToDialogFlowReprompt(surfaceCaps, mediaLinker, logger, userId, contextPrefix);
-
-            if (requireCard.GetValueOrDefault(false))
-            {
-                // Verify the fulfillment text in the Google card response.
-                var fulFillmentMessage = webHookResp.FulfillmentMessages.FirstOrDefault(x => x.BasicCard != null);
-
-                Assert.True(fulFillmentMessage?.BasicCard?.FormattedText != null, "formatted text cannot be null");
-            }
-
-            return Task.CompletedTask;
         }
     }
 }

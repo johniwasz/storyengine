@@ -1,0 +1,20 @@
+is_global = true
+
+[*.cs]
+
+# NOTE: No section headers for configuration entries
+indent_size = 4
+indent_style = space
+tab_width = 4
+
+dotnet_code_quality.api_surface = all
+
+#### .NET Coding Conventions ####
+
+# this. and Me. preferences
+dotnet_style_qualification_for_method = true:warning
+
+#### Diagnostic configuration ####
+
+# CA1000: Do not declare static members on generic types
+dotnet_diagnostic.CA1000.severity = warning

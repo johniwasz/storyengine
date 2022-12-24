@@ -211,41 +211,7 @@ namespace Whetstone.StoryEngine.LambdaUtilities
                     break;
                 case ConfigEntryType.CacheSlidingExpiration:
                     retReq = UpdateCacheSlidingExpiration(bootConfig, entry.Value, logger);
-                    break;
-                case ConfigEntryType.TwilioLiveKey:
-                    retReq = UpdateConfig(entry, logger, new Action<string>(configVal =>
-                    {
-                        if (bootConfig.SmsConfig == null)
-                            bootConfig.SmsConfig = new SmsConfig();
-
-                        if (bootConfig.SmsConfig.TwilioConfig == null)
-                            bootConfig.SmsConfig.TwilioConfig = new TwilioConfig();
-
-                        bootConfig.SmsConfig.TwilioConfig.LiveCredentials = configVal;
-                    }));
-
-                    break;
-                case ConfigEntryType.TwilioTestKey:
-                    retReq = UpdateConfig(entry, logger, new Action<string>(configVal =>
-                    {
-                        if (bootConfig.SmsConfig == null)
-                            bootConfig.SmsConfig = new SmsConfig();
-
-                        if (bootConfig.SmsConfig.TwilioConfig == null)
-                            bootConfig.SmsConfig.TwilioConfig = new TwilioConfig();
-
-                        bootConfig.SmsConfig.TwilioConfig.TestCredentials = configVal;
-                    }));
-                    break;
-                case ConfigEntryType.TwilioSourceNumber:
-                    retReq = UpdateConfig(entry, logger, new Action<string>(configVal =>
-                    {
-                        if (bootConfig.SmsConfig == null)
-                            bootConfig.SmsConfig = new SmsConfig();
-
-                        bootConfig.SmsConfig.SourceNumber = configVal;
-                    }));
-                    break;
+                    break;                
                 case ConfigEntryType.DefaultSmsSenderType:
                     retReq = UpdateEnumConfig<SmsSenderType>(entry, logger, SmsSenderType.Twilio, (
                         configVal =>

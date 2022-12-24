@@ -27,9 +27,6 @@ namespace Whetstone.StoryEngine.Test.Config
         {
             System.Environment.SetEnvironmentVariable("BOOTSTRAP", "/storyengine/dev/bootstrap");
             System.Environment.SetEnvironmentVariable(ContainerSettingsReader.AWSDEFAULTREGION, RegionEndpoint.USEast1.SystemName);
-            Bootstrapping bootStrap = new Bootstrapping();
-
-
 
             IConfiguration config = Bootstrapping.BuildConfiguration();
 
@@ -51,10 +48,8 @@ namespace Whetstone.StoryEngine.Test.Config
             bootConfig.DatabaseSettings.DirectConnect = new DBDirectConnectConfig
             {
                 UserName = "storyengineuser",
-                ClientSecret = "x59k+6|3.(N~zrqFU(e?2^MvJ<J^}_V}"
+                ClientSecret = "AnExpiredSecret"
             };
-
-
 
             var yamlSer = YamlSerializationBuilder.GetYamlSerializer();
             _ = yamlSer.Serialize(bootConfig);
@@ -78,11 +73,7 @@ namespace Whetstone.StoryEngine.Test.Config
             TitleVersion titleVer = await appReader.GetTitleAsync(clientType, clientId, null);
             EngineClientContext engineContext = new EngineClientContext(titleVer, clientId, clientType, "en-US");
 
-
             StoryRequest req = engineContext.GetLaunchRequest();
-
-
-
         }
 
         [Fact]

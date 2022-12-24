@@ -131,11 +131,11 @@ namespace Whetstone.StoryEngine.Models.Data
             if (phoneConsent != null)
             {
 
-                Dictionary<string, AttributeValue> consentDynamoRecord = new Dictionary<string, AttributeValue>();
+                Dictionary<string, AttributeValue> consentDynamoRecord = new();
 
                 // assign the user id hash key.
 
-                AttributeValue idVal = new AttributeValue(phoneConsent.TitleClientUserId.ToString());
+                AttributeValue idVal = new(phoneConsent.TitleClientUserId.ToString());
 
                 consentDynamoRecord.Add(FIELD_ID, idVal);
 
@@ -145,7 +145,7 @@ namespace Whetstone.StoryEngine.Models.Data
                 consentDynamoRecord.Add(FIELD_SORTKEY, sortKeyVal);
 
 
-                if (phoneConsent.Id.GetValueOrDefault(default(Guid)) == default(Guid))
+                if (phoneConsent.Id.GetValueOrDefault() == default)
                 {
                     phoneConsent.Id = Guid.NewGuid();
 
@@ -160,15 +160,15 @@ namespace Whetstone.StoryEngine.Models.Data
                 AttributeValue consentDate = new AttributeValue(phoneConsent.SmsConsentDate.Value.ToString(CultureInfo.InvariantCulture));
                 consentDynamoRecord.Add(FIELD_CONSENTDATE, consentDate);
 
-
-
                 AttributeValue consentName = new AttributeValue(phoneConsent.Name);
                 consentDynamoRecord.Add(FIELD_CONSENTNAME, consentName);
 
 
                 // Is consent granted
-                AttributeValue isGranted = new AttributeValue();
-                isGranted.BOOL = phoneConsent.IsSmsConsentGranted;
+                AttributeValue isGranted = new()
+                {
+                    BOOL = phoneConsent.IsSmsConsentGranted
+                };
                 consentDynamoRecord.Add(FIELD_ISSMSCONSENTGRANTED, isGranted);
 
                 AttributeValue titleVerId = new AttributeValue(phoneConsent.TitleVersionId.ToString());

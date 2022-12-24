@@ -7,7 +7,10 @@ namespace Whetstone.StoryEngine.AlexaProcessor
     public interface IAlexaRequestProcessor
     {
 
-        Task<AlexaResponse> ProcessAlexaLambdaRequestAsync(AlexaRequest request, ILambdaContext context);
+        Task<AlexaResponse> ProcessAlexaRequestAsync(AlexaRequest request, string alias);
+
+
+        Task<AlexaResponse> ProcessAlexaRequestAsync(AlexaRequest request);
 
     }
 }

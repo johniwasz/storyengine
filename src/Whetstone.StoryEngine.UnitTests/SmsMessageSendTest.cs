@@ -4,7 +4,6 @@ using System;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Messaging;
 using Whetstone.StoryEngine.Repository;
-using Whetstone.StoryEngine.Repository.Messaging;
 using Xunit;
 
 namespace Whetstone.UnitTests
@@ -36,11 +35,6 @@ namespace Whetstone.UnitTests
                     options.ThrottleRetryLimit = 1200;
                 });
 
-
-            // Add some stubbed out test handler and factory to support the unit test and then base SmsHandler
-            // that will use the factory and the test handler to send the message.
-            EmptySmsSender.SetupUnitTestSmsDependencies(rootCol);
-
             IServiceProvider servProv = rootCol.BuildServiceProvider();
 
             ISmsHandler handler = servProv.GetService<ISmsHandler>();
@@ -50,13 +44,6 @@ namespace Whetstone.UnitTests
             OutboundBatchRecord outboundMessage = SmsMessageLoggerTest.GetSmsOutboundMessage();
 
             var outMsg = await handler.SendOutboundSmsMessagesAsync(outboundMessage);
-
-            IOutboundMessageLogger outboundMessageLogger = servProv.GetService<IOutboundMessageLogger>();
-
-            await outboundMessageLogger.UpdateOutboundMessageBatchAsync(outMsg);
-
-
-
 
         }
 

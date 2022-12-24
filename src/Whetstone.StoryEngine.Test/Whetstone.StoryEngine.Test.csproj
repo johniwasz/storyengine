@@ -244,7 +244,6 @@
     <PackageReference Include="NETStandard.Library" Version="2.0.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.1" />
-    <PackageReference Include="Twilio" Version="6.2.0" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <PrivateAssets>all</PrivateAssets>
@@ -266,15 +265,8 @@
     <ProjectReference Include="..\Whetstone.StoryEngine.Data.DependencyInjection\Whetstone.StoryEngine.Data.DependencyInjection.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine.Data.EntityFramework\Whetstone.StoryEngine.Data.EntityFramework.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine.DependencyInjection\Whetstone.StoryEngine.DependencyInjection.csproj" />
-    <ProjectReference Include="..\Whetstone.StoryEngine.Google.Management\Whetstone.StoryEngine.Google.Management.csproj" />
-    <ProjectReference Include="..\Whetstone.StoryEngine.InboundSmsHandler\Whetstone.StoryEngine.InboundSmsHandler.csproj" />
-    <ProjectReference Include="..\Whetstone.StoryEngine.InboundSmsRepository\Whetstone.StoryEngine.InboundSmsRepository.csproj" />
-    <ProjectReference Include="..\Whetstone.StoryEngine.MessageSender.SaveMessageTask\Whetstone.StoryEngine.MessageSender.SaveMessageTask.csproj" />
-    <ProjectReference Include="..\Whetstone.StoryEngine.MessageSender\Whetstone.StoryEngine.MessageSender.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine.Models\Whetstone.StoryEngine.Models.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine.Repository\Whetstone.StoryEngine.Repository.csproj" />
-    <ProjectReference Include="..\Whetstone.StoryEngine.Security\Whetstone.StoryEngine.Security.csproj" />
-    <ProjectReference Include="..\Whetstone.StoryEngine.WebLibrary\Whetstone.StoryEngine.WebLibrary.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine.Data\Whetstone.StoryEngine.Data.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine\Whetstone.StoryEngine.csproj" />
   </ItemGroup>
