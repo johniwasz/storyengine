@@ -31,12 +31,12 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
 
         public async Task<TwitterCrcResponse> GenerateTwitterCrcResponseAsync(Guid organizationId, Guid credentialId, string twitterCrc)
         {
-            if (credentialId == null)
+            if (credentialId == default(Guid))
             {
                 throw new ArgumentNullException(nameof(credentialId));
             }
 
-            if (organizationId == null)
+            if (organizationId == default(Guid))
             {
                 throw new ArgumentNullException(nameof(organizationId));
             }

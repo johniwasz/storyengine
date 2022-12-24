@@ -45,10 +45,11 @@ namespace Whetstone.StoryEngine.Google.Management
             intent.Messages.Add(message);
             intent.TrainingPhrases.Add(trainingPhrase);
 
-            var newIntent = client.CreateIntent(
-                parent: new ProjectAgentName(projectId),
-                intent: intent
-            );
+            CreateIntentRequest createIntentReq = new CreateIntentRequest();
+            createIntentReq.Intent = intent;
+            createIntentReq.ParentAsAgentName = new AgentName(projectId);
+
+            var newIntent = client.CreateIntent(createIntentReq);
 
             Console.WriteLine($"Created Intent: {newIntent.Name}");
 
@@ -74,7 +75,10 @@ namespace Whetstone.StoryEngine.Google.Management
 
             try
             {
-                var intents = client.ListIntents(new ProjectAgentName("eye-of-the-elder-gods"));
+                ListIntentsRequest listReq = new ListIntentsRequest();
+                listReq.ParentAsAgentName = new AgentName("eye-of-the-elder-gods");
+
+                var intents = client.ListIntents(listReq);
                 foreach (var intent in intents)
                 {
                     Console.WriteLine($"Intent name: {intent.Name}");

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+
 using System.Text;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models;
@@ -129,7 +130,8 @@ namespace Whetstone.StoryEngine.Google.Management
                             foreach (string key in storyIntent.SlotMappingsByName.Keys)
                             {
                                 string slotName = storyIntent.SlotMappingsByName[key];
-                                var foundEntity = await entities.FirstOrDefault(x => x.DisplayName.Equals(slotName, StringComparison.OrdinalIgnoreCase));
+                                var foundEntity = await entities.FirstOrDefaultAsync(x => x.DisplayName.Equals(slotName, StringComparison.OrdinalIgnoreCase));
+                                
 
                                 if (foundEntity == null)
                                 {
@@ -690,7 +692,9 @@ namespace Whetstone.StoryEngine.Google.Management
                             foreach (string key in storyIntent.SlotMappingsByName.Keys)
                             {
                                 string slotName = storyIntent.SlotMappingsByName[key];
-                                var foundEntity = await entities.FirstOrDefault(x => x.DisplayName.Equals(slotName, StringComparison.OrdinalIgnoreCase));
+                                var foundEntity = await entities.FirstOrDefaultAsync(x => x.DisplayName.Equals(slotName, StringComparison.OrdinalIgnoreCase));
+
+                                
 
                                 if (foundEntity == null)
                                 {
@@ -1093,7 +1097,7 @@ namespace Whetstone.StoryEngine.Google.Management
         private async Task CreateOrUpdateEntityAsync(string projectId, EntityType entityType, PagedAsyncEnumerable<ListEntityTypesResponse, EntityType> entityList)
         {
 
-           var foundEntity = await entityList.FirstOrDefault(x => x.DisplayName.Equals(entityType.DisplayName, StringComparison.OrdinalIgnoreCase));
+           var foundEntity = await entityList.FirstOrDefaultAsync(x => x.DisplayName.Equals(entityType.DisplayName, StringComparison.OrdinalIgnoreCase));
 
             var entityClient = await EntityTypesClient.CreateAsync();
 

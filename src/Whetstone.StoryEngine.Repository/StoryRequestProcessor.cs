@@ -1533,7 +1533,7 @@ namespace Whetstone.StoryEngine.Repository
 
                 string extKey = GenerateExternalFunctionKey(dataAction, req);
 
-                extResult = await _skillCache.GetCacheValueAsync<ExternalFunctionResult>( applicationId, extKey);
+                extResult = await _skillCache.GetCacheValueAsync<ExternalFunctionResult>(applicationId, extKey);
 
                 if (extResult == null)
                 {
@@ -1565,7 +1565,7 @@ namespace Whetstone.StoryEngine.Repository
             }
             else
             {
-                if(string.IsNullOrWhiteSpace(dataAction.Alias))
+                if (string.IsNullOrWhiteSpace(dataAction.Alias))
                 {
                     _logger.LogDebug($"External result not cacheable - calling external function {dataAction.FunctionName}");
                 }
@@ -1578,23 +1578,14 @@ namespace Whetstone.StoryEngine.Repository
             }
 
             // Process the text responses into a single string.
-            if (extResult?.Response != null)
-            {
 
-                extResult.Response.GeneratedTextResponse = extResult.Response.GeneratedTextResponse;
+            if (extResult?.Response is null && !string.IsNullOrWhiteSpace(dataAction.Alias))
+            {
+                _logger.LogError($"Result from external function {dataAction.FunctionName} with alias {dataAction.Alias} is null. This is an unexpected condition.");
             }
             else
             {
-                if(!string.IsNullOrWhiteSpace(dataAction.Alias))
-                {
-                    _logger.LogError($"Result from external function {dataAction.FunctionName} with alias {dataAction.Alias} is null. This is an unexpected condition.");
-                }
-                else
-                {
-                    _logger.LogError($"Result from external function {dataAction.FunctionName} with no alias is null. This is an unexpected condition.");
-                }
-                
-
+                _logger.LogError($"Result from external function {dataAction.FunctionName} with no alias is null. This is an unexpected condition.");
             }
 
             return extResult;

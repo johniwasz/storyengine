@@ -45,7 +45,7 @@ namespace Whetstone.StoryEngine.Cache
 
             if (contents != null)
             {
-                using (MemoryStream memStream = new MemoryStream(contents))
+                using (MemoryStream memStream = new(contents))
                 {
                     retVal = MessagePack.MessagePackSerializer.Deserialize<T>(memStream, MessagePack.Resolvers.TypelessContractlessStandardResolver.Options);                    
                 }
@@ -56,7 +56,7 @@ namespace Whetstone.StoryEngine.Cache
         private static byte[] Serialize<T>(string key, T value)
         {
             byte[] byteVal = null;
-            using (MemoryStream memStream = new MemoryStream())
+            using (MemoryStream memStream = new())
             {
                 try
                 {

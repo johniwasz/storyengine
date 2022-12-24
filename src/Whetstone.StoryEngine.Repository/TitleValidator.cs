@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models;
@@ -34,7 +33,6 @@ namespace Whetstone.StoryEngine.Repository
         public async Task<List<NodeMapItem>> GetNodeRouteAsync(TitleVersion titleVer, string sourceNode, string destNode)
         {
             List<NodeMapItem> nodeMap = await GetNodeMapAsync(titleVer);
-            List<StoryNode> nodeRoute = new List<StoryNode>();
 
             NodeMapItem startItem = nodeMap.FirstOrDefault(x => x.Name.Equals(sourceNode, StringComparison.OrdinalIgnoreCase));
 
