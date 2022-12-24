@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models.Twitter
 {
@@ -19,7 +17,7 @@ namespace Whetstone.StoryEngine.Models.Twitter
             return false;
         }
 
-      
+
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             string rawText = reader.Value as string;
@@ -27,7 +25,7 @@ namespace Whetstone.StoryEngine.Models.Twitter
             if (objectType == typeof(DateTimeOffset))
                 return DateTimeOffset.ParseExact(rawText, "ddd MMM dd HH:mm:ss zzz yyyy", CultureInfo.InvariantCulture);
 
-            if(objectType == typeof(DateTime))
+            if (objectType == typeof(DateTime))
                 return DateTime.ParseExact(rawText, "ddd MMM dd HH:mm:ss K yyyy", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
 
             throw new Exception("Unsupported type is requested");

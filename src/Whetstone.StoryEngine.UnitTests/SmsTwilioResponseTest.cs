@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Whetstone.StoryEngine;
@@ -21,7 +20,7 @@ using Xunit;
 
 namespace Whetstone.UnitTests
 {
-    public class SmsTwilioResponseTest 
+    public class SmsTwilioResponseTest
     {
         [Fact]
         public async Task SendSmsResponseAsync()
@@ -36,8 +35,8 @@ namespace Whetstone.UnitTests
             NameValueCollection nameVals = HttpUtility.ParseQueryString(msg.Body);
             IDictionary<string, string> bodyVals = CommonExtensions.ToDictionary(nameVals);
             string userPhone = bodyVals["From"];
-           
- 
+
+
             mocker.ProcessNotificationFunc = notif =>
             {
                 SmsNotificationRequest smsRequest = notif as SmsNotificationRequest;
@@ -67,7 +66,7 @@ namespace Whetstone.UnitTests
                 TitleId = Guid.NewGuid()
             };
 
-            IServiceCollection servCol = mocker.InitServiceCollection( titleVer);
+            IServiceCollection servCol = mocker.InitServiceCollection(titleVer);
 
             IServiceProvider servProv = servCol.BuildServiceProvider();
 
@@ -115,7 +114,7 @@ namespace Whetstone.UnitTests
             phoneInfo = await phoneRet.GetPhoneInfoAsync(userPhone);
             phoneConsent.PhoneId = phoneInfo.Id.Value;
             phoneConsent.TitleClientUserId = curUser.Id.Value;
-            await smsConsentRepo.SaveConsentAsync( phoneConsent);
+            await smsConsentRepo.SaveConsentAsync(phoneConsent);
 
 
             ILogger logger = Mock.Of<ILogger>();
@@ -135,7 +134,7 @@ namespace Whetstone.UnitTests
             Debug.WriteLine(notificationText);
 
 
-            msg.Body = msg.Body.Replace("STOP", "RESUME",StringComparison.OrdinalIgnoreCase);
+            msg.Body = msg.Body.Replace("STOP", "RESUME", StringComparison.OrdinalIgnoreCase);
             await inboundSms.ProcessInboundSmsMessageAsync(msg);
             curUser = await userRep.GetUserAsync(req);
 

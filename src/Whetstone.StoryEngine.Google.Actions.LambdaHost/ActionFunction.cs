@@ -1,14 +1,14 @@
-using System;
-using System.Threading.Tasks;
-using Amazon.Lambda.Core;
 using Amazon.Lambda.APIGatewayEvents;
-using Whetstone.StoryEngine.DependencyInjection;
-using System.Diagnostics;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
+using Amazon.Lambda.Core;
 using Microsoft.Extensions.Configuration;
-using Whetstone.StoryEngine.Models.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using Whetstone.StoryEngine.DependencyInjection;
 using Whetstone.StoryEngine.Google.Repository;
+using Whetstone.StoryEngine.Models.Configuration;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
@@ -59,7 +59,7 @@ namespace Whetstone.StoryEngine.Google.Actions.LambdaHost
 
         protected override void ConfigureServices(IServiceCollection services, IConfiguration config, BootstrapConfig bootConfig)
         {
-            services.AddTransient<IActionV1Repository, ActionV1Repository>();          
+            services.AddTransient<IActionV1Repository, ActionV1Repository>();
         }
     }
 }

@@ -1,9 +1,6 @@
-﻿using Amazon.Lambda.TestUtilities;
+﻿using Amazon;
+using Amazon.Lambda.TestUtilities;
 using Whetstone.StoryEngine;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Amazon;
 
 namespace Whetstone.Queue.SessionLogger.Tests
 {

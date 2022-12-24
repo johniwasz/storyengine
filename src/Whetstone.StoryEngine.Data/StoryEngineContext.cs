@@ -33,13 +33,13 @@
 //        public DbSet<DataInventoryCondition> InventoryConditions { get; set; }
 
 //        public DbSet<DataInventoryConditionXRef> InventoryConditionXRefs { get; set; }
-        
+
 //        public DbSet<DataIntentSlotMapping> MappedIntents { get; set; }
 
 ////        public DbSet<MappedSlot> MappedSlots { get; set; }
 
 // //       public DbSet<MappedUtterance> MappedUtterances { get; set; }
- 
+
 //        public DbSet<DataChoice> Choices { get; set; }
 
 //        public DbSet<InventoryActionData> InventoryActions { get; set; }
@@ -47,7 +47,7 @@
 //        public DbSet<NodeVisitRecordActionData> NodeVisitActions { get; set; }
 
 //        public DbSet<FragmentNodeVisitConditionXRef> FragmentNodeVisitConditionXRefs { get; set; }
-        
+
 
 
 
@@ -70,7 +70,7 @@
 //        {
 //            modelBuilder.HasDefaultSchema("public");
 
-        
+
 //            modelBuilder.Entity<NodeVisitRecordActionData>().HasBaseType<NodeActionData>();
 //            modelBuilder.Entity<InventoryActionData>().HasBaseType<NodeActionData>();
 //            modelBuilder.Entity<RecordSelectedItemActionData>().HasBaseType<NodeActionData>();
@@ -212,7 +212,7 @@
 //            modelBuilder.Entity<DataNode>()
 //                .HasIndex(ind => new {ind.VersionId, ind.ChapterId, ind.Name})
 //                .IsUnique();
-            
+
 
 //            modelBuilder.Entity<DataInventoryConditionXRef>()
 //                .HasKey(bc => new { bc.ConditionId, bc.InventoryItemId });
@@ -227,7 +227,7 @@
 //                .WithMany(c => c.InventoryConditionXRefs)
 //                .HasForeignKey(bc => bc.InventoryItemId);
 
-           
+
 
 
 //            //modelBuilder.Entity<StoryNode>()
@@ -246,7 +246,7 @@
 //                .HasDiscriminator<int>("TxtFragmentType")
 //                .HasValue<SimpleTextFragment>(1)
 //                .HasValue<ConditionalTextFragment>(2);
-               
+
 
 //            modelBuilder.Entity<DataAudioFile>().HasBaseType<DataSpeechFragment>();
 //            modelBuilder.Entity<DataDirectAudioFile>().HasBaseType<DataSpeechFragment>();
@@ -263,13 +263,13 @@
 //                .HasValue<DataConditionalFragment>(4)
 //                .HasValue<DataSsmlSpeechFragment>(5)
 //                .HasValue<DataSpeechBreakFragment>(6);
-            
+
 
 //            modelBuilder.Entity<DataSpeechFragment>(e =>
 //            {
 //                e.Property(x => x.VersionId).IsRequired();            
 //            });
-            
+
 
 
 //            //modelBuilder.Entity<StoryNode>().

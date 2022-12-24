@@ -1,15 +1,8 @@
 ﻿using Amazon.Lambda.TestUtilities;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Messaging;
-using Whetstone.StoryEngine.Models.Messaging.Sms;
-using Whetstone.StoryEngine.OutboutSmsSender;
 using Whetstone.StoryEngine.Repository;
 using Whetstone.StoryEngine.Repository.Messaging;
 using Xunit;
@@ -54,16 +47,16 @@ namespace Whetstone.UnitTests
 
             var context = new TestLambdaContext();
 
-            OutboundBatchRecord outboundMessage  = SmsMessageLoggerTest.GetSmsOutboundMessage();
+            OutboundBatchRecord outboundMessage = SmsMessageLoggerTest.GetSmsOutboundMessage();
 
-           var outMsg = await handler.SendOutboundSmsMessagesAsync(outboundMessage);
+            var outMsg = await handler.SendOutboundSmsMessagesAsync(outboundMessage);
 
             IOutboundMessageLogger outboundMessageLogger = servProv.GetService<IOutboundMessageLogger>();
 
             await outboundMessageLogger.UpdateOutboundMessageBatchAsync(outMsg);
 
 
-          
+
 
         }
 

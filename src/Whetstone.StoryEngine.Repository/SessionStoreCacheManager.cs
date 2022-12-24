@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Distributed;
+﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
-using Whetstone.StoryEngine.Models;
+using System;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Cache;
+using Whetstone.StoryEngine.Models;
 
 namespace Whetstone.StoryEngine.Repository
 {

@@ -1,6 +1,4 @@
-﻿
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Caching.Distributed;
+﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -9,17 +7,15 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Tweetinvi;
 using Whetstone.StoryEngine.Cache;
 using Whetstone.StoryEngine.Models.Admin;
 using Whetstone.StoryEngine.Models.Data;
-using Whetstone.StoryEngine.Models.Twitter;
 using Whetstone.StoryEngine.Repository.Twitter;
 using Whetstone.StoryEngine.Security.Claims;
 
 namespace Whetstone.StoryEngine.Data.EntityFramework
 {
-    public class OrganizationRepository :  IOrganizationRepository
+    public class OrganizationRepository : IOrganizationRepository
     {
         private const string CACHE_CONTAINER = "org";
 
@@ -162,7 +158,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
         //    {
         //        try
         //        {
-                   
+
 
         //            await using var userContext = await _userContextRetriever.GetUserDataContextAsync();
 
@@ -219,7 +215,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
         //        try
         //        {
 
-                  
+
 
         //            await using var userContext = await _userContextRetriever.GetUserDataContextAsync();
 
@@ -268,7 +264,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
 
         //    if (orgClaim != null)
         //    {
-              
+
         //        try
         //        {
         //            TwitterCredentialListItem creds = await GetTwitterCredentialAsync(organizationId, credentialsId);
@@ -425,7 +421,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
         //    Guid? userSid = prin?.GetUserSid();
 
         //    Claim orgClaim = prin.Claims.FirstOrDefault(x => x.Type.Equals(SoniBridgeClaimTypes.Organization) && Guid.Parse(x.Value).Equals(organizationId));
-           
+
         //    if (orgClaim != null)
         //    {
 
@@ -437,7 +433,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
         //            { "credid", credentialsId.ToString() }};
 
         //            var newUrl = new Uri(QueryHelpers.AddQueryString(url.AbsoluteUri, param));                    
-                  
+
 
         //            retItem = await _webHookManager.RegisterWebhookAsync(creds, environment, newUrl);
 
@@ -518,7 +514,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
 
         //    if (credentialsId == null)
         //        throw new ArgumentNullException(nameof(credentialsId));
-        
+
 
         //    ClaimsPrincipal prin = Thread.CurrentPrincipal as ClaimsPrincipal;
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Whetstone.StoryEngine.Models.Admin
+﻿namespace Whetstone.StoryEngine.Models.Admin
 {
 
 
@@ -11,7 +7,7 @@ namespace Whetstone.StoryEngine.Models.Admin
     /// </summary>
     public class ProjectVersionFileMapping
     {
-        
+
 
         public string ProjectAlias { get; set; }
 

@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Whetstone.StoryEngine.Models.Tracking;
-using Whetstone.StoryEngine;
+using System.Runtime.Serialization;
 using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Actions
@@ -41,7 +32,7 @@ namespace Whetstone.StoryEngine.Models.Actions
         [YamlIgnore]
         [DataMember]
         [JsonConverter(typeof(StringEnumConverter))]
-        [JsonProperty("nodeAction", Order =0)]
+        [JsonProperty("nodeAction", Order = 0)]
         public sealed override NodeActionEnum NodeAction { get { return NodeActionEnum.NodeVisit; } set { } }
 
         [DataMember]

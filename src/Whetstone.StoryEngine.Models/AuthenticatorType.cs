@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Whetstone.StoryEngine.Models
+﻿namespace Whetstone.StoryEngine.Models
 {
 
 
@@ -11,6 +7,6 @@ namespace Whetstone.StoryEngine.Models
     /// </summary>
     public enum AuthenticatorType
     {
-        Cognito =1
+        Cognito = 1
     }
 }

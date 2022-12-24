@@ -1,31 +1,30 @@
-﻿using System;
-using Amazon;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using Amazon;
+using Amazon.DynamoDBv2;
+using Amazon.S3;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Data.Amazon;
-using Whetstone.StoryEngine.Data.Yaml;
-using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.Repository;
-using Whetstone.StoryEngine.Repository.Amazon;
-using Whetstone.StoryEngine.Repository.Messaging;
-using Whetstone.StoryEngine.Repository.Actions;
-using Whetstone.StoryEngine.OutboutSmsSender;
-using Whetstone.StoryEngine.Models.Messaging;
-using Whetstone.StoryEngine.Data.Caching;
-using Whetstone.StoryEngine.Repository.Phone;
-using Whetstone.StoryEngine.Models.Messaging.Sms;
-using Whetstone.StoryEngine.Cache.Settings;
-using Whetstone.StoryEngine.ConfigurationExtensions;
-using Whetstone.StoryEngine.Cache.DynamoDB;
-using Amazon.DynamoDBv2;
-using Amazon.S3;
 using Serilog;
 using Serilog.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using Whetstone.StoryEngine.Cache.DynamoDB;
+using Whetstone.StoryEngine.ConfigurationExtensions;
+using Whetstone.StoryEngine.Data;
+using Whetstone.StoryEngine.Data.Amazon;
+using Whetstone.StoryEngine.Data.Caching;
+using Whetstone.StoryEngine.Data.Yaml;
+using Whetstone.StoryEngine.Models.Configuration;
+using Whetstone.StoryEngine.Models.Messaging;
+using Whetstone.StoryEngine.Models.Messaging.Sms;
+using Whetstone.StoryEngine.OutboutSmsSender;
+using Whetstone.StoryEngine.Repository;
+using Whetstone.StoryEngine.Repository.Actions;
+using Whetstone.StoryEngine.Repository.Amazon;
+using Whetstone.StoryEngine.Repository.Messaging;
+using Whetstone.StoryEngine.Repository.Phone;
 
 namespace Whetstone.StoryEngine.DependencyInjection
 {
@@ -37,8 +36,8 @@ namespace Whetstone.StoryEngine.DependencyInjection
         public static readonly int DEFAULT_CACHE_ENGINE_TIMEOUT = 2000;
         public static readonly int DEFAULT_CACHE_ENDPOINT_RETRIES = 3;
         public static readonly int DEFAULT_CACHE_ENGINE_RETRIES = 2;
-        
-        
+
+
 
 
         public static IContainerSettingsReader ContainerReader { get; } = new ContainerSettingsReader();
@@ -55,7 +54,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
 
         public static IConfiguration BuildConfiguration()
         {
-           return BuildConfiguration(true);
+            return BuildConfiguration(true);
 
 
         }
@@ -101,9 +100,9 @@ namespace Whetstone.StoryEngine.DependencyInjection
 
                 }
 
-               
+
                 retConfiguration = builder.Build();
-          
+
             }
             catch (Exception ex)
             {
@@ -115,7 +114,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
             return retConfiguration;
         }
 
-        
+
         public static void ConfigureServices(IServiceCollection services, IConfiguration config, BootstrapConfig bootstrapConfig)
         {
             Stopwatch configServiceTimer = new Stopwatch();
@@ -128,7 +127,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
             services.AddMemoryCache(x =>
             {
                 x.SizeLimit = bootstrapConfig.CacheConfig.InMemoryCacheSizeLimit;
-            });         
+            });
 
             var providers = new LoggerProviderCollection();
 
@@ -197,28 +196,28 @@ namespace Whetstone.StoryEngine.DependencyInjection
 
             //var distDbSettings = new DistributedCacheDynamoDbSettings(dynamoDbTableName, regionEnd, bootstrapConfig.CacheConfig.Timeout);
 
-           services.RegisterDynamoDbCacheService(dynamoDbTableName, maxCacheEngineRetries, engineTimeout);
+            services.RegisterDynamoDbCacheService(dynamoDbTableName, maxCacheEngineRetries, engineTimeout);
 
-           DistributedCacheEntryOptions distCacheOpts = new DistributedCacheEntryOptions
-           {
-               SlidingExpiration = new TimeSpan(0, 0, bootstrapConfig.CacheConfig.DefaultSlidingExpirationSeconds)
-               
-           };
-
-
-          Whetstone.StoryEngine.Cache.DistributedCacheExtensions.SetDefaultCacheOptions(distCacheOpts,
-               (bootstrapConfig.CacheConfig?.IsEnabled).GetValueOrDefault(true));
-
-          services.Configure<Models.Configuration.EnvironmentConfig>(
-            options =>
+            DistributedCacheEntryOptions distCacheOpts = new DistributedCacheEntryOptions
             {
-                options.BucketName = bootstrapConfig.Bucket;
-                options.Region = CurrentRegion;
-                options.DbUserType = userType;
-            });
+                SlidingExpiration = new TimeSpan(0, 0, bootstrapConfig.CacheConfig.DefaultSlidingExpirationSeconds)
+
+            };
 
 
-            
+            Whetstone.StoryEngine.Cache.DistributedCacheExtensions.SetDefaultCacheOptions(distCacheOpts,
+                 (bootstrapConfig.CacheConfig?.IsEnabled).GetValueOrDefault(true));
+
+            services.Configure<Models.Configuration.EnvironmentConfig>(
+              options =>
+              {
+                  options.BucketName = bootstrapConfig.Bucket;
+                  options.Region = CurrentRegion;
+                  options.DbUserType = userType;
+              });
+
+
+
 
             services.AddSingleton<IStepFunctionSender, StepFunctionSender>();
 
@@ -232,7 +231,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
             services.Configure<Models.Configuration.SessionAuditConfig>(
             options => { options.SessionAuditQueue = bootstrapConfig.SessionAuditQueue; });
 
-            
+
             services.Configure<PhoneConfig>(
             options => { options.SourceSmsNumber = bootstrapConfig.SmsConfig?.SourceNumber; });
 
@@ -297,7 +296,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
            {
                INotificationDispatcher dispatcher = null;
 
-               switch(key)
+               switch (key)
                {
                    case NotificationsDispatchTypeEnum.Direct:
                        dispatcher = null;
@@ -314,14 +313,14 @@ namespace Whetstone.StoryEngine.DependencyInjection
             services.AddTransient<SmsDirectSendHandler>();
             services.AddTransient<SmsStepFunctionHandler>();
 
-            services.AddSingleton<ISmsHandler>(x=>
+            services.AddSingleton<ISmsHandler>(x =>
             {
                 ISmsHandler retSmsHandler = null;
 
                 switch (handlerType)
                 {
                     case SmsHandlerType.DirectSender:
-                        retSmsHandler =x.GetService<SmsDirectSendHandler>();
+                        retSmsHandler = x.GetService<SmsDirectSendHandler>();
                         break;
                     case SmsHandlerType.StepFunctionSender:
                         retSmsHandler = x.GetService<SmsStepFunctionHandler>();
@@ -361,7 +360,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
 
             services.AddTransient<SessionQueueLogger>();
 
-           
+
 
             SmsSenderType envSmsSenderType =
                 (bootstrapConfig.SmsConfig?.SmsSenderType).GetValueOrDefault(SmsSenderType.Twilio);
@@ -384,7 +383,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
             services.AddTransient<SmsSnsSender>();
 
             services.AddTransient<SmsTwilioSender>();
-     
+
             // Add a function to dynamically get the SMS Sender
             services.AddSingleton<Func<SmsSenderType, ISmsSender>>(serviceProvider => handlerKey =>
             {
@@ -405,7 +404,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
             });
 
 
-        //    services.AddTransient<UserDataRepository>();
+            //    services.AddTransient<UserDataRepository>();
 
             services.RegisterDynamoDbUserRepository(bootstrapConfig.DynamoDBTables.UserTable);
 
@@ -415,22 +414,22 @@ namespace Whetstone.StoryEngine.DependencyInjection
 
             services.AddSingleton<ISkillCache, SkillCache>();
 
-           // This is intended to be the same across a single request for the service.
+            // This is intended to be the same across a single request for the service.
             services.AddTransient<ITitleReader, YamlTitleReader>();
 
             services.AddActionProcessors();
 
-    
+
             services.AddTransient<IMediaLinker, S3MediaLinker>();
 
             // Add the queue and SMS services
             services.AddTransient<IWhetstoneQueue, SqsWhetstoneQueue>();
             services.AddTransient<ISmsHandler, SmsStepFunctionHandler>();
 
-           // services.AddTransient<SmsConsentDatabaseRepository>();
+            // services.AddTransient<SmsConsentDatabaseRepository>();
             services.AddTransient<SmsConsentDynamoDBRepository>();
-            services.AddTransient<ISmsConsentRepository,SmsConsentDynamoDBRepository>();
-            
+            services.AddTransient<ISmsConsentRepository, SmsConsentDynamoDBRepository>();
+
             configServiceTimer.Stop();
 
             logger.LogInformation($"Bootstrapping ConfigureServices load time: {configServiceTimer.ElapsedMilliseconds} milliseconds");
@@ -486,7 +485,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
             {
                 services.AddTransient<IFileReader, LocalFileReader>();
             }
-           
+
 
             // services.AddTransient<SessionDataLogger>();
             services.AddTransient<ISessionLogger, SessionQueueLogger>();

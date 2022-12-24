@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models.Data
 {
@@ -26,15 +24,15 @@ namespace Whetstone.StoryEngine.Models.Data
 
 
         public DataNode Node { get; set; }
-        
-      
-        public ICollection<DataNodeVisitCondition> VisitConditions { get; set;  }
 
-        
+
+        public ICollection<DataNodeVisitCondition> VisitConditions { get; set; }
+
+
         public ICollection<DataInventoryCondition> InventoryConditions { get; set; }
 
 
-         public ICollection<ChoiceConditionVisitXRef> ChoiceConditionVisitXRefs { get; set; }
+        public ICollection<ChoiceConditionVisitXRef> ChoiceConditionVisitXRefs { get; set; }
 
     }
 }

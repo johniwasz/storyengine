@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Amazon;
+﻿using Amazon;
 using Amazon.S3;
 using Amazon.S3.Encryption;
 using Amazon.S3.Model;
 using NpgsqlTypes;
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Reporting.Models;
 using Whetstone.StoryEngine.Reporting.Models.Serialization;
 using Xunit;
@@ -104,7 +103,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportGenerator.Tests
 
             def.Output = csvOutput;
 
-           var yamlDeser = YamlReportSerializer.GetYamlSerializer();
+            var yamlDeser = YamlReportSerializer.GetYamlSerializer();
 
             string reportDef = yamlDeser.Serialize(def);
 
@@ -114,13 +113,13 @@ namespace Whetstone.StoryEngine.Reporting.ReportGenerator.Tests
 
 
 
-           EncryptionMaterials encMats = new EncryptionMaterials(kmsId);
+            EncryptionMaterials encMats = new EncryptionMaterials(kmsId);
 
 
             using (var s3Client = new AmazonS3Client(RegionEndpoint.USEast1))
             {
                 PutObjectRequest putReq = new PutObjectRequest();
-                
+
                 putReq.Key = "definitions/crxstateline.yml";
                 putReq.ContentBody = reportDef;
                 putReq.ContentType = "application/yaml";
@@ -137,7 +136,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportGenerator.Tests
                     Console.WriteLine(s3Ex);
                     throw;
                 }
-           
+
 
 
             }
@@ -162,7 +161,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportGenerator.Tests
         public void PhoneNumberFormatTest()
         {
             string phoneNumberOrig = "+12675551212";
-            string outFile =    Regex.Replace(phoneNumberOrig, "[^0-9a-zA-Z]+", "");
+            string outFile = Regex.Replace(phoneNumberOrig, "[^0-9a-zA-Z]+", "");
 
             string regExText = @"^(\(?[0-9]{3}\)?)?\-?[0-9]{3}\-?[0-9]{4}$";
 

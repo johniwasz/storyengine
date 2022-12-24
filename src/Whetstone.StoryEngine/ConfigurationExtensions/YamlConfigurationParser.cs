@@ -1,9 +1,9 @@
-﻿using System;
-using System.IO;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
-using YamlDotNet.RepresentationModel;
+using System.IO;
 using System.Linq;
+using YamlDotNet.RepresentationModel;
 
 namespace Whetstone.StoryEngine.ConfigurationExtensions
 {

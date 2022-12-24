@@ -1,9 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Whetstone.StoryEngine.Models.Messaging.Sms;
-using Whetstone.StoryEngine.Models.Story;
 
 
 namespace Whetstone.StoryEngine.Repository.Messaging

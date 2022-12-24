@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
+﻿using Amazon.Lambda.APIGatewayEvents;
+using Amazon.Lambda.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Whetstone.StoryEngine.DependencyInjection;
-using Whetstone.StoryEngine.Bixby.Repository.Models;
-using Whetstone.StoryEngine.Models.Configuration;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
-using Amazon.Lambda.APIGatewayEvents;
-using Amazon.Lambda.Core;
-using Whetstone.Alexa;
+using Whetstone.StoryEngine.DependencyInjection;
+using Whetstone.StoryEngine.Models.Configuration;
 
 namespace Whetstone.StoryEngine.Bixby.Repository
 {
@@ -21,7 +17,7 @@ namespace Whetstone.StoryEngine.Bixby.Repository
 
         public BixbyCallbackFuncBase() : base()
         {
-        
+
 
         }
 
@@ -38,7 +34,7 @@ namespace Whetstone.StoryEngine.Bixby.Repository
             APIGatewayProxyResponse resp = null;
             IBixbyCallbackRepository bixbyCallbackRep = Services.GetRequiredService<IBixbyCallbackRepository>();
 
-            ILogger<BixbyCallbackFuncBase> bixbyLogger = Services.GetRequiredService < ILogger<BixbyCallbackFuncBase>>();
+            ILogger<BixbyCallbackFuncBase> bixbyLogger = Services.GetRequiredService<ILogger<BixbyCallbackFuncBase>>();
 
             try
             {

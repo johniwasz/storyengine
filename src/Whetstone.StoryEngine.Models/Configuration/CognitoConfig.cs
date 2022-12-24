@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Configuration
 {
-    public class CognitoConfig 
+    public class CognitoConfig
     {
 
         [JsonProperty(PropertyName = "userPoolId")]

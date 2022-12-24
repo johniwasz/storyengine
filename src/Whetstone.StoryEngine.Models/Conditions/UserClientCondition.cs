@@ -1,11 +1,8 @@
 ﻿using MessagePack;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using System.Text;
-using Whetstone.StoryEngine.Models.Tracking;
 using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Conditions

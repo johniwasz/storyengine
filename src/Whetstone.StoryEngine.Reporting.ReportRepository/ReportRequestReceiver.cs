@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon;
+﻿using Amazon;
 using Amazon.StepFunctions;
 using Amazon.StepFunctions.Model;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Reporting.Models;
 
@@ -33,19 +31,19 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
                 throw new ArgumentNullException($"{nameof(envConfig)}");
 
 
-            if(envConfig.Value == null)
+            if (envConfig.Value == null)
                 throw new ArgumentNullException($"{nameof(envConfig)}", "Value property cannot be null");
 
             _curRegion = envConfig.Value.Region ??
                          throw new ArgumentNullException($"{nameof(envConfig)}", "Region cannot be null or empty");
 
-            if(reportConfig == null)
+            if (reportConfig == null)
                 throw new ArgumentNullException($"{nameof(reportConfig)}");
 
-            if(reportConfig.Value == null)
+            if (reportConfig.Value == null)
                 throw new ArgumentNullException($"{nameof(reportConfig)}", "Value cannot be null or empty");
 
-            if(string.IsNullOrWhiteSpace(reportConfig.Value.ReportStepFunctionArn))
+            if (string.IsNullOrWhiteSpace(reportConfig.Value.ReportStepFunctionArn))
                 throw new ArgumentNullException($"{nameof(reportConfig)}", "ReportStepFunctionArn cannot be null or empty");
 
             _logger = logger ?? throw new ArgumentNullException($"{nameof(logger)}");
@@ -66,7 +64,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
             if (request.DeliveryTime.HasValue)
             {
                 // If the delivery time is after current time
-                if(request.DeliveryTime.Value > DateTime.UtcNow)
+                if (request.DeliveryTime.Value > DateTime.UtcNow)
                     request.IsScheduled = true;
             }
 
@@ -93,7 +91,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex,"Report request failed");
+                _logger.LogError(ex, "Report request failed");
                 throw;
 
             }

@@ -1,16 +1,15 @@
-﻿using System;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Memory;
-using Whetstone.StoryEngine.Models.Messaging.Sms;
-using Whetstone.StoryEngine.Models.Messaging;
-using Microsoft.Extensions.Logging;
-using Twilio.Exceptions;
 using Twilio.Clients;
+using Twilio.Exceptions;
 using Twilio.Rest.Api.V2010.Account;
-using Microsoft.Extensions.Options;
 using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.Repository.Phone;
+using Whetstone.StoryEngine.Models.Messaging;
+using Whetstone.StoryEngine.Models.Messaging.Sms;
 
 namespace Whetstone.StoryEngine.Repository.Messaging
 {
@@ -21,7 +20,7 @@ namespace Whetstone.StoryEngine.Repository.Messaging
 
         public SmsTwilioSender(IOptions<TwilioConfig> twilioConfig, ISecretStoreReader secureReader, IMemoryCache memCache, ILogger<SmsTwilioSender> logger) : base(secureReader, memCache)
         {
-            _twilioConfig = twilioConfig?.Value ?? throw new ArgumentNullException(nameof(twilioConfig),"Twilio configuration settings not found");
+            _twilioConfig = twilioConfig?.Value ?? throw new ArgumentNullException(nameof(twilioConfig), "Twilio configuration settings not found");
 
             if (string.IsNullOrWhiteSpace(_twilioConfig.LiveCredentials))
                 throw new ArgumentException($"LiveCredentials configuration setting not found");
@@ -40,7 +39,7 @@ namespace Whetstone.StoryEngine.Repository.Messaging
         public SmsSenderType ProviderName => SmsSenderType.Twilio;
 
 
-        public async Task<OutboundMessageLogEntry> SendSmsMessageAsync( SmsMessageRequest messageRequest)
+        public async Task<OutboundMessageLogEntry> SendSmsMessageAsync(SmsMessageRequest messageRequest)
         {
             _logger.LogInformation("Begin Twilio SendStatus Sms Message");
 
@@ -60,9 +59,9 @@ namespace Whetstone.StoryEngine.Repository.Messaging
             TwilioCredentials creds = await GetCredentialsAsync(_twilioConfig.LiveCredentials);
 
             if (creds == null)
-                throw new ArgumentException($"Twilio credentials {_twilioConfig.LiveCredentials} not found"); 
+                throw new ArgumentException($"Twilio credentials {_twilioConfig.LiveCredentials} not found");
 
- 
+
 
 
             TwilioRestClient twilioRestClient = new TwilioRestClient(creds.AccountSid, creds.Token);
@@ -83,7 +82,7 @@ namespace Whetstone.StoryEngine.Repository.Messaging
                 {
                     msgCreateOptions.StatusCallback = new Uri(statusCallbackUrl);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     string errMsg = $"Error setting callback URL for Twilio message with setting {statusCallbackUrl}";
                     _logger.LogError(ex, errMsg);
@@ -114,7 +113,7 @@ namespace Whetstone.StoryEngine.Repository.Messaging
                 if (messageResponse.Sid != null)
                 {
                     errorInfoText.AppendLine($"Twilio message Sid: {messageResponse.Sid}");
-                
+
 
                 }
                 errorInfoText.AppendLine($"Status: {messageResponse.Status}");
@@ -141,13 +140,13 @@ namespace Whetstone.StoryEngine.Repository.Messaging
 
                 }
 
-               
+
 
                 // For now consider the send a success if it doesn't indicate an error
                 if (messageSendResult.HttpStatusCode == 500)
                 {
                     _logger.LogError(errorInfoText.ToString());
-                    messageSendResult.SendStatus = MessageSendStatus.Error;                    
+                    messageSendResult.SendStatus = MessageSendStatus.Error;
                     messageSendResult.IsException = true;
                 }
                 else
@@ -178,7 +177,7 @@ namespace Whetstone.StoryEngine.Repository.Messaging
                     if (!string.IsNullOrWhiteSpace(messageResponse.NumMedia))
                     {
                         // Only log if the number of media segments is more than what's expected.
-                        if(!messageResponse.NumMedia.Equals("0"))
+                        if (!messageResponse.NumMedia.Equals("0"))
                             twilioUpdateText.AppendLine($"NumMedia: {messageResponse.NumMedia}");
                     }
 
@@ -188,7 +187,7 @@ namespace Whetstone.StoryEngine.Repository.Messaging
 
                     twilioUpdateText.AppendLine($"Direction: {messageResponse.Direction.ToString()}");
 
-                    if (messageResponse.SubresourceUris!=null)
+                    if (messageResponse.SubresourceUris != null)
                     {
                         // If the sub resources count is 1, then it's a duplicate of the Url returned and logged
                         // by the Message resource entry. No need to store additional information unless
@@ -211,7 +210,7 @@ namespace Whetstone.StoryEngine.Repository.Messaging
                     messageSendResult.SendStatus = MessageSendStatus.SentToDispatcher;
                 }
             }
-            catch( ApiException ex )
+            catch (ApiException ex)
             {
                 _logger.LogError("Received Twilio ApiException", ex);
                 messageSendResult = new OutboundMessageLogEntry
@@ -224,7 +223,7 @@ namespace Whetstone.StoryEngine.Repository.Messaging
                 };
 
             }
-            catch (ApiConnectionException ex )
+            catch (ApiConnectionException ex)
             {
                 _logger.LogError("Received Twilio ApiConnectionException", ex);
                 messageSendResult = new OutboundMessageLogEntry

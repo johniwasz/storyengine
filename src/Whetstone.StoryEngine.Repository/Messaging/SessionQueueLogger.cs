@@ -1,13 +1,13 @@
-﻿using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.Models.Messaging;
-using Whetstone.StoryEngine.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Whetstone.StoryEngine.Data;
+using Whetstone.StoryEngine.Models;
+using Whetstone.StoryEngine.Models.Configuration;
+using Whetstone.StoryEngine.Models.Messaging;
 using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.Repository.Messaging
@@ -21,7 +21,7 @@ namespace Whetstone.StoryEngine.Repository.Messaging
         private IWhetstoneQueue _queueSender;
 
         public SessionQueueLogger(
-                        IOptions<SessionAuditConfig> sessionAuditConfig, 
+                        IOptions<SessionAuditConfig> sessionAuditConfig,
                         IWhetstoneQueue queueSender,
                         ILogger<SessionQueueLogger> logger)
         {
@@ -53,7 +53,7 @@ namespace Whetstone.StoryEngine.Repository.Messaging
                     // don't record the inbound request.
                     if (auditBehavior != AuditBehavior.RecordEngineResponseOnly)
                         AssignRequestProperties(request, queueMessage);
-              
+
                     AssignResponseProperties(response, queueMessage);
 
                     if (!string.IsNullOrWhiteSpace(requestText))
@@ -93,7 +93,7 @@ namespace Whetstone.StoryEngine.Repository.Messaging
 
                 string queueUrl = _auditConfig.SessionAuditQueue;
 
-                await _queueSender.AddMessageToQueueAsync<RequestRecordMessage>(queueUrl, queueMessage);            
+                await _queueSender.AddMessageToQueueAsync<RequestRecordMessage>(queueUrl, queueMessage);
             }
             else
                 _logger.LogDebug($"Not logging ping request to queue for request {request.RequestId}");
@@ -116,7 +116,7 @@ namespace Whetstone.StoryEngine.Repository.Messaging
                 queueMessage.DeploymentId = (req.SessionContext?.TitleVersion?.DeploymentId).GetValueOrDefault();
             }
 
-           
+
             queueMessage.EngineRequestId = req.EngineRequestId;
             queueMessage.RequestId = req.RequestId;
             queueMessage.Locale = req.Locale;
@@ -156,8 +156,8 @@ namespace Whetstone.StoryEngine.Repository.Messaging
             queueMessage.RawText = req.RawText;
             queueMessage.RequestAttributes = req.RequestAttributes;
             queueMessage.IntentConfidence = req.IntentConfidence;
-          
-            if(queueMessage.IsNewSession.GetValueOrDefault(false))
+
+            if (queueMessage.IsNewSession.GetValueOrDefault(false))
             {
                 queueMessage.SessionAttributes = req.SessionAttributes;
             }
@@ -188,7 +188,7 @@ namespace Whetstone.StoryEngine.Repository.Messaging
 
         private void AssignCanfulfillProperties(CanFulfillResponse fulfillResp, RequestRecordMessage queueMessage)
         {
-          
+
             queueMessage.ProcessDuration = fulfillResp.ProcessDuration;
             queueMessage.SlotFulFillment = fulfillResp.SlotFulFillment;
             queueMessage.CanFulfill = fulfillResp.CanFulfill;

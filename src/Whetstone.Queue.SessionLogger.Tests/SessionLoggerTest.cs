@@ -1,16 +1,10 @@
-﻿using Amazon.Lambda.SQSEvents;
+﻿using Amazon;
+using Amazon.Lambda.SQSEvents;
 using Amazon.SQS;
 using Amazon.SQS.Model;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
-using Amazon;
-using Whetstone.Queue.SessionLogger;
-using Whetstone.StoryEngine;
-using Whetstone.StoryEngine.Models.Messaging;
 using Xunit;
 
 namespace Whetstone.Queue.SessionLogger.Tests

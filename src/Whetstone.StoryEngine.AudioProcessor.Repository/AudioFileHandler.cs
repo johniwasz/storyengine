@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System;
 using System.IO;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models.AudioProcessor;
 using Whetstone.StoryEngine.Models.Configuration;
@@ -17,7 +16,7 @@ namespace Whetstone.StoryEngine.AudioProcessor.Repository
         private IFileRepository _fileRepository;
         private AudioProcessorConfig _config;
 
-        public AudioFileHandler(ILogger<AudioFileHandler> logger, IAudioProcessor audioProcessor, IFileRepository fileRepository, IOptions<AudioProcessorConfig> config )
+        public AudioFileHandler(ILogger<AudioFileHandler> logger, IAudioProcessor audioProcessor, IFileRepository fileRepository, IOptions<AudioProcessorConfig> config)
         {
             _logger = logger;
             _config = config.Value;

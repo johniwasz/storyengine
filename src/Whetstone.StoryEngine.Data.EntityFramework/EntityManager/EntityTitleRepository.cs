@@ -36,7 +36,7 @@
 
 //            _contextOptions = contextOptions;
 //            //  _engineContext = engineContext;
-            
+
 //            Logger =  StoryEngineLogFactory.CreateLogger<EntityTitleRepository>();
 
 //        }
@@ -120,7 +120,7 @@
 //                            foreach (DataInventoryConditionXRef invXRef in invCondition.InventoryConditionXRefs)
 //                            {
 
-                              
+
 //                                context.InventoryConditionXRefs.AddOrUpdate(invXRef);
 //                            }
 //                            // ReSharper disable once AssignNullToNotNullAttribute
@@ -210,7 +210,7 @@
 
 //        private static void DeleteMissingEntities<T>(DbSet<T> entitySet, List<T> sourceModels, List<T> dbModels) 
 //                                                                where T : class, IStoryDataItem
-                                                               
+
 //        {
 //            List<T> removeSlots = new List<T>();
 //            foreach (T dbSlot in dbModels)
@@ -273,7 +273,7 @@
 //                await context.SaveChangesAsync();
 //            }
 //        }
-        
+
 
 //        public async Task<StoryNode> GetBadIntentNodeAsync(string titleId, int badIntentCount)
 //        {
@@ -290,18 +290,18 @@
 
 //                DataTitle title = await context.StoryTitles
 //                  .Include(x=> x.Versions)    
-                
+
 //                    .SingleOrDefaultAsync(st =>
 //                        st.ShortName.Equals(shortName, StringComparison.OrdinalIgnoreCase));
 
 //                return title;
 //            }
-            
+
 //        }
 
 
 
-      
+
 
 
 //        public  async Task<DataTitleVersion> GetCurrentTitleVersionAsync(string titleId, string version)
@@ -357,7 +357,7 @@
 
 //                                if (storyVersion != null)
 //                                {
-                                  
+
 //                                    LoadSlots(storyVersion, fetchReader);
 
 //                                    // Get the intents
@@ -365,7 +365,7 @@
 
 //                                    // Get the intent slot mappings
 //                                    LoadSlotMappings(storyVersion, fetchReader);
-                                    
+
 //                                    LoadChapterWithTitles(storyVersion, fetchReader);
 
 //                                    Tuple<List<DataNode>, List<DataNode>> nodeTuple = LoadNodes(storyVersion, fetchReader);
@@ -376,7 +376,7 @@
 
 //                                    // Load Conditions and cross references.
 //                                    LoadNodeVisitConditions(storyVersion,storyNodes,fetchReader);
-                                    
+
 //                                    LoadNodeInventoryConditions(storyVersion, fetchReader);
 
 //                                    LoadLocalizedResponses(storyVersion,storyNodes, fetchReader);
@@ -389,7 +389,7 @@
 
 //                return storyVersion;
 //            }
-       
+
 //        }
 
 
@@ -470,7 +470,7 @@
 //                                foundItem.InventoryConditionXRefs.Add(invCondItem);
 
 //                                foundInvCondition.InventoryConditionXRefs.Add(invCondItem);
-                                
+
 //                            }
 
 
@@ -716,7 +716,7 @@
 //                        }
 //                    }
 //                } // End of initial speech fragment loading
-                
+
 
 //                // loop through all the loaded fragments and wire up the true and false references
 //                foreach (DataSpeechFragment speechFrag in speechFragments)
@@ -762,7 +762,7 @@
 //                reader.NextResult();
 //                reader.NextResult();
 
-               
+
 //                reader.NextResult();
 //            }
 //        }
@@ -819,8 +819,8 @@
 //                reader.NextResult();
 //                reader.NextResult();
 //            }
-          
-            
+
+
 
 
 //        }
@@ -919,11 +919,11 @@
 
 //        private static void LoadSlotMappings(DataTitleVersion storyVersion, Npgsql.NpgsqlDataReader reader)
 //        {
-         
+
 //            while (reader.Read())
 //            {
 //                DataIntentSlotMapping slotMapping = new DataIntentSlotMapping();
-             
+
 //                slotMapping.Alias = reader.GetString(0);
 //                long parentIntentId = reader.GetInt64(1);
 //                long? slotTypeId = reader.IsDBNull(2) ? null : (long?)reader.GetInt64(2);
@@ -1079,9 +1079,9 @@
 
 //               await  context.Database.ExecuteSqlCommandAsync("SELECT purgeversion({0})", versionId);
 
-               
+
 //            }
-            
+
 //        }
 
 //        public Task<StoryNode> GetNodeByNameAsync(string titleId, string storyNodeName)

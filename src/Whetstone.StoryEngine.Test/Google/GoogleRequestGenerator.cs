@@ -1,7 +1,6 @@
 ﻿using Google.Cloud.Dialogflow.V2;
 using Google.Protobuf;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +26,7 @@ namespace Whetstone.StoryEngine.Test.Google
         public async Task<WebhookResponse> GetResponseAsync(WebhookRequest request)
         {
             WebhookResponse resp = null;
-           // WebhookRequest request = jsonParser.Parse<WebhookRequest>(requestText);
+            // WebhookRequest request = jsonParser.Parse<WebhookRequest>(requestText);
 
 
             using (HttpClient client = new HttpClient())

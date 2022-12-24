@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
-using Whetstone.StoryEngine.Models.Tracking;
+﻿using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2.DocumentModel;
+using Amazon.DynamoDBv2.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,13 +9,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using Amazon.DynamoDBv2.DataModel;
-using Amazon.DynamoDBv2.DocumentModel;
-using Amazon.DynamoDBv2.Model;
+using Whetstone.StoryEngine.Models.Tracking;
 
 namespace Whetstone.StoryEngine.Models.Data
 {
@@ -31,7 +28,7 @@ namespace Whetstone.StoryEngine.Models.Data
         private const string FIELD_TITLEID = "titleId";
         private const string FIELD_CLIENTTYPE = "client";
         private const string FIELD_CURRENTNODE = "currentNode";
-        private const string FIELD_STORYNODE = "storyNode"; 
+        private const string FIELD_STORYNODE = "storyNode";
         private const string FIELD_CREATEDATE = "createDate";
         private const string FIELD_LASTACCESSEDDATE = "lastAccessedDate";
         private const string FIELD_LOCALE = "locale";
@@ -240,50 +237,50 @@ namespace Whetstone.StoryEngine.Models.Data
                 retAttribs = new Dictionary<string, AttributeValue>();
 
                 if (!string.IsNullOrWhiteSpace(clientUser.HashKey))
-                    retAttribs.Add(FIELD_HASHKEY, new AttributeValue() {S = clientUser.HashKey});
+                    retAttribs.Add(FIELD_HASHKEY, new AttributeValue() { S = clientUser.HashKey });
 
                 if (clientUser.Id.HasValue)
                 {
-                    retAttribs.Add(FIELD_ID, new AttributeValue() {S = clientUser.Id.ToString()});
+                    retAttribs.Add(FIELD_ID, new AttributeValue() { S = clientUser.Id.ToString() });
                 }
 
                 retAttribs.Add(FIELD_SORTKEY, new AttributeValue(SORT_KEY_VALUE));
 
 
                 if (!string.IsNullOrWhiteSpace(clientUser.UserId))
-                    retAttribs.Add(FIELD_CLIENTUSERID, new AttributeValue() {S = clientUser.UserId});
+                    retAttribs.Add(FIELD_CLIENTUSERID, new AttributeValue() { S = clientUser.UserId });
 
                 if (clientUser.TitleId != default(Guid))
-                    retAttribs.Add(FIELD_TITLEID, new AttributeValue() {S = clientUser.TitleId.ToString()});
+                    retAttribs.Add(FIELD_TITLEID, new AttributeValue() { S = clientUser.TitleId.ToString() });
 
-                retAttribs.Add(FIELD_CLIENTTYPE, new AttributeValue() {S = clientUser.Client.ToString()});
+                retAttribs.Add(FIELD_CLIENTTYPE, new AttributeValue() { S = clientUser.Client.ToString() });
 
                 if (!string.IsNullOrWhiteSpace(clientUser.CurrentNodeName))
-                    retAttribs.Add(FIELD_CURRENTNODE, new AttributeValue() {S = clientUser.CurrentNodeName});
+                    retAttribs.Add(FIELD_CURRENTNODE, new AttributeValue() { S = clientUser.CurrentNodeName });
 
                 if (!string.IsNullOrWhiteSpace(clientUser.StoryNodeName))
-                    retAttribs.Add(FIELD_STORYNODE, new AttributeValue() {S = clientUser.StoryNodeName});
+                    retAttribs.Add(FIELD_STORYNODE, new AttributeValue() { S = clientUser.StoryNodeName });
 
                 if (clientUser.CreatedTime != default(DateTime))
-                    retAttribs.Add(FIELD_CREATEDATE, new AttributeValue() {S = clientUser.CreatedTime.ToString(CultureInfo.InvariantCulture) });
+                    retAttribs.Add(FIELD_CREATEDATE, new AttributeValue() { S = clientUser.CreatedTime.ToString(CultureInfo.InvariantCulture) });
 
                 if (clientUser.LastAccessedDate != default(DateTime))
                     retAttribs.Add(FIELD_LASTACCESSEDDATE,
-                        new AttributeValue() {S = clientUser.LastAccessedDate.ToString(CultureInfo.InvariantCulture) });
+                        new AttributeValue() { S = clientUser.LastAccessedDate.ToString(CultureInfo.InvariantCulture) });
 
                 if (!string.IsNullOrWhiteSpace(clientUser.Locale))
-                    retAttribs.Add(FIELD_LOCALE, new AttributeValue() {S = clientUser.Locale});
+                    retAttribs.Add(FIELD_LOCALE, new AttributeValue() { S = clientUser.Locale });
 
                 if (clientUser.TitleState != null)
                 {
                     string titleState = JsonConvert.SerializeObject(clientUser.TitleState);
-                    retAttribs.Add(FIELD_TITLESTATE, new AttributeValue() {S = titleState});
+                    retAttribs.Add(FIELD_TITLESTATE, new AttributeValue() { S = titleState });
                 }
 
                 if (clientUser.PermanentTitleState != null)
                 {
                     string titleState = JsonConvert.SerializeObject(clientUser.PermanentTitleState);
-                    retAttribs.Add(FIELD_PERMTITLESTATE, new AttributeValue() {S = titleState});
+                    retAttribs.Add(FIELD_PERMTITLESTATE, new AttributeValue() { S = titleState });
                 }
 
 
@@ -298,7 +295,7 @@ namespace Whetstone.StoryEngine.Models.Data
         {
             DataTitleClientUser clientUser = null;
 
-            if (attribValues != null) 
+            if (attribValues != null)
             {
                 string hashKey = null;
                 if (attribValues.ContainsKey(FIELD_HASHKEY))
@@ -316,7 +313,7 @@ namespace Whetstone.StoryEngine.Models.Data
 
                     if (attribValues.ContainsKey(FIELD_CLIENTTYPE))
                     {
-                        clientUser.Client = (Models.Client) Enum.Parse(typeof(Client),  attribValues[FIELD_CLIENTTYPE].S);
+                        clientUser.Client = (Models.Client)Enum.Parse(typeof(Client), attribValues[FIELD_CLIENTTYPE].S);
                     }
 
                     if (attribValues.ContainsKey(FIELD_CURRENTNODE))
@@ -405,7 +402,7 @@ namespace Whetstone.StoryEngine.Models.Data
 
         public DynamoDBEntry ToEntry(object value)
         {
-           List<IStoryCrumb> storyCrumbs = value as List<IStoryCrumb>;
+            List<IStoryCrumb> storyCrumbs = value as List<IStoryCrumb>;
             if (storyCrumbs == null) throw new ArgumentOutOfRangeException();
 
             string data = JsonConvert.SerializeObject(storyCrumbs);

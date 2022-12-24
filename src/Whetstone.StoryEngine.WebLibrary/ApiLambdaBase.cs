@@ -1,13 +1,9 @@
-﻿using System;
-
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using System;
+using System.Diagnostics;
 using Whetstone.StoryEngine.DependencyInjection;
 using Whetstone.StoryEngine.Models.Configuration;
-
-
-using System.Diagnostics;
 
 namespace Whetstone.StoryEngine.WebLibrary
 {

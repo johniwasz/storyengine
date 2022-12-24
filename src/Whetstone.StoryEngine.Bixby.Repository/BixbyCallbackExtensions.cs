@@ -1,30 +1,26 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Whetstone.StoryEngine.Repository;
-using Microsoft.Extensions.Logging;
-using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Models;
-using Newtonsoft.Json;
-using System.Diagnostics;
-using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.DependencyInjection;
 using Whetstone.StoryEngine.Bixby.Repository.Models;
+using Whetstone.StoryEngine.Data;
+using Whetstone.StoryEngine.DependencyInjection;
+using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Story.Cards;
+using Whetstone.StoryEngine.Repository;
 
 namespace Whetstone.StoryEngine.Bixby.Repository
 {
     public static class BixbyCallbackExtensions
     {
         //private static readonly string SessionContextName = "enginecontext";
-        
-       // private static readonly ILogger _logger = StoryEngineLogFactory.CreateLogger();
 
-    //    private static readonly string AUDIO_CAPABILITY = "actions.capability.AUDIO_OUTPUT";
+        // private static readonly ILogger _logger = StoryEngineLogFactory.CreateLogger();
 
-        public static readonly string  SCREEN_CAPABILITY = "actions.capability.SCREEN_OUTPUT";
+        //    private static readonly string AUDIO_CAPABILITY = "actions.capability.AUDIO_OUTPUT";
+
+        public static readonly string SCREEN_CAPABILITY = "actions.capability.SCREEN_OUTPUT";
 
         public static readonly string WEBBROWSER_CAPABILITY = "actions.capability.WEB_BROWSER";
 
@@ -149,7 +145,7 @@ namespace Whetstone.StoryEngine.Bixby.Repository
             webResp.Dlg = FixAudioTags(webResp.Dlg, 0);
 
             var repromptResponse = localizedResponse.RepromptSpeechResponses;
-               
+
             if (repromptResponse != null)
             {
                 webResp.FollowUpPrompt = repromptResponse?.ToSsml(mediaLinker,
@@ -160,8 +156,8 @@ namespace Whetstone.StoryEngine.Bixby.Repository
                 webResp.FollowUpPrompt = string.Join(' ', localizedResponse.RepromptTextResponses);
             }
 
-            if (!string.IsNullOrWhiteSpace(generatedText) && localizedResponse.CardResponse!=null)//&&
-                 //(surfaceCaps.HasScreen || surfaceCaps.HasWebBrowser))
+            if (!string.IsNullOrWhiteSpace(generatedText) && localizedResponse.CardResponse != null)//&&
+                                                                                                    //(surfaceCaps.HasScreen || surfaceCaps.HasWebBrowser))
             {
                 // We have a card
                 webResp.HasCard = true;
@@ -209,18 +205,18 @@ namespace Whetstone.StoryEngine.Bixby.Repository
         private static readonly string AUDIO_TAG_SRC_ENDQUOTE = "'";
         private static readonly string AUDIO_TAG_BIXBY_FORMAT = "<audio src=\"{0}\"></audio>";
 
-     //   public static string AUDIO_CAPABILITY1 => AUDIO_CAPABILITY;
+        //   public static string AUDIO_CAPABILITY1 => AUDIO_CAPABILITY;
 
         //
         // The StoryEngine returns an audio tag that is incompatible with Bixby's interpreter so we need to do some surgery
         // The current tag uses the following format: <audio src='filename' />
         // We need to change it to: <audio src="filename"></audio>
         //
-        private static string FixAudioTags(string bixbyDlg, int nStartIndex )
+        private static string FixAudioTags(string bixbyDlg, int nStartIndex)
         {
             StringBuilder sb = new StringBuilder();
 
-            while ( bixbyDlg.IndexOf(AUDIO_TAG_PARTIAL_BEGIN, nStartIndex) != -1 )
+            while (bixbyDlg.IndexOf(AUDIO_TAG_PARTIAL_BEGIN, nStartIndex) != -1)
             {
                 // Extract the entire audio tag
                 int nAudioTagStart = bixbyDlg.IndexOf(AUDIO_TAG_PARTIAL_BEGIN, nStartIndex);

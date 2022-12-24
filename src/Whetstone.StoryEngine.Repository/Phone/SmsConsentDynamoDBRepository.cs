@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon;
+﻿using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Data;
-using Whetstone.StoryEngine.Models.Messaging;
-using Whetstone.StoryEngine.Repository.Phone;
 
 namespace Whetstone.StoryEngine.Repository.Phone
 {
@@ -26,7 +23,7 @@ namespace Whetstone.StoryEngine.Repository.Phone
 
         public SmsConsentDynamoDBRepository(IOptions<DynamoDBTablesConfig> dynamoConfig, IOptions<EnvironmentConfig> envConfig, ILogger<SmsConsentDynamoDBRepository> logger)
         {
-            
+
             _dynamoTableName = dynamoConfig?.Value?.UserTable ??
                                throw new ArgumentNullException(
                                    nameof(dynamoConfig));
@@ -43,11 +40,11 @@ namespace Whetstone.StoryEngine.Repository.Phone
 
         }
 
-        
+
         public async Task<UserPhoneConsent> GetConsentAsync(Guid consentId)
         {
 
-            if(consentId ==default(Guid))
+            if (consentId == default(Guid))
                 throw new ArgumentException($"{nameof(consentId)} is not set");
 
             UserPhoneConsent phoneConsent = null;
@@ -98,7 +95,7 @@ namespace Whetstone.StoryEngine.Repository.Phone
 
         public async Task<UserPhoneConsent> GetConsentAsync(string consentName, Guid phoneId)
         {
-            if(string.IsNullOrWhiteSpace(consentName))
+            if (string.IsNullOrWhiteSpace(consentName))
                 throw new ArgumentException($"{nameof(consentName)} is not set");
 
             if (phoneId == default(Guid))
@@ -117,11 +114,11 @@ namespace Whetstone.StoryEngine.Repository.Phone
                 {
                     TableName = _dynamoTableName,
 
-                   //    IndexName = "firstGSI",
+                    //    IndexName = "firstGSI",
                     KeyConditionExpression = "id=:v_phoneId and sortKey=:v_sortKey",
                     // KeyConditionExpression = "id=:v_userId AND begins_with(sortKey,:v_consentprefix)",
 
-                    
+
                     FilterExpression = "gsk1=:v_consentName",
 
                     ExpressionAttributeValues = new Dictionary<string, AttributeValue>
@@ -234,9 +231,9 @@ namespace Whetstone.StoryEngine.Repository.Phone
                     abbreviatedConsent.Add("consentId", new AttributeValue(phoneConsent.Id.Value.ToString()));
 
                     PutRequest shortConsentReq = new PutRequest(abbreviatedConsent);
-                    
+
                     WriteRequest abbvReq = new WriteRequest(shortConsentReq);
-                    
+
                     writeRequests.Add(abbvReq);
 
                     batchRequest.RequestItems.Add(_dynamoTableName, writeRequests);
@@ -282,7 +279,7 @@ namespace Whetstone.StoryEngine.Repository.Phone
         }
 
 
-     
+
 
     }
 }

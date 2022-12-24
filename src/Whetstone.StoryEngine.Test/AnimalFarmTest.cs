@@ -1,19 +1,15 @@
-﻿using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Data.Amazon;
-using Whetstone.StoryEngine.Data.Yaml;
-using Whetstone.StoryEngine.Models.Serialization;
-using Whetstone.StoryEngine.Models.Story;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
+using Whetstone.StoryEngine.Data;
+using Whetstone.StoryEngine.Data.Amazon;
+using Whetstone.StoryEngine.Models.Serialization;
+using Whetstone.StoryEngine.Models.Story;
 using Xunit;
 using YamlDotNet.Core;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Whetstone.StoryEngine.Test
 {
@@ -33,8 +29,8 @@ namespace Whetstone.StoryEngine.Test
 
             IStoryTitleImporter storyImporter = new S3StoryTitleImporter(fileRep);
 
-            
-            await storyImporter.ImportFromZipAsync( importZip);
+
+            await storyImporter.ImportFromZipAsync(importZip);
 
         }
 
@@ -57,7 +53,7 @@ namespace Whetstone.StoryEngine.Test
 
                 StoryNode darkPath3 = title.Nodes.FirstOrDefault(x => x.Name.Equals("DarkPath3", StringComparison.InvariantCultureIgnoreCase));
 
-                if(darkPath3!=null)
+                if (darkPath3 != null)
                 {
 
                     var choice = darkPath3.Choices.FirstOrDefault(x => x.IntentName.Equals("No", StringComparison.InvariantCultureIgnoreCase));
@@ -83,7 +79,7 @@ namespace Whetstone.StoryEngine.Test
 
 
             }
-            catch(YamlException yamlEx)
+            catch (YamlException yamlEx)
             {
                 Debug.WriteLine(yamlEx);
                 throw;

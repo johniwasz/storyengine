@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using Amazon;
-using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DataModel;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.DependencyInjection;
-using Whetstone.StoryEngine.Cache.Models;
-using Whetstone.StoryEngine.Cache.Settings;
 using Whetstone.StoryEngine.Data.Amazon;
-using Whetstone.StoryEngine.Cache.Manager;
 
 namespace Whetstone.StoryEngine.Data
 {
     public enum UserRepositoryType
     {
-        DynamoDB =1,
+        DynamoDB = 1,
         Database = 2
     }
 
@@ -25,11 +16,12 @@ namespace Whetstone.StoryEngine.Data
     public static class RegistrationExtensions
     {
 
-        public static void RegisterDynamoDbUserRepository(this IServiceCollection services, string userTableName) 
+        public static void RegisterDynamoDbUserRepository(this IServiceCollection services, string userTableName)
         {
 
 
-            services.Configure<DynamoUserTableConfig>(x => {
+            services.Configure<DynamoUserTableConfig>(x =>
+            {
 
                 x.TableName = userTableName;
             });

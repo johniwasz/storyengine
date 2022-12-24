@@ -1,8 +1,5 @@
-﻿using Whetstone.StoryEngine.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.Repository
@@ -10,7 +7,7 @@ namespace Whetstone.StoryEngine.Repository
     public interface IMediaStreamer
     {
 
-        Task<SimpleMediaResponse> GetFileStreamAsync(string environment, TitleVersion titleVer, string fileName, bool isFileEncrypted= true);
+        Task<SimpleMediaResponse> GetFileStreamAsync(string environment, TitleVersion titleVer, string fileName, bool isFileEncrypted = true);
 
     }
 }

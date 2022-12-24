@@ -1,22 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-
-using Newtonsoft.Json;
-
-using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.Model;
-
-using Microsoft.Extensions.DependencyInjection;
+﻿using Amazon.DynamoDBv2;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Notifications;
-using Whetstone.StoryEngine.SocketApi.Repository;
-
 using Whetstone.StoryEngine.Notifications.Repository.Amazon;
+using Whetstone.StoryEngine.SocketApi.Repository;
 
 namespace Whetstone.StoryEngine.Notifications.Repository
 {
@@ -52,7 +43,7 @@ namespace Whetstone.StoryEngine.Notifications.Repository
             _logger.LogInformation($"Simulating internal notification processing. Sleeping for {threadSleep}");
 
             System.Threading.Thread.Sleep(threadSleep);
-          
+
             await _internalProcessor.ProcessNotification(request);
         }
 

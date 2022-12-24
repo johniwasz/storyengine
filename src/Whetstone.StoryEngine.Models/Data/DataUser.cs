@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Runtime.Serialization;
-using System.Text;
-using Newtonsoft.Json;
 
 namespace Whetstone.StoryEngine.Models.Data
 {

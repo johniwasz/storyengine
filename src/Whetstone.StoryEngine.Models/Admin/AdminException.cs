@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Whetstone.StoryEngine.Models.Serialization;
+﻿using Microsoft.Extensions.Logging;
+using System;
 
 namespace Whetstone.StoryEngine.Models.Admin
 {
@@ -26,7 +22,7 @@ namespace Whetstone.StoryEngine.Models.Admin
 
         public abstract string ErrorCode { get; }
 
-        public abstract string Title { get;  }
+        public abstract string Title { get; }
 
 
         public virtual int StatusCode { get; } = 500;

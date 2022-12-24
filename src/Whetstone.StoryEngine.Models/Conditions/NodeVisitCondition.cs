@@ -1,19 +1,17 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Whetstone.StoryEngine.Models.Tracking;
 using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Conditions
 {
 
-    
+
     [DataContract]
     public class NodeVisitCondition : StoryConditionBase
     {
@@ -33,12 +31,12 @@ namespace Whetstone.StoryEngine.Models.Conditions
 
         [NotMapped]
         [YamlMember]
-        [JsonProperty("conditionType", Order =0)]
+        [JsonProperty("conditionType", Order = 0)]
         [DataMember]
         public override ConditionType ConditionType { get; set; }
 
 
-        
+
         public override bool IsStoryCondition(ConditionInfo conditionInfo)
         {
 
@@ -49,16 +47,16 @@ namespace Whetstone.StoryEngine.Models.Conditions
             bool areNodesVisited = AreNodesVisited(storyCrumbs);
 
             // Check the permanent nodes.
-            if(!areNodesVisited)
+            if (!areNodesVisited)
                 areNodesVisited = AreNodesVisited(conditionInfo.PermanentCrumbs);
 
 
             if (RequiredOutcome.GetValueOrDefault(true))
                 return areNodesVisited;
-            
+
 
             return !areNodesVisited;
-    
+
         }
 
         private bool AreNodesVisited(List<IStoryCrumb> storyCrumbs)

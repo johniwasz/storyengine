@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
-using Whetstone.StoryEngine.Models.Data;
 using Whetstone.StoryEngine.Data.Caching;
+using Whetstone.StoryEngine.Models.Data;
 
 
 namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
@@ -55,7 +55,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
         }
 
 
-  
+
 
         protected async Task<DataTitleVersion> GetVersionDataAsync(
                 Guid versionId, bool includeDeleted)
@@ -68,7 +68,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
                 if (includeDeleted)
                 {
                     dataVersion = await userContext.TitleVersions
-                        .Where(tv => tv.Id.Equals(versionId))                        
+                        .Where(tv => tv.Id.Equals(versionId))
                         .SingleOrDefaultAsync();
                 }
                 else
@@ -96,7 +96,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
                     dataVersion = await userContext.TitleVersions.Join(userContext.Titles,
                             tv => tv.TitleId,
                             t => t.Id,
-                            (tv, t) => new {Title = t, TitleVerion = tv})
+                            (tv, t) => new { Title = t, TitleVerion = tv })
                         .Where(t => t.Title.ShortName.ToLower().Equals(titleName.ToLower())
                                     && t.TitleVerion.Version.ToLower().Equals(version.ToLower()))
                         .Select(t => t.TitleVerion)
@@ -109,7 +109,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
                     dataVersion = await userContext.TitleVersions.Join(userContext.Titles,
                             tv => tv.TitleId,
                             t => t.Id,
-                            (tv, t) => new {Title = t, TitleVerion = tv})
+                            (tv, t) => new { Title = t, TitleVerion = tv })
                         .Where(t => t.Title.ShortName.ToLower().Equals(titleName.ToLower())
                                     && t.TitleVerion.Version.ToLower().Equals(version.ToLower())
                                     && !t.TitleVerion.IsDeleted)
@@ -132,10 +132,10 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
         }
 
 
-        protected async Task<DataTitle> CreateOrUpdateTitleAsync( Guid? dataTitleId,
+        protected async Task<DataTitle> CreateOrUpdateTitleAsync(Guid? dataTitleId,
             string titleShortName, string titleLongName, string description)
         {
- 
+
 
             if (string.IsNullOrEmpty(titleShortName))
                 throw new ArgumentNullException(nameof(titleShortName));
@@ -145,7 +145,9 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
 
             DataTitle dataTitle = new DataTitle
             {
-                Description = description, ShortName = titleShortName, Title = titleLongName
+                Description = description,
+                ShortName = titleShortName,
+                Title = titleLongName
             };
 
 
@@ -176,7 +178,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
 
             using (IUserDataContext userContext = await UserContextRetriever.GetUserDataContextAsync())
             {
-                DataTitle dt = new DataTitle {Id = dataTitleId};
+                DataTitle dt = new DataTitle { Id = dataTitleId };
                 userContext.Titles.Attach(dt);
                 userContext.Titles.Remove(dt);
                 await userContext.SaveChangesAsync();

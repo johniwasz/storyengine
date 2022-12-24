@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
-using Whetstone.StoryEngine.Models.Story;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Whetstone.StoryEngine.Models.Data
 {
 
     [Table("ChoiceConditionVisitXRefs")]
-    public class ChoiceConditionVisitXRef 
+    public class ChoiceConditionVisitXRef
     {
         [Column("ChoiceId")]
         public long ChoiceId { get; set; }

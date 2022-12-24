@@ -1,10 +1,8 @@
-﻿using System;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Net.Http.Headers;
+using System;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.CoreApi.Models;
 using Whetstone.StoryEngine.Models.Admin;
 using Whetstone.StoryEngine.Security;
@@ -30,7 +28,7 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
             ILogger<TokensController> logger)
         {
             _authenticator = authenticator ?? throw new ArgumentNullException(nameof(authenticator));
-           
+
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -38,14 +36,14 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
         [HttpPost]
         public async Task<IActionResult> AuthenticateAsync(AuthCredentials creds)
         {
-            if(creds == null)
+            if (creds == null)
                 ModelState.AddModelError("BadMessage", "Authentication credentials cannot be null");
             else
             {
                 if (string.IsNullOrWhiteSpace(creds.UserName))
                     ModelState.AddModelError("BadMessage", "name is required");
-                
-                if(string.IsNullOrWhiteSpace(creds.UserSecret))
+
+                if (string.IsNullOrWhiteSpace(creds.UserSecret))
                     ModelState.AddModelError("BadMessage", "password is required");
             }
 
@@ -54,10 +52,10 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
 
             TokenResult tokenRes;
 
-           
+
             tokenRes = await _authenticator.AuthenticateAsync(creds);
 
-            
+
             return new OkObjectResult(tokenRes);
         }
 
@@ -70,7 +68,7 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
             string accessToken = null;
             if (Request.Headers.ContainsKey(AuthorizationHeaderName))
             {
-                var authHeader =Request.Headers[AuthorizationHeaderName];
+                var authHeader = Request.Headers[AuthorizationHeaderName];
 
                 if (authHeader.Count == 1)
                 {
@@ -108,7 +106,7 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
             {
                 RefreshSessionRequest refSession = new RefreshSessionRequest
                 {
-                    
+
                     // ReSharper disable once PossibleNullReferenceException
                     RefreshToken = refreshRequest.RefreshToken,
                     AuthToken = accessToken
@@ -141,7 +139,7 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
         [Route("signout")]
         public async Task<IActionResult> SignOutAsync(SignOutRequest request)
         {
-   
+
             await _authenticator.SignOutAsync(request);
 
             return this.Ok();

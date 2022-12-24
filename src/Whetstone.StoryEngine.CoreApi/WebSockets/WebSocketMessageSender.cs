@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
 using System.Net;
 using System.Net.WebSockets;
-
-using Microsoft.Extensions.Logging;
-
-using Whetstone.StoryEngine.SocketApi.Repository;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
+using Whetstone.StoryEngine.SocketApi.Repository;
 
 namespace Whetstone.StoryEngine.CoreApi.WebSockets
 {

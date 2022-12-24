@@ -1,14 +1,10 @@
 ﻿using Amazon.Lambda.Core;
 using Amazon.Lambda.RuntimeSupport;
-using Amazon.Lambda.Serialization.Json;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Messaging;
-using Newtonsoft.Json;
 
 namespace Whetstone.StoryEngine.MessageSender
 {
@@ -53,13 +49,13 @@ namespace Whetstone.StoryEngine.MessageSender
             }
         }
 
-    
+
 
         public static async Task<IOutboundNotificationRecord> ProcessRequestAsync(IOutboundNotificationRecord request, ILambdaContext context)
         {
 
-                return await _nativeFunction.Value.DispatchMessageAsync(request, context);
-            
+            return await _nativeFunction.Value.DispatchMessageAsync(request, context);
+
 
 
             //await _nativeFunction.Value.FunctionHandler(request, context);

@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Extensions.Caching.Distributed;
+﻿using Microsoft.Extensions.Caching.Distributed;
+using System;
 using Whetstone.StoryEngine.Cache.Models;
 
 namespace Whetstone.StoryEngine.Cache.Manager

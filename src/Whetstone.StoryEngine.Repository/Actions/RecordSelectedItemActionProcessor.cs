@@ -38,7 +38,7 @@ namespace Whetstone.StoryEngine.Repository.Actions
 
             var slotNames = selItemData.SlotNames;
 
-         
+
             if (crumbs == null)
                 crumbs = new List<IStoryCrumb>();
             StringBuilder applyActionBuilder = new StringBuilder();
@@ -78,7 +78,7 @@ namespace Whetstone.StoryEngine.Repository.Actions
                             crumbRecord.Value = slotValue;
                             crumbs.Add(crumbRecord);
 
-                            if(isPrivacyEnabled)
+                            if (isPrivacyEnabled)
                                 _dataLogger.LogInformation($"Adding selection from slot {crumbRecord.Name}");
                             else
                                 _dataLogger.LogInformation($"Adding selection from {crumbRecord}", crumbRecord);
@@ -93,7 +93,7 @@ namespace Whetstone.StoryEngine.Repository.Actions
 
                             if (isPrivacyEnabled)
                                 _dataLogger.LogInformation($"Replacing value in slot {crumbRecord.Name}");
-                            else                                
+                            else
                                 _dataLogger.LogInformation($"Updating old slot {oldCrumbRecord} to {crumbRecord}", oldCrumbRecord, crumbRecord);
                         }
                     }

@@ -1,28 +1,18 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
-using Amazon.DynamoDBv2.Model;
-using Amazon.Runtime.Internal.Util;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
-using Microsoft.Extensions.Logging;
 using Whetstone.StoryEngine.Data.Caching;
 using Whetstone.StoryEngine.Data.EntityFramework.EntityManager;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Admin;
 using Whetstone.StoryEngine.Models.Data;
-using System.Threading;
 using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.Data;
-
-using ILogger = Amazon.Runtime.Internal.Util.ILogger;
 
 namespace Whetstone.StoryEngine.Data.EntityFramework
 {
@@ -42,18 +32,18 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
         //}
 
         private readonly ILogger<ProjectRepository> _logger;
-       
 
-       // TODO Use the IAuthorization service to validate project repository access
+
+        // TODO Use the IAuthorization service to validate project repository access
 #pragma warning disable IDE0060 // Remove unused parameter
-        public ProjectRepository(IUserContextRetriever userContextRetriever, ITitleCacheRepository titleCacheRep, ILogger<ProjectRepository> logger) 
+        public ProjectRepository(IUserContextRetriever userContextRetriever, ITitleCacheRepository titleCacheRep, ILogger<ProjectRepository> logger)
             : base(userContextRetriever, titleCacheRep)
 #pragma warning restore IDE0060 // Remove unused parameter
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-        
-           
+
+
         }
 
         public Task<Project> GetProjectAsync(Guid id)
@@ -150,7 +140,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
 
             ClaimsPrincipal prin = Thread.CurrentPrincipal as ClaimsPrincipal;
 
-            if(prin == null)
+            if (prin == null)
             {
                 throw new Exception("Principal not found");
             }
@@ -161,8 +151,8 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
             {
                 Guid? userSid = prin.GetUserSid();
 
-                if(userSid.HasValue)
-                { 
+                if (userSid.HasValue)
+                {
                     await using var userContext = await UserContextRetriever.GetUserDataContextAsync();
 
                     var titleFound = userContext.Titles
@@ -284,7 +274,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
 
                     if (updateRequest.LogFullClientMessages.HasValue)
                     {
-                      
+
 
                         if (versionFound.LogFullClientMessages != updateRequest.LogFullClientMessages)
                         {
@@ -293,7 +283,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
                             versionFound.LogFullClientMessages = updateRequest.LogFullClientMessages.Value;
 
                             // Push logging changes to the cache.
-                            
+
                         }
                     }
 
@@ -327,22 +317,22 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
         {
 
             var foundItemItems = await (from tvd in userContext.TitleVersionDeployments
-                join tv in userContext.TitleVersions on tvd.VersionId equals tv.Id
-                join t in userContext.Titles on tv.TitleId equals t.Id
-                where tv.Id == versionId && !tv.IsDeleted && !tvd.IsDeleted
-                select new
-                {
-                    ProjectId = t.Id,
-                    VersionId = tv.Id,
-                    DeploymentId = tvd.Id,
-                    IsVersionDeleted = tv.IsDeleted,
-                    tv.LogFullClientMessages,
-                    tv.Version,
-                    ProjectName = t.ShortName,
-                    tvd.Alias,
-                    tvd.Client,
-                    tvd.ClientIdentifier,
-                }).ToListAsync();
+                                        join tv in userContext.TitleVersions on tvd.VersionId equals tv.Id
+                                        join t in userContext.Titles on tv.TitleId equals t.Id
+                                        where tv.Id == versionId && !tv.IsDeleted && !tvd.IsDeleted
+                                        select new
+                                        {
+                                            ProjectId = t.Id,
+                                            VersionId = tv.Id,
+                                            DeploymentId = tvd.Id,
+                                            IsVersionDeleted = tv.IsDeleted,
+                                            tv.LogFullClientMessages,
+                                            tv.Version,
+                                            ProjectName = t.ShortName,
+                                            tvd.Alias,
+                                            tvd.Client,
+                                            tvd.ClientIdentifier,
+                                        }).ToListAsync();
 
             foreach (var foundItem in foundItemItems)
             {
@@ -350,7 +340,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
                 {
                     TitleId = foundItem.ProjectId,
                     VersionId = foundItem.VersionId,
-                    Alias =foundItem.Alias,
+                    Alias = foundItem.Alias,
                     LogFullClientMessages = foundItem.LogFullClientMessages,
                     DeploymentId = foundItem.DeploymentId,
                     Version = foundItem.Version,
@@ -361,7 +351,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
                 await TitleCacheRep.SetAppMappingAsync(foundItem.Client, foundItem.ClientIdentifier, titleVer);
             }
 
-            
+
 
         }
 
@@ -430,28 +420,28 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
                 await using var userContext = await UserContextRetriever.GetUserDataContextAsync();
 
 
-               var foundItem = await  userContext.TitleVersions.Join(userContext.Titles, tv => tv.TitleId,
-                    t => t.Id,
-                    (tv, t) => new
-                    {
-                        ProjectId = t.Id.Value,
-                        VersionId = tv.Id.Value,
-                        ProjectName = t.ShortName,
-                        tv.LogFullClientMessages,
-                        tv.IsDeleted,
-                        tv.Version
-                    }).Where(joinedResult => 
-                   !joinedResult.IsDeleted && 
-                   joinedResult.ProjectId == projectId && 
-                   joinedResult.VersionId== versionId).SingleOrDefaultAsync();
-
-               
-               if (foundItem == null)
-                   throw new Exception("Project not associated with version");
+                var foundItem = await userContext.TitleVersions.Join(userContext.Titles, tv => tv.TitleId,
+                     t => t.Id,
+                     (tv, t) => new
+                     {
+                         ProjectId = t.Id.Value,
+                         VersionId = tv.Id.Value,
+                         ProjectName = t.ShortName,
+                         tv.LogFullClientMessages,
+                         tv.IsDeleted,
+                         tv.Version
+                     }).Where(joinedResult =>
+                    !joinedResult.IsDeleted &&
+                    joinedResult.ProjectId == projectId &&
+                    joinedResult.VersionId == versionId).SingleOrDefaultAsync();
 
 
+                if (foundItem == null)
+                    throw new Exception("Project not associated with version");
 
-               DataTitleVersionDeployment newDeployment = new DataTitleVersionDeployment
+
+
+                DataTitleVersionDeployment newDeployment = new DataTitleVersionDeployment
                 {
                     Alias = deploymentRequest.Alias,
 
@@ -526,19 +516,19 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
 
 
                 var foundItem = await (from tvd in userContext.TitleVersionDeployments
-                    join tv in userContext.TitleVersions on tvd.VersionId equals tv.Id
-                    join t in userContext.Titles on tv.TitleId equals t.Id
-                    where tvd.Id.Value == deploymentId && tv.Id == versionId && t.Id == projectId
-                    select new
-                    {
-                        ProjectId = t.Id,
-                        VersionId = tv.Id,
-                        Deployment = tvd,
-                        IsVersionDeleted = tv.IsDeleted,
-                        t.ShortName,
+                                       join tv in userContext.TitleVersions on tvd.VersionId equals tv.Id
+                                       join t in userContext.Titles on tv.TitleId equals t.Id
+                                       where tvd.Id.Value == deploymentId && tv.Id == versionId && t.Id == projectId
+                                       select new
+                                       {
+                                           ProjectId = t.Id,
+                                           VersionId = tv.Id,
+                                           Deployment = tvd,
+                                           IsVersionDeleted = tv.IsDeleted,
+                                           t.ShortName,
 
 
-                    }).SingleOrDefaultAsync();
+                                       }).SingleOrDefaultAsync();
 
                 if (foundItem == null)
                     throw new Exception("Project and Version not associated with deployment");
@@ -546,7 +536,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
 
                 if (!deploymentItem.IsDeleted)
                 {
-                   
+
 
                     userContext.TitleVersionDeployments.Update(deploymentItem);
                     deploymentItem.IsDeleted = true;
@@ -579,7 +569,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
             {
                 throw new ArgumentException($"Invalid value provided for {nameof(versionId)}");
             }
-                    
+
             IEnumerable<AudioFileInfo> retAudioFiles = new List<AudioFileInfo>();
 
             return await Task.FromResult(retAudioFiles);

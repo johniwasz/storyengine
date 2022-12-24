@@ -1,15 +1,11 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.Extensions.Logging;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
+using Whetstone.StoryEngine.Google.Repository;
 using Whetstone.StoryEngine.Google.Repository.Models;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Data;
-using Microsoft.Extensions.Logging;
-using Whetstone.StoryEngine.Google.Repository;
 using Whetstone.StoryEngine.Repository;
 using Whetstone.StoryEngine.UnitTests;
 using Xunit;
@@ -39,7 +35,7 @@ namespace Whetstone.UnitTests
                 Assert.True((resp.LocalizedResponse.CardResponse.Buttons?.Any()).GetValueOrDefault(false), $"Expected buttons on card response on node {expectedResult.NodeName}");
             }
 
-            if(expectedResult.HasCardText)
+            if (expectedResult.HasCardText)
             {
                 Assert.True((resp.LocalizedResponse.CardResponse.Text?.Any()).GetValueOrDefault(false), $"Expecting card text. No card text in node {expectedResult.NodeName}");
             }
@@ -52,7 +48,7 @@ namespace Whetstone.UnitTests
                 if (!(resp.LocalizedResponse.RepromptSpeechResponses?.Any()).GetValueOrDefault(false))
                 {
                     // if the speech responses are empty, then the text reprompts should not be
-                    Assert.True((resp.LocalizedResponse.RepromptTextResponses?.Any()).GetValueOrDefault(false), 
+                    Assert.True((resp.LocalizedResponse.RepromptTextResponses?.Any()).GetValueOrDefault(false),
                         $"The node {expectedResult.NodeName} is missing both RepromptSpeechResponses and RepromptTextResponses");
 
                 }

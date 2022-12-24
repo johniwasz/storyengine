@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 using Whetstone.StoryEngine.Models.Conditions;
 
 namespace Whetstone.StoryEngine.Models.Story
@@ -17,13 +15,13 @@ namespace Whetstone.StoryEngine.Models.Story
     {
 
 
-         [Column(Order = 0)]
-         [Key]
+        [Column(Order = 0)]
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long? Id { get; set; }
 
 
-        [Column(Order =1)]
+        [Column(Order = 1)]
         [ForeignKey("TrueResultId")]
         public DataNodeMapping TrueResult { get; set; }
 

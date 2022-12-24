@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Newtonsoft.Json;
-
-namespace Whetstone.StoryEngine.Models.Data
+﻿namespace Whetstone.StoryEngine.Models.Data
 {
 
     //[JsonObject(Title ="LocalizedPlainText")]
@@ -43,7 +37,7 @@ namespace Whetstone.StoryEngine.Models.Data
     //    [BsonIgnoreIfNull()]
     //    public string Locale { get; set; }
 
-      
+
     //    [Required]
     //    [JsonProperty("text", DefaultValueHandling = DefaultValueHandling.Ignore)]
     //    [BsonIgnoreIfNull()]

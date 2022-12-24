@@ -1,10 +1,8 @@
-﻿using System;
-using System.Globalization;
+﻿using PhoneNumbers;
+using System;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Linq;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using PhoneNumbers;
 using Whetstone.StoryEngine.Models.Messaging;
 
 namespace Whetstone.StoryEngine
@@ -29,7 +27,7 @@ namespace Whetstone.StoryEngine
             Regex checker = new Regex(pattern);
 
 
-            if(string.IsNullOrWhiteSpace(phoneNumber))
+            if (string.IsNullOrWhiteSpace(phoneNumber))
                 return (null, false);
 
             bool isValidNumber = checker.IsMatch(phoneNumber);
@@ -62,7 +60,7 @@ namespace Whetstone.StoryEngine
 
                 }
             }
-            
+
             return (formattedNumber, isValidNumber);
         }
 
@@ -129,7 +127,7 @@ namespace Whetstone.StoryEngine
             string phoneDigits = new string(phoneNumber.Where(Char.IsDigit).ToArray());
             string returnNumber = null;
 
-            if ( phoneDigits.Length > 0 )
+            if (phoneDigits.Length > 0)
             {
                 StringBuilder phoneBuilder = new StringBuilder();
 

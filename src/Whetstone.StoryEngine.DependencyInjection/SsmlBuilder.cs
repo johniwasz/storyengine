@@ -11,7 +11,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
     public static class SsmlBuilder
     {
 
-        public static string ToSsml(this IEnumerable<SpeechFragment> fragments,  IMediaLinker mediaLinker, TitleVersion titleVer)
+        public static string ToSsml(this IEnumerable<SpeechFragment> fragments, IMediaLinker mediaLinker, TitleVersion titleVer)
         {
 
 

@@ -1,9 +1,6 @@
 ﻿using Amazon;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Whetstone.StoryEngine.ConfigurationExtensions
 {

@@ -8,8 +8,8 @@ namespace Whetstone.StoryEngine.CoreApi.WebSockets
     public class AuthenticatedSocket : AuthSocketBase
     {
 
-        public AuthenticatedSocket( WebSocket socket, string userId, string authToken, string clientId )
-            :base( Guid.NewGuid().ToString(), socket, userId, authToken, clientId )
+        public AuthenticatedSocket(WebSocket socket, string userId, string authToken, string clientId)
+            : base(Guid.NewGuid().ToString(), socket, userId, authToken, clientId)
         {
             if (socket == null)
                 throw new InvalidOperationException("socket cannot be null!");

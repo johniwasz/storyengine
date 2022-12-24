@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Data.EntityFramework
-{ 
+{
     public class DuplicateKeyException : Exception
     {
 

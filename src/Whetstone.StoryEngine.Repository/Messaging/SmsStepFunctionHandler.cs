@@ -1,16 +1,11 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Amazon;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.Models.Messaging.Sms;
-using System.Linq;
-using Whetstone.StoryEngine.Repository.Amazon;
-using Amazon;
 using Whetstone.StoryEngine.Models.Messaging;
+using Whetstone.StoryEngine.Repository.Amazon;
 
 namespace Whetstone.StoryEngine.Repository.Messaging
 {
@@ -22,7 +17,7 @@ namespace Whetstone.StoryEngine.Repository.Messaging
         private RegionEndpoint _endpoint;
         private IStepFunctionSender _stepFunctionSender;
 
-        public SmsStepFunctionHandler(IOptions<EnvironmentConfig> envConfig, 
+        public SmsStepFunctionHandler(IOptions<EnvironmentConfig> envConfig,
                                       IOptions<SmsStepFunctionHandlerConfig> config,
                                       IStepFunctionSender stepFunctionSender,
                                       ILogger<SmsStepFunctionHandler> logger)

@@ -1,16 +1,13 @@
-﻿using Whetstone.StoryEngine.Models.Actions;
-using Whetstone.StoryEngine.Models.Serialization;
-using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.Models.Tracking;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Diagnostics;
+using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models.Conditions;
+using Whetstone.StoryEngine.Models.Serialization;
+using Whetstone.StoryEngine.Models.Story;
+using Whetstone.StoryEngine.Models.Tracking;
+using Xunit;
 
 namespace Whetstone.StoryEngine.AlexaFunction.Test
 {
@@ -83,7 +80,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
             foreach (var node in eotegTitle.Nodes)
             {
                 List<string> suggestions = node.GetSuggestions(locale, conditionInfo, storyConditions);
-              
+
 
 
                 if (suggestions.Any())
@@ -93,7 +90,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
                 }
                 else
                     Debug.WriteLine($"Empty: {node.Name}");
-                
+
 
             }
 

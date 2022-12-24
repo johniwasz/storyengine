@@ -1,21 +1,18 @@
 ﻿
-using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using Whetstone.StoryEngine.Models.Configuration;
+using Amazon.Runtime.Internal;
 using Amazon.S3;
-using Whetstone.StoryEngine.Data.FileStorage;
-using Whetstone.StoryEngine.Data.MimeTypes;
-using Whetstone.StoryEngine.Models.Serialization;
-using Whetstone.StoryEngine.Models.Story;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using Amazon.Runtime.Internal;
+using System.Threading.Tasks;
+using Whetstone.StoryEngine.Data.MimeTypes;
 using Whetstone.StoryEngine.Models.Admin;
-using Whetstone.StoryEngine.Models.Data;
+using Whetstone.StoryEngine.Models.Configuration;
+using Whetstone.StoryEngine.Models.Serialization;
+using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.Data.Amazon
 {
@@ -34,7 +31,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
         }
 
 
-        public async Task<T> GetJsonFileAsync<T>( TitleVersion titleVersion, string filePath)
+        public async Task<T> GetJsonFileAsync<T>(TitleVersion titleVersion, string filePath)
         {
 
             return await GetJsonFileAsync<T>(titleVersion, filePath, null);
@@ -42,12 +39,12 @@ namespace Whetstone.StoryEngine.Data.Amazon
         }
 
 
-        public async Task<T> GetJsonFileAsync<T>( TitleVersion titleVersion, string filePath, JsonSerializerSettings settings)
+        public async Task<T> GetJsonFileAsync<T>(TitleVersion titleVersion, string filePath, JsonSerializerSettings settings)
         {
 
             string internalPath = GetInternalPath(titleVersion, filePath, false);
 
-  
+
             T returnContents = await ConvertJsonAsync<T>(internalPath, settings);
             return returnContents;
         }
@@ -57,7 +54,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
         {
             T returnVal = default;
 
-    
+
             string textContents = await S3Storage.GetConfigTextContentsAsync(_s3Client, _bucketName, internalPath);
             _dataLogger.LogDebug($"No cache available. Retrieved file {internalPath} from bucket {_bucketName}", internalPath);
 
@@ -65,12 +62,12 @@ namespace Whetstone.StoryEngine.Data.Amazon
             try
             {
 
-                if(settings ==null)
-                     returnVal = JsonConvert.DeserializeObject<T>(textContents);
+                if (settings == null)
+                    returnVal = JsonConvert.DeserializeObject<T>(textContents);
                 else
                     returnVal = JsonConvert.DeserializeObject<T>(textContents, settings);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
                 _dataLogger.LogError(ex, $"Error deserializing file {internalPath} from bucket {_bucketName}");
@@ -301,7 +298,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
 
                 retContents = new FileContentStream
                 {
-                    Content  = binContents,
+                    Content = binContents,
                     FileName = fileName,
                     MimeType = GetMimeByFileName(fileName)
                 };
@@ -321,7 +318,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
 
         }
 
-        public async Task<AudioFileInfo> StoreAudioFileAsync(Guid projectId, Guid versionId, string fileName, Stream stm )
+        public async Task<AudioFileInfo> StoreAudioFileAsync(Guid projectId, Guid versionId, string fileName, Stream stm)
         {
             // BUGBUG:TODO:SANJ - This should choke under the following conditions:
             //
@@ -533,7 +530,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
             await S3Storage.StoreFileAsync(_s3Client, _bucketName, fileName, mimeType, contents);
         }
 
-      
+
 
 
         public async Task StoreFileAsync(TitleVersion titleVer, string fileName, byte[] contents)
@@ -551,7 +548,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
             string mimeType = MimeTypeMap.GetMimeType("yaml");
             TitleVersion titleVer = new TitleVersion(title.Id, title.Version);
 
-         
+
             string titleIdPath = this.GetTitlePath(titleVer);
 
             var yamlSer = YamlSerializationBuilder.GetYamlSerializer();
@@ -562,9 +559,9 @@ namespace Whetstone.StoryEngine.Data.Amazon
         }
 
 
-        public async Task<bool> DoesFileExistAsync( TitleVersion titleVer, string fileName)
+        public async Task<bool> DoesFileExistAsync(TitleVersion titleVer, string fileName)
         {
-            
+
             string internalPath = GetInternalPath(titleVer, fileName);
 
             bool fileExists = await S3Storage.DoesFileExistAsync(_s3Client, _bucketName, internalPath);
@@ -572,7 +569,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
             return fileExists;
         }
 
-       public async  Task<List<string>> GetAudioFileListAsync( TitleVersion titleVer)
+        public async Task<List<string>> GetAudioFileListAsync(TitleVersion titleVer)
         {
 
             string audioPath = GetAudioPath(titleVer);
@@ -584,14 +581,14 @@ namespace Whetstone.StoryEngine.Data.Amazon
             return fileList;
         }
 
-       public async Task<string> GetTextContentAsync(string fileName)
-       {
-           string textContents = await S3Storage.GetConfigTextContentsAsync(_s3Client, _bucketName, fileName);
-           return textContents;
-       }
+        public async Task<string> GetTextContentAsync(string fileName)
+        {
+            string textContents = await S3Storage.GetConfigTextContentsAsync(_s3Client, _bucketName, fileName);
+            return textContents;
+        }
 
 
-        public async Task CopyMediaFilesAsync( string titleId, string sourceVersion, string destVersion)
+        public async Task CopyMediaFilesAsync(string titleId, string sourceVersion, string destVersion)
         {
 
 
@@ -608,12 +605,12 @@ namespace Whetstone.StoryEngine.Data.Amazon
             string sourceImagePath = GetImagePath(sourceTitleVer);
 
             // Does the path exist?
-            if(await S3Storage.DoesFileExistAsync(_s3Client, _bucketName, sourceImagePath))
+            if (await S3Storage.DoesFileExistAsync(_s3Client, _bucketName, sourceImagePath))
             {
                 // images exist. Copy them.
                 string destImagePath = GetImagePath(destTitleVer);
 
-                await  S3Storage.CopyFileDirectoryAsync(_s3Client, _bucketName, sourceImagePath, destImagePath, _dataLogger);
+                await S3Storage.CopyFileDirectoryAsync(_s3Client, _bucketName, sourceImagePath, destImagePath, _dataLogger);
             }
 
             string sourceAudioPath = GetAudioPath(sourceTitleVer);
@@ -627,8 +624,8 @@ namespace Whetstone.StoryEngine.Data.Amazon
             }
 
         }
-        
-        public async Task PurgeTitleAsync( TitleVersion titleVer)
+
+        public async Task PurgeTitleAsync(TitleVersion titleVer)
         {
 
             string titleId = titleVer.ShortName;
@@ -657,7 +654,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
         }
 
 
-        public async Task DeleteTitleAsync( TitleVersion titleVer)
+        public async Task DeleteTitleAsync(TitleVersion titleVer)
         {
 
 
@@ -667,7 +664,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
 
             string titleFile = GetTitlePath(titleVer);
 
-       
+
             if (await S3Storage.DoesFileExistAsync(_s3Client, _bucketName, titleFile))
             {
                 string titleFileDeleteName = GetDeletedFileName(titleFile);

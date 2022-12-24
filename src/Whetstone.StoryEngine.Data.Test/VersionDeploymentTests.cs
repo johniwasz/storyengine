@@ -22,7 +22,7 @@ namespace Whetstone.StoryEngine.Data.Tests
         public async Task CreateSampleVersion()
         {
 
-  
+
             string titleId = "versiontitleid";
 
 
@@ -51,16 +51,16 @@ namespace Whetstone.StoryEngine.Data.Tests
             newTitle.Id = titleId;
             newTitle.Description = "Test adding a new title";
             newTitle.Title = "New Title";
-            await dataRep.CreateOrUpdateTitleAsync( newTitle);
+            await dataRep.CreateOrUpdateTitleAsync(newTitle);
 
             DataTitleVersionRepository versionRep = new DataTitleVersionRepository(userContextRetriever, titleCacheRep, fileRep);
 
 
             PublishVersionRequest publishRequest = new PublishVersionRequest()
             {
-                TitleName =  titleId,
-                Version =  "0.2",
-                ClientType =  Client.Alexa,
+                TitleName = titleId,
+                Version = "0.2",
+                ClientType = Client.Alexa,
                 ClientId = Guid.NewGuid().ToString("N")
 
             };

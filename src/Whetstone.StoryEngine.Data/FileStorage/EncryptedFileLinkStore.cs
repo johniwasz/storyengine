@@ -1,9 +1,7 @@
 ﻿
 using Microsoft.Extensions.Options;
-using Whetstone.StoryEngine.Models.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using Whetstone.StoryEngine.Models.Configuration;
 
 namespace Whetstone.StoryEngine.Data.FileStorage
 {
@@ -28,7 +26,7 @@ namespace Whetstone.StoryEngine.Data.FileStorage
 
             if (encryptConfig.Value != null)
             {
-                if(!string.IsNullOrWhiteSpace(encryptConfig.Value.KeyVector))
+                if (!string.IsNullOrWhiteSpace(encryptConfig.Value.KeyVector))
                     _iv = Convert.FromBase64String(encryptConfig.Value.KeyVector);
 
 

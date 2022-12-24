@@ -1,8 +1,6 @@
-﻿using Whetstone.StoryEngine.Models.Story;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
+using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.Models.Integration
 {

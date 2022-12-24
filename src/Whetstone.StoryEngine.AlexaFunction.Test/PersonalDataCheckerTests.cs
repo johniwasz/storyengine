@@ -1,10 +1,5 @@
-﻿using Amazon.Lambda.TestUtilities;
+﻿using System.Threading.Tasks;
 using Whetstone.Alexa;
-using Whetstone.StoryEngine.Test;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Whetstone.StoryEngine.AlexaFunction.Test

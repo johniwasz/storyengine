@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
 using Whetstone.StoryEngine.Data.Caching;
 using Whetstone.StoryEngine.Data.EntityFramework;
 using Whetstone.StoryEngine.Data.EntityFramework.EntityManager;
@@ -28,7 +26,7 @@ namespace Whetstone.StoryEngine.Data.Tests
 
         }
 
-      
+
 
         internal async Task<EngineSessionContext> GetUserAsync()
         {
@@ -71,10 +69,10 @@ namespace Whetstone.StoryEngine.Data.Tests
             user.CurrentNodeName = "BeginNode";
 
             // Now save the user.
-            
-            user.TitleState = new List<IStoryCrumb>() {  new SelectedItem() { Name="someitem", Value = "somevalue"} };
 
-            await userRep.SaveUserAsync( user);
+            user.TitleState = new List<IStoryCrumb>() { new SelectedItem() { Name = "someitem", Value = "somevalue" } };
+
+            await userRep.SaveUserAsync(user);
 
             EngineSessionContext sessionContext = new EngineSessionContext();
 

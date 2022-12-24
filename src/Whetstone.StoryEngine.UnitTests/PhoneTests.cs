@@ -1,20 +1,20 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Moq;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 using Whetstone.StoryEngine;
-using Whetstone.StoryEngine.Models.Tracking;
-using Xunit;
-using Microsoft.Extensions.Logging;
-using Moq;
+using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Actions;
+using Whetstone.StoryEngine.Models.Story;
+using Whetstone.StoryEngine.Models.Tracking;
 using Whetstone.StoryEngine.Repository.Actions;
 using Whetstone.StoryEngine.Repository.Phone;
-using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Models.Story;
+using Xunit;
 
 namespace Whetstone.UnitTests
 {
@@ -49,7 +49,7 @@ namespace Whetstone.UnitTests
 
             Assert.True(selItems.Count == 2);
 
-           SelectedItem isValidItem  = selItems.FirstOrDefault(x => x.Name.Equals("isvalidformat"));
+            SelectedItem isValidItem = selItems.FirstOrDefault(x => x.Name.Equals("isvalidformat"));
 
             Assert.NotNull(isValidItem);
 
@@ -59,7 +59,7 @@ namespace Whetstone.UnitTests
 
 
 
-        [Theory]       
+        [Theory]
         [InlineData("2675551212", "false", "Other")]
         [InlineData("123", "false", "InvalidFormat")]
         [InlineData("1234567", "false", "InvalidFormat")]
@@ -116,7 +116,7 @@ namespace Whetstone.UnitTests
             var whetstoneVer = TitleVersionUtil.GetWhetstoneTitle();
 
             IServiceCollection servCol = mockFac.InitServiceCollection(whetstoneVer);
-            
+
 
 
             IServiceProvider servProv = servCol.BuildServiceProvider();
@@ -181,7 +181,7 @@ namespace Whetstone.UnitTests
             {
                 Assert.Null(formattedPhoneNumber);
             }
-            else if(formattedPhoneNumber ==null)
+            else if (formattedPhoneNumber == null)
             {
                 Assert.True(false, $"Expected {expectedResult} from number {number} and got a null result");
             }

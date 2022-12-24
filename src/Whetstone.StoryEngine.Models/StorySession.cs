@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Runtime.Serialization;
-using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace Whetstone.StoryEngine.Models
 {
@@ -18,7 +17,7 @@ namespace Whetstone.StoryEngine.Models
     /// </summary>
     [Table("engine_session")]
     [DataContract]
-    public class EngineSession 
+    public class EngineSession
     {
 
         [System.ComponentModel.DataAnnotations.Key]
@@ -40,7 +39,7 @@ namespace Whetstone.StoryEngine.Models
         /// </summary>
         /// <remarks>If this connecting app is Alexa, then this is the Alexa session id.</remarks>
         [Column("sessionid", Order = 2)]
-        [JsonProperty(PropertyName ="sessionId")]
+        [JsonProperty(PropertyName = "sessionId")]
         [JsonRequired]
         [DataMember]
         public string SessionId { get; set; }
@@ -75,7 +74,7 @@ namespace Whetstone.StoryEngine.Models
         /// <summary>
         /// The last time the session connected. It is a UTC date time.
         /// </summary>
-        [Column("lastaccesseddate", Order =7)]
+        [Column("lastaccesseddate", Order = 7)]
         [JsonProperty(PropertyName = "lastAccessedDate", NullValueHandling = NullValueHandling.Ignore)]
         [DataMember]
         public DateTime? LastAccessedDate { get; set; }
@@ -107,7 +106,7 @@ namespace Whetstone.StoryEngine.Models
 
     [Table("engine_requestaudit")]
     [DebuggerDisplay("RequestId={RequestId},IntentName={IntentName}")]
-   // [JsonObject("Intent and node selection")]
+    // [JsonObject("Intent and node selection")]
     public class EngineRequestAudit
     {
 
@@ -148,14 +147,14 @@ namespace Whetstone.StoryEngine.Models
         public long ProcessDuration { get; set; }
 
 
-        [Column("prenodeactionlog", Order = 7)]        
+        [Column("prenodeactionlog", Order = 7)]
         [JsonProperty(PropertyName = "preNodeActionLog", NullValueHandling = NullValueHandling.Ignore)]
         public string PreNodeActionLog { get; set; }
 
 
         [Column("postnodeactionlog", Order = 8)]
         [JsonProperty(PropertyName = "postNodeActionLog", NullValueHandling = NullValueHandling.Ignore)]
-        public string PostNodeActionLog { get; set; }        
+        public string PostNodeActionLog { get; set; }
 
         /// <summary>
         /// This is the node the intent and slot values mapped to.
@@ -179,7 +178,7 @@ namespace Whetstone.StoryEngine.Models
 
 
         [DataMember]
-        [NotMapped]      
+        [NotMapped]
         [JsonProperty(PropertyName = "slotFulfillment", NullValueHandling = NullValueHandling.Ignore)]
         public Dictionary<string, SlotCanFulFill> SlotFulFillment
         {
@@ -191,7 +190,8 @@ namespace Whetstone.StoryEngine.Models
         private string SlotFulFillmentJson
         {
 
-            get {
+            get
+            {
                 if (SlotFulFillment == null)
                     return null;
                 else

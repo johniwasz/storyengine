@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Whetstone.StoryEngine.Models.Actions
+﻿namespace Whetstone.StoryEngine.Models.Actions
 {
     public enum NodeActionEnum
     {
         NodeVisit = 0,
-        Inventory =1,
+        Inventory = 1,
         SelectedItem = 2,
         RemoveSelectedItem = 3,
         PhoneMessage = 4,

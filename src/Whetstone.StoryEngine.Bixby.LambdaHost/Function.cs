@@ -6,7 +6,6 @@ using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Whetstone.Alexa;
 
 namespace Whetstone.StoryEngine.Bixby.LambdaHost
 {

@@ -20,6 +20,6 @@ namespace Whetstone.StoryEngine.Cache
         /// <summary>
         /// Default time to live (TTL) in minutes for 1 month
         /// </summary>
-        public const long Ttl = 43800; 
+        public const long Ttl = 43800;
     }
 }

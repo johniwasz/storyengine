@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
-using MessagePack;
+﻿using MessagePack;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System;
+using System.Runtime.Serialization;
 using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Story.Ssml
@@ -38,7 +36,7 @@ namespace Whetstone.StoryEngine.Models.Story.Ssml
         [DataMember]
         [YamlIgnore]
         [JsonConverter(typeof(StringEnumConverter))]
-        [JsonProperty("fragmentType", Order =0)]
+        [JsonProperty("fragmentType", Order = 0)]
         public override SpeechFragmentType FragmentType { get; set; }
 
         [DataMember]

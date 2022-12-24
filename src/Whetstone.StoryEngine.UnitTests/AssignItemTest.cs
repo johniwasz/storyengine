@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Whetstone.StoryEngine.Models;
+﻿using Microsoft.Extensions.Logging;
+using Moq;
 using Serilog;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Whetstone.StoryEngine.Data;
+using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Actions;
+using Whetstone.StoryEngine.Models.Story;
 using Whetstone.StoryEngine.Models.Tracking;
 using Whetstone.StoryEngine.Repository.Actions;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
 using Xunit;
-using Xunit.Abstractions;
-using Moq;
-using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.UnitTests
 {
@@ -27,25 +23,25 @@ namespace Whetstone.UnitTests
                 .MinimumLevel.Is(Serilog.Events.LogEventLevel.Debug)
             .WriteTo.Console()
              .WriteTo.Debug()
-             
+
             .CreateLogger();
 
             ILoggerFactory logger = LoggerFactory.Create(builder =>
             {
                 builder.AddSerilog(loggerConfig, dispose: false);
-                
-             
-              
+
+
+
             });
 
 
-           ILogger<AssignSlotValueActionProcessor> valueLogger = logger.CreateLogger<AssignSlotValueActionProcessor>();
+            ILogger<AssignSlotValueActionProcessor> valueLogger = logger.CreateLogger<AssignSlotValueActionProcessor>();
 
             Mock<ITitleReader> titleMock = new Mock<ITitleReader>();
 
-            titleMock.Setup(x => x.IsPrivacyLoggingEnabledAsync(It.IsAny<TitleVersion>())).Returns(() => 
-            
-            
+            titleMock.Setup(x => x.IsPrivacyLoggingEnabledAsync(It.IsAny<TitleVersion>())).Returns(() =>
+
+
             Task.Run(() => true));
 
 

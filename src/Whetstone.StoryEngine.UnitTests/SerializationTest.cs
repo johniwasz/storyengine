@@ -1,28 +1,26 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using Newtonsoft.Json;
-using Whetstone.StoryEngine.AlexaProcessor;
 using Whetstone.Alexa;
+using Whetstone.StoryEngine.AlexaProcessor;
 using Whetstone.StoryEngine.Models.Conditions;
+using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Serialization;
 using Whetstone.StoryEngine.Models.Story;
 using Whetstone.StoryEngine.Models.Story.Ssml;
 using Whetstone.StoryEngine.Models.Story.Text;
 using Xunit;
-using Whetstone.StoryEngine.Models.Configuration;
 
 namespace Whetstone.UnitTests
 {
     public class SerializationTest
     {
 
-        [Theory(DisplayName ="Deserialize title yaml files")]
+        [Theory(DisplayName = "Deserialize title yaml files")]
         [InlineData(@"TitleFiles/whetstonetechnologies/0.1/whetstonetechnologies.yaml")]
-       [InlineData(@"TitleFiles/whetstonetechnologies/0.4/whetstonetechnologies.yaml")]
-       [InlineData(@"TitleFiles/animalfarmpi/1.2/animalfarmpi.yaml")]
+        [InlineData(@"TitleFiles/whetstonetechnologies/0.4/whetstonetechnologies.yaml")]
+        [InlineData(@"TitleFiles/animalfarmpi/1.2/animalfarmpi.yaml")]
         [InlineData(@"TitleFiles/eyeoftheeldergods/0.8/eyeoftheeldergods.yaml")]
         [InlineData(@"TitleFiles/clinicaltrialsgov/0.1/clinicaltrialsgov.yaml")]
         public void DeserializeTitle(string yamlFilePath)
@@ -60,7 +58,7 @@ namespace Whetstone.UnitTests
 
             var yesChoice = infoNode.Choices.FirstOrDefault(x => x.IntentName.Equals("YesIntent"));
 
-            
+
 
             /// SoniBridgeInfo
         }

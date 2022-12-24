@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Whetstone.StoryEngine.Models.Story.Cards
 {
     public class CardEngineResponse
     {
-      
+
         public string CardTitle { get; set; }
 
         /// <summary>

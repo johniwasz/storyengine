@@ -4,13 +4,8 @@ using Amazon.StepFunctions.Model;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using Whetstone.StoryEngine.Models.Messaging;
-using Whetstone.StoryEngine.Models.Messaging.Sms;
 using Xunit;
 
 namespace Whetstone.StoryEngine.Test
@@ -50,11 +45,11 @@ namespace Whetstone.StoryEngine.Test
                     //    newMessage.SmsToNumber = "+16105551212";
 
                     //}
-                   // newMessage.SmsFromNumber = "+12157099492";
+                    // newMessage.SmsFromNumber = "+12157099492";
 
                     //  newMessage.SmsFromNumber = null;
 
-                   // newMessage.SmsApplicationId = "256060e139054c6e8402b44506b0d9f5";
+                    // newMessage.SmsApplicationId = "256060e139054c6e8402b44506b0d9f5";
 
                     newMessage.Messages = new List<OutboundMessagePayload>();
 
@@ -114,8 +109,8 @@ namespace Whetstone.StoryEngine.Test
 
         internal static OutboundBatchRecord GetSmsOutboundMessage()
         {
-            return GetSmsOutboundMessage( Guid.NewGuid());
-;
+            return GetSmsOutboundMessage(Guid.NewGuid());
+            ;
         }
 
         internal static OutboundBatchRecord GetSmsOutboundMessage(Guid messageId)
@@ -145,7 +140,7 @@ namespace Whetstone.StoryEngine.Test
             msgResult.ExtendedStatus = "TXTSTAT";
             msgResult.HttpStatusCode = 200;
             msgResult.IsException = false;
-            msgResult.LogTime= DateTime.UtcNow;
+            msgResult.LogTime = DateTime.UtcNow;
 
             firstMessage.Results.Add(msgResult);
 
@@ -158,7 +153,7 @@ namespace Whetstone.StoryEngine.Test
             secondMessage.Results = new List<OutboundMessageLogEntry>();
 
             OutboundMessageLogEntry badResult = new OutboundMessageLogEntry();
-            
+
             badResult.ExtendedStatus = "ERR";
             badResult.HttpStatusCode = 500;
             badResult.IsException = true;

@@ -1,7 +1,5 @@
-﻿using Whetstone.StoryEngine.Models.Story.Ssml;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using Whetstone.StoryEngine.Models.Story.Ssml;
 using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Serialization

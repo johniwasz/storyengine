@@ -1,9 +1,7 @@
-﻿using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.Models.Story.Ssml;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Whetstone.StoryEngine.Models.Story;
+using Whetstone.StoryEngine.Models.Story.Ssml;
 
 namespace Whetstone.StoryEngine.Data.EntityFramework
 {

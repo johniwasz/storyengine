@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using Amazon;
+﻿using Amazon;
 using Amazon.Auth.AccessControlPolicy;
 using Amazon.KeyManagementService;
 using Amazon.KeyManagementService.Model;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Whetstone.StoryEngine.Reporting.ReportGenerator.Tests
@@ -33,38 +32,38 @@ namespace Whetstone.StoryEngine.Reporting.ReportGenerator.Tests
             using (var keyClient = new AmazonKeyManagementServiceClient(RegionEndpoint.USEast1))
             {
 
-                 ListKeyPoliciesResponse policiesResp = await keyClient.ListKeyPoliciesAsync(listPoliciesReq);
+                ListKeyPoliciesResponse policiesResp = await keyClient.ListKeyPoliciesAsync(listPoliciesReq);
 
-                 foreach (string policyName in policiesResp.PolicyNames)
-                 {
-                     Debug.WriteLine(policyName);
-
-
-                     GetKeyPolicyRequest policyRequest = new GetKeyPolicyRequest
-                     {
-                         KeyId = keyArn,
-                         PolicyName = policyName
-                     };
-
-                     var policyResp = await keyClient.GetKeyPolicyAsync(policyRequest);
+                foreach (string policyName in policiesResp.PolicyNames)
+                {
+                    Debug.WriteLine(policyName);
 
 
-                     string policyDoc = policyResp.Policy;
+                    GetKeyPolicyRequest policyRequest = new GetKeyPolicyRequest
+                    {
+                        KeyId = keyArn,
+                        PolicyName = policyName
+                    };
 
-                     var keyPolicy = Policy.FromJson(policyDoc);
+                    var policyResp = await keyClient.GetKeyPolicyAsync(policyRequest);
 
 
-                     // Add a new statement....
-                     Statement policyStatement = new Statement(Statement.StatementEffect.Allow);
-                     policyStatement.Resources = new List<Resource>();
-                     policyStatement.Resources.Add(new Resource("*"));
-                     policyStatement.Id = "newstatement";
+                    string policyDoc = policyResp.Policy;
 
-                     policyStatement.Actions = new List<ActionIdentifier>();
-                     policyStatement.Actions.Add(new ActionIdentifier($"kms:{GrantOperation.Decrypt.Value}"));
+                    var keyPolicy = Policy.FromJson(policyDoc);
+
+
+                    // Add a new statement....
+                    Statement policyStatement = new Statement(Statement.StatementEffect.Allow);
+                    policyStatement.Resources = new List<Resource>();
+                    policyStatement.Resources.Add(new Resource("*"));
+                    policyStatement.Id = "newstatement";
+
+                    policyStatement.Actions = new List<ActionIdentifier>();
+                    policyStatement.Actions.Add(new ActionIdentifier($"kms:{GrantOperation.Decrypt.Value}"));
                     policyStatement.Actions.Add(new ActionIdentifier($"kms:{GrantOperation.Encrypt.Value}"));
                     policyStatement.Actions.Add(new ActionIdentifier($"kms:{GrantOperation.GenerateDataKey.Value}"));
-                    
+
 
                     policyStatement.Principals.Add(new Principal("AWS", "arn:aws:iam::940085449815:role/dummyrole"));
 
@@ -76,10 +75,10 @@ namespace Whetstone.StoryEngine.Reporting.ReportGenerator.Tests
                     updatePolicy.KeyId = keyArn;
                     updatePolicy.PolicyName = "newpolicy";
 
-                    
 
-                    var putPolicyResp = await  keyClient.PutKeyPolicyAsync(updatePolicy);
-                 }
+
+                    var putPolicyResp = await keyClient.PutKeyPolicyAsync(updatePolicy);
+                }
 
             }
 

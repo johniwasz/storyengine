@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Whetstone.StoryEngine.Models.Configuration
 {
@@ -26,7 +23,7 @@ namespace Whetstone.StoryEngine.Models.Configuration
         /// The status value sent by the custom resource provider in response to an AWS CloudFormation-generated request.
         /// Must be either SUCCESS or FAILED.
         /// </summary>
-        [JsonProperty(PropertyName = "Status", Required =Required.Always)] 
+        [JsonProperty(PropertyName = "Status", Required = Required.Always)]
         public string Status { get; set; }
 
 

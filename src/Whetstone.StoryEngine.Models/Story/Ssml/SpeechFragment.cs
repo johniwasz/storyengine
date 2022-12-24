@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
-using YamlDotNet;
-using Whetstone.StoryEngine.Models.Conditions;
-using MessagePack;
-using Newtonsoft.Json;
-using Whetstone.StoryEngine.Models.Serialization;
-using YamlDotNet.Serialization;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
+using Whetstone.StoryEngine.Models.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Story.Ssml
 {
-   
+
     [JsonConverter(typeof(SpeechFragmentConverter))]
     [XmlInclude(typeof(AudioFile))]
     [XmlInclude(typeof(DirectAudioFile))]
@@ -26,7 +19,7 @@ namespace Whetstone.StoryEngine.Models.Story.Ssml
     [MessagePack.Union(1, typeof(DirectAudioFile))]
     [MessagePack.Union(2, typeof(PlainTextSpeechFragment))]
     [MessagePack.Union(3, typeof(ConditionalFragment))]
-    [MessagePack.Union(4, typeof(SsmlSpeechFragment)) ]
+    [MessagePack.Union(4, typeof(SsmlSpeechFragment))]
     [MessagePack.Union(5, typeof(SpeechBreakFragment))]
     [MessagePack.Union(6, typeof(SwitchConditionFragment))]
     public abstract class SpeechFragment
@@ -51,5 +44,5 @@ namespace Whetstone.StoryEngine.Models.Story.Ssml
     }
 
 
-    
+
 }

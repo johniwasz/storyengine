@@ -1,9 +1,5 @@
 ﻿using Amazon;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models.Configuration
 {
@@ -61,13 +57,13 @@ namespace Whetstone.StoryEngine.Models.Configuration
 
 
 
-        public RegionEndpoint Region { get; set; } 
+        public RegionEndpoint Region { get; set; }
 
         public string BucketName { get; set; }
 
 
         public DbUserType? DbUserType { get; set; }
     }
-    
-    
+
+
 }

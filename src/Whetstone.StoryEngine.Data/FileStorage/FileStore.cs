@@ -1,7 +1,6 @@
-﻿using System;
-using Amazon;
-using Amazon.S3;
+﻿using Amazon.S3;
 using Microsoft.Extensions.Options;
+using System;
 using Whetstone.StoryEngine.Data.MimeTypes;
 using Whetstone.StoryEngine.Models.Admin;
 using Whetstone.StoryEngine.Models.Configuration;
@@ -23,14 +22,14 @@ namespace Whetstone.StoryEngine.Data.FileStorage
             if (envConfig == null)
                 throw new ArgumentNullException(nameof(envConfig));
 
-            if(envConfig.Value == null)
-                throw new ArgumentNullException(nameof(envConfig), "Value property cannot be null");       
+            if (envConfig.Value == null)
+                throw new ArgumentNullException(nameof(envConfig), "Value property cannot be null");
 
             _bucketName = envConfig.Value.BucketName;
 
             if (string.IsNullOrWhiteSpace(_bucketName))
             {
-                throw new ArgumentNullException(nameof(envConfig) , "BucketName setting cannot be null or empty");
+                throw new ArgumentNullException(nameof(envConfig), "BucketName setting cannot be null or empty");
             }
 
             _s3Client = s3Client ?? throw new ArgumentNullException(nameof(s3Client));

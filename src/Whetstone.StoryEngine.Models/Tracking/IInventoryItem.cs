@@ -1,11 +1,4 @@
-﻿using Whetstone.StoryEngine.Models.Story;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
-using Newtonsoft.Json;
-using Whetstone.StoryEngine.Models.Serialization;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Xml.Serialization;
 
@@ -13,7 +6,7 @@ namespace Whetstone.StoryEngine.Models.Tracking
 {
     public enum InventoryItemType
     {
-        Unique =0,
+        Unique = 0,
         Multi = 1
     }
 

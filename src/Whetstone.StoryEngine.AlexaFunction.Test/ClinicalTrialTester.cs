@@ -1,12 +1,10 @@
 ﻿#region namespaces
 using Amazon.Lambda.TestUtilities;
-using Newtonsoft.Json;
-using Whetstone.Alexa;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Xunit;
 using System.Threading.Tasks;
+using Whetstone.Alexa;
+using Xunit;
 
 #endregion
 

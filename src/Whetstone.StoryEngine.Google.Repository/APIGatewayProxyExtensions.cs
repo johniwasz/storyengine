@@ -2,7 +2,6 @@
 using Amazon.Runtime.Internal;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Google.Repository
 {

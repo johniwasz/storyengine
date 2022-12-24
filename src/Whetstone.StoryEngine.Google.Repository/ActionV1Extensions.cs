@@ -1,20 +1,18 @@
 ﻿using Amazon.Lambda.APIGatewayEvents;
-using Google.Protobuf.WellKnownTypes;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using System;
-using Whetstone.StoryEngine.DependencyInjection;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Whetstone.Google.Actions.V1;
 using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Models;
-using Microsoft.Extensions.Logging;
-using Whetstone.StoryEngine.Repository;
-using Newtonsoft.Json.Linq;
+using Whetstone.StoryEngine.DependencyInjection;
 using Whetstone.StoryEngine.Google.Repository.Models;
-using Newtonsoft.Json;
+using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Story.Cards;
-using System.Linq;
+using Whetstone.StoryEngine.Repository;
 
 namespace Whetstone.StoryEngine.Google.Repository
 {
@@ -53,12 +51,12 @@ namespace Whetstone.StoryEngine.Google.Repository
             HandlerRequest handlerReq = HandlerRequest.FromJson(req.Body);
 
             StoryRequest storyReq = await req.ToStoryRequestAsync(appReader, logger, handlerReq);
-         
+
 
             return storyReq;
         }
 
-        public static async Task<StoryRequest> ToStoryRequestAsync(this APIGatewayProxyRequest req,  IAppMappingReader appReader,
+        public static async Task<StoryRequest> ToStoryRequestAsync(this APIGatewayProxyRequest req, IAppMappingReader appReader,
                     ILogger logger, HandlerRequest handlerReq)
         {
             if (appReader == null)
@@ -67,7 +65,7 @@ namespace Whetstone.StoryEngine.Google.Repository
             if (logger == null)
                 throw new ArgumentNullException(nameof(logger));
 
-            if(handlerReq == null)
+            if (handlerReq == null)
                 throw new ArgumentNullException(nameof(handlerReq));
 
             StoryRequest storyReq = await GetActionV1RequestAsync(req, appReader, logger, handlerReq);
@@ -110,8 +108,8 @@ namespace Whetstone.StoryEngine.Google.Repository
 
             actionResponse.Scene = new Scene();
             actionResponse.Scene.Name = storyReq.RequestAttributes["scene"];
-        
-            
+
+
 
             if (!resp.ForceContinueSession)
             {
@@ -127,10 +125,10 @@ namespace Whetstone.StoryEngine.Google.Repository
             }
 
 
-            if (resp.Suggestions != null && resp.Suggestions.Count>0)
+            if (resp.Suggestions != null && resp.Suggestions.Count > 0)
             {
                 actionResponse.Prompt.Suggestions = new List<Suggestion>();
-                foreach(string storySuggestion in resp.Suggestions)
+                foreach (string storySuggestion in resp.Suggestions)
                 {
                     Suggestion sug = new Suggestion();
                     sug.Title = storySuggestion;
@@ -142,14 +140,14 @@ namespace Whetstone.StoryEngine.Google.Repository
             if (locResp.CardResponse != null)
             {
 
-                if(actionResponse.Prompt.Content == null)
+                if (actionResponse.Prompt.Content == null)
                 {
                     actionResponse.Prompt.Content = new Content();
                 }
 
                 actionResponse.Prompt.Content.Card = GetCardContent(locResp.CardResponse, linker, storyReq.SessionContext?.TitleVersion);
 
-            
+
 
             }
 
@@ -209,7 +207,7 @@ namespace Whetstone.StoryEngine.Google.Repository
                 // Card return only supports one link button. Take the first
                 LinkButton storyLinkButton = storyCard.Buttons.FirstOrDefault(x => x.ButtonType == CardButtonType.Link) as LinkButton;
 
-                if(storyLinkButton!=null)
+                if (storyLinkButton != null)
                 {
                     retCard.Button = new Link
                     {
@@ -219,7 +217,7 @@ namespace Whetstone.StoryEngine.Google.Repository
                             Url = storyLinkButton.Url
                         }
                     };
-                }               
+                }
             }
 
             return retCard;
@@ -334,11 +332,11 @@ namespace Whetstone.StoryEngine.Google.Repository
                     TitleVersion =
                         await appReader.GetTitleAsync(Client.GoogleHome, storyReq.ApplicationId, storyReq.Alias)
                 };
-               
+
             }
             else
             {
-                storyReq.IsNewSession = false;            
+                storyReq.IsNewSession = false;
             }
 
             storyReq.SessionContext = sessionContext;
@@ -397,25 +395,25 @@ namespace Whetstone.StoryEngine.Google.Repository
             {
                 // If the user is verified and this is not a new session, then
                 // the user storage should be present.
-                if (handlerReq.User.Params!=null)
+                if (handlerReq.User.Params != null)
                 {
-                    if(handlerReq.User.Params.ContainsKey(USER_STORAGE))
+                    if (handlerReq.User.Params.ContainsKey(USER_STORAGE))
                     {
-                        
+
                         JObject userStorageJObject = handlerReq.User.Params[USER_STORAGE] as JObject;
 
-                        if (userStorageJObject!=null)
+                        if (userStorageJObject != null)
                         {
                             UserStorage userStore = userStorageJObject.ToObject<UserStorage>();
                             storyReq.UserId = userStore.UserId;
                         }
 
-                    }    
+                    }
                 }
 
                 storyReq.IsGuest = false;
             }
-            
+
 
             // Do not pass intent if this is a new session.
             if (storyReq.IsNewSession.GetValueOrDefault(false))
@@ -455,9 +453,9 @@ namespace Whetstone.StoryEngine.Google.Repository
                         if (dynaJObject != null)
                         {
                             retContext = dynaJObject.ToObject<EngineSessionContext>();
-                           
+
                         }
-                       
+
 
                     }
                 }
@@ -482,7 +480,7 @@ namespace Whetstone.StoryEngine.Google.Repository
             string requestTimeText = apiReq.RequestContext?.RequestTime;
             DateTime? requestTime = null;
 
-            if(DateTime.TryParse(requestTimeText, out DateTime messageTime))
+            if (DateTime.TryParse(requestTimeText, out DateTime messageTime))
             {
                 requestTime = messageTime;
             }
@@ -498,8 +496,8 @@ namespace Whetstone.StoryEngine.Google.Repository
                 ApplicationId = appId,
                 RequestId = string.IsNullOrWhiteSpace(requestId) ? engineRequestId.ToString() : requestId,
                 RequestTime = requestTime.HasValue ? requestTime.Value : DateTime.UtcNow,
-                Locale = string.IsNullOrWhiteSpace(handlerReq.Session.LanguageCode) ? handlerReq.User.Locale : handlerReq.Session.LanguageCode,             
-                RawText = handlerReq.Intent.Query,              
+                Locale = string.IsNullOrWhiteSpace(handlerReq.Session.LanguageCode) ? handlerReq.User.Locale : handlerReq.Session.LanguageCode,
+                RawText = handlerReq.Intent.Query,
             };
 
 
@@ -520,11 +518,11 @@ namespace Whetstone.StoryEngine.Google.Repository
                 storyReq.Intent = PHONENUMBER_INTENT;
                 storyReq.Slots = GetPhoneNumberSlot(handlerReq.Intent);
             }
-            else if(handlerReq.Intent.Name.Equals(REPROMPT_INTENT, StringComparison.OrdinalIgnoreCase))
+            else if (handlerReq.Intent.Name.Equals(REPROMPT_INTENT, StringComparison.OrdinalIgnoreCase))
             {
                 storyReq.RequestType = StoryRequestType.Reprompt;
             }
-            else if(handlerReq.Intent.Name.Equals(ReservedIntents.HelpIntent.Name))
+            else if (handlerReq.Intent.Name.Equals(ReservedIntents.HelpIntent.Name))
             {
                 storyReq.RequestType = StoryRequestType.Help;
             }
@@ -540,7 +538,7 @@ namespace Whetstone.StoryEngine.Google.Repository
             {
                 storyReq.RequestType = StoryRequestType.Stop;
             }
-            else if( handlerReq.Intent.Name.Equals(ReservedIntents.ResumeIntent.Name))
+            else if (handlerReq.Intent.Name.Equals(ReservedIntents.ResumeIntent.Name))
             {
                 storyReq.RequestType = StoryRequestType.Resume;
             }
@@ -581,7 +579,7 @@ namespace Whetstone.StoryEngine.Google.Repository
                         if (phoneParts is JArray)
                         {
                             JArray phonaArray = phoneParts as JArray;
-                           
+
 
                             for (int i = 0; i < phonaArray.Count; i++)
                             {
@@ -659,7 +657,7 @@ namespace Whetstone.StoryEngine.Google.Repository
                     if (userStorageJObject != null)
                     {
                         userStore = userStorageJObject.ToObject<UserStorage>();
-                        
+
                     }
                 }
             }

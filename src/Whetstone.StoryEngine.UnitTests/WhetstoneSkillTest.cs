@@ -1,23 +1,22 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Google.Cloud.Dialogflow.V2;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Google.Cloud.Dialogflow.V2;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Google.Repository;
+using Whetstone.StoryEngine.Google.Repository.Models;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Data;
 using Whetstone.StoryEngine.Models.Messaging;
 using Whetstone.StoryEngine.Models.Messaging.Sms;
 using Whetstone.StoryEngine.Models.Story;
 using Whetstone.StoryEngine.Models.Story.Ssml;
+using Whetstone.StoryEngine.Models.Story.Text;
 using Whetstone.StoryEngine.Repository;
 using Xunit;
-using Microsoft.Extensions.Logging;
-using Whetstone.StoryEngine.Models.Story.Text;
-using Whetstone.StoryEngine.Google.Repository.Models;
-using System.Linq;
 
 namespace Whetstone.UnitTests
 {
@@ -32,7 +31,7 @@ namespace Whetstone.UnitTests
         {
             TitleVersion titleVer = TitleVersionUtil.GetWhetstoneTitle();
             Client clientType = Client.Alexa;
-          
+
             Guid batchUserId = default;
 
             void processNotifFunc(INotificationRequest notifReq)
@@ -68,7 +67,7 @@ namespace Whetstone.UnitTests
                 ProcessNotificationFunc = processNotifFunc
             };
 
-            IServiceCollection servCol = mocker.InitServiceCollection( titleVer);
+            IServiceCollection servCol = mocker.InitServiceCollection(titleVer);
 
             IServiceProvider servProv = servCol.BuildServiceProvider();
 
@@ -83,7 +82,7 @@ namespace Whetstone.UnitTests
 
             if (slotExpectations != null)
             {
-                if(slotExpectations.Keys.Count>0)
+                if (slotExpectations.Keys.Count > 0)
                     slotValues = new Dictionary<string, string>();
 
                 foreach (string keyName in slotExpectations.Keys)
@@ -114,10 +113,10 @@ namespace Whetstone.UnitTests
 
                     SlotCanFulFill slotResult = resp.SlotFulFillment[slotKey];
 
-                   Assert.True(slotExpects.CanFulfill.Equals(slotResult.CanFulfill), $"intent {intentName} with slot {slotKey} expected CanFulfill Value {slotExpects.CanFulfill} and got {slotResult.CanFulfill}");
-                   Assert.True(slotExpects.CanUnderstand.Equals(slotResult.CanUnderstand), $"intent {intentName} with slot {slotKey} expected CanUnderstand Value {slotExpects.CanUnderstand} and got {slotResult.CanUnderstand}");
+                    Assert.True(slotExpects.CanFulfill.Equals(slotResult.CanFulfill), $"intent {intentName} with slot {slotKey} expected CanFulfill Value {slotExpects.CanFulfill} and got {slotResult.CanFulfill}");
+                    Assert.True(slotExpects.CanUnderstand.Equals(slotResult.CanUnderstand), $"intent {intentName} with slot {slotKey} expected CanUnderstand Value {slotExpects.CanUnderstand} and got {slotResult.CanUnderstand}");
 
-                    if(slotExpects.Value == null)
+                    if (slotExpects.Value == null)
                         Assert.Null(slotResult.Value);
                     else
                         Assert.True(slotExpects.Value.Equals(slotResult.Value), $"intent {intentName} with slot {slotKey} expected value {slotExpects.Value} and got {slotResult.Value}");
@@ -414,7 +413,7 @@ namespace Whetstone.UnitTests
             Assert.True(resp.ForceContinueSession, "Force continue session on launch request should be true");
             Assert.True(string.IsNullOrWhiteSpace(resp.EngineErrorText), $"Engine error found: {resp.EngineErrorText}");
             await ResponseHelper.WriteResponseAsync(request, resp, linker, sessLogger);
-            WebhookResponse webResp = resp.ToFacebookMessengerResponse(linker, logger,  "prefix://");
+            WebhookResponse webResp = resp.ToFacebookMessengerResponse(linker, logger, "prefix://");
 
             // pass a Sonibridge intent.
 
@@ -426,7 +425,7 @@ namespace Whetstone.UnitTests
             Assert.True(resp.ForceContinueSession, "Force continue session on WhetstoneInfo should be true");
             Assert.True(string.IsNullOrWhiteSpace(resp.EngineErrorText), $"Engine error found: {resp.EngineErrorText}");
 
-            Assert.True(resp.Suggestions?.Count==2, $"Expected two suggestions from node SoniBridgeInfo");
+            Assert.True(resp.Suggestions?.Count == 2, $"Expected two suggestions from node SoniBridgeInfo");
 
             await ResponseHelper.WriteResponseAsync(request, resp, linker, sessLogger);
             webResp = resp.ToFacebookMessengerResponse(linker, logger, "prefix://");
@@ -444,7 +443,7 @@ namespace Whetstone.UnitTests
             Assert.True(resp.LocalizedResponse.GeneratedTextResponse[0] is SimpleTextFragment, $"Expected first speech fragment responses on node {expectedNode} to be SimpleTextFragment");
             Assert.True(resp.LocalizedResponse.GeneratedTextResponse[1] is SimpleTextFragment, $"Expected second speech fragment responses on node {expectedNode} to be SimpleTextFragment");
 
- 
+
             Assert.True(resp.Suggestions?.Count == 3, $"Expected three suggestions from node {expectedNode}");
 
             await ResponseHelper.WriteResponseAsync(request, resp, linker, sessLogger);
@@ -537,7 +536,7 @@ namespace Whetstone.UnitTests
 
             Client clientType = Client.GoogleHome;
 
-            
+
             Guid batchUserId = default;
             //string consentTypeName = null;
 
@@ -743,7 +742,7 @@ namespace Whetstone.UnitTests
 
             await ResponseHelper.WriteResponseAsync(request, resp, linker, sessLogger);
 
-            
+
             var diagResp = resp.ToDialogFlowResponse(surfaceCaps, linker, logger, request.UserId, "PREFIX");
         }
 

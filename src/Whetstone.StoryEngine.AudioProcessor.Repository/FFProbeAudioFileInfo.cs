@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 using Whetstone.StoryEngine.Models.AudioProcessor;
 
@@ -58,9 +57,9 @@ namespace Whetstone.StoryEngine.AudioProcessor.Repository
         }
 
         public bool IsAudioFile { get { return this._isAudioFile; } }
-        public string AudioType {  get { return this._audioType;  } }
-        public int BitRate {  get { return this._bitRate;  } }
-        public int SampleRate {  get { return this._sampleRate;  } }
+        public string AudioType { get { return this._audioType; } }
+        public int BitRate { get { return this._bitRate; } }
+        public int SampleRate { get { return this._sampleRate; } }
 
         public bool IsValidAudioFile
         {

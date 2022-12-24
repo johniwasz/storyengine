@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
-using Whetstone.StoryEngine.Models.Story;
-using YamlDotNet.Serialization;
-using MessagePack;
+﻿using MessagePack;
 using Newtonsoft.Json;
-using Whetstone.StoryEngine.Models.Serialization;
-using YamlDotNet.Core;
 using Newtonsoft.Json.Converters;
+using System;
+using System.Runtime.Serialization;
+using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Story.Ssml
 {
@@ -27,7 +22,7 @@ namespace Whetstone.StoryEngine.Models.Story.Ssml
             this.FragmentType = SpeechFragmentType.PlainText;
         }
 
-        public PlainTextSpeechFragment(string  speechText)
+        public PlainTextSpeechFragment(string speechText)
         {
             _speechText = speechText;
             this.FragmentType = SpeechFragmentType.PlainText;
@@ -37,7 +32,7 @@ namespace Whetstone.StoryEngine.Models.Story.Ssml
         [JsonProperty("text", Order = 1, NullValueHandling = NullValueHandling.Ignore)]
         [Key(1)]
         [YamlMember()]
-        public  string Text { get { return _speechText; } set { _speechText = value; } }
+        public string Text { get { return _speechText; } set { _speechText = value; } }
 
 
         [DataMember]
@@ -45,7 +40,7 @@ namespace Whetstone.StoryEngine.Models.Story.Ssml
         [Key(2)]
         [YamlMember]
         public string Voice { get; set; }
-        
+
         [DataMember]
         [JsonProperty("fragmentType", Order = 0)]
         [JsonConverter(typeof(StringEnumConverter))]

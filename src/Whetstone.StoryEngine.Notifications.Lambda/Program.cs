@@ -49,11 +49,11 @@ namespace Whetstone.StoryEngine.Notifications.Lambda
             }
         }
 
-    
+
 
         public static async Task ProcessRequestAsync(NotificationRequest request, ILambdaContext context)
         {
-            await _nativeFunction.Value.FunctionHandler(request, context);           
+            await _nativeFunction.Value.FunctionHandler(request, context);
         }
     }
 }

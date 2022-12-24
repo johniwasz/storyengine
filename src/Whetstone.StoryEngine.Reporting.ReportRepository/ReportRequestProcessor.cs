@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Data;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
 using Whetstone.StoryEngine.Reporting.Models;
 
 namespace Whetstone.StoryEngine.Reporting.ReportRepository
@@ -18,7 +15,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
 
         private Func<ReportOutputType, IReportFormatter> _outputFormatterFunc = null;
 
-        public ReportRequestProcessor(IReportDefinitionRetriever reportRetriever, 
+        public ReportRequestProcessor(IReportDefinitionRetriever reportRetriever,
             Func<ReportDataSourceType, IReportDataRetriever> dataSourceFunc,
             Func<ReportOutputType, IReportFormatter> outputFormatterFunc)
         {
@@ -56,7 +53,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
                 throw new Exception(
                     $"Invalid report definition configuration. Report definition {repRequest.ReportName} does not include a data source");
 
-            if(reportDef.Output == null)
+            if (reportDef.Output == null)
                 throw new Exception(
                     $"Invalid report definition configuration. Report definition {repRequest.ReportName} does not include an output format");
 
@@ -66,7 +63,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
 
             DataSet returnSet = await dataRetriever.GetReportDataAsync(reportDef.DataSource, repRequest.Parameters);
 
-            if (returnSet==null)
+            if (returnSet == null)
                 throw new Exception($"No dataset returned for report request {repRequest.ReportName}");
 
             // Generate export file.
@@ -74,7 +71,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
 
 
             List<FileSendStatus> outputPaths = await reportFormatter.OutputReportAsync(repRequest.ReportName,
-                returnSet, 
+                returnSet,
                 reportDef.Output,
                 reportDef.FileNameFormat,
                 repRequest);

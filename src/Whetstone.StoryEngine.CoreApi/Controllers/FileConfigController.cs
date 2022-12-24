@@ -1,18 +1,15 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Models.Story;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.Extensions.Options;
+using System;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.AlexaProcessor;
 using Whetstone.StoryEngine.CoreApi.ModelBinders;
-using Whetstone.StoryEngine.Models.Configuration;
+using Whetstone.StoryEngine.Data;
+using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.CoreApi.Controllers
 {
@@ -29,14 +26,14 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
         IAlexaIntentExporter IntentExporter { get; set; }
         private readonly ITitleRepository _titleRep = null;
 
-        
+
         public FileConfigController(
-            IAlexaIntentExporter intentExporter, 
+            IAlexaIntentExporter intentExporter,
             ILogger<FileConfigController> logger,
             ITitleRepository titleRep)
         {
             this.Logger = logger;
-          
+
             this.IntentExporter = intentExporter;
             _titleRep = titleRep;
 
@@ -45,7 +42,7 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
 
         [Produces("application/json")]
         [HttpGet("{titleId}/alexaintents")]
-        public async Task<IActionResult> ExportAlexaIntents(string titleId, string version,  string locale = "en-US")
+        public async Task<IActionResult> ExportAlexaIntents(string titleId, string version, string locale = "en-US")
         {
 
 
@@ -56,7 +53,7 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
                 var title = await _titleRep.GetByIdAsync(titleVer);
                 if (title != null)
                 {
-                   // var globalConfig =await  S3Client.GetConfigFileContentsAsync();
+                    // var globalConfig =await  S3Client.GetConfigFileContentsAsync();
 
                     var alexaIntents = await IntentExporter.GetIntentModelAsync(title, locale);
 
@@ -97,15 +94,15 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
 
                 StoryTitle title = await _titleRep.GetByIdAsync(titleVer);
                 return new ObjectResult(title);
-               // return new JsonResult(title);
-            } 
-            catch(Exception ex)
+                // return new JsonResult(title);
+            }
+            catch (Exception ex)
             {
                 Logger.LogError(ex, "Error getting title {0}", titleId);
                 return new StatusCodeResult(500);
             }
         }
-        
+
         [Route("")]
         [HttpPost()]
         [HttpPost(".{format}"), FormatFilter]
@@ -117,11 +114,11 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
             {
                 Logger.LogError("Title null. Most likely cause is a deserialization failure.");
                 return new BadRequestResult();
-               
+
             }
 
 
-            if(string.IsNullOrWhiteSpace(title.Id))
+            if (string.IsNullOrWhiteSpace(title.Id))
             {
                 Logger.LogError("Error storing title: titleId is null or empty");
                 return new BadRequestResult();

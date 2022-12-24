@@ -35,7 +35,7 @@ namespace Whetstone.StoryEngine.Repository.Actions
             if (req == null)
                 throw new ArgumentNullException(nameof(req));
 
-            if(req.SessionContext?.TitleVersion==null)
+            if (req.SessionContext?.TitleVersion == null)
                 throw new ArgumentNullException(nameof(req), "SessionContext.TitleVersion cannot be null");
 
 
@@ -71,7 +71,7 @@ namespace Whetstone.StoryEngine.Repository.Actions
                     isCrumbFound = true;
 
                     string message = isPrivacyLoggingEnabled ?
-                         $"User visited node (redacted) (redacted) times":
+                         $"User visited node (redacted) (redacted) times" :
                          $"User visited node {nodeName} {visitCount} times";
 
                     actionBuilder.Append("NodeVisit: ");

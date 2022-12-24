@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Whetstone.StoryEngine.Models.Story;
+﻿using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.Repository
 {
@@ -14,6 +10,6 @@ namespace Whetstone.StoryEngine.Repository
     public interface IMediaLinker
     {
 
-        string GetFileLink( TitleVersion titleVer, string fileName);
+        string GetFileLink(TitleVersion titleVer, string fileName);
     }
 }

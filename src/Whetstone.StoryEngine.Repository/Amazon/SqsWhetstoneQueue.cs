@@ -1,28 +1,27 @@
-﻿using Newtonsoft.Json;
-using Microsoft.Extensions.Caching.Distributed;
+﻿using Amazon;
+using Amazon.SQS;
+using Amazon.SQS.Model;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Amazon.SQS;
-using Amazon.SQS.Model;
-using Whetstone.StoryEngine.Repository.Messaging;
-using Microsoft.Extensions.Options;
 using Whetstone.StoryEngine.Models.Configuration;
-using Amazon;
+using Whetstone.StoryEngine.Repository.Messaging;
 
 namespace Whetstone.StoryEngine.Repository.Amazon
 {
     public class SqsWhetstoneQueue : IWhetstoneQueue
     {
         private readonly ILogger<SqsWhetstoneQueue> _logger;
-        
+
         private readonly RegionEndpoint _endpoint;
-   
+
 
         public SqsWhetstoneQueue(IOptions<EnvironmentConfig> envConfig, ILogger<SqsWhetstoneQueue> logger)
         {
-           
+
             _endpoint = envConfig.Value?.Region ?? throw new ArgumentNullException(nameof(envConfig), "Region property cannot be null");
 
 

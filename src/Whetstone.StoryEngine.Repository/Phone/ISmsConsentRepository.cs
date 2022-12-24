@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Data;
-using Whetstone.StoryEngine.Models.Messaging;
 
 namespace Whetstone.StoryEngine.Repository.Phone
 {
@@ -12,7 +9,7 @@ namespace Whetstone.StoryEngine.Repository.Phone
     {
 
         DynamoDb = 1,
-        Database =2
+        Database = 2
     }
 
 

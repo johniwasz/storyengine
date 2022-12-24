@@ -2,7 +2,6 @@
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Whetstone.StoryEngine.Models.Story.Text;
 
 namespace Whetstone.StoryEngine.Models.Messaging.Sms
@@ -11,7 +10,7 @@ namespace Whetstone.StoryEngine.Models.Messaging.Sms
     {
 
 
-        public SmsNotificationRequest ()
+        public SmsNotificationRequest()
         {
 
 

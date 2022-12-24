@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Whetstone.StoryEngine.Models.Admin
 {
     public class ProjectVersionUpdateRequest
-    { 
+    {
 
 
         [JsonProperty(PropertyName = "description", NullValueHandling = NullValueHandling.Ignore)]

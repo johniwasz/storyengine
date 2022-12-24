@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Whetstone.StoryEngine.Models.Configuration
+﻿namespace Whetstone.StoryEngine.Models.Configuration
 {
 
     /// <summary>
@@ -28,5 +24,5 @@ namespace Whetstone.StoryEngine.Models.Configuration
     }
 
 
-    
+
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Whetstone.StoryEngine.Models.Tracking;
 
 namespace Whetstone.StoryEngine.Models.Conditions
@@ -23,7 +21,7 @@ namespace Whetstone.StoryEngine.Models.Conditions
 
         }
 
-        public ConditionInfo(List<IStoryCrumb> crumbs,  Client userClient)
+        public ConditionInfo(List<IStoryCrumb> crumbs, Client userClient)
         {
             this.Crumbs = crumbs;
             this.UserClient = userClient;

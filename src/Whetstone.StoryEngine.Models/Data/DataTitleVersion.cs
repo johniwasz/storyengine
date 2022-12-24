@@ -1,20 +1,17 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using Newtonsoft.Json;
 using Whetstone.StoryEngine.Models.Story;
-using YamlDotNet.Serialization;
-using Whetstone.StoryEngine;
 
 namespace Whetstone.StoryEngine.Models.Data
 {
 
-   
+
 
     [JsonObject(Title = "Version")]
     [DataContract]
@@ -72,17 +69,17 @@ namespace Whetstone.StoryEngine.Models.Data
         [ForeignKey("TitleVersionId")]
         public List<DataTwitterApplication> TwitterApplications { get; set; }
 
-        [ForeignKey("VersionId")] 
+        [ForeignKey("VersionId")]
         public List<DataTitleVersionDeployment> VersionDeployments { get; set; }
 
 
-        [ForeignKey("TitleVersionId")] 
+        [ForeignKey("TitleVersionId")]
         public List<UserPhoneConsent> PhoneConsentRecords { get; set; }
 
 
         public static explicit operator DataTitleVersion(TitleVersion titleVer)
         {
-            DataTitleVersion datatitleVer =null;
+            DataTitleVersion datatitleVer = null;
 
             if (titleVer != null)
             {
@@ -123,7 +120,7 @@ namespace Whetstone.StoryEngine.Models.Data
                         var versionList = datatitleVer.Title.Versions.ToList();
 
                         versionList.Add(dataVer);
-                        
+
                     }
 
                 }

@@ -9,11 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data.Amazon;
 using Whetstone.StoryEngine.Data.Caching;
-using Whetstone.StoryEngine.Data.EntityFramework;
 using Whetstone.StoryEngine.Data.EntityFramework.EntityManager;
 using Whetstone.StoryEngine.Data.Yaml;
 using Whetstone.StoryEngine.Models;
@@ -35,8 +33,8 @@ namespace Whetstone.StoryEngine.Data.Tests
         public async Task CreateDeploymentsFromMappings()
         {
             string env = "dev";
-         //   var devCon = GetDataContext();
-            var distCacheDict = GetMemoryCache();           
+            //   var devCon = GetDataContext();
+            var distCacheDict = GetMemoryCache();
             IOptions<EnvironmentConfig> envOpts = GetEnvironmentConfig();
 
 
@@ -61,9 +59,9 @@ namespace Whetstone.StoryEngine.Data.Tests
 
             ILoggerFactory factory = LoggerFactory.Create(builder =>
             {
-                    builder.AddConsole()
-                      .AddDebug()
-                          .AddFilter(level => level >= LogLevel.Debug);
+                builder.AddConsole()
+                  .AddDebug()
+                      .AddFilter(level => level >= LogLevel.Debug);
 
 
             });
@@ -76,7 +74,7 @@ namespace Whetstone.StoryEngine.Data.Tests
 
             ITitleCacheRepository titleCacheRep = GetTitleCache();
             ITitleReader titleReader = new YamlTitleReader(titleCacheRep, yamlLogger);
-   
+
 
             DataTitleVersionRepository dataVersionRep = new DataTitleVersionRepository(userContextRetriever, titleCacheRep, fileRep);
 
@@ -113,7 +111,7 @@ namespace Whetstone.StoryEngine.Data.Tests
 
                     TitleVersion titleVer = new TitleVersion(title, null);
 
-                    fullTitle = await titleReader.GetByIdAsync( titleVer);
+                    fullTitle = await titleReader.GetByIdAsync(titleVer);
                     isTitleRead = true;
                     addedTitles.Add(title);
                 }
@@ -126,7 +124,7 @@ namespace Whetstone.StoryEngine.Data.Tests
                 if (isTitleRead)
                 {
                     titleVersions.Add(title, fullTitle.Version);
-                    await dataVersionRep.CloneVersionAsync(title, null, fullTitle.Version);                    
+                    await dataVersionRep.CloneVersionAsync(title, null, fullTitle.Version);
                 }
             }
 

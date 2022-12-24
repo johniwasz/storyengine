@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +24,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
 
 
 
-        public async Task<TitleVersion> GetTitleAsync( Client clientType, string appId, string alias)
+        public async Task<TitleVersion> GetTitleAsync(Client clientType, string appId, string alias)
         {
 
 
@@ -35,7 +32,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
                 throw new ArgumentException($"{nameof(appId)} cannot be null or empty");
 
             TitleVersion retTitle = null;
-            string container =GetCacheContainer();
+            string container = GetCacheContainer();
             TitleVersion mappedTitle = await TitleCacheRep.GetAppMappingAsync(clientType, appId, alias);
 
             if (mappedTitle != null)
@@ -65,7 +62,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
 
         }
 
-        private async Task<TitleVersion> GetTitleFromDatabaseAsync( Client clientType, string clientAppId, string alias)
+        private async Task<TitleVersion> GetTitleFromDatabaseAsync(Client clientType, string clientAppId, string alias)
         {
 
             if (string.IsNullOrWhiteSpace(clientAppId))
@@ -93,7 +90,8 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
                                                TitleVersion = dtv_tv.TitleVerion,
                                                Title = t
                                            })
-                                        .Select(t => new {
+                                        .Select(t => new
+                                        {
                                             t.Title.ShortName,
                                             t.TitleVersion.Version,
                                             DeploymentId = t.TitleVersionDeployment.Id,
@@ -166,7 +164,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
 
             StringBuilder logResultBuilder = new StringBuilder();
             logResultBuilder.Append($"Request from Client {clientType} client app id {clientAppId} ");
-            if(string.IsNullOrWhiteSpace(alias))
+            if (string.IsNullOrWhiteSpace(alias))
                 logResultBuilder.Append($"Request from Client {clientType} client app id {clientAppId} and null alias ");
             else
                 logResultBuilder.Append($"Request from Client {clientType} client app id {clientAppId} and alias {alias} ");

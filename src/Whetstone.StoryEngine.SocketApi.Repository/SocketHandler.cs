@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using Newtonsoft.Json;
-using System.Threading.Tasks;
-
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
-
-using Whetstone.StoryEngine.Security;
-using Whetstone.StoryEngine.SocketApi.Repository.Responses;
-using Whetstone.StoryEngine.SocketApi.Repository.Notifications;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Dynamic;
+using System.Net;
+using System.Threading.Tasks;
+using Whetstone.StoryEngine.Security;
+using Whetstone.StoryEngine.SocketApi.Repository.Notifications;
+using Whetstone.StoryEngine.SocketApi.Repository.Responses;
 
 namespace Whetstone.StoryEngine.SocketApi.Repository
 {
@@ -139,7 +137,7 @@ namespace Whetstone.StoryEngine.SocketApi.Repository
 
                 ISocketResponse socketResponse = this.ValidateAuthTokenForUserId(userId, authTokenProperty);
 
-                if ( socketResponse.StatusCode == HttpStatusCode.OK )
+                if (socketResponse.StatusCode == HttpStatusCode.OK)
                 {
 
                     long clientMsgId;
@@ -147,13 +145,13 @@ namespace Whetstone.StoryEngine.SocketApi.Repository
 
                     socketResponse = this.ParseSendMessage(jsonObject, out clientMsgId, out clientMsg);
 
-                    if ( socketResponse.StatusCode == HttpStatusCode.OK )
+                    if (socketResponse.StatusCode == HttpStatusCode.OK)
                     {
                         string requestId = Guid.NewGuid().ToString();
 
                         socketResponse = await this.ProcessSendMessageResult(userId, connectionId, requestId, clientMsgId, socketSender, parameters);
 
-                        if ( socketResponse.StatusCode == HttpStatusCode.OK )
+                        if (socketResponse.StatusCode == HttpStatusCode.OK)
                         {
                             socketResponse = await this.ProcessSendMessage(userId, connectionId, requestId, clientMsg, socketSender, parameters);
                         }
@@ -175,13 +173,13 @@ namespace Whetstone.StoryEngine.SocketApi.Repository
             }
         }
 
-        private ISocketResponse ValidateAuthTokenForUserId( string userId, string authToken )
+        private ISocketResponse ValidateAuthTokenForUserId(string userId, string authToken)
         {
             string tokenUser = null;
 
             ISocketResponse socketResponse = this.ValidateSocketAuthToken(authToken, out tokenUser);
 
-            if ( socketResponse.StatusCode == HttpStatusCode.OK )
+            if (socketResponse.StatusCode == HttpStatusCode.OK)
             {
                 if (tokenUser != userId)
                 {
@@ -195,7 +193,7 @@ namespace Whetstone.StoryEngine.SocketApi.Repository
 
         }
 
-        private ISocketResponse ParseSendMessage( dynamic message, out long clientMsgId, out string clientMessage)
+        private ISocketResponse ParseSendMessage(dynamic message, out long clientMsgId, out string clientMessage)
         {
             SocketResponse socketResponse = new SocketResponse
             {
@@ -214,7 +212,7 @@ namespace Whetstone.StoryEngine.SocketApi.Repository
                 {
                     clientMsgId = this.GetJsonLongProperty(message, "clientMsgId");
 
-                    if ( clientMsgId > 0 )
+                    if (clientMsgId > 0)
                     {
                         clientMessage = this.GetJsonStringProperty(message, "data");
 
@@ -265,7 +263,7 @@ namespace Whetstone.StoryEngine.SocketApi.Repository
 
             IAuthenticatedSocket socket = await _connMgr.GetSocketByIdAsync(userId, connectionId);
 
-            if ( socket != null )
+            if (socket != null)
             {
                 await sender.SendMessageToClient(socket, response, parameters);
                 await _connMgr.UpdateSocketTTL(userId, connectionId);
@@ -332,7 +330,7 @@ namespace Whetstone.StoryEngine.SocketApi.Repository
 
         }
 
-        private string GetJsonStringProperty( ExpandoObject jsonObject, string propertyName )
+        private string GetJsonStringProperty(ExpandoObject jsonObject, string propertyName)
         {
             string strValue = null;
 

@@ -1,14 +1,9 @@
 ﻿using Amazon.Lambda.Core;
 using Amazon.Lambda.RuntimeSupport;
-using Amazon.Lambda.Serialization.Json;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Whetstone.StoryEngine.LambdaUtilities.Models;
 using Whetstone.StoryEngine.Models.Configuration;
 
 namespace Whetstone.StoryEngine.LambdaUtilities
@@ -59,10 +54,10 @@ namespace Whetstone.StoryEngine.LambdaUtilities
         private static async Task ProcessRequestAsync(CustomResourceRequest request, ILambdaContext context)
         {
 
-            if(request.ResourceProperties.Key!=null)
+            if (request.ResourceProperties.Key != null)
             {
 
-               await _keyPolicyFunction.Value.FunctionHandler(request, context);
+                await _keyPolicyFunction.Value.FunctionHandler(request, context);
 
             }
             else

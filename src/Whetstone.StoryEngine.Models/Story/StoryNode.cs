@@ -1,19 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using YamlDotNet.Serialization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 using System.Runtime.Serialization;
 using Whetstone.StoryEngine.Models.Actions;
-using System.ComponentModel;
 using Whetstone.StoryEngine.Models.Integration;
+using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Story
 {
 
 
 
-   public enum ResponseBehavior
+    public enum ResponseBehavior
     {
         SelectFirst,
         Random
@@ -25,15 +24,15 @@ namespace Whetstone.StoryEngine.Models.Story
         /// <summary>
         /// This is the default behavior
         /// </summary>
-        RecordAll =0,
+        RecordAll = 0,
         /// <summary>
         /// Records the response the engine sends. Does not record the user's input.
         /// </summary>
-        RecordEngineResponseOnly =1,
+        RecordEngineResponseOnly = 1,
         /// <summary>
         /// Do not save any audit data for the current node.
         /// </summary>
-        RecordNone=2
+        RecordNone = 2
 
     }
 
@@ -94,14 +93,14 @@ namespace Whetstone.StoryEngine.Models.Story
         [ForeignKey("TitleId")]
         public StoryTitle Title { get; set; }
 
-       
+
 
         /// <summary>
         /// Used to change user state or perform some action on user state.
         /// </summary>
         /// <remarks>This includes things like saving node visits or changing inventory status.</remarks>
-        [YamlMember(Order = 6)]     
-        [DataMember()]       
+        [YamlMember(Order = 6)]
+        [DataMember()]
         public List<NodeActionData> Actions { get; set; }
 
 

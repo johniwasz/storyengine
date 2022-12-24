@@ -1,16 +1,13 @@
 ﻿using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using Whetstone.StoryEngine;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Amazon;
-using Microsoft.Extensions.Logging;
 using Whetstone.StoryEngine.Models.Admin;
 
 namespace Whetstone.StoryEngine.Data.Amazon
@@ -133,20 +130,20 @@ namespace Whetstone.StoryEngine.Data.Amazon
 
             try
             {
-              
 
-                    ListObjectsV2Request request = new ListObjectsV2Request
-                    {
-                        BucketName = containerName,
-                        Prefix = path
-                    };
 
-                    ListObjectsV2Response response = await s3Client.ListObjectsV2Async(request);
+                ListObjectsV2Request request = new ListObjectsV2Request
+                {
+                    BucketName = containerName,
+                    Prefix = path
+                };
 
-                    if (response.S3Objects.Count > 0)
-                        doesExist = true;
+                ListObjectsV2Response response = await s3Client.ListObjectsV2Async(request);
 
-                
+                if (response.S3Objects.Count > 0)
+                    doesExist = true;
+
+
             }
             catch (Exception ex)
             {
@@ -221,7 +218,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
         }
 
 
-    
+
 
         internal static async Task<string> GetConfigTextContentsAsync(IAmazonS3 s3Client, string containerName, string path)
         {
@@ -454,7 +451,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
             List<Exception> copyExceptions = new List<Exception>();
 
 
-            
+
             Parallel.ForEach(sourceFiles, async (sourceFile) =>
             {
                 string fullSourcePath = string.Concat(sourcePathRoot, sourceFile);
@@ -465,17 +462,17 @@ namespace Whetstone.StoryEngine.Data.Amazon
                     await CopyObjectAsync(s3Client, containerName, fullSourcePath, fullDestinationPath);
                     logger.LogDebug($"Copied file {fullSourcePath} to {fullDestinationPath} in bucket {containerName}");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     string errorMsg = $"Error copying file {fullSourcePath} to {fullDestinationPath} in bucket {containerName}";
-                    logger.LogError(ex,errorMsg);
+                    logger.LogError(ex, errorMsg);
 
                     copyExceptions.Add(new Exception(errorMsg, ex));
                 }
             });
-                
 
-            
+
+
 
             if (copyExceptions.Any())
                 throw new AggregateException(copyExceptions);
@@ -567,7 +564,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
                 DeleteObjectsRequest deleteReq = new DeleteObjectsRequest();
                 deleteReq.BucketName = containerName;
 
-                foreach(string fileName in buffer)
+                foreach (string fileName in buffer)
                 {
                     string fullPath = string.Concat(dirPathRoot, fileName);
                     deleteReq.AddKey(fullPath);
@@ -648,7 +645,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
             {
 
                 await s3Client.DeleteObjectAsync(delObjRequest);
-                
+
             }
             catch (Exception ex)
             {

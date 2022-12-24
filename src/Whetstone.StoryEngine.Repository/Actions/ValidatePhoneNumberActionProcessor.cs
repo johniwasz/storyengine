@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +8,6 @@ using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Actions;
 using Whetstone.StoryEngine.Models.Data;
 using Whetstone.StoryEngine.Models.Messaging;
-using Whetstone.StoryEngine.Models.Story;
 using Whetstone.StoryEngine.Models.Tracking;
 using Whetstone.StoryEngine.Repository.Phone;
 
@@ -39,7 +37,7 @@ namespace Whetstone.StoryEngine.Repository.Actions
             if (req == null)
                 throw new ArgumentNullException(nameof(req));
 
-            if(req.SessionContext?.TitleVersion == null)
+            if (req.SessionContext?.TitleVersion == null)
                 throw new ArgumentNullException(nameof(req), "SessionContext.TitleVersion cannot be null");
 
             if (crumbs == null)
@@ -68,7 +66,7 @@ namespace Whetstone.StoryEngine.Repository.Actions
                 string.IsNullOrWhiteSpace(phoneData.PhoneTypeSlot) &&
                 string.IsNullOrWhiteSpace(phoneData.IsValidFormatSlot))
                 throw new ArgumentException("Node data must have one or more of the following slots set: IsValidFormatSlot, SupportsSmsSlot or PhoneTypeSlot");
-   
+
 
             List<SelectedItem> selItems = crumbs.GetSelectedItems();
 
@@ -91,7 +89,7 @@ namespace Whetstone.StoryEngine.Repository.Actions
 
                 phoneActionBuilder.AppendLine($"Invoking phone validator with formatted phone number {phoneLogValue}");
 
-            
+
                 var formatResult = PhoneUtility.ValidateFormat(phoneNumber, req.Locale);
                 bool isFormatValid = formatResult.IsValid;
                 SetSlotValue(crumbs, selItems, phoneData.IsValidFormatSlot, isFormatValid ? "true" : "false",
@@ -118,7 +116,7 @@ namespace Whetstone.StoryEngine.Repository.Actions
                             ? $"Phone number {phoneLogValue} supports SMS text"
                             : $"Phone number {phoneLogValue} does not support SMS text");
 
-                        if(!isPrivacyLogEnabled)
+                        if (!isPrivacyLogEnabled)
                             phoneActionBuilder.AppendLine($"Phone number {phoneLogValue} is type {curPhoneType}");
 
                     }

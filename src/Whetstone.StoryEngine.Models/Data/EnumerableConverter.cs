@@ -2,8 +2,6 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models.Data
 {
@@ -20,12 +18,12 @@ namespace Whetstone.StoryEngine.Models.Data
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
 
-            if(value != null)
+            if (value != null)
             {
                 JToken t = JToken.FromObject(value);
                 t.WriteTo(writer);
             }
-           //JToken t = JToken.FromObject(value);
+            //JToken t = JToken.FromObject(value);
 
             //if (t.Type != JTokenType.Object)
             //{

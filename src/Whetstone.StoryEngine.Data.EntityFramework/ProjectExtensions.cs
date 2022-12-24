@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
-using Amazon.RDS.Model.Internal.MarshallTransformations;
 using Whetstone.StoryEngine.Models.Admin;
 using Whetstone.StoryEngine.Models.Data;
 
@@ -35,7 +31,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
             if (!dataDeployment.Id.HasValue)
                 throw new ArgumentException($"{nameof(dataDeployment)} must have an Id");
 
-            if(!dataDeployment.PublishDate.HasValue)
+            if (!dataDeployment.PublishDate.HasValue)
                 throw new ArgumentException($"{nameof(dataDeployment)} must have a PublishDate");
 
             VersionDeployment retVersion = new VersionDeployment

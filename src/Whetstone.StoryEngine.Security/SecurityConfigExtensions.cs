@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using Amazon.CognitoIdentityProvider;
+﻿using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Security.Amazon;
 
@@ -31,7 +27,7 @@ namespace Whetstone.StoryEngine.Security
             services.AddTransient<IAuthenticator, CognitoAuthenticator>();
             services.AddTransient<IJwtTokenParser, CognitoTokenParser>();
 
-           
+
         }
 
 
@@ -55,10 +51,10 @@ namespace Whetstone.StoryEngine.Security
         {
             bool isEmailConfirmed = false;
 
-            var foundItem =  userResponse.UserAttributes?.FirstOrDefault(x => x.Name.Equals("email_verified"));
+            var foundItem = userResponse.UserAttributes?.FirstOrDefault(x => x.Name.Equals("email_verified"));
             if (foundItem != null)
             {
-                isEmailConfirmed =  foundItem.Value.Equals("confirmed");
+                isEmailConfirmed = foundItem.Value.Equals("confirmed");
 
 
             }

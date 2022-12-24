@@ -1,19 +1,17 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models
 {
 
     public enum YesNoMaybeEnum
     {
-        
-        Yes =0,
-        No =1,
-        Maybe=2
+
+        Yes = 0,
+        No = 1,
+        Maybe = 2
     }
 
     [JsonObject]

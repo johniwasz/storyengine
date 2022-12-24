@@ -1,33 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
-using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Data.Amazon;
-using Whetstone.StoryEngine.Data.Yaml;
-using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Models.Actions;
-using Whetstone.StoryEngine.Models.Conditions;
-using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.Models.Data;
-using Whetstone.StoryEngine.Models.Serialization;
-using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.Models.Tracking;
-using Xunit;
-
-namespace Whetstone.StoryEngine.Test.DbTests
+﻿namespace Whetstone.StoryEngine.Test.DbTests
 {
 
     public class EntityTest : EntityContextTestBase
     {
- 
+
 
 
         //[Fact(DisplayName = "Purge Story")]
@@ -121,53 +97,53 @@ namespace Whetstone.StoryEngine.Test.DbTests
 
 
 
-    //    private async Task ImportTitle(string title)
-    //    {
-    //        string env = "dev";
-    //        EnvironmentConfigOptions envConfigOptions = new EnvironmentConfigOptions(env);
+        //    private async Task ImportTitle(string title)
+        //    {
+        //        string env = "dev";
+        //        EnvironmentConfigOptions envConfigOptions = new EnvironmentConfigOptions(env);
 
-    //        IFileRepository fileRep = new S3FileStore(envConfigOptions);
+        //        IFileRepository fileRep = new S3FileStore(envConfigOptions);
 
-    //        ITitleReader titleReader = new YamlTitleReader(fileRep);
+        //        ITitleReader titleReader = new YamlTitleReader(fileRep);
 
-    //        StoryTitle animalFarmTitle = await titleReader.GetByIdAsync(env, title);
+        //        StoryTitle animalFarmTitle = await titleReader.GetByIdAsync(env, title);
 
-    //        DataTitle saveTitle = null;
+        //        DataTitle saveTitle = null;
 
-    //        try
-    //        {
-    //            saveTitle = await animalFarmTitle.ToRelationalStructure();
-    //        }
+        //        try
+        //        {
+        //            saveTitle = await animalFarmTitle.ToRelationalStructure();
+        //        }
 
-    //        catch (Exception ex)
-    //        {
+        //        catch (Exception ex)
+        //        {
 
-    //            Debug.WriteLine(ex);
+        //            Debug.WriteLine(ex);
 
-    //        }
+        //        }
 
-    //        if (saveTitle != null)
-    //        {
-    //            DbContextOptions<StoryEngineContext> contextOptions = GetContextOptions<StoryEngineContext>(connection);
+        //        if (saveTitle != null)
+        //        {
+        //            DbContextOptions<StoryEngineContext> contextOptions = GetContextOptions<StoryEngineContext>(connection);
 
-    //            EntityTitleRepository entityRep = new EntityTitleRepository(contextOptions);
-    //            try
-    //            {
+        //            EntityTitleRepository entityRep = new EntityTitleRepository(contextOptions);
+        //            try
+        //            {
 
-    //                await entityRep.CreateTitleAsync(saveTitle);
+        //                await entityRep.CreateTitleAsync(saveTitle);
 
-    //            }
-    //            catch (Exception ex)
-    //            {
+        //            }
+        //            catch (Exception ex)
+        //            {
 
-    //                Debug.WriteLine(ex);
+        //                Debug.WriteLine(ex);
 
-    //            }
-    //        }
+        //            }
+        //        }
 
 
 
-    //    }
+        //    }
 
     }
 

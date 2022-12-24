@@ -66,7 +66,7 @@ namespace Whetstone.StoryEngine.CoreApi.Formatters
                 {
                     yamlText = await reader.ReadToEndAsync();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     logger.LogError(ex, "Error deserializing yaml input");
                     return await InputFormatterResult.FailureAsync();
@@ -79,7 +79,7 @@ namespace Whetstone.StoryEngine.CoreApi.Formatters
                 title = _yamlDeser.Deserialize<StoryTitle>(yamlText);
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.LogError(ex, "Error deserializing StoryTitle from yaml input");
                 return await InputFormatterResult.FailureAsync();
@@ -88,6 +88,6 @@ namespace Whetstone.StoryEngine.CoreApi.Formatters
             return await InputFormatterResult.SuccessAsync(title);
         }
 
-       
+
     }
 }

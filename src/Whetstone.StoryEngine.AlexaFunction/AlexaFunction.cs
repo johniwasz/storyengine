@@ -1,5 +1,3 @@
-using System;
-using System.Diagnostics;
 using Amazon.Lambda.Core;
 using Whetstone.StoryEngine.AlexaProcessor;
 
@@ -12,7 +10,7 @@ namespace Whetstone.StoryEngine.AlexaFunction
     // https://medium.com/@zaccharles/remotely-debugging-net-in-aws-lambda-with-breakpoints-88ff57aae1c6
 
     public class AlexaFunction : AlexaFunctionBase
-    {    
+    {
 
 
 

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Linq;
-
-using Amazon.DynamoDBv2;
+﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
-
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Configuration;
 
 namespace Whetstone.StoryEngine.SocketApi.Repository.Amazon
@@ -36,7 +31,7 @@ namespace Whetstone.StoryEngine.SocketApi.Repository.Amazon
 
         protected bool _isLocal = false;
 
-        public DynamoDBSocketManager( ILogger<DynamoDBSocketManager> logger, IAmazonDynamoDB ddbClient, IOptions<SocketConfig> socketConfig )
+        public DynamoDBSocketManager(ILogger<DynamoDBSocketManager> logger, IAmazonDynamoDB ddbClient, IOptions<SocketConfig> socketConfig)
         {
             _logger = logger;
 
@@ -48,7 +43,7 @@ namespace Whetstone.StoryEngine.SocketApi.Repository.Amazon
 
         public bool IsLocal
         {
-            get { return _isLocal;  }
+            get { return _isLocal; }
         }
 
         public virtual async Task AddSocketAsync(IAuthenticatedSocket socket)
@@ -74,7 +69,7 @@ namespace Whetstone.StoryEngine.SocketApi.Repository.Amazon
             await DDBClient.PutItemAsync(ddbRequest);
         }
 
-        public virtual async Task<ICollection<IAuthenticatedSocket>> GetSocketsForUserIdAsync( string userId )
+        public virtual async Task<ICollection<IAuthenticatedSocket>> GetSocketsForUserIdAsync(string userId)
         {
             List<IAuthenticatedSocket> lstSockets = new List<IAuthenticatedSocket>();
 
@@ -137,15 +132,15 @@ namespace Whetstone.StoryEngine.SocketApi.Repository.Amazon
 
             GetItemResponse itemResponse = await DDBClient.GetItemAsync(ddbRequest);
 
-            if ( itemResponse.Item != null )
+            if (itemResponse.Item != null)
             {
                 _logger.LogDebug($"Retrieved connection {connectionId} in DynamoDB");
                 _logger.LogDebug($"Connection contains: {itemResponse.Item.Keys.Count} keys.");
-                
+
                 string authToken = itemResponse.Item[AuthTokenField].S;
                 string clientId = itemResponse.Item[ClientIdField].S;
 
-                authSocket = new AuthSocketBase(connectionId, userId, authToken, clientId );
+                authSocket = new AuthSocketBase(connectionId, userId, authToken, clientId);
             }
             else
             {
@@ -172,7 +167,7 @@ namespace Whetstone.StoryEngine.SocketApi.Repository.Amazon
             await DDBClient.DeleteItemAsync(ddbRequest);
         }
 
-        public virtual async Task UpdateSocketTTL( string userId, string connectionId)
+        public virtual async Task UpdateSocketTTL(string userId, string connectionId)
         {
             _logger.LogDebug($"Updating Socket TTL in DynamoDB, userId: {userId}, connectionId: {connectionId}");
 

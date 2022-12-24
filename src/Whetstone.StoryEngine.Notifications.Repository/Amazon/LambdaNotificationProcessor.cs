@@ -1,13 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using Amazon.Lambda;
+﻿using Amazon.Lambda;
 using Amazon.Lambda.Model;
-
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
 using Newtonsoft.Json;
-
+using System;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Notifications;
 

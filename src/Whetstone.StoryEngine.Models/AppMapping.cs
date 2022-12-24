@@ -1,13 +1,10 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models
 {
     public class AppMapping
     {
-        [JsonProperty(PropertyName ="appId")]
+        [JsonProperty(PropertyName = "appId")]
         public string AppId { get; set; }
 
         [JsonProperty(PropertyName = "titleId")]

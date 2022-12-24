@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Whetstone.StoryEngine.Models.Story;
 using System.Linq;
-using Microsoft.Extensions.Logging;
-using Whetstone.StoryEngine.Models.Conditions;
-using Whetstone.StoryEngine.Models;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data.Caching;
+using Whetstone.StoryEngine.Models;
+using Whetstone.StoryEngine.Models.Conditions;
+using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.Data.Yaml
 {
@@ -19,7 +19,7 @@ namespace Whetstone.StoryEngine.Data.Yaml
 
         public YamlTitleReader(ITitleCacheRepository cacheRep, ILogger<YamlTitleReader> logger)
         {
-            _cacheRep = cacheRep ?? throw new ArgumentNullException(nameof(cacheRep));          
+            _cacheRep = cacheRep ?? throw new ArgumentNullException(nameof(cacheRep));
             _dataLogger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -51,12 +51,12 @@ namespace Whetstone.StoryEngine.Data.Yaml
         public async Task ClearTitleAsync(TitleVersion titleVersion)
         {
 
-               string titleId = titleVersion.ShortName;
+            string titleId = titleVersion.ShortName;
 
-               await _cacheRep.RemoveTitleVersionAsync(titleVersion, false);
+            await _cacheRep.RemoveTitleVersionAsync(titleVersion, false);
 
-               _dataLogger.LogInformation($"Removed title {titleId} from local storage");
-      
+            _dataLogger.LogInformation($"Removed title {titleId} from local storage");
+
         }
 
         public async Task<bool> IsPrivacyLoggingEnabledAsync(TitleVersion titleVersion)
@@ -108,7 +108,7 @@ namespace Whetstone.StoryEngine.Data.Yaml
             if (string.IsNullOrWhiteSpace(intentName))
                 throw new ArgumentNullException(nameof(intentName));
 
-            var storyTitle = await GetByIdAsync( titleVersion);
+            var storyTitle = await GetByIdAsync(titleVersion);
 
             var intent = storyTitle?.Intents?.FirstOrDefault(x => x.Name.Equals(intentName, StringComparison.OrdinalIgnoreCase));
 
@@ -142,7 +142,7 @@ namespace Whetstone.StoryEngine.Data.Yaml
             string retNodeName;
 
 
-            if(isNewUser)
+            if (isNewUser)
             {
                 retNodeName = storyTitle?.NewUserNodeName;
             }
@@ -167,9 +167,9 @@ namespace Whetstone.StoryEngine.Data.Yaml
             if (string.IsNullOrWhiteSpace(titleId))
                 throw new ArgumentNullException(nameof(titleId));
 
-            var storyTitle = await GetByIdAsync( titleVersion);
+            var storyTitle = await GetByIdAsync(titleVersion);
 
-            if(storyTitle!=null)
+            if (storyTitle != null)
             {
                 retPhoneInfo = storyTitle.PhoneInfo;
             }
@@ -190,10 +190,10 @@ namespace Whetstone.StoryEngine.Data.Yaml
             if (string.IsNullOrWhiteSpace(titleId))
                 throw new ArgumentNullException(nameof(titleId));
 
-            var storyTitle = await GetByIdAsync( titleVersion);
+            var storyTitle = await GetByIdAsync(titleVersion);
 
 
-            if(storyTitle!=null)
+            if (storyTitle != null)
             {
                 intents = storyTitle.Intents;
 
@@ -240,7 +240,7 @@ namespace Whetstone.StoryEngine.Data.Yaml
             if (titleVersion == null)
                 throw new ArgumentNullException($"{nameof(titleVersion)}");
 
-            var storyTitle = await GetByIdAsync(titleVersion);     
+            var storyTitle = await GetByIdAsync(titleVersion);
 
             StoryConditionBase conditionBase = storyTitle?.Conditions?.FirstOrDefault(x =>
                 x.Name.Equals(conditionName, StringComparison.OrdinalIgnoreCase));
@@ -257,7 +257,7 @@ namespace Whetstone.StoryEngine.Data.Yaml
 
             var nodes = storyTitle.Nodes;
 
-            foreach(var node in nodes)
+            foreach (var node in nodes)
             {
                 node.TitleId = storyTitle.Id;
             }
@@ -272,7 +272,7 @@ namespace Whetstone.StoryEngine.Data.Yaml
 
             var storyTitle = await GetByIdAsync(titleVersion);
 
-           List<StoryNode> badIntentNodes = storyTitle.BadIntentResponses;
+            List<StoryNode> badIntentNodes = storyTitle.BadIntentResponses;
 
             if (badIntentNodes != null)
             {
@@ -312,7 +312,7 @@ namespace Whetstone.StoryEngine.Data.Yaml
             if (titleVersion == null)
                 throw new ArgumentNullException(nameof(titleVersion));
 
-            var storyTitle = await GetByIdAsync( titleVersion);
+            var storyTitle = await GetByIdAsync(titleVersion);
             return storyTitle.StoryType;
 
         }

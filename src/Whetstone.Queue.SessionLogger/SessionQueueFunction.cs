@@ -1,12 +1,10 @@
-using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.SQSEvents;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Whetstone.Queue.SessionLogger.Repository;
-using Whetstone.StoryEngine;
 
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
@@ -24,7 +22,7 @@ namespace Whetstone.Queue.SessionLogger
         /// </summary>
         public SessionQueueFunction() : base()
         {
-      
+
         }
 
 
@@ -41,7 +39,7 @@ namespace Whetstone.Queue.SessionLogger
         {
             ILogger<SessionQueueFunction> logger = Services.GetService<ILogger<SessionQueueFunction>>();
 
-           Stopwatch queueTime = Stopwatch.StartNew();
+            Stopwatch queueTime = Stopwatch.StartNew();
 
             if (evnt == null)
             {

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Whetstone.StoryEngine.Models.Data;
 using System.Runtime.Serialization;
+using Whetstone.StoryEngine.Models.Data;
 
 namespace Whetstone.StoryEngine.Models.Story
 {
@@ -9,8 +9,8 @@ namespace Whetstone.StoryEngine.Models.Story
     [DataContract]
     public class StandardNode
     {
-        
-        [JsonProperty(PropertyName ="id")]
+
+        [JsonProperty(PropertyName = "id")]
         [DataMember]
         public long? Id { get; set; }
 

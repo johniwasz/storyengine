@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.IdentityModel.Tokens.Jwt;
-
-using Microsoft.Extensions.Logging;
-
 using Whetstone.StoryEngine.Security;
 
 namespace Whetstone.StoryEngine.SocketApi.Repository
@@ -12,7 +10,7 @@ namespace Whetstone.StoryEngine.SocketApi.Repository
         private readonly ILogger<WebAuthorizer> _logger = null;
         private readonly IJwtTokenParser _authenticator = null;
 
-        public WebAuthorizer( ILogger<WebAuthorizer> logger, IJwtTokenParser authenticator )
+        public WebAuthorizer(ILogger<WebAuthorizer> logger, IJwtTokenParser authenticator)
         {
             if (logger == null)
                 throw new InvalidOperationException("logger is null!");

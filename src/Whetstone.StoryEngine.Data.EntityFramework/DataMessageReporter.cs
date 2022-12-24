@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using Npgsql;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Npgsql;
 using Whetstone.StoryEngine.Models.Admin;
 using Whetstone.StoryEngine.Repository.Messaging;
 

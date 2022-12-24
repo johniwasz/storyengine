@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.Serialization;
-using System.Text;
-using MessagePack;
+﻿using MessagePack;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Whetstone.StoryEngine.Models.Story;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Tracking
 {
-   
+
     [MessagePackObject]
     [DataContract]
     public class UniqueItem : InventoryItemBase
@@ -43,13 +40,13 @@ namespace Whetstone.StoryEngine.Models.Tracking
         [NotMapped]
         [DataMember]
         [JsonConverter(typeof(StringEnumConverter))]
-        [JsonProperty("itemType", Order =0)]
+        [JsonProperty("itemType", Order = 0)]
         public override InventoryItemType ItemType { get; set; }
 
 
         public override bool Equals(object obj)
         {
-            if(obj is UniqueItem compareItem)
+            if (obj is UniqueItem compareItem)
                 return this.Name.Equals(compareItem.Name, StringComparison.OrdinalIgnoreCase);
 
 

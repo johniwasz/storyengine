@@ -1,12 +1,10 @@
-﻿using Amazon.SimpleNotificationService;
+﻿using Amazon;
+using Amazon.SimpleNotificationService;
 using Amazon.SimpleNotificationService.Model;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using Amazon;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Messaging;
 using Whetstone.StoryEngine.Models.Messaging.Sms;
@@ -21,7 +19,7 @@ namespace Whetstone.StoryEngine.Repository.Messaging
         public SmsSenderType ProviderName => SmsSenderType.Sns;
 
         private RegionEndpoint _regionEndpoint = null;
- 
+
 
         public SmsSnsSender(IOptions<EnvironmentConfig> envConfig, ILogger<SmsSnsSender> logger)
         {
@@ -79,7 +77,7 @@ namespace Whetstone.StoryEngine.Repository.Messaging
                 res.SendStatus = MessageSendStatus.SentToDispatcher;
             }
             // Too Many Requests
-            else if ((int) pubResponse.HttpStatusCode == 429)
+            else if ((int)pubResponse.HttpStatusCode == 429)
             {
                 _logger.LogWarning($"Sns message {pubResponse.MessageId} is throttled");
                 res.SendStatus = MessageSendStatus.Throttled;

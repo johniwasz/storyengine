@@ -1,17 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.Models.Tracking;
-using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
+using Whetstone.StoryEngine.Models.Story;
 using YamlDotNet.Serialization;
-using Newtonsoft.Json.Converters;
-using Whetstone.StoryEngine;
-using Whetstone.StoryEngine.Models.Messaging.Sms;
 
 namespace Whetstone.StoryEngine.Models.Actions
 {
@@ -30,7 +22,7 @@ namespace Whetstone.StoryEngine.Models.Actions
         [YamlIgnore]
         [DataMember]
         [JsonConverter(typeof(StringEnumConverter))]
-        [JsonProperty(PropertyName ="nodeAction")]
+        [JsonProperty(PropertyName = "nodeAction")]
         public override NodeActionEnum NodeAction { get { return NodeActionEnum.PhoneMessage; } set { } }
 
 

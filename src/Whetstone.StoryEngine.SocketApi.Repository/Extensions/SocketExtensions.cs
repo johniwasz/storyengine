@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.SocketApi.Repository.Amazon;

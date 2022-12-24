@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models.Data
-{ 
+{
     [DebuggerDisplay("{" + nameof(Text) + "}")]
     public class MappedUtterance
     {

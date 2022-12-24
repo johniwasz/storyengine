@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
 using Whetstone.StoryEngine.Data.EntityFramework;
-using Microsoft.Extensions.Logging;
 
 namespace Whetstone.StoryEngine.Data.Create
 {
@@ -12,25 +12,25 @@ namespace Whetstone.StoryEngine.Data.Create
         public UserDataContext CreateDbContext(string[] args)
         {
 
-          //  string bootstrapYaml = GetKeyContent(@"/storyengine/dev/bootstrap");
+            //  string bootstrapYaml = GetKeyContent(@"/storyengine/dev/bootstrap");
 
 
-       //     BootstrapConfig bootConfig = YamlD
+            //     BootstrapConfig bootConfig = YamlD
 
-          //  string connection = GetKeyContent($"/storyengine/dev/enginedb");
+            //  string connection = GetKeyContent($"/storyengine/dev/enginedb");
 
             var optionsBuilder = new DbContextOptionsBuilder<UserDataContext>();
 
             optionsBuilder.EnableSensitiveDataLogging();
 
-       //     EnvironmentConfig envConfig = new EnvironmentConfig(RegionEndpoint.USEast1, "");
+            //     EnvironmentConfig envConfig = new EnvironmentConfig(RegionEndpoint.USEast1, "");
 
 
-          //  IUserContextRetriever contextRetriever = new IamUserContextRetriever();
+            //  IUserContextRetriever contextRetriever = new IamUserContextRetriever();
 
-           string   connection = "Host=localhost;Database=postgres;Username=postgres;Password=postgres";
+            string connection = "Host=localhost;Database=postgres;Username=postgres;Password=postgres";
 
-            optionsBuilder.UseNpgsql(connection, x=>
+            optionsBuilder.UseNpgsql(connection, x =>
             {
                 x.MigrationsHistoryTable("efmigrationhistory", "whetstone");
                 x.MigrationsAssembly("Whetstone.StoryEngine.Data.Create");

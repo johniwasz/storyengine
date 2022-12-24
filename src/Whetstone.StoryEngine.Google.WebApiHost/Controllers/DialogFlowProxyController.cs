@@ -1,27 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Amazon.Lambda.APIGatewayEvents;
+﻿using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.TestUtilities;
 using Google.Cloud.Dialogflow.V2;
 using Google.Protobuf;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Whetstone.StoryEngine.Google.WebApiHost;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Google.LambdaHost;
 using FromBodyAttribute = Microsoft.AspNetCore.Mvc.FromBodyAttribute;
 using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
-using HttpDeleteAttribute = Microsoft.AspNetCore.Mvc.HttpDeleteAttribute;
-using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
-using HttpPutAttribute = Microsoft.AspNetCore.Mvc.HttpPutAttribute;
-using System.Threading;
-
-using System.Net.Http;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Google.WebApiHost.Controllers
 {
@@ -29,7 +18,7 @@ namespace Whetstone.StoryEngine.Google.WebApiHost.Controllers
     [ApiController]
     public class DialogFlowProxyController : ControllerBase
     {
-        
+
 
         // POST api/values
         [HttpPost]

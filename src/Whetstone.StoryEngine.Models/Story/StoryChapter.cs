@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models.Story
 {
@@ -30,7 +27,7 @@ namespace Whetstone.StoryEngine.Models.Story
         /// </summary>
         /// <remarks>Do not store to the database in this format.</remarks>    
         [JsonProperty(PropertyName = "nodes")]
-        [DataMember] 
+        [DataMember]
         public List<StoryNode> Nodes { get; set; }
 
     }

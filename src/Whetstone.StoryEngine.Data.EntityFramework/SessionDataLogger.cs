@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using Npgsql;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Npgsql;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Messaging;
 using Whetstone.StoryEngine.Models.Story;
@@ -89,7 +89,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
 
             AuditBehavior auditBehavior = response.AuditBehavior.GetValueOrDefault(AuditBehavior.RecordAll);
 
-            if (!request.IsPingRequest.GetValueOrDefault(false) && auditBehavior!= AuditBehavior.RecordNone)
+            if (!request.IsPingRequest.GetValueOrDefault(false) && auditBehavior != AuditBehavior.RecordNone)
             {
                 if (response == null)
                     throw new ArgumentException($"{nameof(response)} cannot be null");
@@ -115,8 +115,8 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
                     Guid engineSessionId = engineContext.EngineSessionId.Value;
                     Guid engineRequestId = request.EngineRequestId;
 
-                    
-              
+
+
 
                     if (auditBehavior == AuditBehavior.RecordEngineResponseOnly)
                     {
@@ -201,7 +201,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
 
                 try
                 {
-   
+
                     DateTime? startTime = null;
 
                     if (request.IsNewSession.GetValueOrDefault(false))

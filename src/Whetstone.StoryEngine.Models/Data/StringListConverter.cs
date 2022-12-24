@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models.Data
 {
@@ -16,7 +15,7 @@ namespace Whetstone.StoryEngine.Models.Data
             {
                 return true;
             }
-            else if(sourceType == typeof(string[]))
+            else if (sourceType == typeof(string[]))
             {
                 return true;
             }
@@ -43,7 +42,7 @@ namespace Whetstone.StoryEngine.Models.Data
         {
             List<string> sourceList = (List<string>)value;
 
-           
+
 
             if (destinationType == typeof(string))
             {
@@ -64,18 +63,18 @@ namespace Whetstone.StoryEngine.Models.Data
         {
             string s = value as string;
 
-            
+
 
             if (!string.IsNullOrEmpty(s))
             {
                 return ((string)value).Split(',').ToList<string>();
             }
-            if(value is string[])
+            if (value is string[])
             {
                 List<string> retList = null;
-                if(value!=null)
+                if (value != null)
                 {
-                    retList = ((string[])value).ToList<string>();                    
+                    retList = ((string[])value).ToList<string>();
                 }
 
                 return retList;

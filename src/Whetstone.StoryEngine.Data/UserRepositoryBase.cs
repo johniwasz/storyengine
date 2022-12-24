@@ -1,7 +1,6 @@
-﻿using Whetstone.StoryEngine.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Data;
 
 namespace Whetstone.StoryEngine.Data
@@ -14,7 +13,7 @@ namespace Whetstone.StoryEngine.Data
         /// </summary>
         /// <param name="request">An engine request object processed through an Alexa or Google adapter.</param>
         /// <returns>An initialized data client user.</returns>
-        public DataTitleClientUser BootstrapUser( StoryRequest request)
+        public DataTitleClientUser BootstrapUser(StoryRequest request)
         {
             DateTime curTime = DateTime.UtcNow;
             DataTitleClientUser user = new DataTitleClientUser();

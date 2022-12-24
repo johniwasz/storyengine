@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 
 namespace Whetstone.StoryEngine
@@ -28,26 +26,26 @@ namespace Whetstone.StoryEngine
 #pragma warning restore SCS0005 // Weak random generator
         }
 
-//        private static readonly Random globalRandom = new Random();
-//        private static readonly object globalLock = new object();
+        //        private static readonly Random globalRandom = new Random();
+        //        private static readonly object globalLock = new object();
 
-//        public static Random NewRandom()
-//        {
-//            lock (globalLock)
-//            {
-//#pragma warning disable SCS0005 // Weak random generator
-//                return new Random(globalRandom.Next());
-//#pragma warning restore SCS0005 // Weak random generator
+        //        public static Random NewRandom()
+        //        {
+        //            lock (globalLock)
+        //            {
+        //#pragma warning disable SCS0005 // Weak random generator
+        //                return new Random(globalRandom.Next());
+        //#pragma warning restore SCS0005 // Weak random generator
 
-//            }
-//        }
-
-
-//        private static readonly ThreadLocal<Random> threadLocalRandom
-//                    = new ThreadLocal<Random>(NewRandom);
+        //            }
+        //        }
 
 
-//        public static Random Instance { get { return threadLocalRandom.Value; } }
+        //        private static readonly ThreadLocal<Random> threadLocalRandom
+        //                    = new ThreadLocal<Random>(NewRandom);
+
+
+        //        public static Random Instance { get { return threadLocalRandom.Value; } }
 
 
     }

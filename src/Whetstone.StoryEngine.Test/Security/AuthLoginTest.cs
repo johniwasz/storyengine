@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon.AspNetCore.Identity.Cognito.Extensions;
-using Amazon.CognitoIdentityProvider;
+﻿using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.Security;
-using Xunit;
-using Microsoft.Extensions.DependencyInjection;
 using Whetstone.StoryEngine.Models.Data;
+using Whetstone.StoryEngine.Security;
 using Whetstone.StoryEngine.Security.Amazon;
+using Xunit;
 using SignUpRequest = Whetstone.StoryEngine.Security.SignUpRequest;
-using Microsoft.Extensions.Caching.Distributed;
-using Tweetinvi.Core.RateLimit;
 
 namespace Whetstone.StoryEngine.Test.Security
 {
@@ -33,7 +28,7 @@ namespace Whetstone.StoryEngine.Test.Security
             AuthCredentials testCreds = await GetTestCredentialsAsync(TESTCRED01);
 
 
-            var authTokenInfo =  await auth.AuthenticateAsync(testCreds);
+            var authTokenInfo = await auth.AuthenticateAsync(testCreds);
 
 
             IJwtTokenParser tokAuth = GetCognitoTokenParser();
@@ -58,7 +53,7 @@ namespace Whetstone.StoryEngine.Test.Security
             refRequest.AuthToken = authTokenInfo.AuthToken;
 
 
-           TokenResult result = await auth.RefreshTokenAsync(refRequest);
+            TokenResult result = await auth.RefreshTokenAsync(refRequest);
         }
 
 
@@ -83,7 +78,7 @@ namespace Whetstone.StoryEngine.Test.Security
         [Fact]
         public async Task AddNewCognitoUserAsync()
         {
-           var dataContext = this.GetLocalUserContext();
+            var dataContext = this.GetLocalUserContext();
 
             DataUser newCogUser = new DataUser
             {
@@ -132,7 +127,7 @@ namespace Whetstone.StoryEngine.Test.Security
 
                 await auth.RequestNewConfirmationCode(resendRequest);
             }
-           
+
         }
 
 
@@ -149,7 +144,7 @@ namespace Whetstone.StoryEngine.Test.Security
                 UserName = "someuser@gmail.com",
                 ConfirmationCode = "277315"
             };
-          var result =  await auth.ConfirmAccountAsync(confirmUser);
+            var result = await auth.ConfirmAccountAsync(confirmUser);
         }
 
 
@@ -163,7 +158,7 @@ namespace Whetstone.StoryEngine.Test.Security
             {
                 UserName = "thisuser@doesnotexist.com"
             };
-           await auth.RequestNewConfirmationCode(resendCodeRequest);
+            await auth.RequestNewConfirmationCode(resendCodeRequest);
         }
 
 
@@ -217,7 +212,7 @@ namespace Whetstone.StoryEngine.Test.Security
             ILogger<CognitoTokenParser> cogTokenLogger = CreateLogger<CognitoTokenParser>();
 
 
-            IJwtTokenParser tokenParser  = new CognitoTokenParser(cogOpts, cogTokenLogger);
+            IJwtTokenParser tokenParser = new CognitoTokenParser(cogOpts, cogTokenLogger);
 
             IDistributedCache cache = this.Services.GetService<IDistributedCache>();
 

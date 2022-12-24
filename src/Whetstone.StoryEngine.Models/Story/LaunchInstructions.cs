@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Whetstone.StoryEngine.Models.Story
 {
     public class LaunchInstruction
     {
 
-        
+
         public string Id { get; set; }
 
 

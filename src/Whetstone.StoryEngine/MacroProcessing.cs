@@ -1,12 +1,11 @@
-﻿using Microsoft.Extensions.Logging;
-using Whetstone.StoryEngine.Models.Tracking;
+﻿using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Whetstone.StoryEngine.Models.Tracking;
 
 namespace Whetstone.StoryEngine
 {
@@ -108,7 +107,7 @@ namespace Whetstone.StoryEngine
 
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception($"Error replacing macro text {responseText} in ProcessTextFragmentMacrosAsync", ex);
             }
@@ -176,7 +175,7 @@ namespace Whetstone.StoryEngine
             }
 
 
-            
+
             return argText;
         }
 

@@ -1,15 +1,13 @@
-﻿using Whetstone.StoryEngine.Models.Story;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.Repository
 {
     public interface ITitleValidator
     {
 
-        Task<StoryValidationResult> ValidateTitleAsync( TitleVersion titleVersion);
+        Task<StoryValidationResult> ValidateTitleAsync(TitleVersion titleVersion);
 
         Task<StoryValidationResult> ValidateTitleAsync(StoryTitle title);
 

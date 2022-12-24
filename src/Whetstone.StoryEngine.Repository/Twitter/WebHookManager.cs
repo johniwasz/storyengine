@@ -107,10 +107,10 @@ namespace Whetstone.StoryEngine.Repository.Twitter
 
             var userClient = GetTwitterClient(creds);
 
-            
 
-           IWebhookEnvironmentSubscriptions subscriptions = await userClient.AccountActivity.GetAccountActivitySubscriptionsAsync(environment);
-          
+
+            IWebhookEnvironmentSubscriptions subscriptions = await userClient.AccountActivity.GetAccountActivitySubscriptionsAsync(environment);
+
             retSubs.ApplicationId = subscriptions.ApplicationId;
             retSubs.Subscriptions = new List<SubscriptionResponse>();
             foreach (var sub in subscriptions.Subscriptions)
@@ -119,7 +119,7 @@ namespace Whetstone.StoryEngine.Repository.Twitter
                 subResp.UserId = sub.UserId;
 
                 retSubs.Subscriptions.Add(subResp);
-                
+
             }
 
             return retSubs;
@@ -163,7 +163,7 @@ namespace Whetstone.StoryEngine.Repository.Twitter
             };
 
             var userClient = new TwitterClient(inviCreds);
-            
+
 
             return userClient;
 

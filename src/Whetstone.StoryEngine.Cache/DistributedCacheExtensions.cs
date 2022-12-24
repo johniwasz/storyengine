@@ -72,7 +72,7 @@ namespace Whetstone.StoryEngine.Cache
                 string contKey = BuildKey(container, key);
                 return await cache.GetStringAsync(contKey);
             }
-        
+
             return null;
         }
 
@@ -127,6 +127,6 @@ namespace Whetstone.StoryEngine.Cache
         {
             return string.Concat(container, ":", key).ToLower();
         }
-        
+
     }
 }

@@ -1,13 +1,7 @@
-﻿using Amazon.Lambda.TestUtilities;
-using Whetstone.Alexa;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using System.Threading;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Whetstone.Alexa;
 using Xunit;
-using Whetstone.StoryEngine;
 namespace Whetstone.StoryEngine.AlexaFunction.Test
 {
     public class RevenoxTest : LambdaTestBase

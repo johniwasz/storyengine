@@ -1,5 +1,4 @@
-﻿using System;
-namespace Whetstone.StoryEngine.Models.Notifications
+﻿namespace Whetstone.StoryEngine.Models.Notifications
 
 {
     public enum NotificationRequestType

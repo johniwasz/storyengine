@@ -1,22 +1,12 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Net.WebSockets;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Linq;
-using System.IO;
-using System.Text;
-using Microsoft.AspNetCore.Http;
-
-using Amazon.DynamoDBv2;
-
+﻿using Amazon.DynamoDBv2;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.SocketApi.Repository;
 using Whetstone.StoryEngine.SocketApi.Repository.Amazon;
-using Whetstone.StoryEngine.Models.Configuration;
 
 namespace Whetstone.StoryEngine.CoreApi.WebSockets
 {
@@ -48,9 +38,9 @@ namespace Whetstone.StoryEngine.CoreApi.WebSockets
 
             List<IAuthenticatedSocket> sockets = new List<IAuthenticatedSocket>();
 
-            foreach( IAuthenticatedSocket socket in _sockets.Values )
+            foreach (IAuthenticatedSocket socket in _sockets.Values)
             {
-                if ( socket.UserId == userId )
+                if (socket.UserId == userId)
                 {
                     sockets.Add(socket);
                 }

@@ -1,10 +1,10 @@
 ﻿
 
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using Newtonsoft.Json;
 using Whetstone.StoryEngine.Models.Serialization;
 using Whetstone.StoryEngine.Models.Story.Ssml;
 

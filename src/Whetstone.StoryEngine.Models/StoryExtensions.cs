@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
-using Whetstone.StoryEngine.Models.Conditions;
 using Whetstone.StoryEngine.Models.Data;
 using Whetstone.StoryEngine.Models.Story;
 
@@ -51,78 +47,78 @@ namespace Whetstone.StoryEngine.Models
 
 
         //}
-//        public static StoryVersion ToStoryVersion(this DataTitleVersion dataVersion)
-//        {
-//            StoryVersion storyVersion = new StoryVersion();
+        //        public static StoryVersion ToStoryVersion(this DataTitleVersion dataVersion)
+        //        {
+        //            StoryVersion storyVersion = new StoryVersion();
 
-//           // storyVersion.Id = dataVersion.Id;
-//            storyVersion.UniqueId = dataVersion.UniqueId;
-//            storyVersion.Version = dataVersion.Version;
-//            storyVersion.PublishDate = dataVersion.PublishDate;
-//            storyVersion.Id = dataVersion.Id;
+        //           // storyVersion.Id = dataVersion.Id;
+        //            storyVersion.UniqueId = dataVersion.UniqueId;
+        //            storyVersion.Version = dataVersion.Version;
+        //            storyVersion.PublishDate = dataVersion.PublishDate;
+        //            storyVersion.Id = dataVersion.Id;
 
-//            if ((dataVersion.Slots?.Any()).GetValueOrDefault(false))
-//            {
-//                storyVersion.Slots = new List<SlotType>();
+        //            if ((dataVersion.Slots?.Any()).GetValueOrDefault(false))
+        //            {
+        //                storyVersion.Slots = new List<SlotType>();
 
-//                foreach(DataSlotType dataSlotType in dataVersion.Slots)
-//                {
-//                    if(dataSlotType!=null)
-//                     storyVersion.Slots.Add(dataSlotType.ToSlotType());
-//                }
-//            }
+        //                foreach(DataSlotType dataSlotType in dataVersion.Slots)
+        //                {
+        //                    if(dataSlotType!=null)
+        //                     storyVersion.Slots.Add(dataSlotType.ToSlotType());
+        //                }
+        //            }
 
-//            if ((dataVersion.Intents?.Any()).GetValueOrDefault(false))
-//            {
-//                storyVersion.Intents = new List<Intent>();
-               
-//                foreach(DataIntent sourceIntent in dataVersion.Intents)
-//                {
-//                    storyVersion.Intents.Add(sourceIntent.ToIntent(storyVersion.Slots));
-//                }
-//            }
+        //            if ((dataVersion.Intents?.Any()).GetValueOrDefault(false))
+        //            {
+        //                storyVersion.Intents = new List<Intent>();
 
-//            if((dataVersion.InventoryItems?.Any()).GetValueOrDefault(false))
-//            {
-//                storyVersion.InventoryItems = new List<DataInventoryItem>();
-//                // ReSharper disable once AssignNullToNotNullAttribute
-//                storyVersion.InventoryItems.AddRange(dataVersion.InventoryItems);
-//            }
+        //                foreach(DataIntent sourceIntent in dataVersion.Intents)
+        //                {
+        //                    storyVersion.Intents.Add(sourceIntent.ToIntent(storyVersion.Slots));
+        //                }
+        //            }
 
-
-//            // Add inventory items
-//            if((dataVersion.DataInventoryConditions?.Any()).GetValueOrDefault(false))
-//            {
-////storyVersion.InventoryConditions
-//                storyVersion.InventoryConditions = new List<InventoryCondition>();
-
-//                // ReSharper disable once PossibleNullReferenceException
-//                foreach (DataInventoryCondition dataCondition in dataVersion.DataInventoryConditions)
-//                {
-
-//                    List<DataInventoryItem> foundItems = new List<DataInventoryItem>();
-//                    if (dataCondition.InventoryConditionXRefs != null)
-//                    {
-//                        // find the related inventory items.
-//                       foundItems =
-//                            dataCondition.InventoryConditionXRefs.Where(x => x.Condition == dataCondition)
-//                                .Select(x => x.InventoryItem).ToList();
-//                    }
-//                    storyVersion.InventoryConditions.Add(dataCondition.ToInventoryCondition(foundItems));
-
-//                }
+        //            if((dataVersion.InventoryItems?.Any()).GetValueOrDefault(false))
+        //            {
+        //                storyVersion.InventoryItems = new List<DataInventoryItem>();
+        //                // ReSharper disable once AssignNullToNotNullAttribute
+        //                storyVersion.InventoryItems.AddRange(dataVersion.InventoryItems);
+        //            }
 
 
-//            }
+        //            // Add inventory items
+        //            if((dataVersion.DataInventoryConditions?.Any()).GetValueOrDefault(false))
+        //            {
+        ////storyVersion.InventoryConditions
+        //                storyVersion.InventoryConditions = new List<InventoryCondition>();
 
-//            return storyVersion;
-//        }
+        //                // ReSharper disable once PossibleNullReferenceException
+        //                foreach (DataInventoryCondition dataCondition in dataVersion.DataInventoryConditions)
+        //                {
+
+        //                    List<DataInventoryItem> foundItems = new List<DataInventoryItem>();
+        //                    if (dataCondition.InventoryConditionXRefs != null)
+        //                    {
+        //                        // find the related inventory items.
+        //                       foundItems =
+        //                            dataCondition.InventoryConditionXRefs.Where(x => x.Condition == dataCondition)
+        //                                .Select(x => x.InventoryItem).ToList();
+        //                    }
+        //                    storyVersion.InventoryConditions.Add(dataCondition.ToInventoryCondition(foundItems));
+
+        //                }
+
+
+        //            }
+
+        //            return storyVersion;
+        //        }
 
         public static SlotType ToSlotType(this DataSlotType dataSlotType)
         {
             SlotType retSlotType = null;
 
-            if(dataSlotType!=null)
+            if (dataSlotType != null)
             {
                 retSlotType = new SlotType();
                 retSlotType.Name = dataSlotType.Name;
@@ -130,15 +126,15 @@ namespace Whetstone.StoryEngine.Models
                 retSlotType.UniqueId = dataSlotType.UniqueId;
                 retSlotType.Values = dataSlotType.Values;
 
-               //if((dataSlotType.Values?.Any()).GetValueOrDefault(false))
-               // {
-               //     retSlotType.Values = new List<SlotValue>();
-               //     foreach(DataSlotValue dataVal in dataSlotType.Values)
-               //     {
-               //         retSlotType.Values.Add(dataVal.ToSlotValue());
-               //     }
+                //if((dataSlotType.Values?.Any()).GetValueOrDefault(false))
+                // {
+                //     retSlotType.Values = new List<SlotValue>();
+                //     foreach(DataSlotValue dataVal in dataSlotType.Values)
+                //     {
+                //         retSlotType.Values.Add(dataVal.ToSlotValue());
+                //     }
 
-               // }
+                // }
             }
 
             return retSlotType;
@@ -147,7 +143,7 @@ namespace Whetstone.StoryEngine.Models
         public static Intent ToIntent(this DataIntent dataIntent, List<SlotType> slotTypes)
         {
             Intent retIntent = null;
-            if(dataIntent!=null)
+            if (dataIntent != null)
             {
                 retIntent = new Intent();
                 retIntent.Id = dataIntent.Id;
@@ -155,28 +151,28 @@ namespace Whetstone.StoryEngine.Models
 
                 retIntent.UniqueId = dataIntent.UniqueId;
 
-                if((dataIntent.LocalizedIntents?.Any()).GetValueOrDefault(false))
+                if ((dataIntent.LocalizedIntents?.Any()).GetValueOrDefault(false))
                 {
                     retIntent.LocalizedIntents = dataIntent.LocalizedIntents;
 
-                    if((slotTypes?.Any()).GetValueOrDefault(false) && 
+                    if ((slotTypes?.Any()).GetValueOrDefault(false) &&
                          (dataIntent.SlotTypeMappings?.Any()).GetValueOrDefault(false))
                     {
 
                         retIntent.SlotMappings = new List<IntentSlotMapping>();
 
-                        foreach(DataIntentSlotMapping dataMapping in dataIntent.SlotTypeMappings)
+                        foreach (DataIntentSlotMapping dataMapping in dataIntent.SlotTypeMappings)
                         {
                             retIntent.SlotMappings.Add(dataMapping.ToIntentSlotMapping(slotTypes));
                         }
-                    } 
+                    }
                 }
 
 
             }
             return retIntent;
         }
-        
+
 
         //public static DataTitleVersion ToDataStoryVersion(this StoryVersion version)
         //{
@@ -253,7 +249,7 @@ namespace Whetstone.StoryEngine.Models
         //            // ReSharper disable once PossibleNullReferenceException
         //            foreach (InventoryCondition invCondition in version.InventoryConditions)
         //            {
-                        
+
         //                dataVersion.DataInventoryConditions.Add(invCondition.ToDataInventoryCondition(dataVersion));
 
 
@@ -299,11 +295,11 @@ namespace Whetstone.StoryEngine.Models
         //    if(dataLocIntent!=null)
         //    {
         //        retIntent = new LocalizedIntent();
-            
+
         //        retIntent.UniqueId = dataLocIntent.UniqueId;
         //        retIntent.Locale = dataLocIntent.Locale;
         //        retIntent.PlainTextPrompt = dataLocIntent.PlainTextPrompt;
-              
+
         //        if((dataLocIntent.Utterances?.Any()).GetValueOrDefault(false))
         //        {
         //            retIntent.Utterances = new List<string>();
@@ -320,7 +316,7 @@ namespace Whetstone.StoryEngine.Models
         //    if(dataSlotValue!=null)
         //    {
         //        val = new SlotValue();
-             
+
         //      //  val.UniqueId = dataSlotValue.UniqueId;
         //        val.Value = dataSlotValue.Value;
         //        if ((dataSlotValue.Synonyms?.Any()).GetValueOrDefault(false))
@@ -417,21 +413,21 @@ namespace Whetstone.StoryEngine.Models
         {
             IntentSlotMapping retMapping = null;
 
-            if(dataSlotMapping!=null)
+            if (dataSlotMapping != null)
             {
                 retMapping = new IntentSlotMapping();
                 retMapping.Alias = dataSlotMapping.Alias;
 
-                if(dataSlotMapping.SlotType!=null)
+                if (dataSlotMapping.SlotType != null)
                 {
-                    if((slotTypes?.Any()).GetValueOrDefault(false))
+                    if ((slotTypes?.Any()).GetValueOrDefault(false))
                     {
-                        var foundSlot =  slotTypes.FirstOrDefault(x => x.Name.Equals(dataSlotMapping.SlotType.Name, StringComparison.OrdinalIgnoreCase));
+                        var foundSlot = slotTypes.FirstOrDefault(x => x.Name.Equals(dataSlotMapping.SlotType.Name, StringComparison.OrdinalIgnoreCase));
                         if (foundSlot != null)
                             retMapping.SlotType = foundSlot;
                     }
                 }
-                
+
             }
 
             return retMapping;

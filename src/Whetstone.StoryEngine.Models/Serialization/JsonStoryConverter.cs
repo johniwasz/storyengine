@@ -1,8 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models.Serialization
 {
@@ -24,11 +21,11 @@ namespace Whetstone.StoryEngine.Models.Serialization
                 serializer.ContractResolver = concreteResolver;
                 using (StringReader sr = new StringReader(text))
                 {
-                   retVal = (T) serializer.Deserialize(sr, typeof(T));
+                    retVal = (T)serializer.Deserialize(sr, typeof(T));
 
                 }
-                   
-   
+
+
                 ////Serialization with custom properties
                 //retVal = JsonConvert.DeserializeObject<T>(text,
                 //        SpeechFragmentSubclassConversion);

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Extensions.Logging.Abstractions;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 using Whetstone.StoryEngine.Models.Actions;
-using Whetstone.StoryEngine.Models.Data;
 
 namespace Whetstone.StoryEngine.Models.Serialization
 {
@@ -28,8 +24,8 @@ namespace Whetstone.StoryEngine.Models.Serialization
 
             JObject jo = null;
 
-            jo= JObject.Load(reader);
-            
+            jo = JObject.Load(reader);
+
             var conResolver = new AbstractToConcreteClassConverter<NodeActionData>();
 
             if (jo.ContainsKey("nodeAction"))
@@ -37,10 +33,10 @@ namespace Whetstone.StoryEngine.Models.Serialization
                 JToken token = jo["nodeAction"];
                 string enumText = token.Value<string>();
 
-               NodeActionEnum nodeActionType;
+                NodeActionEnum nodeActionType;
                 if (Enum.TryParse(enumText, true, out nodeActionType))
                 {
-                   
+
 
                     switch (nodeActionType)
                     {

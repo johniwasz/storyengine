@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 using Whetstone.StoryEngine.Models.Actions;
 using Whetstone.StoryEngine.Models.Conditions;
 
@@ -25,7 +23,7 @@ namespace Whetstone.StoryEngine.Models.Serialization
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
 
-           JObject  jo = JObject.Load(reader);
+            JObject jo = JObject.Load(reader);
 
             var conResolver = new AbstractToConcreteClassConverter<StoryConditionBase>();
 

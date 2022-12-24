@@ -1,17 +1,13 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon.S3;
+﻿using Amazon.S3;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data.FileStorage;
-using Whetstone.StoryEngine.Models.Admin;
 using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.Models.Story;
 using Whetstone.StoryEngine.Models.Serialization;
+using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.Data.Amazon
 {
@@ -22,9 +18,9 @@ namespace Whetstone.StoryEngine.Data.Amazon
         public S3FileReader(IOptions<EnvironmentConfig> envConfig, IAmazonS3 s3Client, ILogger<S3FileReader> logger) : base(envConfig, s3Client)
         {
             _dataLogger = logger ?? throw new ArgumentNullException(nameof(logger));
-        
+
         }
-       
+
         public async Task<StoryTitle> GetTitleContentsAsync(TitleVersion titleVer)
         {
             string titlePath = GetTitlePath(titleVer);

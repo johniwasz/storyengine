@@ -1,8 +1,6 @@
-﻿using Whetstone.StoryEngine.Models.Story;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
+using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.Repository
 {
@@ -35,7 +33,7 @@ namespace Whetstone.StoryEngine.Repository
 
             return mapItem;
         }
-        
+
 
         public Choice Choice
         {

@@ -1,12 +1,12 @@
-﻿using System;
-using Amazon;
+﻿using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
+using Nito.AsyncEx;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using Nito.AsyncEx;
 using Whetstone.StoryEngine.Cache;
 
 namespace Whetstone.StoryEngine.ConfigurationExtensions
@@ -39,7 +39,7 @@ namespace Whetstone.StoryEngine.ConfigurationExtensions
             {
                 // load from the cache
 
-                configData =  _cache.Get<SortedDictionary<string, string>>(_environment, CONFIGKEY);
+                configData = _cache.Get<SortedDictionary<string, string>>(_environment, CONFIGKEY);
             }
 
             if (configData == null)
@@ -70,7 +70,7 @@ namespace Whetstone.StoryEngine.ConfigurationExtensions
         }
 
 
-        private SortedDictionary<string,string> GetConfigFromS3(RegionEndpoint endpoint)
+        private SortedDictionary<string, string> GetConfigFromS3(RegionEndpoint endpoint)
         {
             var parser = new YamlConfigurationFileParser();
             SortedDictionary<string, string> configData = null;

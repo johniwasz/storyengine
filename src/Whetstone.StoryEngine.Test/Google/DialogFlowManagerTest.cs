@@ -1,23 +1,16 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using Whetstone.StoryEngine.Google.Management;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Data.Amazon;
-using Whetstone.StoryEngine.Data.Yaml;
-using Whetstone.StoryEngine.Models.Story;
-using Microsoft.Extensions.Logging;
-using System.Text.RegularExpressions;
-using System.Linq;
-using System.Diagnostics;
+using Whetstone.StoryEngine.Google.Management;
 using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Whetstone.StoryEngine.Models.Story;
 using Whetstone.StoryEngine.Models.Tracking;
-using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics.CodeAnalysis;
+using Xunit;
 
 namespace Whetstone.StoryEngine.Test.Google
 {
@@ -42,25 +35,25 @@ namespace Whetstone.StoryEngine.Test.Google
 
 
             string utterance = "{verb} {item}";
-            
+
 
             List<UtterancePart> parseUtterances = ParseUtterance(utterance);
 
             List<UtterancePart> utteranceParts = new List<UtterancePart>();
 
             SlotType verbSlots = new SlotType();
-            verbSlots.Name= "verb";
+            verbSlots.Name = "verb";
             verbSlots.Values = new List<SlotValue>();
             verbSlots.Values.Add(new SlotValue() { Value = "home" });
             verbSlots.Values.Add(new SlotValue() { Value = "door" });
             verbSlots.Values.Add(new SlotValue() { Value = "book" });
             verbSlots.Values.Add(new SlotValue() { Value = "ball" });
-            
+
 
             SlotType itemSlots = new SlotType();
             itemSlots.Name = "item";
             itemSlots.Values = new List<SlotValue>();
-            itemSlots.Values.Add(new SlotValue() { Value =  "home" });
+            itemSlots.Values.Add(new SlotValue() { Value = "home" });
             itemSlots.Values.Add(new SlotValue() { Value = "door" });
             itemSlots.Values.Add(new SlotValue() { Value = "book" });
             itemSlots.Values.Add(new SlotValue() { Value = "ball" });
@@ -92,7 +85,7 @@ namespace Whetstone.StoryEngine.Test.Google
                 {
                     isInBrackets = true;
 
-                    if (!string.IsNullOrWhiteSpace(curPart.SlotName) || curPart.Text?.Length>0)
+                    if (!string.IsNullOrWhiteSpace(curPart.SlotName) || curPart.Text?.Length > 0)
                         utteranceParts.Add(curPart);
 
                     i++;
@@ -131,13 +124,13 @@ namespace Whetstone.StoryEngine.Test.Google
                         curPart.Text = "";
                     }
 
-                    if(curChar!='}')
+                    if (curChar != '}')
                         curPart.Text += curChar;
                 }
 
             }
 
-            if (curPart.Text!=null && curPart.Text.Length>0)
+            if (curPart.Text != null && curPart.Text.Length > 0)
             {
                 utteranceParts.Add(curPart);
             }
@@ -159,11 +152,11 @@ namespace Whetstone.StoryEngine.Test.Google
             {
                 string pathVal = null;
 
-                if(path!=null)
+                if (path != null)
                 {
                     pathVal = path.Replace(string.Concat("{", curSlot.Name, "}"),
                         string.Concat("{", curSlot.Name, ":", item.Value, "}"));
-                    
+
                 }
 
                 AddCombinations(result, levels, level + 1, pathVal);
@@ -218,7 +211,7 @@ namespace Whetstone.StoryEngine.Test.Google
         {
             //gcloud config set project statilean - savings - action - efafe45518f1
 
-            var googleAppCred =  System.Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS");
+            var googleAppCred = System.Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS");
 
             string titleId = "statileansavings";
 
@@ -249,7 +242,7 @@ namespace Whetstone.StoryEngine.Test.Google
 
 
             TitleVersion titleVer = new TitleVersion(titleId, "1.0");
-            StoryTitle title = await GetTitleAsync( titleVer);
+            StoryTitle title = await GetTitleAsync(titleVer);
             var logger = CreateLogger<DialogFlowManager>();
 
             IDialogFlowManager dialogFlowManager = new DialogFlowManager(logger);
@@ -260,7 +253,7 @@ namespace Whetstone.StoryEngine.Test.Google
 
 
 
-        
+
 
 
 
@@ -278,7 +271,7 @@ namespace Whetstone.StoryEngine.Test.Google
         {
             string replacementText = "I heard you say <say-as interpret-as=\"telephone\">@@String.Format(\"{0:###-###-####}\", {phonenumber})@@</say-as>.";
 
-     
+
             SelectedItem selItem = new SelectedItem();
 
             selItem.Name = "phonenumber";
@@ -310,12 +303,12 @@ namespace Whetstone.StoryEngine.Test.Google
             }
 
 
-            
+
 
         }
 
     }
 
 
-    
+
 }

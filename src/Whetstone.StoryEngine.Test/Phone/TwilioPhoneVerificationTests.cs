@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
 using System;
 using System.Threading.Tasks;
-using Npgsql;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models.Data;
 using Whetstone.StoryEngine.Models.Messaging;
@@ -16,11 +16,11 @@ namespace Whetstone.StoryEngine.Test.Phone
         [Fact]
         public async Task VerifyPhoneTestAsync()
         {
-            
-             IPhoneInfoRetriever phoneInfoRetriever = Services.GetRequiredService<IPhoneInfoRetriever>();
 
-             string phoneNumber = "3267304178";
-             DataPhone phoneInfo = await   phoneInfoRetriever.GetPhoneInfoAsync(phoneNumber);
+            IPhoneInfoRetriever phoneInfoRetriever = Services.GetRequiredService<IPhoneInfoRetriever>();
+
+            string phoneNumber = "3267304178";
+            DataPhone phoneInfo = await phoneInfoRetriever.GetPhoneInfoAsync(phoneNumber);
 
 
             Assert.True(phoneInfo.Type == PhoneTypeEnum.Invalid, $"{phoneNumber} is not invalid");
@@ -45,13 +45,13 @@ namespace Whetstone.StoryEngine.Test.Phone
             //Debug.Assert(phoneInfo.Type == PhoneTypeEnum.OutOfCoverage);
 
             // Unclaimed 800 number
-            phoneInfo = await phoneInfoRetriever.GetPhoneInfoAsync( "18007957449");
+            phoneInfo = await phoneInfoRetriever.GetPhoneInfoAsync("18007957449");
             Assert.True(phoneInfo.Type == PhoneTypeEnum.Voip);
 
             IUserContextRetriever contextRetriever = Services.GetService<IUserContextRetriever>();
 
 
-           
+
             try
             {
                 using (var userContext = await contextRetriever.GetUserDataContextAsync())
@@ -71,7 +71,7 @@ namespace Whetstone.StoryEngine.Test.Phone
                 throw;
             }
 
-         
+
 
         }
 

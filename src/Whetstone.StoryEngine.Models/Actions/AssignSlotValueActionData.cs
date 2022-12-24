@@ -1,17 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Whetstone.StoryEngine.Models.Tracking;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using MessagePack;
-using System.Threading.Tasks;
-using Whetstone.StoryEngine;
 using YamlDotNet.Serialization;
-using Whetstone.StoryEngine.Models;
 
 namespace Whetstone.StoryEngine.Models.Actions
 {

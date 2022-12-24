@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using YamlDotNet.Serialization;
 
@@ -19,7 +16,7 @@ namespace Whetstone.StoryEngine.Models.Configuration
     {
 
         [JsonProperty(PropertyName = "bucket")]
-        [YamlMember(Alias = "bucket", Order =  0)]
+        [YamlMember(Alias = "bucket", Order = 0)]
         public string Bucket { get; set; }
 
         [JsonProperty(PropertyName = "cacheConfig")]
@@ -35,7 +32,7 @@ namespace Whetstone.StoryEngine.Models.Configuration
         public bool EnforceAlexaPolicy { get; set; }
 
 
-        [JsonProperty(PropertyName = "sessionLoggerType", NullValueHandling =NullValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "sessionLoggerType", NullValueHandling = NullValueHandling.Ignore)]
         [YamlMember(Alias = "sessionLoggerType", Order = 4)]
         public SessionLoggerType? SessionLoggerType { get; set; }
 
@@ -52,7 +49,7 @@ namespace Whetstone.StoryEngine.Models.Configuration
         public bool RecordMessages { get; set; }
 
         [JsonProperty(PropertyName = "databaseSettings")]
-        [YamlMember(Alias = "databaseSettings", Order =8)]
+        [YamlMember(Alias = "databaseSettings", Order = 8)]
         public DatabaseConfig DatabaseSettings { get; set; }
 
         [JsonProperty(PropertyName = "smsConfig")]
@@ -73,7 +70,7 @@ namespace Whetstone.StoryEngine.Models.Configuration
 
         [JsonProperty(PropertyName = "openIdSecurity")]
         [YamlMember(Alias = "openIdSecurity", Order = 13)]
-        public  OpenIdSecurity OpenIdSecurity { get; set; }
+        public OpenIdSecurity OpenIdSecurity { get; set; }
 
 
         [JsonProperty(PropertyName = "security")]

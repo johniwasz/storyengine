@@ -1,37 +1,34 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Data.Amazon;
-using Whetstone.StoryEngine.Data.Yaml;
-using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Models.Serialization;
+﻿using MessagePack;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
-using Whetstone.StoryEngine.Models.Story;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
-using Whetstone.StoryEngine.Models.Actions;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using Xunit;
 using System.Diagnostics;
-using System.Threading.Tasks;
+using System.IO;
 using System.Linq;
-using Whetstone.StoryEngine.Models.Story.Text;
-using YamlDotNet.Core;
+using System.Text;
 using System.Text.RegularExpressions;
-using Whetstone.StoryEngine.Models.Story.Ssml;
-using Amazon.S3;
+using System.Threading.Tasks;
 using Whetstone.Alexa;
 using Whetstone.Alexa.Security;
-using MessagePack;
-using Microsoft.Extensions.Options;
-using Whetstone.StoryEngine.Models.Conditions;
-using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.Models.Story.Cards;
+using Whetstone.StoryEngine.Data;
+using Whetstone.StoryEngine.Data.Amazon;
 using Whetstone.StoryEngine.Data.Caching;
+using Whetstone.StoryEngine.Data.Yaml;
+using Whetstone.StoryEngine.Models;
+using Whetstone.StoryEngine.Models.Actions;
+using Whetstone.StoryEngine.Models.Conditions;
 using Whetstone.StoryEngine.Models.Messaging.Sms;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
+using Whetstone.StoryEngine.Models.Serialization;
+using Whetstone.StoryEngine.Models.Story;
+using Whetstone.StoryEngine.Models.Story.Cards;
+using Whetstone.StoryEngine.Models.Story.Ssml;
+using Whetstone.StoryEngine.Models.Story.Text;
+using Xunit;
+using YamlDotNet.Core;
 
 namespace Whetstone.StoryEngine.Test
 {
@@ -61,7 +58,7 @@ namespace Whetstone.StoryEngine.Test
 
             string whetstoneText = yamlSer.Serialize(retTitle);
         }
-       
+
 
         [Fact]
         public void AddLinkButton()
@@ -728,7 +725,7 @@ namespace Whetstone.StoryEngine.Test
 
             ILogger<YamlTitleReader> yamlLogger = Services.GetService<ILogger<YamlTitleReader>>();
 
-            var distCache= GetMemoryCache();
+            var distCache = GetMemoryCache();
 
             ILogger<TitleCacheRepository> titleLogger = Services.GetService<ILogger<TitleCacheRepository>>();
 
@@ -811,7 +808,7 @@ namespace Whetstone.StoryEngine.Test
             ITitleCacheRepository titleCacheRep = GetTitleCacheRepository();
             ILogger<YamlTitleReader> yamlLogger = Services.GetService<ILogger<YamlTitleReader>>();
 
-            ITitleReader titleReader = new YamlTitleReader( titleCacheRep, yamlLogger);
+            ITitleReader titleReader = new YamlTitleReader(titleCacheRep, yamlLogger);
 
             TitleVersion titleVer = new TitleVersion("eyeoftheeldergods", "1.0");
 
@@ -909,7 +906,7 @@ namespace Whetstone.StoryEngine.Test
 
             ITitleCacheRepository titleCacheRep = GetTitleCacheRepository();
 
-      
+
             ILogger<YamlTitleReader> yamlLogger = Services.GetService<ILogger<YamlTitleReader>>();
 
             ITitleReader titleReader = new YamlTitleReader(titleCacheRep, yamlLogger);
@@ -922,7 +919,7 @@ namespace Whetstone.StoryEngine.Test
 
         [Fact(DisplayName = "Get Animal Farm PI Test")]
         public void GetAnimalFarmPiTest()
-        { 
+        {
 
             ITitleCacheRepository titleCacheRep = GetTitleCacheRepository();
 
@@ -999,7 +996,7 @@ namespace Whetstone.StoryEngine.Test
 
             ILogger<YamlTitleReader> yamlLogger = Services.GetService<ILogger<YamlTitleReader>>();
 
-            ITitleReader titleReader = new YamlTitleReader(titleCacheRep,  yamlLogger);
+            ITitleReader titleReader = new YamlTitleReader(titleCacheRep, yamlLogger);
 
             TitleVersion titleVer = new TitleVersion("personaldatachecker", "1.0");
 
@@ -1114,7 +1111,7 @@ namespace Whetstone.StoryEngine.Test
         }
 
 
-    
+
 
         [Fact(DisplayName = "AddRecordedSelection")]
         public async Task AddRecordedItemAction()
@@ -1215,7 +1212,7 @@ namespace Whetstone.StoryEngine.Test
 
             ILogger<YamlTitleReader> yamlLogger = Services.GetService<ILogger<YamlTitleReader>>();
 
-            ITitleReader titleReader = new YamlTitleReader(titleCacheRep,  yamlLogger);
+            ITitleReader titleReader = new YamlTitleReader(titleCacheRep, yamlLogger);
 
 
             TitleVersion titleVer = new TitleVersion("eyeoftheeldergods", "0.8");
@@ -1292,7 +1289,7 @@ namespace Whetstone.StoryEngine.Test
 
             ILogger<YamlTitleReader> yamlLogger = Services.GetService<ILogger<YamlTitleReader>>();
 
-            ITitleReader titleReader = new YamlTitleReader(titleCacheRep,  yamlLogger);
+            ITitleReader titleReader = new YamlTitleReader(titleCacheRep, yamlLogger);
 
 
             TitleVersion titleVersion = new TitleVersion("eyeoftheeldergods", "1.0");
@@ -1404,7 +1401,7 @@ namespace Whetstone.StoryEngine.Test
         }
 
 
-    
+
 
     }
 }

@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Whetstone.StoryEngine.Models.Tracking;
-using Whetstone.StoryEngine;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Actions
@@ -37,7 +30,7 @@ namespace Whetstone.StoryEngine.Models.Actions
 
 
         [YamlMember(Alias = "slotNames")]
-        [JsonProperty(PropertyName ="slotNames", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "slotNames", NullValueHandling = NullValueHandling.Ignore)]
         public List<string> SlotNames { get; set; }
 
         [YamlIgnore]
@@ -45,6 +38,6 @@ namespace Whetstone.StoryEngine.Models.Actions
         [JsonProperty("nodeAction", Order = 0)]
         public override NodeActionEnum NodeAction { get; set; }
 
-     
+
     }
 }

@@ -1,20 +1,18 @@
-﻿using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using Whetstone.StoryEngine.Models.Configuration;
-using System.Threading.Tasks;
-using Amazon;
-using Whetstone.StoryEngine.Models.Data;
-using Twilio.Clients;
-using Twilio.Rest.Lookups.V1;
-using Microsoft.Extensions.Logging;
-using Whetstone.StoryEngine.Models.Messaging;
+﻿using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using Twilio.Clients;
+using Twilio.Rest.Lookups.V1;
+using Whetstone.StoryEngine.Models.Configuration;
+using Whetstone.StoryEngine.Models.Data;
+using Whetstone.StoryEngine.Models.Messaging;
 
 
 namespace Whetstone.StoryEngine.Repository.Phone
@@ -42,7 +40,7 @@ namespace Whetstone.StoryEngine.Repository.Phone
         private readonly IMemoryCache _memCache;
 
         public TwilioPhoneInfoRetriever(IOptions<DynamoDBTablesConfig> dynamoConfig,
-            IOptions<EnvironmentConfig> envConfig, IOptions<TwilioConfig> twilioConfig, 
+            IOptions<EnvironmentConfig> envConfig, IOptions<TwilioConfig> twilioConfig,
             ISecretStoreReader secureStoreReader, IMemoryCache memCache,
             ILogger<TwilioPhoneInfoRetriever> logger) : base(secureStoreReader, memCache)
         {
@@ -96,7 +94,7 @@ namespace Whetstone.StoryEngine.Repository.Phone
 
             DataPhone retPhone = await GetDynamoDbPhoneInfoAsync(phoneNumber);
 
-            if(retPhone==null)
+            if (retPhone == null)
                 retPhone = GetPhoneFromCache(phoneNumber);
 
             if (retPhone == null)
@@ -159,7 +157,7 @@ namespace Whetstone.StoryEngine.Repository.Phone
             var client = new TwilioRestClient(creds.AccountSid, creds.Token, "us1");
             bool isVerfied = false;
 
-            var type = new List<string> {"carrier"};
+            var type = new List<string> { "carrier" };
             PhoneNumberResource phoneResponse = null;
             try
             {
@@ -183,7 +181,7 @@ namespace Whetstone.StoryEngine.Repository.Phone
                     retPhone.PhoneService = PhoneUtility.TwilioService;
                     retPhone.CanGetSmsMessage = false;
                     retPhone.CreateDate = DateTime.UtcNow;
-                    
+
                     // the phone number is not found. It is invalid.
                     _logger.LogWarning(
                         $"Phone number REDACTED could not be resolved with Twilio lookups with Twilio config");
@@ -208,7 +206,7 @@ namespace Whetstone.StoryEngine.Repository.Phone
                 retPhone.IsVerified = isVerfied;
 
 
-                Dictionary<string, string> carrierInfo = (Dictionary<string, string>) phoneResponse.Carrier;
+                Dictionary<string, string> carrierInfo = (Dictionary<string, string>)phoneResponse.Carrier;
 
                 retPhone.CountryCode = phoneResponse.CountryCode;
                 retPhone.NationalFormat = phoneResponse.NationalFormat;
@@ -288,8 +286,8 @@ namespace Whetstone.StoryEngine.Repository.Phone
             {
                 QueryRequest queryRequest = new QueryRequest
                 {
-                    TableName = _dynamoTableName, 
-                    IndexName =  "firstGSI",
+                    TableName = _dynamoTableName,
+                    IndexName = "firstGSI",
                     KeyConditionExpression = "gsk1 =:v_phoneNumber and sortKey =:v_sortKey",
                     ExpressionAttributeValues = new Dictionary<string, AttributeValue>
                     {
@@ -298,7 +296,7 @@ namespace Whetstone.StoryEngine.Repository.Phone
                     },
                     ReturnConsumedCapacity = ReturnConsumedCapacity.TOTAL,
                     ConsistentRead = false
-                    
+
                 };
 
 
@@ -319,11 +317,11 @@ namespace Whetstone.StoryEngine.Repository.Phone
                     throw;
                 }
 
-                if (resp.Count >0)
+                if (resp.Count > 0)
                 {
                     retPhone = (DataPhone)resp.Items[0];
                     _logger.LogInformation($"Retrieved phone with hashKey {retPhone.Id.Value} consuming {resp.ConsumedCapacity.ReadCapacityUnits} read capacity units");
-                    if(resp.Count>1)
+                    if (resp.Count > 1)
                         _logger.LogInformation($"{resp.Count} records returned for phone number. Took first number with id {retPhone.Id.Value}");
                 }
 

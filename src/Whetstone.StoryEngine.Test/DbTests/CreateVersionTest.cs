@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models.Serialization;
 using Whetstone.StoryEngine.Models.Story;
@@ -28,8 +25,8 @@ namespace Whetstone.StoryEngine.Test.DbTests
             StoryTitle retTitle = yamlDeserializer.Deserialize<StoryTitle>(text);
 
             IStoryVersionRepository storyVersionRep = this.Services.GetService<IStoryVersionRepository>();
-           
-             await storyVersionRep.CreateOrUpdateVersionAsync(retTitle);
+
+            await storyVersionRep.CreateOrUpdateVersionAsync(retTitle);
 
 
 

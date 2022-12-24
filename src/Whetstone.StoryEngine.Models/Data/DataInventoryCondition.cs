@@ -1,15 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Runtime.Serialization;
-using System.Text;
-using Newtonsoft.Json;
 using Whetstone.StoryEngine.Models.Conditions;
-using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.Models.Tracking;
-using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Data
 {
@@ -40,10 +35,10 @@ namespace Whetstone.StoryEngine.Models.Data
         public string Name { get; set; }
 
         [DataMember]
-        [Required]      
+        [Required]
         [Column(Order = 2)]
         public bool RequiredOutcome { get; set; }
-       
+
         [DataMember]
         public long? VersionId { get; set; }
 

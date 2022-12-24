@@ -1,19 +1,14 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data;
 using System.Diagnostics;
 using System.Runtime.Serialization;
-using System.Text;
-using Newtonsoft.Json;
-using Whetstone.StoryEngine.Models.Serialization;
-using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models
 {
 
- //   [JsonConverter(typeof(DollarIdPreservingConverter<SlotType>))]
+    //   [JsonConverter(typeof(DollarIdPreservingConverter<SlotType>))]
     [DebuggerDisplay("SlotTypeName = {Name}")]
     [DataContract]
     public class SlotType : IStoryItem
@@ -22,7 +17,7 @@ namespace Whetstone.StoryEngine.Models
         [DataMember]
         public long? Id { get; set; }
 
-     
+
         [DataMember]
         public Guid? UniqueId { get; set; }
 
@@ -40,7 +35,7 @@ namespace Whetstone.StoryEngine.Models
     [DebuggerDisplay("SlotValue = {Value}")]
     [JsonObject(IsReference = false)]
     [DataContract]
-    public class SlotValue 
+    public class SlotValue
     {
 
         [Required]
@@ -48,11 +43,11 @@ namespace Whetstone.StoryEngine.Models
         public string Value { get; set; }
 
 
-  
+
         [DataMember]
         public List<string> Synonyms { get; set; }
 
 
-     
+
     }
 }

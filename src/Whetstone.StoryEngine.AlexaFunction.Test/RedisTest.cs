@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using StackExchange.Redis;
-using System.IO;
-using Whetstone.StoryEngine.Models.Serialization;
-using Whetstone.StoryEngine.Models.Story;
-using MessagePack;
+﻿using StackExchange.Redis;
 using System.Linq;
+using Xunit;
 
 namespace Whetstone.StoryEngine.AlexaFunction.Test
 {
@@ -62,12 +55,12 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
             var redisCon = ConnectionMultiplexer.Connect(string.Concat("allowAdmin=1, ", serverName));
 
-            var redisServer = redisCon.GetServer(string.Concat(serverName, ":6379" ));
+            var redisServer = redisCon.GetServer(string.Concat(serverName, ":6379"));
 
             var redisDb = redisCon.GetDatabase();
             string instanceName = "sbs-engine";
 
-         
+
             instanceName = string.Concat("dev", "-", instanceName);
 
             instanceName = "dev-sbs-engine";
@@ -76,7 +69,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
             var sampleKeys = redisServer.Keys(pattern: "sample*").ToArray();
 
-           sampleKeys = redisServer.Keys(pattern: "*").ToArray();
+            sampleKeys = redisServer.Keys(pattern: "*").ToArray();
 
             redisDb.KeyDeleteAsync(sampleKeys);
 

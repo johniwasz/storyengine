@@ -7,7 +7,7 @@ namespace Whetstone.StoryEngine.Data.FileStorage
 {
     public abstract class FileLinkStore
     {
-    
+
 
         protected virtual string GetMimeByFileName(string fileName)
         {
@@ -54,15 +54,15 @@ namespace Whetstone.StoryEngine.Data.FileStorage
         }
 
 
-        protected virtual string GetInternalPath(TitleVersion titleVer, string fileName, bool includeMediaPath =true)
+        protected virtual string GetInternalPath(TitleVersion titleVer, string fileName, bool includeMediaPath = true)
         {
 
             string mimeType = GetMimeByFileName(fileName);
-          
+
             return GetInternalPath(titleVer, fileName, mimeType, includeMediaPath);
         }
 
-       protected string GetInternalPath(TitleVersion titleVer, string fileName, string mediaType, bool includeMediaPath = true)
+        protected string GetInternalPath(TitleVersion titleVer, string fileName, string mediaType, bool includeMediaPath = true)
         {
             string internalPath;
             string mediaPath = GetMimeCategory(mediaType);
@@ -74,7 +74,7 @@ namespace Whetstone.StoryEngine.Data.FileStorage
                     internalPath = string.Concat(@"global/", mediaPath, @"/", fileName);
                 else
                 {
-                    if(string.IsNullOrWhiteSpace(titleVer.Version))
+                    if (string.IsNullOrWhiteSpace(titleVer.Version))
                         internalPath = string.Concat(@"stories/", titleVer.ShortName, @"/", mediaPath, @"/", fileName);
                     else
                         internalPath = string.Concat(@"stories/", titleVer.ShortName, @"/", titleVer.Version, @"/", mediaPath, @"/", fileName);
@@ -88,10 +88,10 @@ namespace Whetstone.StoryEngine.Data.FileStorage
                 else
                 {
 
-                    if(string.IsNullOrWhiteSpace(titleVer.Version))
+                    if (string.IsNullOrWhiteSpace(titleVer.Version))
                         internalPath = string.Concat(@"stories/", titleVer.ShortName, @"/", fileName);
                     else
-                        internalPath = string.Concat(@"stories/", titleVer.ShortName, @"/", titleVer.Version,  @"/", fileName);
+                        internalPath = string.Concat(@"stories/", titleVer.ShortName, @"/", titleVer.Version, @"/", fileName);
                 }
             }
             return internalPath;

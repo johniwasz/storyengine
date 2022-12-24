@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data.Caching;
 using Whetstone.StoryEngine.Models;
@@ -52,7 +50,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
                 throw new ArgumentNullException($"{nameof(entity)}");
 
 
-            DataTitle retDataTitle = await CreateOrUpdateTitleAsync( entity.DataTitleId, entity.Id, entity.Title, entity.Description);
+            DataTitle retDataTitle = await CreateOrUpdateTitleAsync(entity.DataTitleId, entity.Id, entity.Title, entity.Description);
             // Assign the data title id to the stored story title
 
             StoryTitle retTitle = entity;
@@ -83,64 +81,64 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
             return await _titleReader.GetBadIntentNodeAsync(titleVersion, badIntentCount);
         }
 
-        public async Task<StoryTitle> GetByIdAsync( TitleVersion titleVersion)
+        public async Task<StoryTitle> GetByIdAsync(TitleVersion titleVersion)
         {
-            return await _titleReader.GetByIdAsync( titleVersion);
+            return await _titleReader.GetByIdAsync(titleVersion);
         }
 
         public async Task<Intent> GetIntentByNameAsync(TitleVersion titleVersion, string intentName)
         {
-            return await _titleReader.GetIntentByNameAsync( titleVersion, intentName);
+            return await _titleReader.GetIntentByNameAsync(titleVersion, intentName);
         }
 
         public async Task<List<Intent>> GetIntentsAsync(TitleVersion titleVersion)
         {
-            return await _titleReader.GetIntentsAsync( titleVersion);
+            return await _titleReader.GetIntentsAsync(titleVersion);
         }
 
         public async Task<StoryNode> GetNodeByNameAsync(TitleVersion titleVersion, string storyNodeName)
         {
-            return await _titleReader.GetNodeByNameAsync( titleVersion, storyNodeName);
+            return await _titleReader.GetNodeByNameAsync(titleVersion, storyNodeName);
         }
 
         public async Task<ICollection<StoryNode>> GetNodesByTitleAsync(TitleVersion titleVersion)
         {
-            return await _titleReader.GetNodesByTitleAsync( titleVersion);
+            return await _titleReader.GetNodesByTitleAsync(titleVersion);
         }
 
-        public async Task<StoryPhoneInfo> GetPhoneInfoAsync( TitleVersion titleVersion)
+        public async Task<StoryPhoneInfo> GetPhoneInfoAsync(TitleVersion titleVersion)
         {
-            return await _titleReader.GetPhoneInfoAsync( titleVersion);
+            return await _titleReader.GetPhoneInfoAsync(titleVersion);
         }
 
         public async Task<List<SlotType>> GetSlotTypes(TitleVersion titleVersion)
         {
-            return await _titleReader.GetSlotTypes( titleVersion);
+            return await _titleReader.GetSlotTypes(titleVersion);
         }
 
-        public async Task<string> GetStartNodeNameAsync( TitleVersion titleVersion, bool isNew)
+        public async Task<string> GetStartNodeNameAsync(TitleVersion titleVersion, bool isNew)
         {
-            return await _titleReader.GetStartNodeNameAsync( titleVersion, isNew);
+            return await _titleReader.GetStartNodeNameAsync(titleVersion, isNew);
         }
 
-        public async Task<StoryConditionBase> GetStoryConditionAsync( TitleVersion titleVersion, string conditionName)
+        public async Task<StoryConditionBase> GetStoryConditionAsync(TitleVersion titleVersion, string conditionName)
         {
-            return await _titleReader.GetStoryConditionAsync( titleVersion, conditionName);
+            return await _titleReader.GetStoryConditionAsync(titleVersion, conditionName);
         }
 
-        public async Task<List<StoryConditionBase>> GetStoryConditionsAsync( TitleVersion titleVersion)
+        public async Task<List<StoryConditionBase>> GetStoryConditionsAsync(TitleVersion titleVersion)
         {
             return await _titleReader.GetStoryConditionsAsync(titleVersion);
         }
 
-        public async Task<StoryType> GetStoryTypeAsync( TitleVersion titleVersion)
+        public async Task<StoryType> GetStoryTypeAsync(TitleVersion titleVersion)
         {
             return await _titleReader.GetStoryTypeAsync(titleVersion);
         }
 
-        public async Task<StoryNode> GetErrorNodeAsync( TitleVersion titleVersion)
+        public async Task<StoryNode> GetErrorNodeAsync(TitleVersion titleVersion)
         {
-            return await _titleReader.GetErrorNodeAsync( titleVersion);
+            return await _titleReader.GetErrorNodeAsync(titleVersion);
         }
         public async Task<bool> IsPrivacyLoggingEnabledAsync(TitleVersion titleVersion)
         {

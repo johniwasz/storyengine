@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Configuration
@@ -24,15 +21,15 @@ namespace Whetstone.StoryEngine.Models.Configuration
         /// Secret to pass to the SFTP server
         /// </summary>
         [JsonProperty(PropertyName = "userSecret")]
-        [YamlMember(Alias =  "userSecret")]
+        [YamlMember(Alias = "userSecret")]
         public string UserSecret { get; set; }
 
         [JsonProperty(PropertyName = "host")]
-        [YamlMember(Alias =  "host")]
+        [YamlMember(Alias = "host")]
         public string Host { get; set; }
 
         [JsonProperty(PropertyName = "port")]
-        [YamlMember(Alias =  "port")]
+        [YamlMember(Alias = "port")]
         public int? Port { get; set; }
 
     }

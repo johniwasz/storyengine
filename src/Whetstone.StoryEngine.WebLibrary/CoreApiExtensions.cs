@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Text;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using Whetstone.StoryEngine.AlexaProcessor;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Data.Amazon;
@@ -101,8 +100,8 @@ namespace Whetstone.StoryEngine.WebLibrary
                             FunctionalEntitlements.PermissionViewProject);
                     policy.RequireClaim(ClaimTypes.Sid);
                 });
-                
-                options.AddPolicy(FunctionalEntitlements.PermissionViewVersion, 
+
+                options.AddPolicy(FunctionalEntitlements.PermissionViewVersion,
                     policy =>
                     {
                         policy.RequireClaim(SoniBridgeClaimTypes.Permission,

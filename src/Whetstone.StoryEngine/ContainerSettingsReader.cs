@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
-using Amazon;
+﻿using Amazon;
 using Microsoft.Extensions.Logging;
-using Whetstone.StoryEngine.ConfigurationExtensions;
-using Whetstone.StoryEngine.Models.Configuration;
-using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine
 {
@@ -25,7 +18,7 @@ namespace Whetstone.StoryEngine
         public static readonly string AWSDEFAULTREGION = "AWS_DEFAULT_REGION";
 
 
-       
+
 
 
         // TODO Pull from environment.

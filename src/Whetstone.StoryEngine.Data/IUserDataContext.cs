@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Admin;
 using Whetstone.StoryEngine.Models.Data;
@@ -57,7 +57,7 @@ namespace Whetstone.StoryEngine.Data
         Task UpsertPhoneConsentAsync(UserPhoneConsent phoneConsent);
         Task UpsertPhoneInfoAsync(DataPhone phoneInfo);
         Task UpsertTitleUsertAsync(DataTitleClientUser dataUser);
-        
+
         Task SaveChangesAsync();
 
         Task CreateUserAccountAsync(DataUser user, string accountName);

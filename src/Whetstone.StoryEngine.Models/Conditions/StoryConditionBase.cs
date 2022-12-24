@@ -1,15 +1,11 @@
-﻿using Whetstone.StoryEngine.Models.Tracking;
-using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using Newtonsoft.Json;
+using System.Xml.Serialization;
 using Whetstone.StoryEngine.Models.Serialization;
 using Whetstone.StoryEngine.Models.Story;
 using YamlDotNet.Serialization;
-using System.Xml.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Conditions
 {
@@ -18,9 +14,9 @@ namespace Whetstone.StoryEngine.Models.Conditions
         [EnumMember(Value = "inventory")]
         Inventory = 0,
         [EnumMember(Value = "nodevisit")]
-        NodeVisit =1,
+        NodeVisit = 1,
         [EnumMember(Value = "userclientcondition")]
-        UserClientCondition =2,
+        UserClientCondition = 2,
         [EnumMember(Value = "slotvalue")]
         SlotValue = 3
     }
@@ -41,7 +37,7 @@ namespace Whetstone.StoryEngine.Models.Conditions
         [JsonProperty("sysId")]
         [DatabaseGenerated((DatabaseGeneratedOption.Identity))]
         [Key]
-        [Column(Order =  0)]
+        [Column(Order = 0)]
         public virtual long? Id { get; set; }
 
 
@@ -64,7 +60,7 @@ namespace Whetstone.StoryEngine.Models.Conditions
 
         [DataMember]
         [NotMapped]
-        public abstract  ConditionType ConditionType { get; set; }
+        public abstract ConditionType ConditionType { get; set; }
 
         public abstract bool IsStoryCondition(ConditionInfo condInfo);
 

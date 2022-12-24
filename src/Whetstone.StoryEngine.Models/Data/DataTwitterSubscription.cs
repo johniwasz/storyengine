@@ -1,12 +1,9 @@
-﻿using Amazon.DynamoDBv2.Model;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models.Data
 {

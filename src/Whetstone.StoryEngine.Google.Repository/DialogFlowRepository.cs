@@ -1,25 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Amazon.Lambda.APIGatewayEvents;
+﻿using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
-using Amazon.Lambda.Model;
-using Amazon.Runtime.Internal;
+using Amazon.XRay.Recorder.Core;
 using Google.Cloud.Dialogflow.V2;
 using Google.Protobuf;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
+using System;
+using System.Text;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Google.Repository.Models;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.Google.Repository;
 using Whetstone.StoryEngine.Repository;
-using Amazon.XRay.Recorder.Core;
 
 namespace Whetstone.StoryEngine.Google.Repository
 {
@@ -31,7 +24,7 @@ namespace Whetstone.StoryEngine.Google.Repository
     {
         private static readonly JsonParser jsonParser = new JsonParser(JsonParser.Settings.Default.WithIgnoreUnknownFields(true));
 
-       
+
 
         private readonly IStoryRequestProcessor _storyProcessor;
         private readonly IMediaLinker _mediaLinker;
@@ -116,7 +109,7 @@ namespace Whetstone.StoryEngine.Google.Repository
             return apiResp;
         }
 
-      
+
 
         private async Task<string> ProcessFlowRequestAsync(StoryRequest storyReq, SurfaceCapabilities surfaceCaps, bool isRepromptRequest, string bodyText, string contextPrefix)
         {
@@ -141,18 +134,18 @@ namespace Whetstone.StoryEngine.Google.Repository
 
 
                 if (isRepromptRequest)
-                    dfResp =AWSXRayRecorder.Instance.TraceMethod("ToDialogFlowReprompt",
-                        () =>  storyResp.ToDialogFlowReprompt(surfaceCaps, _mediaLinker, _dataLogger, storyReq.UserId, contextPrefix));
+                    dfResp = AWSXRayRecorder.Instance.TraceMethod("ToDialogFlowReprompt",
+                        () => storyResp.ToDialogFlowReprompt(surfaceCaps, _mediaLinker, _dataLogger, storyReq.UserId, contextPrefix));
                 else
                 {
 
                     if (storyReq.Client == Client.FacebookMessenger)
                     {
                         dfResp = AWSXRayRecorder.Instance.TraceMethod("ToFacebookMessengerResponse",
-                            () => storyResp.ToFacebookMessengerResponse( _mediaLinker, _dataLogger, 
+                            () => storyResp.ToFacebookMessengerResponse(_mediaLinker, _dataLogger,
                                 contextPrefix));
                     }
-                    else 
+                    else
                         dfResp = AWSXRayRecorder.Instance.TraceMethod("ToDialogFlowResponse",
                             () => storyResp.ToDialogFlowResponse(surfaceCaps, _mediaLinker, _dataLogger, storyReq.UserId,
                                 contextPrefix));
@@ -194,9 +187,9 @@ namespace Whetstone.StoryEngine.Google.Repository
                     (storyReq.SessionContext?.TitleVersion?.LogFullClientMessages).GetValueOrDefault(false);
 
 
-                if (_auditConfig.AuditClientMessages 
-                    || versionAuditFlag 
-                    || !string.IsNullOrWhiteSpace(storyResp?.EngineErrorText) 
+                if (_auditConfig.AuditClientMessages
+                    || versionAuditFlag
+                    || !string.IsNullOrWhiteSpace(storyResp?.EngineErrorText)
                     || !string.IsNullOrWhiteSpace(storyResp?.ResponseConversionError))
                 {
                     try

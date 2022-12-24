@@ -1,29 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
+﻿using Amazon.Lambda.APIGatewayEvents;
+using Amazon.Lambda.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Whetstone.StoryEngine.DependencyInjection;
-using Whetstone.StoryEngine.Google.Repository.Models;
-using Whetstone.StoryEngine.Models.Configuration;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
-using Amazon.Lambda.APIGatewayEvents;
-using Amazon.Lambda.Core;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Whetstone.Alexa;
-using Whetstone.StoryEngine.Data;
+using Whetstone.StoryEngine.DependencyInjection;
+using Whetstone.StoryEngine.Models.Configuration;
 
 namespace Whetstone.StoryEngine.Google.Repository
 {
     public abstract class DialogFlowFuncBase : ClientLambdaBase
     {
 
-  
+
         public DialogFlowFuncBase() : base()
         {
-        
+
 
         }
 

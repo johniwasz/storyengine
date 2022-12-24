@@ -1,12 +1,10 @@
-﻿using System;
+﻿using Amazon.DynamoDBv2.Model;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using Amazon.DynamoDBv2.Model;
-using Newtonsoft.Json;
 using Whetstone.StoryEngine.Models.Tracking;
 
 namespace Whetstone.StoryEngine.Models.Data
@@ -36,7 +34,7 @@ namespace Whetstone.StoryEngine.Models.Data
 
                 if (!string.IsNullOrWhiteSpace(hashKey))
                 {
-                    clientUser = new DataTitleClientUser {HashKey = hashKey};
+                    clientUser = new DataTitleClientUser { HashKey = hashKey };
 
                     if (attribValues.ContainsKey("clientUserId"))
                         clientUser.UserId = attribValues["clientUserId"].S;
@@ -76,27 +74,27 @@ namespace Whetstone.StoryEngine.Models.Data
 
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
-            
+
             DataTitleClientUser clientUser = value as DataTitleClientUser;
             object retValue = null;
 
-            if ((destinationType == typeof(Dictionary<string, AttributeValue>)) && clientUser !=null)
+            if ((destinationType == typeof(Dictionary<string, AttributeValue>)) && clientUser != null)
             {
                 Dictionary<string, AttributeValue> retAttribs = new Dictionary<string, AttributeValue>();
 
                 if (clientUser.Id.HasValue)
                 {
-                    retAttribs.Add("id", new AttributeValue() {S = clientUser.Id.ToString()});
+                    retAttribs.Add("id", new AttributeValue() { S = clientUser.Id.ToString() });
                 }
-                
 
-                if(!string.IsNullOrWhiteSpace(clientUser.UserId))
-                    retAttribs.Add("clientUserId", new AttributeValue() {S = clientUser.UserId} );
 
-                if (clientUser.TitleId!= default(Guid))
+                if (!string.IsNullOrWhiteSpace(clientUser.UserId))
+                    retAttribs.Add("clientUserId", new AttributeValue() { S = clientUser.UserId });
+
+                if (clientUser.TitleId != default(Guid))
                     retAttribs.Add("titleId", new AttributeValue() { S = clientUser.TitleId.ToString() });
 
-                retAttribs.Add("client", new AttributeValue() { N = clientUser.Client.ToString()} );
+                retAttribs.Add("client", new AttributeValue() { N = clientUser.Client.ToString() });
 
                 if (!string.IsNullOrWhiteSpace(clientUser.CurrentNodeName))
                     retAttribs.Add("currentNode", new AttributeValue() { S = clientUser.CurrentNodeName });
@@ -104,7 +102,7 @@ namespace Whetstone.StoryEngine.Models.Data
                 if (!string.IsNullOrWhiteSpace(clientUser.StoryNodeName))
                     retAttribs.Add("storyNode", new AttributeValue() { S = clientUser.StoryNodeName });
 
-                if(clientUser.CreatedTime!= default(DateTime))
+                if (clientUser.CreatedTime != default(DateTime))
                     retAttribs.Add("createdTime", new AttributeValue() { S = clientUser.CreatedTime.ToString() });
 
                 if (clientUser.LastAccessedDate != default(DateTime))
@@ -116,7 +114,7 @@ namespace Whetstone.StoryEngine.Models.Data
                 if (clientUser.TitleState != null)
                 {
                     string titleState = JsonConvert.SerializeObject(clientUser.TitleState);
-                    retAttribs.Add("titleState", new AttributeValue() { S = titleState});
+                    retAttribs.Add("titleState", new AttributeValue() { S = titleState });
                 }
 
                 if (clientUser.PermanentTitleState != null)
@@ -124,7 +122,7 @@ namespace Whetstone.StoryEngine.Models.Data
                     string titleState = JsonConvert.SerializeObject(clientUser.PermanentTitleState);
                     retAttribs.Add("permanentTitleState", new AttributeValue() { S = titleState });
                 }
-                
+
             }
 
 

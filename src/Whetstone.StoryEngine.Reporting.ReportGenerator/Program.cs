@@ -1,16 +1,12 @@
 ﻿using Amazon.Lambda.Core;
 using Amazon.Lambda.RuntimeSupport;
-using Amazon.Lambda.Serialization.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Whetstone.StoryEngine.Models.Messaging;
-using Newtonsoft.Json;
 using Whetstone.StoryEngine.Reporting.Models;
-using Newtonsoft.Json.Linq;
 
 namespace Whetstone.StoryEngine.Reporting.ReportGenerator
 {
@@ -67,8 +63,8 @@ namespace Whetstone.StoryEngine.Reporting.ReportGenerator
 
 
             JObject inboundObj = request as JObject;
-    
-           
+
+
 
             if (inboundObj.ContainsKey("allSent"))
             {

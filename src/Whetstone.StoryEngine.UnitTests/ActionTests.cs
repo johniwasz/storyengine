@@ -1,26 +1,15 @@
 ﻿using Amazon;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Moq;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine;
-using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Actions;
-using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.Models.Messaging;
 using Whetstone.StoryEngine.Models.Messaging.Sms;
 using Whetstone.StoryEngine.Models.Story;
 using Whetstone.StoryEngine.Models.Tracking;
-using Whetstone.StoryEngine.OutboutSmsSender;
-using Whetstone.StoryEngine.Repository;
 using Whetstone.StoryEngine.Repository.Actions;
-using Whetstone.StoryEngine.Repository.Messaging;
 
 using Xunit;
 
@@ -64,7 +53,7 @@ namespace Whetstone.UnitTests
             PhoneMessageActionProcessor phoneProcessor = (PhoneMessageActionProcessor)actionFunc(NodeActionEnum.PhoneMessage);
             Assert.NotNull(phoneProcessor);
 
-            (StoryRequest, List<IStoryCrumb>) storyParams = BuildStoryRequest( titleId, "2675551212", phoneSlot);
+            (StoryRequest, List<IStoryCrumb>) storyParams = BuildStoryRequest(titleId, "2675551212", phoneSlot);
 
             StoryRequest request = storyParams.Item1;
 
@@ -116,7 +105,7 @@ namespace Whetstone.UnitTests
             req.SessionContext.TitleVersion.Version = "1.0";
             req.SessionContext.TitleVersion.TitleId = Guid.NewGuid();
             req.SessionContext.EngineUserId = Guid.NewGuid();
- 
+
             req.ApplicationId = "amzn1.ask.skill.2704cc00-6641-4530-a076-b65ed8a0b2d6";
             req.SessionId = "amzn1.echo-api.session.897f2b5d-0178-46f9-989d-9c547c3bfa56";
             req.UserId = "amzn1.ask.account.AEYRFEC6CZGACDAJ5TDUNKBZMVONI7I4DGBCLMILPQBTIH3QDMSF4WFXYRV27TJ7FMZA4CYCIBZXMXOYRUUNKQTBGYJHC4MAFFJU6SPQSKORUSDLREJTOQFVSYKONFL5BLFKIUK2NOXPJHFYEX57B46QR42FWR4FLVWHHN5GY3RIYT6PUGIATM3FUL4FZ62JIIFDA3NL2TB5IUQ";

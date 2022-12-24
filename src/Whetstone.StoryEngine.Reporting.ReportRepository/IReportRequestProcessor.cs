@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Whetstone.StoryEngine.Reporting.Models;
 
 namespace Whetstone.StoryEngine.Reporting.ReportRepository

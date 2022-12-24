@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon;
-using Amazon.Lambda.Model;
+﻿using Amazon;
 using Amazon.Lambda.TestUtilities;
-using Amazon.StepFunctions;
-using Amazon.StepFunctions.Model;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Moq;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.DependencyInjection;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Serialization;
@@ -43,7 +38,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportGenerator.Tests
             repRequest.Parameters.Add("pstartTime", new DateTime(2019, 8, 10, 0, 0, 0, DateTimeKind.Utc));
             repRequest.Parameters.Add("pendTime", new DateTime(2019, 8, 30, 0, 0, 0, DateTimeKind.Utc));
             repRequest.DeliveryTime = DateTime.UtcNow.AddSeconds(120);
-       
+
             string messageText = JsonConvert.SerializeObject(repRequest);
 
 
@@ -66,14 +61,14 @@ namespace Whetstone.StoryEngine.Reporting.ReportGenerator.Tests
 
             IParameterStoreReader paramReader = new ParameterStoreReader(envOptions, paramReaderlogger);
 
-           var bootYamlDeser = YamlSerializationBuilder.GetYamlDeserializer();
+            var bootYamlDeser = YamlSerializationBuilder.GetYamlDeserializer();
 
-            string bootText = await  paramReader.GetValueAsync(bootstrapParam);
+            string bootText = await paramReader.GetValueAsync(bootstrapParam);
 
             BootstrapConfig bootConfig = bootYamlDeser.Deserialize<BootstrapConfig>(bootText);
 
 
-     
+
             ReportGeneratorConfig repConfig = new ReportGeneratorConfig();
             repConfig.ReportBucket = bootConfig.ReportBucket;
             repConfig.ReportStepFunctionArn = bootConfig.ReportStepFunction;
@@ -115,7 +110,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportGenerator.Tests
 
             string reportRequestJson = JsonConvert.SerializeObject(repRequest, Formatting.Indented);
 
-            ReportSendStatus repOutput =  await repTasks.GenerateReportAsync(repRequest, testContext);
+            ReportSendStatus repOutput = await repTasks.GenerateReportAsync(repRequest, testContext);
 
 
             string jsonMsg = JsonConvert.SerializeObject(repOutput, Formatting.Indented);

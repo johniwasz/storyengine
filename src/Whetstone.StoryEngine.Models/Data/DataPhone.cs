@@ -8,9 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
 using System.Runtime.Serialization;
-using System.Text;
 using Whetstone.StoryEngine.Models.Messaging;
-using Whetstone.StoryEngine.Models.Messaging.Sms;
 
 namespace Whetstone.StoryEngine.Models.Data
 {
@@ -130,7 +128,7 @@ namespace Whetstone.StoryEngine.Models.Data
         /// <summary>
         /// Determines if the phone number can receive an SMS message or not.
         /// </summary>
-        [Column("cangetsmsmessage", Order =5)]
+        [Column("cangetsmsmessage", Order = 5)]
         [MessagePack.Key(5)]
         [DataMember]
         [JsonProperty(PropertyName = "canGetSmsMessage")]
@@ -140,7 +138,7 @@ namespace Whetstone.StoryEngine.Models.Data
         /// Country code associated with the phone number from the country_code in the root of the Twilio response.
         /// </summary>
         [MessagePack.Key(6)]
-        [Column("countrycode", Order=6)]
+        [Column("countrycode", Order = 6)]
         [DataMember]
         [JsonProperty(PropertyName = "countryCode", NullValueHandling = NullValueHandling.Ignore)]
         public string CountryCode { get; set; }
@@ -149,7 +147,7 @@ namespace Whetstone.StoryEngine.Models.Data
         /// Mobile country code of the phone number. Provided by the carrier.mobile_country_code returned from Twilio.
         /// </summary>
         [MessagePack.Key(7)]
-        [Column("carriercountrycode", Order =7)]
+        [Column("carriercountrycode", Order = 7)]
         [DataMember]
         [JsonProperty(PropertyName = "carrierCountryCode", NullValueHandling = NullValueHandling.Ignore)]
         public string CarrierCountryCode { get; set; }
@@ -159,7 +157,7 @@ namespace Whetstone.StoryEngine.Models.Data
         /// Mobile network code of the phone number. Provided by the carrier.mobile_network_code returned from Twilio.
         /// </summary>
         [MessagePack.Key(8)]
-        [Column("carriernetworkcode", Order =8)]
+        [Column("carriernetworkcode", Order = 8)]
         [DataMember]
         [JsonProperty(PropertyName = "carrierNetworkCode", NullValueHandling = NullValueHandling.Ignore)]
         public string CarrierNetworkCode { get; set; }
@@ -169,7 +167,7 @@ namespace Whetstone.StoryEngine.Models.Data
         /// Name of the wireless carrier. Provided by the carrier.name returned from Twilio.
         /// </summary>
         /// <remarks>For example: AT&T Wireless</remarks>
-        [Column("carriername", Order =9)]
+        [Column("carriername", Order = 9)]
         [MessagePack.Key(9)]
         [DataMember]
         [JsonProperty(PropertyName = "carrierName", NullValueHandling = NullValueHandling.Ignore)]
@@ -182,7 +180,7 @@ namespace Whetstone.StoryEngine.Models.Data
         /// Error code returned while getting the carrier. Provided by the carrier.error_code returned from Twilio.
         /// </summary>
         [MessagePack.Key(10)]
-        [Column("carriererrorcode", Order =10)]
+        [Column("carriererrorcode", Order = 10)]
         [DataMember]
         [JsonProperty(PropertyName = "carrierErrorCode", NullValueHandling = NullValueHandling.Ignore)]
         public string CarrierErrorCode { get; set; }
@@ -191,7 +189,7 @@ namespace Whetstone.StoryEngine.Models.Data
         /// <summary>
         /// Url used to obtain phone information from Twilio
         /// </summary>
-        [Column("url", Order =11)]
+        [Column("url", Order = 11)]
         [MessagePack.Key(11)]
         [DataMember]
         [JsonProperty(PropertyName = "url", NullValueHandling = NullValueHandling.Ignore)]
@@ -203,7 +201,7 @@ namespace Whetstone.StoryEngine.Models.Data
         /// Comes in from caller_name on Twilio response
         /// </summary>
         /// <remarks>Will be upper case. Can be null if only getting phone type.</remarks>
-        [Column("registeredname", Order =12)]
+        [Column("registeredname", Order = 12)]
         [MessagePack.Key(12)]
         [DataMember]
         [JsonProperty(PropertyName = "registeredName", NullValueHandling = NullValueHandling.Ignore)]
@@ -215,7 +213,7 @@ namespace Whetstone.StoryEngine.Models.Data
         /// </summary>
         /// <remarks>
         /// Will be upper case. Example value is CONSUMER. Could be null if only getting mobile number type.</remarks>
-        [Column("registeredtype", Order =13)]
+        [Column("registeredtype", Order = 13)]
         [MessagePack.Key(13)]
         [DataMember]
         [JsonProperty(PropertyName = "registeredType", NullValueHandling = NullValueHandling.Ignore)]
@@ -225,7 +223,7 @@ namespace Whetstone.StoryEngine.Models.Data
         /// <summary>
         /// Error code returned from Twilio that pertains to getting the name of user associated with the phone number. Returned from the error_code property on the RegisteredUser
         /// </summary>
-        [Column("registerederrorcode", Order =14)]
+        [Column("registerederrorcode", Order = 14)]
         [MessagePack.Key(14)]
         [DataMember]
         [JsonProperty(PropertyName = "registeredErrorCode", NullValueHandling = NullValueHandling.Ignore)]
@@ -235,7 +233,7 @@ namespace Whetstone.StoryEngine.Models.Data
         /// <summary>
         /// The service used to retrieve the phone information. (e.g. Twilio, Pinpoint, etc)
         /// </summary>
-        [Column("phoneservice", Order =15)]
+        [Column("phoneservice", Order = 15)]
         [MessagePack.Key(15)]
         [DataMember]
         [JsonProperty(PropertyName = "phonesService", NullValueHandling = NullValueHandling.Ignore)]
@@ -259,14 +257,14 @@ namespace Whetstone.StoryEngine.Models.Data
         /// <summary>
         /// UTC date and time the phone number was provided.
         /// </summary>
-        [Column("createdate", Order =17)]
+        [Column("createdate", Order = 17)]
         [MessagePack.Key(17)]
         [DataMember]
         [JsonProperty(PropertyName = "createDate")]
         public DateTime CreateDate { get; set; }
 
 
-    
+
 
         [MessagePack.Key(18)]
         [JsonProperty(PropertyName = "consentRecords", NullValueHandling = NullValueHandling.Ignore)]
@@ -301,7 +299,7 @@ namespace Whetstone.StoryEngine.Models.Data
                 retAttribs = new Dictionary<string, AttributeValue>();
 
                 if (phoneInfo.Id.HasValue)
-                    retAttribs.Add(FIELD_ID, new AttributeValue() { S = phoneInfo.Id.Value.ToString()});
+                    retAttribs.Add(FIELD_ID, new AttributeValue() { S = phoneInfo.Id.Value.ToString() });
 
                 retAttribs.Add(FIELD_PHONETYPE, new AttributeValue() { S = phoneInfo.Type.ToString() });
 
@@ -339,7 +337,7 @@ namespace Whetstone.StoryEngine.Models.Data
                 if (!string.IsNullOrWhiteSpace(phoneInfo.RegisteredName))
                     retAttribs.Add(FIELD_REGISTEREDNAME, new AttributeValue() { S = phoneInfo.RegisteredName });
 
-                if(phoneInfo.CreateDate!=default(DateTime))
+                if (phoneInfo.CreateDate != default(DateTime))
                     retAttribs.Add(FIELD_CREATEDATE, new AttributeValue() { S = phoneInfo.CreateDate.ToString(CultureInfo.InvariantCulture) });
 
                 retAttribs.Add(FIELD_SYSTEMSTATUS, new AttributeValue() { S = phoneInfo.SystemStatus.ToString() });
@@ -359,7 +357,7 @@ namespace Whetstone.StoryEngine.Models.Data
 
         public static explicit operator DataPhone(Dictionary<string, AttributeValue> attribValues)
         {
-            DataPhone retPhone= null;
+            DataPhone retPhone = null;
 
             if (attribValues != null)
             {
@@ -369,7 +367,7 @@ namespace Whetstone.StoryEngine.Models.Data
 
                 if (!string.IsNullOrWhiteSpace(id))
                 {
-                    retPhone = new DataPhone { Id = Guid.Parse(id)};
+                    retPhone = new DataPhone { Id = Guid.Parse(id) };
 
                     if (attribValues.ContainsKey(FIELD_ISVERIFIED))
                         retPhone.IsVerified = attribValues[FIELD_ISVERIFIED].BOOL;
@@ -379,7 +377,7 @@ namespace Whetstone.StoryEngine.Models.Data
 
                     if (attribValues.ContainsKey(FIELD_PHONETYPE))
                     {
-                        retPhone.Type= (PhoneTypeEnum)Enum.Parse(typeof(PhoneTypeEnum), attribValues[FIELD_PHONETYPE].S);
+                        retPhone.Type = (PhoneTypeEnum)Enum.Parse(typeof(PhoneTypeEnum), attribValues[FIELD_PHONETYPE].S);
                     }
 
                     if (attribValues.ContainsKey(FIELD_SYSTEMSTATUS))
@@ -397,7 +395,7 @@ namespace Whetstone.StoryEngine.Models.Data
                         retPhone.CarrierName = attribValues[FIELD_CARRIERNAME].S;
 
                     if (attribValues.ContainsKey(FIELD_CARRIERNETWORKCODE))
-                        retPhone.CarrierNetworkCode= attribValues[FIELD_CARRIERNETWORKCODE].S;
+                        retPhone.CarrierNetworkCode = attribValues[FIELD_CARRIERNETWORKCODE].S;
 
                     if (attribValues.ContainsKey(FIELD_COUNTRYCODE))
                         retPhone.CountryCode = attribValues[FIELD_COUNTRYCODE].S;

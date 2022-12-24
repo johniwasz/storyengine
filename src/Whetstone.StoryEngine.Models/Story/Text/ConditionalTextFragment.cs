@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Xml.Serialization;
-using MessagePack;
+﻿using MessagePack;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 using Whetstone.StoryEngine.Models.Story.Ssml;
 using YamlDotNet.Serialization;
 
@@ -29,7 +26,7 @@ namespace Whetstone.StoryEngine.Models.Story.Text
         [YamlMember]
         [DataMember]
         [Key(1)]
-        [JsonProperty(PropertyName = "conditions", NullValueHandling =  NullValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "conditions", NullValueHandling = NullValueHandling.Ignore)]
         public List<string> Conditions { get; set; }
 
 
@@ -69,7 +66,7 @@ namespace Whetstone.StoryEngine.Models.Story.Text
                 Conditions = new List<string>()
             };
 
-            if (Conditions!=null)
+            if (Conditions != null)
                 speechFrag.Conditions.AddRange(Conditions);
 
             if (TrueResultFragments != null)

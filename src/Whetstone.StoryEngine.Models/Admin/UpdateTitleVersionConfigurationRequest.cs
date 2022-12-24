@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Whetstone.StoryEngine.Models.Admin
 {
@@ -13,5 +10,5 @@ namespace Whetstone.StoryEngine.Models.Admin
         [JsonProperty(PropertyName = "logFullClientMessages", NullValueHandling = NullValueHandling.Ignore)]
         public bool? LogFullClientMessages { get; set; }
     }
-    
+
 }

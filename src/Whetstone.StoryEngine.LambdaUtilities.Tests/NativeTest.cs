@@ -1,19 +1,13 @@
-﻿using Amazon.Lambda.TestUtilities;
-using MartinCostello.Testing.AwsLambdaTestServer;
-using Newtonsoft.Json;
+﻿using MartinCostello.Testing.AwsLambdaTestServer;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Whetstone.StoryEngine.Models.Configuration;
 using Xunit;
 
 namespace Whetstone.StoryEngine.LambdaUtilities.Tests
 {
-    public class NativeFunctionTests 
+    public class NativeFunctionTests
     {
 
 
@@ -23,7 +17,7 @@ namespace Whetstone.StoryEngine.LambdaUtilities.Tests
 
             string text = File.ReadAllText("Messages/ConfigUpdateRequest.json");
 
-           // CustomResourceRequest resourceReq = JsonConvert.DeserializeObject<CustomResourceRequest>(text);
+            // CustomResourceRequest resourceReq = JsonConvert.DeserializeObject<CustomResourceRequest>(text);
 
 
 
@@ -53,7 +47,7 @@ namespace Whetstone.StoryEngine.LambdaUtilities.Tests
 
                             jsonResponse = await response.ReadAsStringAsync();
 
-                        //    AlexaResponse actual = JsonConvert.DeserializeObject<AlexaResponse>(jsonResponse);
+                            //    AlexaResponse actual = JsonConvert.DeserializeObject<AlexaResponse>(jsonResponse);
 
                             // Assert.Equal(new[] { 3, 2, 1 }, actual);
                         });

@@ -1,17 +1,4 @@
-﻿using Amazon.Lambda.Core;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using Whetstone.StoryEngine;
-
-
-namespace Whetstone.StoryEngine.DependencyInjection
+﻿namespace Whetstone.StoryEngine.DependencyInjection
 {
     //public abstract class ExternalLambdaBase
     //{
@@ -56,7 +43,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
 
 
     //                    IDistributedCache cache = RedisManager.
-                    
+
     //                    // TODO get the bucket name
     //                    services.Configure<Models.Configuration.EnvironmentConfig>(
     //                        options => { options.Region = Bootstrapping.ContainerReader.GetAwsEndpoint(); });
@@ -79,7 +66,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
     //    }
 
     //    protected abstract void LoadServices(IServiceCollection services);
-       
+
     //    public abstract IServiceProvider Services { get; set; }
 
     //    public abstract IConfiguration Configuration { get; set; }

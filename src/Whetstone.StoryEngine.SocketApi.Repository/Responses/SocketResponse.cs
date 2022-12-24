@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 
 namespace Whetstone.StoryEngine.SocketApi.Repository.Responses
 {

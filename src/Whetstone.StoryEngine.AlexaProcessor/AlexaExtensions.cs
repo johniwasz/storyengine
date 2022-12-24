@@ -1,17 +1,14 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Whetstone.StoryEngine.Data;
 using Whetstone.Alexa;
-using Whetstone.StoryEngine.Models;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Whetstone.StoryEngine.Repository;
 using Whetstone.Alexa.CanFulfill;
-using Whetstone.Alexa.Security;
-using Newtonsoft.Json.Linq;
 using Whetstone.StoryEngine.DependencyInjection;
+using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Story.Cards;
+using Whetstone.StoryEngine.Repository;
 
 namespace Whetstone.StoryEngine.AlexaProcessor
 {
@@ -45,7 +42,7 @@ namespace Whetstone.StoryEngine.AlexaProcessor
             // Otherwise, the take the userId, like originally.
             string alexaUserId = alexaReq?.Context?.System?.Person?.PersonId;
 
-            if(string.IsNullOrWhiteSpace(alexaUserId))
+            if (string.IsNullOrWhiteSpace(alexaUserId))
                 alexaUserId = alexaReq.Session?.User?.UserId;
 
 
@@ -55,7 +52,7 @@ namespace Whetstone.StoryEngine.AlexaProcessor
             result.Intent = alexaReq.Request?.Intent?.Name;
             result.RequestTime = (alexaReq.Request?.Timestamp).GetValueOrDefault(default);
 
-            if(alexaReq.Context?.System!=null)
+            if (alexaReq.Context?.System != null)
             {
                 result.SecurityInfo = new Dictionary<string, string>
                 {
@@ -64,24 +61,24 @@ namespace Whetstone.StoryEngine.AlexaProcessor
                     { "apiEndpoint", alexaReq.Context.System.ApiEndpoint }
                 };
 
-                if (alexaReq.Context.System.Device !=null)
-                {             
+                if (alexaReq.Context.System.Device != null)
+                {
                     result.SecurityInfo.Add("deviceId", alexaReq.Context.System.Device.DeviceId);
                 }
             }
 
             // Get the session attributes and load it into the story request
-           Dictionary<string, dynamic> sessionAttribs = alexaReq.Session?.Attributes;
+            Dictionary<string, dynamic> sessionAttribs = alexaReq.Session?.Attributes;
 
             // Fixed bug #140 - Session Attribute Validation Fails When Processing Test Alexa Certification Messages
             // This will check the session attributes irrespective of whether the value is null
             // or contains an empty dictionary.
-            if ((sessionAttribs?.Keys?.Count).GetValueOrDefault(0) >0)
+            if ((sessionAttribs?.Keys?.Count).GetValueOrDefault(0) > 0)
             {
 
                 if (!isNewSession)
                 {
-                 
+
                     if (sessionAttribs.ContainsKey(SessionAttribKey))
                     {
                         dynamic engineDyna = sessionAttribs[SessionAttribKey];
@@ -106,7 +103,7 @@ namespace Whetstone.StoryEngine.AlexaProcessor
             else
             {
                 // This is a new session. Assign a new session Id.
-                result.SessionContext = new EngineSessionContext {EngineSessionId = Guid.NewGuid()};
+                result.SessionContext = new EngineSessionContext { EngineSessionId = Guid.NewGuid() };
             }
 
 
@@ -180,7 +177,7 @@ namespace Whetstone.StoryEngine.AlexaProcessor
             if ((canFulfillResponse.SlotFulFillment?.Any()).GetValueOrDefault(false))
             {
                 retAttribs.Slots = new List<CanFulfillSlotResponse>();
-                foreach(var origSlotKey in canFulfillResponse.SlotFulFillment.Keys)
+                foreach (var origSlotKey in canFulfillResponse.SlotFulFillment.Keys)
                 {
                     var origSlot = canFulfillResponse.SlotFulFillment[origSlotKey];
 
@@ -203,7 +200,7 @@ namespace Whetstone.StoryEngine.AlexaProcessor
 
             CanFulfillEnum retEnum = default;
 
-            switch(probEnum)
+            switch (probEnum)
             {
                 case YesNoMaybeEnum.Maybe:
                     retEnum = CanFulfillEnum.Maybe;
@@ -260,7 +257,7 @@ namespace Whetstone.StoryEngine.AlexaProcessor
 
             string generatedText = localizedResponse.GeneratedTextResponse?.CleanText();
 
-            if (speechResponse!=null)
+            if (speechResponse != null)
             {
                 alexaResp.Response.OutputSpeech.Type = OutputSpeechType.Ssml;
                 alexaResp.Response.OutputSpeech.Ssml = speechResponse?.ToSsml(mediaLinker, engineContext.TitleVersion);
@@ -292,7 +289,7 @@ namespace Whetstone.StoryEngine.AlexaProcessor
             {
                 alexaResp.Response.Reprompt.OutputSpeech.Type = OutputSpeechType.Ssml;
                 alexaResp.Response.Reprompt.OutputSpeech.Ssml =
-                    repromptResponse?.ToSsml( mediaLinker, engineContext.TitleVersion);
+                    repromptResponse?.ToSsml(mediaLinker, engineContext.TitleVersion);
             }
             else
             {
@@ -307,13 +304,13 @@ namespace Whetstone.StoryEngine.AlexaProcessor
             alexaResp.Response.ShouldEndSession = !response.ForceContinueSession;
 
 
-            if(localizedResponse.CardResponse!=null)
+            if (localizedResponse.CardResponse != null)
             {
                 CardEngineResponse storyCard = localizedResponse.CardResponse;
 
                 var cardResp = new CardAttributes
                 {
-                    Title = string.IsNullOrWhiteSpace(storyCard.CardTitle) ? 
+                    Title = string.IsNullOrWhiteSpace(storyCard.CardTitle) ?
                      "Default title" :
                      storyCard.CardTitle
                 };
@@ -340,7 +337,7 @@ namespace Whetstone.StoryEngine.AlexaProcessor
                 {
                     cardResp.Type = CardType.Simple;
 
-                    if(!string.IsNullOrWhiteSpace(generatedText))
+                    if (!string.IsNullOrWhiteSpace(generatedText))
                         cardResp.Content = generatedText;
                 }
 
@@ -349,7 +346,7 @@ namespace Whetstone.StoryEngine.AlexaProcessor
             }
 
 
-            if(alexaResp.Response.ShouldEndSession == true)
+            if (alexaResp.Response.ShouldEndSession == true)
             {
                 // remove any reprompt logic.
                 alexaResp.Response.Reprompt = null;

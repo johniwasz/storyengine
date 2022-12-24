@@ -1,8 +1,6 @@
 ﻿using Amazon.DynamoDBv2.Model;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using Whetstone.StoryEngine.Cache.Models;
 
 namespace Whetstone.StoryEngine.Cache.DynamoDB

@@ -45,7 +45,7 @@ namespace Whetstone.StoryEngine.Repository
 
         }
 
-        private Tuple<Queue<string>,bool> FindPath(string startNode, string destNode, int level, List<NodeMapItem> nodeMap)
+        private Tuple<Queue<string>, bool> FindPath(string startNode, string destNode, int level, List<NodeMapItem> nodeMap)
         {
             level++;
             Queue<string> pathQueue = new Queue<string>();
@@ -59,7 +59,7 @@ namespace Whetstone.StoryEngine.Repository
                 try
                 {
                     int childIndex = 0;
-                   
+
                     while (childIndex < curItem.Children.Count && !isFound)
                     {
                         NodeMapItem childItem = curItem.Children[childIndex];
@@ -108,7 +108,7 @@ namespace Whetstone.StoryEngine.Repository
 
             List<NodeMapItem> nodeMap = new List<NodeMapItem>();
 
-            if((nodes?.Any()).GetValueOrDefault(false))
+            if ((nodes?.Any()).GetValueOrDefault(false))
             {
                 StoryNode curNode;
                 //StoryNode curNode = nodes[0];
@@ -122,7 +122,7 @@ namespace Whetstone.StoryEngine.Repository
                     MapChoiceNodes(nodes, nodeMap, curNode);
                 }
             }
-            
+
             return nodeMap;
         }
 
@@ -130,7 +130,7 @@ namespace Whetstone.StoryEngine.Repository
         {
 
             NodeMapItem parentNodeMap = nodeMap.FirstOrDefault(x => x.Name.Equals(curNode.Name, StringComparison.OrdinalIgnoreCase));
-            if(parentNodeMap==null)
+            if (parentNodeMap == null)
             {
                 parentNodeMap = new NodeMapItem(curNode);
                 nodeMap.Add(parentNodeMap);
@@ -142,38 +142,38 @@ namespace Whetstone.StoryEngine.Repository
                 {
                     //if (!curChoice.IntentName.Equals("GoBackIntent"))
                     //{
-                        if (curChoice?.NodeMapping != null)
+                    if (curChoice?.NodeMapping != null)
+                    {
+                        List<string> nodeNames = GetNodesFromMapping(curChoice.NodeMapping);
+                        if ((nodeNames?.Any()).GetValueOrDefault(false))
                         {
-                            List<string> nodeNames = GetNodesFromMapping(curChoice.NodeMapping);
-                            if ((nodeNames?.Any()).GetValueOrDefault(false))
+
+                            IEnumerable<string> uniqueNames = nodeNames.Distinct();
+                            foreach (string nodeName in uniqueNames)
                             {
 
-                                IEnumerable<string> uniqueNames = nodeNames.Distinct();
-                                foreach (string nodeName in uniqueNames)
+
+                                NodeMapItem nodeItem = nodeMap.FirstOrDefault(x => x.Name.Equals(nodeName, StringComparison.OrdinalIgnoreCase));
+
+                                if (nodeItem == null)
                                 {
+                                    // add item
+                                    StoryNode foundNode = nodes.FirstOrDefault(x => x.Name.Equals(nodeName, StringComparison.OrdinalIgnoreCase));
 
+                                    nodeItem = parentNodeMap.AddChild(foundNode, curChoice);
 
-                                    NodeMapItem nodeItem = nodeMap.FirstOrDefault(x => x.Name.Equals(nodeName, StringComparison.OrdinalIgnoreCase));
-
-                                    if (nodeItem == null)
-                                    {
-                                        // add item
-                                        StoryNode foundNode = nodes.FirstOrDefault(x => x.Name.Equals(nodeName, StringComparison.OrdinalIgnoreCase));
-
-                                        nodeItem = parentNodeMap.AddChild(foundNode, curChoice);
-
-                                        nodeMap.Add(nodeItem);
-                                    }
-                                    else
-                                    {
-                                        StoryNode foundNode = nodes.FirstOrDefault(x => x.Name.Equals(nodeItem.Name, StringComparison.OrdinalIgnoreCase));
-
-                                        parentNodeMap.AddChild(foundNode, curChoice);
-                                    }
-
+                                    nodeMap.Add(nodeItem);
                                 }
+                                else
+                                {
+                                    StoryNode foundNode = nodes.FirstOrDefault(x => x.Name.Equals(nodeItem.Name, StringComparison.OrdinalIgnoreCase));
+
+                                    parentNodeMap.AddChild(foundNode, curChoice);
+                                }
+
                             }
-//                        }
+                        }
+                        //                        }
                     }
                 }
 
@@ -184,7 +184,7 @@ namespace Whetstone.StoryEngine.Repository
         {
             List<string> nodeNames = new List<string>();
 
-            if(mapping != null)
+            if (mapping != null)
             {
                 //            [MessagePack.Union(0, typeof(SingleNodeMapping))]
                 //[MessagePack.Union(1, typeof(MultiNodeMapping))]
@@ -194,18 +194,18 @@ namespace Whetstone.StoryEngine.Repository
 
 
 
-                if(mapping is SingleNodeMapping)
+                if (mapping is SingleNodeMapping)
                 {
                     SingleNodeMapping singleMapping = (SingleNodeMapping)mapping;
-                    if(!string.IsNullOrWhiteSpace(singleMapping.NodeName))
+                    if (!string.IsNullOrWhiteSpace(singleMapping.NodeName))
                         nodeNames.Add(singleMapping.NodeName);
                 }
-                else if(mapping is MultiNodeMapping)
+                else if (mapping is MultiNodeMapping)
                 {
                     MultiNodeMapping multiMapping = (MultiNodeMapping)mapping;
-                    if((multiMapping.NodeNames?.Any()).GetValueOrDefault(false))
+                    if ((multiMapping.NodeNames?.Any()).GetValueOrDefault(false))
                     {
-                        foreach(string nodeName in multiMapping.NodeNames)
+                        foreach (string nodeName in multiMapping.NodeNames)
                         {
                             if (!string.IsNullOrWhiteSpace(nodeName))
                                 nodeNames.Add(nodeName);
@@ -213,16 +213,16 @@ namespace Whetstone.StoryEngine.Repository
 
                     }
                 }
-                else if(mapping is SlotMap)
+                else if (mapping is SlotMap)
                 {
                     SlotMap slotMaps = (SlotMap)mapping;
 
-                   if((slotMaps?.Mappings?.Any()).GetValueOrDefault(false))
+                    if ((slotMaps?.Mappings?.Any()).GetValueOrDefault(false))
                     {
-                        foreach(SlotNodeMapping slotMapping in slotMaps.Mappings)
+                        foreach (SlotNodeMapping slotMapping in slotMaps.Mappings)
                         {
                             List<string> slotNodeNames = GetNodesFromMapping(slotMapping.NodeMap);
-                            if((slotNodeNames?.Any()).GetValueOrDefault(false))
+                            if ((slotNodeNames?.Any()).GetValueOrDefault(false))
                             {
                                 foreach (string nodeName in slotNodeNames)
                                 {
@@ -243,22 +243,22 @@ namespace Whetstone.StoryEngine.Repository
                     SlotNodeMapping nodeMap = (SlotNodeMapping)mapping;
 
 
-                   List<string> nodeNameMappings =  GetNodesFromMapping(nodeMap.NodeMap);
+                    List<string> nodeNameMappings = GetNodesFromMapping(nodeMap.NodeMap);
 
-                    if((nodeNameMappings?.Any()).GetValueOrDefault(false))
+                    if ((nodeNameMappings?.Any()).GetValueOrDefault(false))
                     {
-                        foreach(string nodeName in nodeNameMappings)
+                        foreach (string nodeName in nodeNameMappings)
                         {
                             if (!string.IsNullOrWhiteSpace(nodeName))
                                 nodeNames.Add(nodeName);
                         }
                     }
                 }
-                else if(mapping is ConditionalNodeMapping)
+                else if (mapping is ConditionalNodeMapping)
                 {
                     ConditionalNodeMapping condMapping = (ConditionalNodeMapping)mapping;
 
-                    if(condMapping.FalseConditionResult!=null)
+                    if (condMapping.FalseConditionResult != null)
                     {
                         List<string> falseNames = GetNodesFromMapping(condMapping.FalseConditionResult);
 
@@ -273,7 +273,7 @@ namespace Whetstone.StoryEngine.Repository
                         }
                     }
 
-                    if(condMapping.TrueConditionResult!=null)
+                    if (condMapping.TrueConditionResult != null)
                     {
 
                         List<string> trueNames = GetNodesFromMapping(condMapping.TrueConditionResult);
@@ -301,32 +301,32 @@ namespace Whetstone.StoryEngine.Repository
         {
             StoryValidationResult valResult = new StoryValidationResult();
             valResult.NodeIssues = new List<NodeValdiationResult>();
-           ICollection<StoryNode> nodes = await _titleReader.GetNodesByTitleAsync( titleVersion);
+            ICollection<StoryNode> nodes = await _titleReader.GetNodesByTitleAsync(titleVersion);
 
 
             List<Intent> intents = await _titleReader.GetIntentsAsync(titleVersion);
 
             List<SlotType> slots = await _titleReader.GetSlotTypes(titleVersion);
 
-            List<Models.Conditions.StoryConditionBase>  conditions = await _titleReader.GetStoryConditionsAsync(titleVersion);
+            List<Models.Conditions.StoryConditionBase> conditions = await _titleReader.GetStoryConditionsAsync(titleVersion);
 
 
             List<string> audioFiles = await _fileRep.GetAudioFileListAsync(titleVersion);
 
             List<FileCounter> audioFileCount = new List<FileCounter>();
 
-            foreach(string audioFile in audioFiles)
+            foreach (string audioFile in audioFiles)
             {
                 audioFileCount.Add(new FileCounter(audioFile));
             }
 
 
-            if(nodes!=null)
-                foreach(StoryNode node in nodes)
+            if (nodes != null)
+                foreach (StoryNode node in nodes)
                 {
                     List<string> nodeValResult = await ValidateNodeAsync(titleVersion, node, nodes, audioFileCount, intents, slots, conditions);
 
-                    if((nodeValResult?.Any()).GetValueOrDefault(false))
+                    if ((nodeValResult?.Any()).GetValueOrDefault(false))
                     {
                         NodeValdiationResult nodeResult = new NodeValdiationResult();
                         nodeResult.NodeName = node.Name;
@@ -341,21 +341,21 @@ namespace Whetstone.StoryEngine.Repository
             valResult.UnusedAudioFiles = new List<string>();
             foreach (var fileCounter in audioFileCount)
             {
-                if(fileCounter.UseCount ==0)
+                if (fileCounter.UseCount == 0)
                 {
-                   
+
                     valResult.UnusedAudioFiles.Add(fileCounter.FileName);
                     Debug.WriteLine(fileCounter.FileName);
                 }
 
             }
 
-            
+
 
             return valResult;
         }
 
-        public async Task<StoryValidationResult> ValidateTitleAsync( StoryTitle title)
+        public async Task<StoryValidationResult> ValidateTitleAsync(StoryTitle title)
         {
 
             StoryValidationResult valResult = new StoryValidationResult();
@@ -371,7 +371,7 @@ namespace Whetstone.StoryEngine.Repository
 
             TitleVersion titleVer = new TitleVersion(title.Id, title.Version);
 
-            List<string> audioFiles = await _fileRep.GetAudioFileListAsync( titleVer);
+            List<string> audioFiles = await _fileRep.GetAudioFileListAsync(titleVer);
 
             List<FileCounter> audioFileCount = new List<FileCounter>();
 
@@ -417,17 +417,17 @@ namespace Whetstone.StoryEngine.Repository
 
 
 
-        private async  Task<List<string>> ValidateNodeAsync(TitleVersion titleVersion, StoryNode node, 
-            ICollection<StoryNode> allNodes, 
-            List<FileCounter> audioFileCount, 
-            List<Intent> intents, 
-            List<SlotType> slots, 
+        private async Task<List<string>> ValidateNodeAsync(TitleVersion titleVersion, StoryNode node,
+            ICollection<StoryNode> allNodes,
+            List<FileCounter> audioFileCount,
+            List<Intent> intents,
+            List<SlotType> slots,
             List<Models.Conditions.StoryConditionBase> conditions)
         {
 
             List<string> valResult = new List<string>();
 
-            if((node.ResponseSet?.Any()).GetValueOrDefault(false)==false)
+            if ((node.ResponseSet?.Any()).GetValueOrDefault(false) == false)
             {
                 valResult.Add("Missing ResponseSet");
             }
@@ -438,42 +438,42 @@ namespace Whetstone.StoryEngine.Repository
                 for (int responseSetIndex = 0; responseSetIndex < node.ResponseSet.Count; responseSetIndex++)
                 {
                     LocalizedResponseSet respSet = node.ResponseSet[responseSetIndex];
-                    
-                  
-                   
-                    if((respSet.LocalizedResponses?.Any()).GetValueOrDefault(false)== false)
+
+
+
+                    if ((respSet.LocalizedResponses?.Any()).GetValueOrDefault(false) == false)
                     {
                         valResult.Add($"ResponseSet index {responseSetIndex} is missing localized responses");
                     }
                     else
                     {
-                       for (int locIndex =0; locIndex < respSet.LocalizedResponses.Count; locIndex++)
+                        for (int locIndex = 0; locIndex < respSet.LocalizedResponses.Count; locIndex++)
                         {
                             LocalizedResponse locResp = respSet.LocalizedResponses[locIndex];
 
 
-                            if(locResp.SendCardResponse.GetValueOrDefault(false))
+                            if (locResp.SendCardResponse.GetValueOrDefault(false))
                             {
                                 List<string> cardValIssues = await ValidateCardNodeAsync(titleVersion, responseSetIndex, locIndex, locResp);
-                                if( (cardValIssues?.Any()).GetValueOrDefault(false))
+                                if ((cardValIssues?.Any()).GetValueOrDefault(false))
                                 {
                                     valResult.AddRange(cardValIssues);
                                 }
                             }
 
-                            
 
 
-                            if(!(locResp.RepromptTextResponse?.Any()).GetValueOrDefault(false) && !(locResp.RepromptSpeechResponses?.Any()).GetValueOrDefault(false))
+
+                            if (!(locResp.RepromptTextResponse?.Any()).GetValueOrDefault(false) && !(locResp.RepromptSpeechResponses?.Any()).GetValueOrDefault(false))
                             {
                                 valResult.Add($"ResponseSet index {responseSetIndex} and localized response index {locIndex} has no reprompts");
                             }
                             else
                             {
-                                if((locResp.RepromptSpeechResponses?.Any()).GetValueOrDefault(false))
+                                if ((locResp.RepromptSpeechResponses?.Any()).GetValueOrDefault(false))
                                 {
 
-                                    
+
 
                                     List<string> valIssues = await ValidateClientSpeechResponsesAsync(titleVersion, responseSetIndex, locIndex, locResp.RepromptSpeechResponses, audioFileCount, conditions);
                                     if ((valIssues?.Any()).GetValueOrDefault(false))
@@ -521,7 +521,7 @@ namespace Whetstone.StoryEngine.Repository
 
                                 }
 
-                                if(!hasDefaultResponse)
+                                if (!hasDefaultResponse)
                                 {
                                     valResult.Add($"ResponseSet index {responseSetIndex} and localized response index {locIndex} has no default client response");
 
@@ -531,7 +531,7 @@ namespace Whetstone.StoryEngine.Repository
                                 List<string> valIssues = await ValidateClientSpeechResponsesAsync(titleVersion, responseSetIndex, locIndex, locResp.SpeechResponses, audioFileCount, conditions);
                                 if ((valIssues?.Any()).GetValueOrDefault(false))
                                 {
-                                    foreach(string valIssue in valIssues)
+                                    foreach (string valIssue in valIssues)
                                     {
                                         valResult.Add($"Client speech response issue: {valIssue}");
                                     }
@@ -543,14 +543,14 @@ namespace Whetstone.StoryEngine.Repository
                 }
             }
 
-            if((node.Actions?.Any()).GetValueOrDefault(false))
+            if ((node.Actions?.Any()).GetValueOrDefault(false))
             {
 
-                for(int actionIndex = 0; actionIndex < node.Actions.Count; actionIndex++)
+                for (int actionIndex = 0; actionIndex < node.Actions.Count; actionIndex++)
                 {
                     NodeActionData baseAction = node.Actions[actionIndex];
 
-                    if(baseAction==null)
+                    if (baseAction == null)
                     {
                         valResult.Add(string.Format("Node action index {0} is null", actionIndex));
                     }
@@ -613,11 +613,11 @@ namespace Whetstone.StoryEngine.Repository
                                     }
 
                                 }
-                                else if(invAction.Item is MultiItem)
+                                else if (invAction.Item is MultiItem)
                                 {
                                     MultiItem multiItem = (MultiItem)invAction.Item;
-                                   
-                                    if(string.IsNullOrWhiteSpace(multiItem.Name))
+
+                                    if (string.IsNullOrWhiteSpace(multiItem.Name))
                                     {
                                         valResult.Add($"Node action index {actionIndex} is an inventory action with missing multi item name");
                                     }
@@ -636,11 +636,11 @@ namespace Whetstone.StoryEngine.Repository
             }
 
 
-            if((node.Choices?.Any()).GetValueOrDefault(false))
+            if ((node.Choices?.Any()).GetValueOrDefault(false))
             {
 
                 // if choices exist, the make sure the destination node exists
-                for(int choiceIndex =0; choiceIndex < node.Choices.Count; choiceIndex++)
+                for (int choiceIndex = 0; choiceIndex < node.Choices.Count; choiceIndex++)
                 {
 
                     var curChoice = node.Choices[choiceIndex];
@@ -654,31 +654,31 @@ namespace Whetstone.StoryEngine.Repository
                     {
                         foundIntent = intents.FirstOrDefault(x => x.Name.Equals(curChoice.IntentName, StringComparison.OrdinalIgnoreCase));
 
-                       
 
 
-                        if(foundIntent==null)
+
+                        if (foundIntent == null)
                         {
                             // is the intent a system intent.
 
 
-                            
+
                             valResult.Add($"Choice index {choiceIndex} with intent {curChoice.IntentName} does not resolve to a valid intent.");
 
                         }
                     }
 
 
-                    if((curChoice.ConditionNames?.Any()).GetValueOrDefault(false))
+                    if ((curChoice.ConditionNames?.Any()).GetValueOrDefault(false))
                     {
-                        if(node.Choices.Count==1)
+                        if (node.Choices.Count == 1)
                             valResult.Add($"Choice index {choiceIndex} has conditions and is the only choice and it has a condition. If the condition is false, then the user will be stuck.");
 
                         // Validate that condition names exist
                         for (int condIndex = 0; condIndex < curChoice.ConditionNames.Count; condIndex++)
                         {
                             string choiceCondName = curChoice.ConditionNames[condIndex];
-                            if(string.IsNullOrWhiteSpace(choiceCondName))
+                            if (string.IsNullOrWhiteSpace(choiceCondName))
                             {
                                 valResult.Add($"Choice index {choiceIndex} condition index {condIndex} is blank");
                             }
@@ -691,7 +691,7 @@ namespace Whetstone.StoryEngine.Repository
                             else
                             {
                                 var foundCondition = conditions.FirstOrDefault(x => x.Name.Equals(choiceCondName, StringComparison.OrdinalIgnoreCase));
-                                if(foundCondition==null)
+                                if (foundCondition == null)
                                 {
                                     valResult.Add($"Choice index {choiceIndex} references condition '{choiceCondName}' on condition index {condIndex} but the condition is not defined");
                                 }
@@ -699,7 +699,7 @@ namespace Whetstone.StoryEngine.Repository
                         }
                     }
 
-                    if(curChoice.NodeMapping==null)
+                    if (curChoice.NodeMapping == null)
                     {
                         string nodeIssue = $"Choice index {choiceIndex} is missing a node mapping.";
                         valResult.Add(nodeIssue);
@@ -707,11 +707,11 @@ namespace Whetstone.StoryEngine.Repository
                     else
                     {
 
-                        if(curChoice.NodeMapping is SingleNodeMapping)
+                        if (curChoice.NodeMapping is SingleNodeMapping)
                         {
                             SingleNodeMapping singleMapping = (SingleNodeMapping)curChoice.NodeMapping;
 
-                            if(string.IsNullOrWhiteSpace(singleMapping.NodeName))
+                            if (string.IsNullOrWhiteSpace(singleMapping.NodeName))
                             {
                                 valResult.Add($"Choice index {choiceIndex} single node mapping is missing a node name");
                             }
@@ -724,17 +724,17 @@ namespace Whetstone.StoryEngine.Repository
                             }
 
                         }
-                        else if(curChoice.NodeMapping is MultiNodeMapping)
+                        else if (curChoice.NodeMapping is MultiNodeMapping)
                         {
                             MultiNodeMapping multiMapping = (MultiNodeMapping)curChoice.NodeMapping;
 
-                            if(( multiMapping.NodeNames?.Any()).GetValueOrDefault(false)==false)
+                            if ((multiMapping.NodeNames?.Any()).GetValueOrDefault(false) == false)
                             {
                                 valResult.Add($"Choice index {choiceIndex} multi node mapping is missing node names");
                             }
                             else
                             {
-                                foreach(string nodeName in multiMapping.NodeNames)
+                                foreach (string nodeName in multiMapping.NodeNames)
                                 {
                                     if (string.IsNullOrWhiteSpace(nodeName))
                                     {
@@ -743,23 +743,23 @@ namespace Whetstone.StoryEngine.Repository
                                     else
                                     {
                                         bool doesExist = DoesNodeExist(nodeName, allNodes);
-                                        if(!doesExist)
+                                        if (!doesExist)
                                             valResult.Add($"Choice index {choiceIndex} multi node mapping is pointing to a missing node {nodeName}");
                                     }
                                 }
                             }
                         }
-                        else if(curChoice.NodeMapping is SlotNodeMapping)
+                        else if (curChoice.NodeMapping is SlotNodeMapping)
                         {
                             SlotNodeMapping slotMapping = (SlotNodeMapping)curChoice.NodeMapping;
 
                         }
-                        else if(curChoice.NodeMapping is ConditionalNodeMapping)
+                        else if (curChoice.NodeMapping is ConditionalNodeMapping)
                         {
                             ConditionalNodeMapping conditionalMapping = (ConditionalNodeMapping)curChoice.NodeMapping;
 
 
-                            if( (conditionalMapping.Conditions?.Any()).GetValueOrDefault(false)==false)
+                            if ((conditionalMapping.Conditions?.Any()).GetValueOrDefault(false) == false)
                             {
                                 valResult.Add($"Choice index {choiceIndex} conditional mapping has missing conditionals");
                             }
@@ -778,24 +778,24 @@ namespace Whetstone.StoryEngine.Repository
                                 }
                             }
                         }
-                        else if(curChoice.NodeMapping is SlotMap)
+                        else if (curChoice.NodeMapping is SlotMap)
                         {
                             string parentIntent = curChoice.IntentName;
 
                             SlotMap slotMap = (SlotMap)curChoice.NodeMapping;
 
 
-                            if((slotMap.Mappings?.Any()).GetValueOrDefault(false)==false)
+                            if ((slotMap.Mappings?.Any()).GetValueOrDefault(false) == false)
                             {
                                 valResult.Add($"Choice index {choiceIndex} slot mapping is missing slot mappings");
                             }
                             else
                             {
-                                for(int mapIndex =0; mapIndex < slotMap.Mappings.Count; mapIndex++)
+                                for (int mapIndex = 0; mapIndex < slotMap.Mappings.Count; mapIndex++)
                                 {
                                     SlotNodeMapping slotMapping = slotMap.Mappings[mapIndex];
 
-                                    if(slotMapping.NodeMap==null)
+                                    if (slotMapping.NodeMap == null)
                                     {
                                         valResult.Add($"Choice index {choiceIndex} slot mapping {mapIndex} is missing a node map");
                                     }
@@ -805,21 +805,21 @@ namespace Whetstone.StoryEngine.Repository
                                     }
 
 
-                                    if((slotMapping.RequiredSlotValues?.Any()).GetValueOrDefault(false)==false)
+                                    if ((slotMapping.RequiredSlotValues?.Any()).GetValueOrDefault(false) == false)
                                     {
                                         valResult.Add($"Choice index {choiceIndex} slot mapping {mapIndex} is missing required slot values");
                                     }
                                     else
                                     {
                                         // TODO verify the slot values.
-                                        foreach(string slotKey in slotMapping.RequiredSlotValues.Keys)
+                                        foreach (string slotKey in slotMapping.RequiredSlotValues.Keys)
                                         {
-                                            if(string.IsNullOrWhiteSpace(slotKey))
+                                            if (string.IsNullOrWhiteSpace(slotKey))
                                                 valResult.Add($"Choice index {choiceIndex} slot mapping {mapIndex} has a missing slot key.");
                                             else
                                             {
                                                 List<string> slotVals = slotMapping.RequiredSlotValues[slotKey];
-                                                if( (slotVals?.Any()).GetValueOrDefault(false)==false)
+                                                if ((slotVals?.Any()).GetValueOrDefault(false) == false)
                                                 {
                                                     valResult.Add($"Choice index {choiceIndex} slot mapping {mapIndex} with slot key {slotKey} has no values");
                                                 }
@@ -831,7 +831,7 @@ namespace Whetstone.StoryEngine.Repository
                                                         {
                                                             // TODO -- adjust for localization
                                                             bool doesSlotValExist = DoesSlotValueExist(slotKey, slotValue, foundIntent, slots);
-                                                            if(!doesSlotValExist)
+                                                            if (!doesSlotValExist)
                                                                 valResult.Add($"Choice index {choiceIndex} slot mapping {mapIndex} with slot key {slotKey} and value {slotValue} does not exist in intent {foundIntent.Name}");
                                                         }
                                                 }
@@ -855,7 +855,7 @@ namespace Whetstone.StoryEngine.Repository
             bool doesSlotExist = false;
 
 
-             if(foundIntent!=null && (slots?.Any()).GetValueOrDefault(false))
+            if (foundIntent != null && (slots?.Any()).GetValueOrDefault(false))
             {
 
                 if (foundIntent.SlotMappingsByName != null)
@@ -880,7 +880,7 @@ namespace Whetstone.StoryEngine.Repository
                             }
                         }
                     }
-                }                
+                }
             }
 
 
@@ -894,7 +894,7 @@ namespace Whetstone.StoryEngine.Repository
             Dictionary<Client, bool> hasClientResponse = new Dictionary<Client, bool>();
             hasClientResponse.Add(Client.Unknown, false);
 
-            foreach(Client reqClient in RequiredClients)
+            foreach (Client reqClient in RequiredClients)
             {
                 hasClientResponse.Add(reqClient, false);
 
@@ -918,8 +918,8 @@ namespace Whetstone.StoryEngine.Repository
                         }
                         else
                         {
-                            if(clientFrag.SpeechClient.HasValue)
-                                hasClientResponse[clientFrag.SpeechClient.Value] = true;                                                   
+                            if (clientFrag.SpeechClient.HasValue)
+                                hasClientResponse[clientFrag.SpeechClient.Value] = true;
                             else
                                 hasClientResponse[Client.Unknown] = true;
 
@@ -935,7 +935,7 @@ namespace Whetstone.StoryEngine.Repository
             }
 
             // If the speech fragments have an unknown client response, then it applies to all clients.
-            if(!hasClientResponse[Client.Unknown])
+            if (!hasClientResponse[Client.Unknown])
             {
                 foreach (Client reqClient in RequiredClients)
                 {
@@ -955,31 +955,31 @@ namespace Whetstone.StoryEngine.Repository
         {
             List<string> valErrors = new List<string>();
 
-            if((speechFragments?.Any()).GetValueOrDefault(false))
+            if ((speechFragments?.Any()).GetValueOrDefault(false))
             {
 
                 for (int fragmentIndex = 0; fragmentIndex < speechFragments.Count; fragmentIndex++)
                 //foreach(var speechResp in speechFragments)
                 {
                     SpeechFragment speechFrag = speechFragments[fragmentIndex];
-                    if(speechFrag==null)
+                    if (speechFrag == null)
                     {
                         valErrors.Add(string.Format("ResponseSetIndex {0}, localized response index {1}, speechResponseIndex {2}, fragementIndex {3} fragment is null or missing. Possible formatting issue.", responseSetIndex, locIndex, speechRespIndex, fragmentIndex));
                     }
-                    else if(speechFrag is DirectAudioFile)
+                    else if (speechFrag is DirectAudioFile)
                     {
                         DirectAudioFile dirFile = (DirectAudioFile)speechFrag;
 
                         string url = dirFile.AudioUrl;
 
-                        if(string.IsNullOrWhiteSpace(url))                        
+                        if (string.IsNullOrWhiteSpace(url))
                             valErrors.Add(string.Format("ResponseSetIndex {0}, localized response index {1}, speechResponseIndex {2}, fragementIndex {3} DirectAudioFile url is missing", responseSetIndex, locIndex, speechRespIndex, fragmentIndex));
 
-                        
+
                         // TODO: Validate url;
 
                     }
-                   else if(speechFrag is AudioFile)
+                    else if (speechFrag is AudioFile)
                     {
                         AudioFile audFile = (AudioFile)speechFrag;
 
@@ -1001,25 +1001,25 @@ namespace Whetstone.StoryEngine.Repository
                             }
                         }
                     }
-                    else if(speechFrag is SsmlSpeechFragment)
+                    else if (speechFrag is SsmlSpeechFragment)
                     {
                         SsmlSpeechFragment ssmlFrag = (SsmlSpeechFragment)speechFrag;
 
-                        if(string.IsNullOrWhiteSpace(ssmlFrag.Ssml))
+                        if (string.IsNullOrWhiteSpace(ssmlFrag.Ssml))
                             valErrors.Add(string.Format("ResponseSetIndex {0}, localized response index {1}, speechResponseIndex {2}, fragementIndex {3} SsmlFragement is missing the SSML entry", responseSetIndex, locIndex, speechRespIndex, fragmentIndex));
                     }
-                    else if(speechFrag is PlainTextSpeechFragment)
+                    else if (speechFrag is PlainTextSpeechFragment)
                     {
                         PlainTextSpeechFragment plainFrag = (PlainTextSpeechFragment)speechFrag;
 
-                        if(string.IsNullOrWhiteSpace(plainFrag.Text))
+                        if (string.IsNullOrWhiteSpace(plainFrag.Text))
                             valErrors.Add(string.Format("ResponseSetIndex {0}, localized response index {1}, speechResponseIndex {2}, fragementIndex {3} PlainTextSpeechFragment is missing the text entry", responseSetIndex, locIndex, speechRespIndex, fragmentIndex));
                     }
-                    else if(speechFrag is ConditionalFragment)
+                    else if (speechFrag is ConditionalFragment)
                     {
                         ConditionalFragment condFrag = (ConditionalFragment)speechFrag;
 
-                        if((condFrag.Conditions?.Any()).GetValueOrDefault(false)==false)
+                        if ((condFrag.Conditions?.Any()).GetValueOrDefault(false) == false)
                         {
                             valErrors.Add(string.Format("ResponseSetIndex {0}, localized response index {1}, speechResponseIndex {2}, fragementIndex {3} No conditions found on condition fragment", responseSetIndex, locIndex, speechRespIndex, fragmentIndex));
                         }
@@ -1036,7 +1036,7 @@ namespace Whetstone.StoryEngine.Repository
                                 }
                                 else
                                 {
-                                    if(string.IsNullOrWhiteSpace(condName))
+                                    if (string.IsNullOrWhiteSpace(condName))
                                     {
                                         valErrors.Add(string.Format("ResponseSetIndex {0}, localized response index {1}, speechResponseIndex {2}, fragementIndex {3}, conditionIndex {4} is blank", responseSetIndex, locIndex, speechRespIndex, fragmentIndex, condIndex));
                                     }
@@ -1044,7 +1044,7 @@ namespace Whetstone.StoryEngine.Repository
                                     {
                                         var foundCondition = conditions.FirstOrDefault(x => x.Name.Equals(condName, StringComparison.OrdinalIgnoreCase));
 
-                                        if(foundCondition==null)
+                                        if (foundCondition == null)
                                             valErrors.Add(string.Format("ResponseSetIndex {0}, localized response index {1}, speechResponseIndex {2}, fragementIndex {3}, conditionIndex {4} condition name {5} not found", responseSetIndex, locIndex, speechRespIndex, fragmentIndex, condIndex, condName));
                                     }
                                 }
@@ -1052,21 +1052,21 @@ namespace Whetstone.StoryEngine.Repository
 
                         }
 
-                       
+
                         if ((!condFrag.FalseResultFragments?.Any()).GetValueOrDefault(false) && (!condFrag.TrueResultFragments?.Any()).GetValueOrDefault(false))
                         {
                             valErrors.Add(string.Format("ResponseSetIndex {0}, localized response index {1}, speechResponseIndex {2}, fragementIndex {3} conditional fragment is missing true and false fragments.", responseSetIndex, locIndex, speechRespIndex, fragmentIndex));
                         }
                         else
                         {
-                            if((condFrag.TrueResultFragments?.Any()).GetValueOrDefault(false))
+                            if ((condFrag.TrueResultFragments?.Any()).GetValueOrDefault(false))
                             {
                                 var frags = condFrag.TrueResultFragments;
-                                List<string> trueFragIssues = await ValidateSpeechNodesAsync(titleVer, responseSetIndex, locIndex, speechRespIndex,frags, audioFileCount, conditions);
+                                List<string> trueFragIssues = await ValidateSpeechNodesAsync(titleVer, responseSetIndex, locIndex, speechRespIndex, frags, audioFileCount, conditions);
 
-                                if((trueFragIssues?.Any()).GetValueOrDefault(false))
+                                if ((trueFragIssues?.Any()).GetValueOrDefault(false))
                                 {
-                                    foreach(string trueFragIssue in trueFragIssues)
+                                    foreach (string trueFragIssue in trueFragIssues)
                                     {
                                         valErrors.Add(string.Concat("True fragments issues: ", trueFragIssue));
                                     }
@@ -1105,7 +1105,7 @@ namespace Whetstone.StoryEngine.Repository
             List<string> cardIssues = new List<string>();
 
             // If there are no card responses, perform the old logic
-            if ( (locResp.CardResponses?.Any()).GetValueOrDefault(false) == false )
+            if ((locResp.CardResponses?.Any()).GetValueOrDefault(false) == false)
             {
                 if (string.IsNullOrWhiteSpace(locResp.CardTitle))
                 {
@@ -1166,7 +1166,7 @@ namespace Whetstone.StoryEngine.Repository
                 bool fHasGoogle = false;
                 bool fHasDefault = false;
 
-                for(int n = 0; n < locResp.CardResponses.Count; n++)
+                for (int n = 0; n < locResp.CardResponses.Count; n++)
                 {
                     CardResponse cardResp = locResp.CardResponses[n];
 
@@ -1176,7 +1176,7 @@ namespace Whetstone.StoryEngine.Repository
                         cardIssues.AddRange(cardResponseIssues);
                     }
 
-                    switch( cardResp.SpeechClient.GetValueOrDefault(Client.Unknown) )
+                    switch (cardResp.SpeechClient.GetValueOrDefault(Client.Unknown))
                     {
                         case Client.Bixby:
                             {
@@ -1266,7 +1266,7 @@ namespace Whetstone.StoryEngine.Repository
         {
             bool doesExist = false;
 
-            if((nodes?.Any()).GetValueOrDefault(false))
+            if ((nodes?.Any()).GetValueOrDefault(false))
             {
                 doesExist = nodes.Any(x => x.Name.Equals(nodeName, StringComparison.OrdinalIgnoreCase));
             }
@@ -1287,9 +1287,9 @@ namespace Whetstone.StoryEngine.Repository
             return fileExists;
         }
 
-        private async Task<List<string>> GetAudioFileList( TitleVersion titleVer)
+        private async Task<List<string>> GetAudioFileList(TitleVersion titleVer)
         {
-            List<string> audioList = await _fileRep.GetAudioFileListAsync( titleVer);
+            List<string> audioList = await _fileRep.GetAudioFileListAsync(titleVer);
 
             return audioList;
         }
@@ -1304,7 +1304,7 @@ namespace Whetstone.StoryEngine.Repository
         internal FileCounter(string fileName)
         {
             FileName = fileName;
-        
+
         }
 
         internal string FileName { get; set; }
@@ -1316,9 +1316,9 @@ namespace Whetstone.StoryEngine.Repository
         }
 
     }
-        
 
 
-   
+
+
 
 }

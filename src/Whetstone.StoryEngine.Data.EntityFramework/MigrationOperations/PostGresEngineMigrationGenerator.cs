@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure.Internal;
-using Whetstone.StoryEngine.Data.EntityFramework.MigrationOperations;
+using System.Collections.Generic;
 
 namespace Whetstone.StoryEngine.Data.EntityFramework.MigrationOperations
 {
@@ -15,7 +13,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.MigrationOperations
             INpgsqlSingletonOptions npgsqlOptions)
             : base(dependencies, npgsqlOptions)
         {
-           
+
         }
 
 
@@ -39,14 +37,14 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.MigrationOperations
             GrantPermissionOperation operation,
             MigrationCommandListBuilder builder)
         {
-            
+
             var sqlHelper = Dependencies.SqlGenerationHelper;
             var stringMapping = Dependencies.TypeMappingSource.FindMapping(typeof(string));
             //GRANT SELECT, UPDATE, INSERT, DELETE ON whetstone.group_role_xrefs TO storyengineuser;
 
             List<string> perms = new List<string>();
 
-            if(operation.Permission.HasFlag(Permission.Update))
+            if (operation.Permission.HasFlag(Permission.Update))
                 perms.Add(Permission.Update.ToString().ToUpper());
 
             if (operation.Permission.HasFlag(Permission.Insert))

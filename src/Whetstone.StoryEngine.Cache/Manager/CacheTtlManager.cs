@@ -1,14 +1,12 @@
-﻿using System;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Options;
-using Whetstone.StoryEngine.Cache;
+﻿using Microsoft.Extensions.Caching.Distributed;
+using System;
 using Whetstone.StoryEngine.Cache.Models;
 
 namespace Whetstone.StoryEngine.Cache.Manager
 {
     public class CacheTtlManager : ICacheTtlManager
     {
-       
+
 
         public CacheTtlManager()
         {

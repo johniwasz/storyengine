@@ -1,9 +1,9 @@
 ﻿using Amazon.Lambda.TestUtilities;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 using Whetstone.Alexa;
 using Xunit;
-using System.Threading.Tasks;
 
 namespace Whetstone.StoryEngine.AlexaFunction.Test
 {

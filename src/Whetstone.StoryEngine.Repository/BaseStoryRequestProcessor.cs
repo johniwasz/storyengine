@@ -1,17 +1,14 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Amazon;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Models.Story;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon;
-using Microsoft.Extensions.Options;
-using Whetstone.StoryEngine;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Data;
+using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.Repository
 {
@@ -29,7 +26,7 @@ namespace Whetstone.StoryEngine.Repository
 
             SessionStoreManager = sessionStoreManager ?? throw new ArgumentNullException(nameof(sessionStoreManager));
 
-            if(userRepFunc==null)
+            if (userRepFunc == null)
                 throw new ArgumentNullException(nameof(userRepFunc));
 
             IStoryUserRepository userRep = userRepFunc(UserRepositoryType.DynamoDB);
@@ -42,7 +39,7 @@ namespace Whetstone.StoryEngine.Repository
 
         public abstract Task<CanFulfillResponse> CanFulfillIntentAsync(StoryRequest request);
 
-        public abstract Task<StoryPhoneInfo> GetPhoneInfoAsync( TitleVersion titleVersion);
+        public abstract Task<StoryPhoneInfo> GetPhoneInfoAsync(TitleVersion titleVersion);
 
         protected IStoryUserRepository StoryUserRepository
         {
@@ -55,7 +52,7 @@ namespace Whetstone.StoryEngine.Repository
             get; set;
         }
 
- 
+
         /// <summary>
         /// Retrieves the current user
         /// </summary>
@@ -72,7 +69,7 @@ namespace Whetstone.StoryEngine.Repository
             {
                 // Gin up a user object if this is a Ping Request so we don't add the object
                 // to the database
-                if ( !request.IsPingRequest.GetValueOrDefault(false) )
+                if (!request.IsPingRequest.GetValueOrDefault(false))
                 {
 
                     // If the user is a guest user, then the user id will only be applicable during this session
@@ -101,14 +98,14 @@ namespace Whetstone.StoryEngine.Repository
                 _logger.LogError(ErrorEvents.UserRetrievalError,
                                        ex,
                                        $"Error retrieving user {request.UserId}",
-                                       request.Client);               
+                                       request.Client);
             }
 
             // Assign the current user id to the session context. This is used downstream.
 
-            if(curUser?.Id.GetValueOrDefault() != default(Guid))
+            if (curUser?.Id.GetValueOrDefault() != default(Guid))
                 request.SessionContext.EngineUserId = curUser?.Id;
-            
+
 
             _logger.LogInformation($"Time to retrieve user: {userRetrievalTime.ElapsedMilliseconds} ms");
 
@@ -116,7 +113,7 @@ namespace Whetstone.StoryEngine.Repository
         }
 
 
-        
+
 
 
 

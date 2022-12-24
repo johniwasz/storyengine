@@ -2,8 +2,6 @@
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Whetstone.StoryEngine.ConfigurationExtensions
 {
@@ -40,7 +38,7 @@ namespace Whetstone.StoryEngine.ConfigurationExtensions
                 throw new ArgumentException($"Invalid file path {nameof(path)}");
             }
 
-            var source = new S3ConfigurationSource( environment, endpoint, path, bucketName, cache);
+            var source = new S3ConfigurationSource(environment, endpoint, path, bucketName, cache);
 
             builder.Add(source);
             return builder;

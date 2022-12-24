@@ -1,16 +1,13 @@
 ﻿
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Memory;
 using Twilio.Security;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Messaging;
-using Whetstone.StoryEngine.Repository.Phone;
 
 namespace Whetstone.StoryEngine.Repository.Messaging
 {
@@ -50,7 +47,7 @@ namespace Whetstone.StoryEngine.Repository.Messaging
             if ((statusUpdateMessage.MessageBody?.Keys?.Any()).GetValueOrDefault(false))
                 throw new ArgumentException("MessageBody of the statusUpdateMessage cannot be null or empty");
 
-            if(string.IsNullOrWhiteSpace(statusUpdateMessage.ValidationToken))
+            if (string.IsNullOrWhiteSpace(statusUpdateMessage.ValidationToken))
                 throw new ArgumentException("ValidationToken of the statusUpdateMessage cannot be null or empty");
 
             await Task.Run(async () =>

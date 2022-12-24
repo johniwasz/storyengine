@@ -1,22 +1,19 @@
 ﻿using MessagePack;
-using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
 using Newtonsoft.Json;
-using YamlDotNet.Serialization;
 using Newtonsoft.Json.Converters;
+using System.Runtime.Serialization;
+using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Story.Ssml
 {
-   
+
     [DataContract]
     [JsonObject]
     [MessagePackObject]
     public class DirectAudioFile : SpeechFragment
     {
 
-  
+
         public DirectAudioFile()
         {
 

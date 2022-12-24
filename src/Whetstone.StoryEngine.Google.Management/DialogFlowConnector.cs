@@ -1,12 +1,6 @@
-﻿using Google.Apis.Auth.OAuth2;
-using Google.Apis.Services;
-using Google.Apis.Util.Store;
+﻿using Google.Cloud.Dialogflow.V2;
 using System;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-using Google.Cloud.Dialogflow.V2;
 using System.Diagnostics;
 
 namespace Whetstone.StoryEngine.Google.Management
@@ -58,7 +52,7 @@ namespace Whetstone.StoryEngine.Google.Management
 
 
 
-        public static  void ListIntentsAsync()
+        public static void ListIntentsAsync()
         {
             //projects /< Project ID >
             // Create the service.
@@ -85,13 +79,13 @@ namespace Whetstone.StoryEngine.Google.Management
                     Console.WriteLine($"Intent display name: {intent.DisplayName}");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
                 Debug.WriteLine(ex);
 
             }
-         
+
 
             //ProjectsResource projResource = service.Projects;
 
@@ -103,11 +97,11 @@ namespace Whetstone.StoryEngine.Google.Management
 
 
             //var agentResource = projResource.Agent;
-            
 
-           // var intentsResource =  agentResource.Intents;
 
-          //  intentsResource.List()
+            // var intentsResource =  agentResource.Intents;
+
+            //  intentsResource.List()
 
             //// Run the request.
             //Console.WriteLine("Executing a list request...");

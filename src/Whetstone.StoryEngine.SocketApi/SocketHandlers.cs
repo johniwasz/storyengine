@@ -1,30 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using Amazon.Lambda.APIGatewayEvents;
+using Amazon.Lambda.Core;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Net;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
-
-using Amazon.Lambda.Core;
-using Amazon.Lambda.APIGatewayEvents;
-
-using Amazon.Runtime;
-using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.Model;
-using Amazon.ApiGatewayManagementApi;
-using Amazon.ApiGatewayManagementApi.Model;
-
-using Whetstone.StoryEngine.DependencyInjection;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Notifications;
-using Whetstone.StoryEngine.SocketApi.Repository;
-using Whetstone.StoryEngine.Repository.Amazon;
 using Whetstone.StoryEngine.Notifications.Repository;
-
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Whetstone.StoryEngine.SocketApi.Repository;
 
 //
 // Source URLs on how to work with API Gateway, Websockets and .NET:
@@ -52,7 +36,7 @@ namespace Whetstone.StoryEngine.SocketApi
         /// <summary>
         /// Default constructor that Lambda will invoke.
         /// </summary>
-        public SocketHandlers( ILogger logger, ISocketHandler socketHandler, SocketConfig socketConfig, INotificationProcessor notificationProcessor )
+        public SocketHandlers(ILogger logger, ISocketHandler socketHandler, SocketConfig socketConfig, INotificationProcessor notificationProcessor)
         {
             if (socketHandler == null)
                 throw new ArgumentNullException("SocketHandlers constructor socketHandler param cannot be null");
@@ -84,7 +68,7 @@ namespace Whetstone.StoryEngine.SocketApi
             IAuthenticatedSocket authSocket = CreateAuthSocketFromRequest(request, context);
             ISocketResponse response = await _socketHandler.OnConnect(authSocket);
 
-            if ( response.StatusCode == HttpStatusCode.OK )
+            if (response.StatusCode == HttpStatusCode.OK)
             {
                 //
                 // Tell the notification processor to send along any pending notifications
@@ -104,7 +88,7 @@ namespace Whetstone.StoryEngine.SocketApi
 
             return new APIGatewayProxyResponse
             {
-                StatusCode = (int) response.StatusCode,
+                StatusCode = (int)response.StatusCode,
                 Body = response.Body
             };
 
@@ -121,15 +105,15 @@ namespace Whetstone.StoryEngine.SocketApi
 
             return new APIGatewayProxyResponse
             {
-                StatusCode = (int) response.StatusCode,
+                StatusCode = (int)response.StatusCode,
                 Body = response.Body
             };
 
         }
-        
-            #endregion
 
-            #region SendMessage
+        #endregion
+
+        #region SendMessage
         public async Task<APIGatewayProxyResponse> SendMessageHandler(APIGatewayProxyRequest request, ILambdaContext context)
         {
             var connectionId = request.RequestContext.ConnectionId;
@@ -143,7 +127,7 @@ namespace Whetstone.StoryEngine.SocketApi
 
             return new APIGatewayProxyResponse
             {
-                StatusCode = (int) response.StatusCode,
+                StatusCode = (int)response.StatusCode,
                 Body = response.Body
             };
 

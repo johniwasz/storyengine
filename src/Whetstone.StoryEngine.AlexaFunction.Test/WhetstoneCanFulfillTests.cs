@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon.Lambda.TestUtilities;
+﻿using Amazon.Lambda.TestUtilities;
 using Newtonsoft.Json;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 using Whetstone.Alexa;
 using Whetstone.StoryEngine.AlexaProcessor;
 using Whetstone.StoryEngine.Test;
@@ -24,21 +22,21 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
             try
             {
-              //  var jsonSer = new Amazon.Lambda.Serialization.Json.JsonSerializer();
-              //  var stream = new MemoryStream();
-              //  var writer = new StreamWriter(stream);
-              //  writer.Write(fulfillRequest);
-              //  writer.Flush();
+                //  var jsonSer = new Amazon.Lambda.Serialization.Json.JsonSerializer();
+                //  var stream = new MemoryStream();
+                //  var writer = new StreamWriter(stream);
+                //  writer.Write(fulfillRequest);
+                //  writer.Flush();
 
-              //req =  jsonSer.Deserialize<AlexaRequest>(stream);
-              req = JsonConvert.DeserializeObject<AlexaRequest>(fulfillRequest);
+                //req =  jsonSer.Deserialize<AlexaRequest>(stream);
+                req = JsonConvert.DeserializeObject<AlexaRequest>(fulfillRequest);
 
 
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-               
+
             }
 
 

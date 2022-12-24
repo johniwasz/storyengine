@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO.Compression;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.Google.Management

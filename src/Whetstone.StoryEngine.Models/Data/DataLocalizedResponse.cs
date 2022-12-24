@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using Newtonsoft.Json;
-using Whetstone.StoryEngine.Models.Story;
 using Whetstone.StoryEngine.Models.Story.Text;
 using YamlDotNet.Serialization;
 
@@ -12,7 +10,7 @@ namespace Whetstone.StoryEngine.Models.Data
 {
     [DataContract]
     [Table("LocResponse")]
-    public  class DataLocalizedResponse
+    public class DataLocalizedResponse
     {
 
 

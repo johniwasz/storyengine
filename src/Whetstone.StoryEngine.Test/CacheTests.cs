@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
-using Whetstone.StoryEngine.Models.Story;
-using Xunit;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Admin;
+using Whetstone.StoryEngine.Models.Story;
+using Xunit;
 
 namespace Whetstone.StoryEngine.Test
 {
@@ -22,7 +18,7 @@ namespace Whetstone.StoryEngine.Test
         [Fact]
         public async Task TitleVersionDeploymentTest()
         {
-            IStoryVersionRepository storyVerRep =  this.Services.GetService<IStoryVersionRepository>();
+            IStoryVersionRepository storyVerRep = this.Services.GetService<IStoryVersionRepository>();
             IAppMappingReader appMappingReader = this.Services.GetService<IAppMappingReader>();
 
 
@@ -38,7 +34,7 @@ namespace Whetstone.StoryEngine.Test
 
             };
 
-          //  await storyVerRep.PublishVersionAsync(publishRequest);
+            //  await storyVerRep.PublishVersionAsync(publishRequest);
 
             TitleVersion foundVersion = await appMappingReader.GetTitleAsync(Client.Alexa, animalFarmPiSkillId, null);
 

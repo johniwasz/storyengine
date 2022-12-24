@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Whetstone.StoryEngine.Models.Admin
 {
@@ -12,7 +10,7 @@ namespace Whetstone.StoryEngine.Models.Admin
     /// <remarks></remarks>
     public class MessageConsentReportRequest
     {
-        [JsonProperty(PropertyName = "titleId", Required =Required.Always)]
+        [JsonProperty(PropertyName = "titleId", Required = Required.Always)]
         public Guid TitleId { get; set; }
 
 

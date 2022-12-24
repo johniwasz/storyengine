@@ -1,18 +1,13 @@
 ﻿using Amazon;
 using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DataModel;
+using Amazon.S3;
+using Amazon.SimpleSystemsManagement;
+using Amazon.SimpleSystemsManagement.Model;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using Amazon.DynamoDBv2.Model;
-using Amazon.S3;
-using Amazon.SimpleSystemsManagement;
-using Amazon.SimpleSystemsManagement.Model;
-using Whetstone.StoryEngine.Cache.DynamoDB;
 using Whetstone.StoryEngine.Cache.Manager;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Data.Amazon;
@@ -23,7 +18,7 @@ using Whetstone.StoryEngine.Repository.Amazon;
 
 namespace Whetstone.StoryEngine.Cache.DynamoDB.Test
 {
-    internal static  class DynamoTestUtil
+    internal static class DynamoTestUtil
     {
         private static readonly RegionEndpoint CURREGION = RegionEndpoint.GetBySystemName(RegionEndpoint.USEast1.SystemName);
 
@@ -65,7 +60,7 @@ namespace Whetstone.StoryEngine.Cache.DynamoDB.Test
             Whetstone.StoryEngine.Cache.DistributedCacheExtensions.SetDefaultCacheOptions(distOptions, true);
 
             string tableName = "Whetstone-CacheTable-Dev-CacheTable-1A0X189QJZXYD";
-      
+
 
             IOptions<AmazonDynamoDBConfig> dbConfig = GetDynamoDBConfig();
 
@@ -81,7 +76,7 @@ namespace Whetstone.StoryEngine.Cache.DynamoDB.Test
             ICacheTtlManager ttlManager = new CacheTtlManager();
 
             IOptions<DynamoDBCacheConfig> dbCacheConfig = Options.Create<DynamoDBCacheConfig>(new DynamoDBCacheConfig()
-            {                   
+            {
                 TableName = tableName,
                 MaxRetries = maxRetries,
                 Timeout = timeOut
@@ -144,7 +139,8 @@ namespace Whetstone.StoryEngine.Cache.DynamoDB.Test
         {
 
 
-            var loggerFactory = LoggerFactory.Create(builder => {
+            var loggerFactory = LoggerFactory.Create(builder =>
+            {
                 builder
                        .AddConsole()
                       .AddDebug()

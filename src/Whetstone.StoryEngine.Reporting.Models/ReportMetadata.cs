@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Text;
-using Amazon.Runtime.Internal.Transform;
-using Newtonsoft.Json;
 
 namespace Whetstone.StoryEngine.Reporting.Models
 {

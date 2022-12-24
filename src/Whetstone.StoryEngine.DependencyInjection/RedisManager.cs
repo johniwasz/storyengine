@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Amazon;
+﻿using Amazon;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Caching.Redis;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using StackExchange.Redis;
-using Whetstone.StoryEngine.ConfigurationExtensions;
+using System;
 using Whetstone.StoryEngine.Models.Configuration;
 
 namespace Whetstone.StoryEngine.DependencyInjection
@@ -38,10 +33,10 @@ namespace Whetstone.StoryEngine.DependencyInjection
 
             Whetstone.StoryEngine.Cache.DistributedCacheExtensions.SetDefaultCacheOptions(distCacheOpts, cacheConfig.IsEnabled);
 
-            return GetRedisCache( redisOptions);
+            return GetRedisCache(redisOptions);
         }
 
-        internal static IDistributedCache GetRedisCache( ConfigurationOptions configOpts)
+        internal static IDistributedCache GetRedisCache(ConfigurationOptions configOpts)
         {
 
             if (configOpts == null)
@@ -80,7 +75,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
                 }
             }
 
-            if(!string.IsNullOrWhiteSpace(cacheConfig.Token))
+            if (!string.IsNullOrWhiteSpace(cacheConfig.Token))
                 redisOpts.Password = cacheConfig.Token;
 
             return redisOpts;
@@ -88,7 +83,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
 
 
 
-        public static void FlushRedis( IOptions<CacheConfig> cacheConfigOptions, ILogger logger)
+        public static void FlushRedis(IOptions<CacheConfig> cacheConfigOptions, ILogger logger)
         {
 
             CacheConfig cacheConfig = cacheConfigOptions.Value;
@@ -114,8 +109,8 @@ namespace Whetstone.StoryEngine.DependencyInjection
                         var redisServer = redisCon.GetServer(redisServerConfig.EndPoints[0]);
                         string redisServerName = redisServer.ToString();
 
-;                       redisServer.FlushAllDatabases();
-                       
+                        ; redisServer.FlushAllDatabases();
+
 
                         logger.LogInformation($"Flushed REDIS cache {redisServerName}");
                     }

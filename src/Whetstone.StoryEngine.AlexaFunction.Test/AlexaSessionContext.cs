@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Amazon.S3.Model;
-using Newtonsoft.Json.Linq;
 using Whetstone.Alexa;
-using Whetstone.StoryEngine.Models;
 
 namespace Whetstone.StoryEngine.AlexaFunction.Test
 {
@@ -14,14 +10,14 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
         internal static readonly string TestAdventureId = "amzn1.ask.skill.75bd5c59-177e-4552-ba62-d861c2782cc1";
 
-        
+
         internal static readonly string AnimalFarmPIId = "amzn1.ask.skill.92304d4d-42a5-4371-9b13-97b4a79b9ad0";
         internal static readonly string ClinicalTrialId = "amzn1.ask.skill.3ec17474-1c7f-4625-92ee-fb8b5505bc48";
-        
+
 
         internal static readonly string ProdClinicalTrialId = "amzn1.ask.skill.3ec17474-1c7f-4625-92ee-fb8b5505bc48";
 
-                                              
+
         internal static readonly string WhetstoneDevSkillId = "amzn1.ask.skill.c4cabd50-2cd5-4e4c-a03c-a57d4f2a0e5f";
 
         internal static readonly string DiscountCouponFinderId = "amzn1.ask.skill.968568f8-cea6-4019-a31d-0f810c4f64c8";
@@ -55,14 +51,14 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
         public string UserId
         {
-            get { return _userId;  }
+            get { return _userId; }
             set { _userId = value; }
 
         }
 
         public string SessionId
         {
-            get { return _sessionId;  }
+            get { return _sessionId; }
 
         }
 
@@ -104,7 +100,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
             req.Session = GetSession();
             req.Version = "1.0";
             req.Request = GetRequestAttributes(RequestType.LaunchRequest, null, null);
-           
+
             _isNewSession = false;
             return req;
         }
@@ -172,16 +168,16 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
                     }
 
                 }
-               
+
 
             }
-     
+
             attribs.Type = requstType;
             attribs.RequestId = string.Concat("EdwRequestId.", Guid.NewGuid().ToString());
             attribs.Locale = string.IsNullOrWhiteSpace(_locale) ? "en-US" : _locale;
             attribs.Timestamp = DateTime.UtcNow;
 
-           
+
 
             return attribs;
         }
@@ -200,10 +196,10 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
             session.New = _isNewSession;
             session.Application = new ApplicationAttributes();
             session.Application.ApplicationId = _applicationId;
-          
+
             session.User = new UserAttributes();
             session.User.UserId = _userId;
-          
+
             session.SessionId = _sessionId;
 
 

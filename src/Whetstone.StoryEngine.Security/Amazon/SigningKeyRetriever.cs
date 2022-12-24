@@ -1,27 +1,26 @@
-﻿using System;
+﻿using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 using Whetstone.StoryEngine.DependencyInjection;
 using Whetstone.StoryEngine.Models.Configuration;
 
 namespace Whetstone.StoryEngine.Security.Amazon
 {
-   public class SigningKeyRetriever
-   {
+    public class SigningKeyRetriever
+    {
 
-      
-       private readonly string _metadataAddress;
 
-       private readonly string _issuer;
+        private readonly string _metadataAddress;
 
-       private readonly string _userPoolClientId;
+        private readonly string _issuer;
+
+        private readonly string _userPoolClientId;
 
         public SigningKeyRetriever(CognitoConfig cogOptions)
         {
-            if(cogOptions==null)
+            if (cogOptions == null)
                 throw new ArgumentNullException($"{nameof(cogOptions)}");
 
             string region = string.IsNullOrWhiteSpace(cogOptions.UserPoolRegion)
@@ -37,7 +36,7 @@ namespace Whetstone.StoryEngine.Security.Amazon
                 throw new ArgumentNullException($"{nameof(cogOptions)}", "UserPoolId cannot be null or empty");
 
 
-            if(string.IsNullOrWhiteSpace(cogOptions.UserPoolClientId))
+            if (string.IsNullOrWhiteSpace(cogOptions.UserPoolClientId))
                 throw new ArgumentNullException($"{nameof(cogOptions)}", "UserPoolClientId cannot be null or empty");
 
             _issuer = $"https://cognito-idp.{region}.amazonaws.com/{cogOptions.UserPoolId}";
@@ -50,7 +49,7 @@ namespace Whetstone.StoryEngine.Security.Amazon
 
 
 
-        internal  IEnumerable<SecurityKey> GetSigningKeys()
+        internal IEnumerable<SecurityKey> GetSigningKeys()
         {
             IEnumerable<SecurityKey> secKeys = null;
 

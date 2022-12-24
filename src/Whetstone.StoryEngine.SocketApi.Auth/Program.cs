@@ -1,10 +1,10 @@
-﻿using Amazon.Lambda.Core;
+﻿using Amazon.Lambda.APIGatewayEvents;
+using Amazon.Lambda.Core;
 using Amazon.Lambda.RuntimeSupport;
 using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Amazon.Lambda.APIGatewayEvents;
 
 namespace Whetstone.StoryEngine.SocketApi.Auth
 {
@@ -49,11 +49,11 @@ namespace Whetstone.StoryEngine.SocketApi.Auth
             }
         }
 
-    
+
 
         public static APIGatewayCustomAuthorizerResponse ProcessRequestAsync(APIGatewayCustomAuthorizerRequest request, ILambdaContext context)
         {
-            return _nativeFunction.Value.AuthHandler(request, context);           
+            return _nativeFunction.Value.AuthHandler(request, context);
         }
     }
 }

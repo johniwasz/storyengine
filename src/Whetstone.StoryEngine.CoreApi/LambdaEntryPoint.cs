@@ -1,16 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using System.IO;
-using Amazon.Lambda.APIGatewayEvents;
-using Amazon.Lambda.Core;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.Extensions.Logging;
 using Amazon.Lambda.AspNetCoreServer;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Whetstone.StoryEngine.CoreApi
 {

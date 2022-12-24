@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon;
+﻿using Amazon;
 using Amazon.SecretsManager;
 using Amazon.SecretsManager.Model;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Configuration;
 
 namespace Whetstone.StoryEngine.Repository.Amazon
@@ -41,7 +39,8 @@ namespace Whetstone.StoryEngine.Repository.Amazon
 
             GetSecretValueRequest request = new GetSecretValueRequest
             {
-                SecretId = parameterName, VersionStage = "AWSCURRENT"
+                SecretId = parameterName,
+                VersionStage = "AWSCURRENT"
             };
             // VersionStage defaults to AWSCURRENT if unspecified.
 

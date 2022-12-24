@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.Serialization;
-using System.Text;
-using MessagePack;
+﻿using MessagePack;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Whetstone.StoryEngine.Models.Story;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Tracking
@@ -21,7 +18,7 @@ namespace Whetstone.StoryEngine.Models.Tracking
 
         public MultiItem()
         {
-            this.ItemType = InventoryItemType.Multi; 
+            this.ItemType = InventoryItemType.Multi;
             this.Count = 0;
         }
 
@@ -56,7 +53,7 @@ namespace Whetstone.StoryEngine.Models.Tracking
         [YamlIgnore]
         [DataMember]
         [JsonConverter(typeof(StringEnumConverter))]
-        [JsonProperty("itemType", Order =  0)]
+        [JsonProperty("itemType", Order = 0)]
         public sealed override InventoryItemType ItemType { get; set; }
 
 

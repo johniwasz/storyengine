@@ -1,19 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Whetstone.StoryEngine;
 using Amazon.Lambda.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.DependencyInjection;
 using Whetstone.StoryEngine.InboundSmsRepository;
 using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.Models.Messaging.Sms;
 using Whetstone.StoryEngine.Models.Messaging;
+using Whetstone.StoryEngine.Models.Messaging.Sms;
 
 
 namespace Whetstone.StoryEngine.InboundSmsHandler

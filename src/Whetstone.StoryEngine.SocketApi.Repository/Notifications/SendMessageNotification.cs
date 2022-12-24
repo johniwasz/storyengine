@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Whetstone.StoryEngine.SocketApi.Repository.Notifications
+﻿namespace Whetstone.StoryEngine.SocketApi.Repository.Notifications
 {
     public class SendMessageNotification : BaseSocketNotification
     {

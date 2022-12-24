@@ -1,20 +1,8 @@
-﻿using System;
-using System.Net.WebSockets;
-using System.Threading;
-using System.Threading.Tasks;
-using System.IO;
-using System.Text;
-using Microsoft.AspNetCore.Http;
-
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-
-using Whetstone.StoryEngine.SocketApi.Repository;
-using Whetstone.StoryEngine.SocketApi.Repository.Extensions;
 using Whetstone.StoryEngine.Models.Configuration;
-
 using Whetstone.StoryEngine.Notifications.Repository;
+using Whetstone.StoryEngine.SocketApi.Repository;
 
 namespace Whetstone.StoryEngine.CoreApi.WebSockets
 {

@@ -1,19 +1,16 @@
 ﻿
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using Whetstone.StoryEngine.Models.Data;
 using Whetstone.StoryEngine.Models.Messaging;
-using Whetstone.StoryEngine.Models.Story;
-using System.Threading;
+using Whetstone.StoryEngine.Models.Messaging.Sms;
 using Whetstone.StoryEngine.Repository;
 using Whetstone.StoryEngine.Repository.Messaging;
-using Microsoft.Extensions.Options;
-using Whetstone.StoryEngine.Models.Messaging.Sms;
-using Whetstone.StoryEngine.Models.Data;
 using Whetstone.StoryEngine.Repository.Phone;
 
 namespace Whetstone.StoryEngine.OutboutSmsSender
@@ -23,7 +20,7 @@ namespace Whetstone.StoryEngine.OutboutSmsSender
     /// <summary>
     /// Used to send the message directly from the StoryEngine.
     /// </summary>
-    public class SmsDirectSendHandler: ISmsHandler
+    public class SmsDirectSendHandler : ISmsHandler
     {
         private readonly ILogger<SmsDirectSendHandler> _logger;
 
@@ -119,13 +116,13 @@ namespace Whetstone.StoryEngine.OutboutSmsSender
 
                             if (message.SentFromPhone != null)
                             {
-                                msgReq.SourceNumber= message.SentFromPhone.PhoneNumber;
+                                msgReq.SourceNumber = message.SentFromPhone.PhoneNumber;
                             }
 
 
                             Stopwatch outMessageTotalTime = new Stopwatch();
                             outMessageTotalTime.Start();
-                            OutboundMessageLogEntry messageSendResult = await smsSender.SendSmsMessageAsync( msgReq);
+                            OutboundMessageLogEntry messageSendResult = await smsSender.SendSmsMessageAsync(msgReq);
                             outMessageTotalTime.Stop();
                             messageSendResult.ProviderSendDuration = outMessageTotalTime.ElapsedMilliseconds;
                             messageSendResult.OutboundMessageId = message.Id;
@@ -145,7 +142,7 @@ namespace Whetstone.StoryEngine.OutboutSmsSender
                                     throttleCount = 0;
                                     _logger.LogInformation($"Message payload in message {message.Id} sent to dispatcher: {messagePayload.Message}");
                                     sentCount++;
-                               
+
                                     // Move to the next message on next iteration. This is the only condition that should increment.
                                     messageIndex++;
                                     continueSending = messageIndex < message.Messages.Count;
@@ -168,7 +165,7 @@ namespace Whetstone.StoryEngine.OutboutSmsSender
                                     }
                                     break;
                                 case MessageSendStatus.Error:
-                        
+
                                     _logger.LogInformation($"Unexpected response {messageSendResult.ExtendedStatus} for message {message.Id} on message: {messagePayload.Message}");
                                     throttleCount = 0;
                                     continueSending = false;
@@ -188,7 +185,7 @@ namespace Whetstone.StoryEngine.OutboutSmsSender
                             continueSending = false;
                             // Record the exception
                             LogSendError(message, messagePayload, ex);
-     
+
                         }
 
                     }
@@ -224,7 +221,7 @@ namespace Whetstone.StoryEngine.OutboutSmsSender
         {
             OutboundMessageLogEntry unhandledResult = new OutboundMessageLogEntry
             {
-                 LogTime = DateTime.UtcNow,
+                LogTime = DateTime.UtcNow,
                 IsException = true,
                 ExtendedStatus = ex.ToString()
             };
@@ -238,9 +235,9 @@ namespace Whetstone.StoryEngine.OutboutSmsSender
             _logger.LogError(ex, errMsg);
         }
 
-        
 
-        private  bool HasMessageBeenSuccessfullySent(OutboundMessagePayload payload)
+
+        private bool HasMessageBeenSuccessfullySent(OutboundMessagePayload payload)
         {
             bool messageSuccessfullySent = false;
 
@@ -258,7 +255,7 @@ namespace Whetstone.StoryEngine.OutboutSmsSender
         {
 
             bool wasLastMessageSent = false;
-            
+
 
             if ((payload.Results?.Any()).GetValueOrDefault(false))
             {

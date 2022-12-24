@@ -1,10 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models.Data
 {
@@ -38,7 +35,7 @@ namespace Whetstone.StoryEngine.Models.Data
         /// </summary>
         /// <remarks>For Alexa, this is the Alexa Skill Id. For Google, it's the Dialog Flow agent name. For a text-based SMS implementation, it's
         /// the inbound phone number of the SMS message.</remarks>
-        [Column("clientidentifier", Order =3 )]
+        [Column("clientidentifier", Order = 3)]
         public string ClientIdentifier { get; set; }
 
 
@@ -57,7 +54,7 @@ namespace Whetstone.StoryEngine.Models.Data
 
 
 
-        [Column("publishdate", Order =5)]
+        [Column("publishdate", Order = 5)]
         [DataMember]
         public DateTime? PublishDate { get; set; }
 

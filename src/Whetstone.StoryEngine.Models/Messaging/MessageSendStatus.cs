@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using System.Text;
 
 
 namespace Whetstone.StoryEngine.Models.Messaging
@@ -71,7 +69,7 @@ namespace Whetstone.StoryEngine.Models.Messaging
         public MessageSendStatus SendStatus { get; set; }
 
 
-        [Column("logtime", Order = 6 )]
+        [Column("logtime", Order = 6)]
         [JsonRequired]
         [JsonProperty(PropertyName = "time")]
         public DateTime LogTime { get; set; }

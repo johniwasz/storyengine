@@ -3,7 +3,6 @@ using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models.Messaging
 {
@@ -55,7 +54,7 @@ namespace Whetstone.StoryEngine.Models.Messaging
         [JsonProperty(PropertyName = "locale")]
         public string Locale { get; set; }
 
-        
+
         [DataMember]
         [JsonProperty(PropertyName = "deploymentId", NullValueHandling = NullValueHandling.Ignore)]
         public Guid DeploymentId { get; set; }

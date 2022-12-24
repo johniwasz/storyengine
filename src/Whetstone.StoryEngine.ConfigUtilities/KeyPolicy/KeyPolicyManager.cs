@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon;
+﻿using Amazon;
 using Amazon.Auth.AccessControlPolicy;
 using Amazon.IdentityManagement;
 using Amazon.IdentityManagement.Model;
 using Amazon.KeyManagementService;
 using Amazon.KeyManagementService.Model;
 using Amazon.Lambda.Core;
-using Newtonsoft.Json.Linq;
-using ThirdParty.Json.LitJson;
-using Whetstone.StoryEngine.ConfigUtilities.Models;
-using Whetstone.StoryEngine.Models.Actions;
-using YamlDotNet.Serialization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Statement = Amazon.Auth.AccessControlPolicy.Statement;
 
 namespace Whetstone.StoryEngine.ConfigUtilities.KeyPolicy
@@ -28,7 +21,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities.KeyPolicy
 
         private const string REQUIREDPREFIX = "arn:aws:iam:";
 
-        private static readonly List<string> EncryptRights = new List<string> {"kms:GenerateDataKey", "kms:Encrypt", "kms:Reencrypt"};
+        private static readonly List<string> EncryptRights = new List<string> { "kms:GenerateDataKey", "kms:Encrypt", "kms:Reencrypt" };
 
         private static readonly List<string> DecryptRights = new List<string> { "kms:Decrypt" };
 
@@ -99,10 +92,10 @@ namespace Whetstone.StoryEngine.ConfigUtilities.KeyPolicy
                         statement.Principals.Remove(badPrin);
                     }
 
-                    
 
 
-                    if(statement.Principals.Count ==0)
+
+                    if (statement.Principals.Count == 0)
                         remStatements.Add(statement);
 
                 }
@@ -159,7 +152,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities.KeyPolicy
             if (policyRequest == null)
                 throw new ArgumentException($"{nameof(policyRequest)} cannot be null");
 
-            if(string.IsNullOrWhiteSpace(policyRequest.Key))
+            if (string.IsNullOrWhiteSpace(policyRequest.Key))
                 throw new ArgumentException($"{nameof(policyRequest)} Key property cannot be null or empty");
 
             if (string.IsNullOrWhiteSpace(policyRequest.RoleArn))
@@ -167,7 +160,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities.KeyPolicy
 
 
             // Make sure the ARN passed to the policyRequest is a role that exists
-            bool isValidRole = await IsValidRoleAsync(policyRequest.RoleArn,logger);
+            bool isValidRole = await IsValidRoleAsync(policyRequest.RoleArn, logger);
 
             if (!isValidRole)
                 throw new InvalidRoleException($"Role {policyRequest.RoleArn} could not be verified", policyRequest.RoleArn);
@@ -223,7 +216,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities.KeyPolicy
                 {
                     logger.Log($"Role {roleArn} not found");
                 }
-                    
+
                 if (roleResp?.Role != null)
                 {
                     isValid = true;
@@ -271,7 +264,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities.KeyPolicy
             {
                 //If one of the principals is not well-formatted, then do not add it.
                 //Only add it if it is well formatted.
-                if(prin.Id.StartsWith(REQUIREDPREFIX))
+                if (prin.Id.StartsWith(REQUIREDPREFIX))
                     grantStatement.Principals.Add(prin);
             }
 
@@ -302,7 +295,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities.KeyPolicy
             keyPolicy.Statements.Add(grantStatement);
 
 
-          
+
         }
 
         private static async Task UpdatePolicyAsync(string keyArn, Policy keyPolicy, string policyName)
@@ -342,7 +335,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities.KeyPolicy
 
                 // Edit the first policy. At the time of this writing (8/30/2019) keys can only have
                 // one policy associated with it.
-               policyName = policiesResp.PolicyNames[0];
+                policyName = policiesResp.PolicyNames[0];
 
                 GetKeyPolicyRequest getRequest = new GetKeyPolicyRequest
                 {
@@ -352,9 +345,9 @@ namespace Whetstone.StoryEngine.ConfigUtilities.KeyPolicy
 
                 var policyResp = await keyClient.GetKeyPolicyAsync(getRequest);
 
-                policyJson =  policyResp.Policy;
+                policyJson = policyResp.Policy;
 
-                
+
             }
 
 

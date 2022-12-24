@@ -1,18 +1,16 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Amazon.Lambda.Core;
+using Amazon.XRay.Recorder.Core;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System;
+using System.Threading.Tasks;
 using Whetstone.Alexa;
+using Whetstone.StoryEngine.AlexaProcessor.Configuration;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Repository;
-using System;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Amazon.Lambda.Core;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Serialization;
-using Whetstone.StoryEngine.AlexaProcessor.Configuration;
-using Whetstone.StoryEngine.Models.Configuration;
-using Amazon.XRay.Recorder.Core;
-using System.Collections.Generic;
 
 namespace Whetstone.StoryEngine.AlexaProcessor
 {
@@ -37,7 +35,7 @@ namespace Whetstone.StoryEngine.AlexaProcessor
             if (alexaConfig == null)
                 throw new ArgumentNullException(nameof(alexaConfig));
 
-  
+
 
             _storyProcessor = storyProcessor ?? throw new ArgumentNullException(nameof(storyProcessor));
             _mediaLinker = mediaLinker ?? throw new ArgumentNullException(nameof(mediaLinker));
@@ -52,10 +50,10 @@ namespace Whetstone.StoryEngine.AlexaProcessor
         }
 
 
-        public async Task<AlexaResponse> ProcessRequestAsync(AlexaRequest request,  string alias)
+        public async Task<AlexaResponse> ProcessRequestAsync(AlexaRequest request, string alias)
         {
 
-         
+
 
             if (!string.IsNullOrWhiteSpace(alias))
                 AWSXRayRecorder.Instance.AddMetadata("alias", alias);
@@ -69,22 +67,22 @@ namespace Whetstone.StoryEngine.AlexaProcessor
             // For testing purposes, if Alexa policy is not enforced, then don't bother about the request timings.
             // For the diff to be one second to satisfy conditions
             var diff = (!storyReq.IsPingRequest.GetValueOrDefault(false) && _alexaConfig.EnforceAlexaPolicyCheck)
-                ? DateTime.UtcNow - request.Request.Timestamp 
+                ? DateTime.UtcNow - request.Request.Timestamp
                 : new TimeSpan(0, 0, 0, 1);
 
 
-            if ((Math.Abs((decimal) diff.TotalSeconds) <= MAXREQUESTSENDTIME) || storyReq.IsPingRequest.GetValueOrDefault(false))
+            if ((Math.Abs((decimal)diff.TotalSeconds) <= MAXREQUESTSENDTIME) || storyReq.IsPingRequest.GetValueOrDefault(false))
             {
 
-                if(!storyReq.IsPingRequest.GetValueOrDefault(false))
-                    _logger.LogDebug($"Alexa request was timestamped at {request.Request.Timestamp} which is {diff.Milliseconds}ms ago and is less than the {MAXREQUESTSENDTIME*1000}ms maximum.");
+                if (!storyReq.IsPingRequest.GetValueOrDefault(false))
+                    _logger.LogDebug($"Alexa request was timestamped at {request.Request.Timestamp} which is {diff.Milliseconds}ms ago and is less than the {MAXREQUESTSENDTIME * 1000}ms maximum.");
 
-             
+
                 storyReq.Alias = alias;
 
-                CanFulfillResponse canFulfillResp= null;
+                CanFulfillResponse canFulfillResp = null;
                 StoryResponse response = null;
-        
+
                 AlexaResponse resp = null;
                 if (storyReq.RequestType == StoryRequestType.CanFulfillIntent)
                 {
@@ -99,7 +97,7 @@ namespace Whetstone.StoryEngine.AlexaProcessor
                     {
                         resp.Response.CanFulfillIntent = canFulfillResp.ToCanFulfillResponse();
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         AWSXRayRecorder.Instance.AddException(ex);
                         canFulfillResp.ResponseConversionError = $"Error converting CanFulfillResponse to AlexaResponse: {ex.ToString()}";
@@ -111,7 +109,7 @@ namespace Whetstone.StoryEngine.AlexaProcessor
                     try
                     {
 
-                        resp = AWSXRayRecorder.Instance.TraceMethod("ToAlexaResponseAsync",() => response.ToAlexaResponse(storyReq.SessionContext, _mediaLinker, _logger));
+                        resp = AWSXRayRecorder.Instance.TraceMethod("ToAlexaResponseAsync", () => response.ToAlexaResponse(storyReq.SessionContext, _mediaLinker, _logger));
 
                     }
                     catch (Exception ex)
@@ -138,7 +136,7 @@ namespace Whetstone.StoryEngine.AlexaProcessor
                 {
                     if (response != null)
                         recordVerbose = !string.IsNullOrWhiteSpace(response.EngineErrorText) || !string.IsNullOrWhiteSpace(response.ResponseConversionError);
-                    else if(canFulfillResp !=null )
+                    else if (canFulfillResp != null)
                         recordVerbose = !string.IsNullOrWhiteSpace(canFulfillResp.EngineErrorText) || !string.IsNullOrWhiteSpace(canFulfillResp.ResponseConversionError);
                 }
 
@@ -168,13 +166,13 @@ namespace Whetstone.StoryEngine.AlexaProcessor
                 return resp;
             }
             else
-            { 
-                throw new Exception($"Alexa request was timestamped {diff.TotalSeconds:0.00} seconds ago. It exceeds the {MAXREQUESTSENDTIME} second maximum");         
-             
+            {
+                throw new Exception($"Alexa request was timestamped {diff.TotalSeconds:0.00} seconds ago. It exceeds the {MAXREQUESTSENDTIME} second maximum");
+
             }
         }
 
-  
+
 
 
         public async Task<AlexaResponse> ProcessAlexaLambdaRequestAsync(AlexaRequest request, ILambdaContext context)
@@ -211,11 +209,11 @@ namespace Whetstone.StoryEngine.AlexaProcessor
             AlexaResponse response;
             try
             {
-                response = await ProcessRequestAsync(request,  alias);
+                response = await ProcessRequestAsync(request, alias);
             }
             catch (Exception ex)
             {
-               
+
                 JsonSerializerSettings serSettings = new JsonSerializerSettings
                 {
                     Formatting = Formatting.Indented,

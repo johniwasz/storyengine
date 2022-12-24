@@ -1,8 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models.Twitter
 {
@@ -11,7 +8,7 @@ namespace Whetstone.StoryEngine.Models.Twitter
 
         public override bool CanConvert(Type objectType)
         {
-         
+
 
             if (objectType == typeof(DateTime))
                 return true;
@@ -25,7 +22,7 @@ namespace Whetstone.StoryEngine.Models.Twitter
             string rawValue = reader.Value as string;
 
             if (objectType == typeof(DateTime))
-                return  (new DateTime(1970, 1, 1)).AddMilliseconds(double.Parse(rawValue));
+                return (new DateTime(1970, 1, 1)).AddMilliseconds(double.Parse(rawValue));
 
             throw new Exception("Unsupported type is requested");
         }

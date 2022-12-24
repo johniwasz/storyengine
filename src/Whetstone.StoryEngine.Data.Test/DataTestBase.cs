@@ -1,18 +1,18 @@
 ﻿using Amazon;
 using Amazon.RDS.Util;
+using Amazon.S3;
 using Amazon.SimpleSystemsManagement;
 using Amazon.SimpleSystemsManagement.Model;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using Amazon.S3;
+using Whetstone.StoryEngine.Data.Amazon;
+using Whetstone.StoryEngine.Data.Caching;
 using Whetstone.StoryEngine.Data.EntityFramework;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Serialization;
-using Whetstone.StoryEngine.Data.Caching;
-using Microsoft.Extensions.Logging;
-using Whetstone.StoryEngine.Data.Amazon;
 
 namespace Whetstone.StoryEngine.Data.Tests
 {
@@ -26,7 +26,7 @@ namespace Whetstone.StoryEngine.Data.Tests
         {
             builder
             .AddDebug();
-            });
+        });
 
 
         protected string GetDevConnectionString()
@@ -59,7 +59,7 @@ namespace Whetstone.StoryEngine.Data.Tests
             return envConfigOpts;
         }
 
-        protected IOptions<DatabaseConfig> GetDatabaseConfig(EnvironmentConfig  envConfig)
+        protected IOptions<DatabaseConfig> GetDatabaseConfig(EnvironmentConfig envConfig)
         {
             GetParameterResponse getResp = null;
             using (var ssmClient = new AmazonSimpleSystemsManagementClient(envConfig.Region))
@@ -80,7 +80,7 @@ namespace Whetstone.StoryEngine.Data.Tests
 
             DatabaseConfig dbConfig = bootConfig.DatabaseSettings;
 
-            return  Options.Create(dbConfig);
+            return Options.Create(dbConfig);
         }
 
 
@@ -110,7 +110,7 @@ namespace Whetstone.StoryEngine.Data.Tests
             {
                 RegionEndpoint = RegionEndpoint.USEast1,
                 MaxErrorRetry = 3,
-                Timeout = new TimeSpan(0,0,0,2),
+                Timeout = new TimeSpan(0, 0, 0, 2),
                 ReadWriteTimeout = new TimeSpan(0, 0, 0, 2)
 
             };
@@ -136,7 +136,7 @@ namespace Whetstone.StoryEngine.Data.Tests
 
 
 
-    
+
 
         protected IUserContextRetriever GetUserContextRetriever(DBConnectionRetreiverType connectionRetrieverType)
         {
@@ -155,8 +155,8 @@ namespace Whetstone.StoryEngine.Data.Tests
             {
                 case DBConnectionRetreiverType.IamRole:
 
-                    var iamLogger =  _loggerFactory.CreateLogger<IamUserContextRetriever>();
-                   userContextRetriever = new IamUserContextRetriever(envOpts, dbConfig, distCacheDict, dataContextLogger, iamLogger);
+                    var iamLogger = _loggerFactory.CreateLogger<IamUserContextRetriever>();
+                    userContextRetriever = new IamUserContextRetriever(envOpts, dbConfig, distCacheDict, dataContextLogger, iamLogger);
                     break;
                 case DBConnectionRetreiverType.Direct:
 
@@ -172,7 +172,7 @@ namespace Whetstone.StoryEngine.Data.Tests
 
         protected ITitleCacheRepository GetTitleCache()
         {
- 
+
 
             var distCacheDict = GetMemoryCache();
             var inMemoryCache = GetInMemoryCache();

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NpgsqlTypes;
+﻿using NpgsqlTypes;
 using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Reporting.Models

@@ -1,30 +1,28 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Models.Story;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Whetstone.StoryEngine.CoreApi.ModelBinders;
-using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.CoreApi.Models;
-using Whetstone.StoryEngine.Repository;
 using System.Net;
-using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.AlexaProcessor;
-using Whetstone.StoryEngine.Models.Admin;
+using Whetstone.StoryEngine.CoreApi.ModelBinders;
+using Whetstone.StoryEngine.CoreApi.Models;
+using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Google.Management;
+using Whetstone.StoryEngine.Models.Admin;
+using Whetstone.StoryEngine.Models.Story;
+using Whetstone.StoryEngine.Repository;
 
 namespace Whetstone.StoryEngine.CoreApi.Controllers
 {
     [Authorize(Security.FunctionalEntitlements.IsRegisteredUser)]
     [ApiController]
-  //  [EnableCors("CorsPolicy")]
+    //  [EnableCors("CorsPolicy")]
     [Route("api/story")]
     public class StoryController : ControllerBase
     {
@@ -51,12 +49,12 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
 
 
 
-      
+
         [HttpGet()]
         public async Task<IActionResult> GetTitles()
         {
 
-            List<TitleRoot> allTitles = await  _titleRep.GetAllTitleDeploymentsAsync();
+            List<TitleRoot> allTitles = await _titleRep.GetAllTitleDeploymentsAsync();
 
             return new OkObjectResult(allTitles);
 
@@ -116,7 +114,7 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
 
 
         [HttpGet("{titleid}/{version}")]
-        public async Task<IActionResult> GetVersion([FromRoute(Name ="titleid")] string titleId, [FromRoute(Name = "version")] string version)
+        public async Task<IActionResult> GetVersion([FromRoute(Name = "titleid")] string titleId, [FromRoute(Name = "version")] string version)
         {
             HttpStatusCode statusCode = HttpStatusCode.OK;
             StoryTitle title = null;
@@ -139,7 +137,7 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
             {
                 TitleVersion titleVer = new TitleVersion(titleId, version);
 
-      
+
                 try
                 {
                     title = await _titleReader.GetByIdAsync(titleVer);
@@ -156,7 +154,7 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
                 {
                     string errMsg = $"Internal error getting title {titleId} and version {version}";
                     errList.Add(errMsg);
-                    _logger.LogError(string.Concat(errMsg,$": {ex.ToString()}"));
+                    _logger.LogError(string.Concat(errMsg, $": {ex.ToString()}"));
                     statusCode = HttpStatusCode.InternalServerError;
                 }
             }
@@ -168,7 +166,7 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
             else
 
                 return new OkObjectResult(title);
-    
+
         }
 
 
@@ -394,7 +392,7 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
                     statCode = HttpStatusCode.InternalServerError;
                     errList.Add("Internal error updating title version");
                     _logger.LogError($"Error updating version: {ex.ToString()}");
-                  
+
                 }
             }
 
@@ -420,7 +418,7 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
             if (publishRequest == null)
                 errResult.Add($"{nameof(publishRequest)} cannot be null");
 
-            if(string.IsNullOrWhiteSpace(publishRequest?.ClientId))
+            if (string.IsNullOrWhiteSpace(publishRequest?.ClientId))
                 errResult.Add($"{nameof(publishRequest)} ClientId cannot be null or empty");
 
             if (string.IsNullOrWhiteSpace(publishRequest?.TitleName))
@@ -456,7 +454,7 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
 
         [HttpGet("{titleid}/{version}/alexaintents")]
         [HttpGet("{titleid}/{version}/alexaintents/{locale}")]
-        public async Task<IActionResult> GetAlexaIntents([FromRoute(Name = "titleid")] string titleId, 
+        public async Task<IActionResult> GetAlexaIntents([FromRoute(Name = "titleid")] string titleId,
                                                          [FromRoute(Name = "version")] string version,
                                                          [FromRoute(Name = "locale")] string locale = "en-US")
         {
@@ -464,7 +462,7 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
             HttpStatusCode statusCode;
             JsonResult interactionResult = null;
 
-            if(string.IsNullOrWhiteSpace(titleId))
+            if (string.IsNullOrWhiteSpace(titleId))
             {
                 errResults.Add("titleId cannot be null or empty");
             }
@@ -483,7 +481,7 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
                 {
                     // var globalConfig =await  S3Client.GetConfigFileContentsAsync();
 
-                    var alexaIntents  = await _alexaExporter.GetIntentModelAsync(title, locale);
+                    var alexaIntents = await _alexaExporter.GetIntentModelAsync(title, locale);
 
 
                     JsonSerializerSettings serSettings = new JsonSerializerSettings
@@ -517,14 +515,14 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
             }
             catch (Exception ex)
             {
-              _logger.LogError($"Error exporting intents for title {titleId} and version {version}: {ex.ToString()}");
+                _logger.LogError($"Error exporting intents for title {titleId} and version {version}: {ex.ToString()}");
                 errResults.Add("Internal error exporting intents");
                 statusCode = HttpStatusCode.InternalServerError;
 
             }
 
 
-            if(errResults.Any())
+            if (errResults.Any())
             {
                 return new JsonHttpStatusResult(errResults, statusCode);
             }
@@ -538,7 +536,7 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
         public IActionResult ExportZipFile([FromRoute(Name = "titleid")] string titleId,
                                                         [FromRoute(Name = "version")] string version)
 
-        { 
+        {
             List<string> errResults = new List<string>();
             HttpStatusCode statusCode = HttpStatusCode.OK;
             JsonResult interactionResult = null;
@@ -636,23 +634,23 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
 
             try
             {
-                await  _storyVersionRep.DeleteVersionAsync(titleId, version);
+                await _storyVersionRep.DeleteVersionAsync(titleId, version);
                 statusCode = HttpStatusCode.OK;
             }
-            catch(TitleNotFoundException notFoundEx)
+            catch (TitleNotFoundException notFoundEx)
             {
                 _logger.LogError($"Error deleting title {titleId} and version {version}: {notFoundEx.ToString()}");
                 errResults.Add($"Title {titleId} and version {version} not found");
                 statusCode = HttpStatusCode.NotFound;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 statusCode = HttpStatusCode.InternalServerError;
                 _logger.LogError($"Error deleting title {titleId} and version {version}: {ex.ToString()}");
                 errResults.Add($"Internal error deleting title {titleId} and version {version}");
             }
 
-            if(errResults.Any())
+            if (errResults.Any())
             {
                 return new JsonHttpStatusResult(errResults, statusCode);
             }
@@ -704,9 +702,9 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
             {
                 return new JsonHttpStatusResult(errResult, retCode);
             }
-         
+
             return new OkObjectResult(valResult);
-            
+
         }
 
 

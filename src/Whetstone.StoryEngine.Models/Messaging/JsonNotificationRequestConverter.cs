@@ -1,16 +1,14 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using Whetstone.StoryEngine.Models.Serialization;
 using Whetstone.StoryEngine.Models.Messaging.Sms;
+using Whetstone.StoryEngine.Models.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Messaging
 {
- public class JsonNotificationRequestConverter : JsonStoryConverter
+    public class JsonNotificationRequestConverter : JsonStoryConverter
     {
-      
+
         public override bool CanConvert(Type objectType)
         {
             return (typeof(INotificationRequest).IsAssignableFrom(objectType) && !objectType.IsAbstract);

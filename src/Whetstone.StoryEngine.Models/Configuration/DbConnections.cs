@@ -1,11 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
-using YamlDotNet.Serialization;
-
-namespace Whetstone.StoryEngine.Models.Configuration
+﻿namespace Whetstone.StoryEngine.Models.Configuration
 {
 
 

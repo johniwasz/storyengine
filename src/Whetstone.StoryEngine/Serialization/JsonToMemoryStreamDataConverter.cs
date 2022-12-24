@@ -32,7 +32,7 @@ namespace Whetstone.StoryEngine.Serialization
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
         {
-            return (object)new MemoryStream(Convert.FromBase64String(reader.Value as string)); 
+            return (object)new MemoryStream(Convert.FromBase64String(reader.Value as string));
         }
 
         public override void WriteJson(JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer)

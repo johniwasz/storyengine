@@ -1,17 +1,16 @@
-using System;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.SQSEvents;
-using Whetstone.StoryEngine;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Text;
-using Whetstone.StoryEngine.Models.Messaging;
-using Whetstone.StoryEngine.Repository.Messaging;
+using System.Threading.Tasks;
 using System.Web;
 using Whetstone.StoryEngine.DependencyInjection;
-using Microsoft.Extensions.Configuration;
 using Whetstone.StoryEngine.Models.Configuration;
+using Whetstone.StoryEngine.Models.Messaging;
+using Whetstone.StoryEngine.Repository.Messaging;
 
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
@@ -20,7 +19,7 @@ namespace Whetstone.StoryEngine.InboundSmsHandler
 {
 
     public class StatusUpdateFunction : ClientLambdaBase
-    {      
+    {
 
 
 
@@ -52,7 +51,7 @@ namespace Whetstone.StoryEngine.InboundSmsHandler
 
             foreach (var message in evnt.Records)
             {
-                await ProcessMessageAsync(message, statusCallbackHandler); 
+                await ProcessMessageAsync(message, statusCallbackHandler);
             }
         }
 
@@ -73,7 +72,7 @@ namespace Whetstone.StoryEngine.InboundSmsHandler
 
             await statusCallbackHandler.ProcessTwilioStatusCallbackAsync(twilioUpdate);
 
-            if(!string.IsNullOrWhiteSpace(twilioUpdate.QueueMessageId))
+            if (!string.IsNullOrWhiteSpace(twilioUpdate.QueueMessageId))
                 throw new Exception($"Cannot process message {twilioUpdate.QueueMessageId}");
 
 
@@ -83,9 +82,9 @@ namespace Whetstone.StoryEngine.InboundSmsHandler
         {
 
             string messageId = message.MessageId;
-            
-            
-            if(message.MessageAttributes==null)
+
+
+            if (message.MessageAttributes == null)
                 throw new Exception($"Message id {message.MessageId} has no attributes. Attributes are expected");
 
             var originalScheme = message.MessageAttributes.ContainsKey(TwilioStatusUpdateMessage.ORIGINAL_SCHEME_ATTRIBUTE) ? message.MessageAttributes[TwilioStatusUpdateMessage.ORIGINAL_SCHEME_ATTRIBUTE] : null;
@@ -135,7 +134,7 @@ namespace Whetstone.StoryEngine.InboundSmsHandler
                 originalUri = originalUrlBuilder.Uri;
                 statusLogger.LogInformation($"Return url is {originalUri.ToString()} for message id {messageId}");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception($"Error processing queue message {messageId}: Could not reconstruct url from original scheme: {originalScheme}, originalHost: {originalHost}, path: {originalPath}", ex);
             }
@@ -156,7 +155,7 @@ namespace Whetstone.StoryEngine.InboundSmsHandler
             statusLogger.LogInformation($"Message body for message id {messageId}: {message.Body}");
 
             twilioStatusMessage.MessageBody = HttpUtility.ParseQueryString(message.Body).ToDictionary();
-            
+
 
             return twilioStatusMessage;
 
@@ -165,7 +164,7 @@ namespace Whetstone.StoryEngine.InboundSmsHandler
 
         protected override void ConfigureServices(IServiceCollection services, IConfiguration config, BootstrapConfig bootConfig)
         {
-           
+
         }
     }
 }

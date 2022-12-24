@@ -1,7 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
 
 namespace Whetstone.StoryEngine.Security
 {
@@ -9,7 +7,7 @@ namespace Whetstone.StoryEngine.Security
     {
 
         [JsonProperty(PropertyName = "authToken")]
-        public string AuthToken { get; set;  }
+        public string AuthToken { get; set; }
 
         [JsonProperty(PropertyName = "refreshToken")]
         public string RefreshToken { get; set; }
@@ -25,7 +23,8 @@ namespace Whetstone.StoryEngine.Security
 
 
         [JsonProperty(PropertyName = "permissions")]
-        public IEnumerable<string> Permissions {
+        public IEnumerable<string> Permissions
+        {
             get;
             set;
         }

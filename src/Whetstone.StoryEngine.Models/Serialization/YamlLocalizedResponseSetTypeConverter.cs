@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using Whetstone.StoryEngine.Models.Story;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NodeDeserializers;
-using YamlDotNet.Serialization.ObjectFactories;
-using YamlDotNet.Serialization.TypeInspectors;
 
 namespace Whetstone.StoryEngine.Models.Serialization
 {
-    public  class YamlLocalizedResponseSetTypeConverter : IYamlTypeConverter
+    public class YamlLocalizedResponseSetTypeConverter : IYamlTypeConverter
     {
 
         private static readonly Type _sequenceEndType = typeof(SequenceEnd);
@@ -25,22 +20,22 @@ namespace Whetstone.StoryEngine.Models.Serialization
 
         public object ReadYaml(IParser parser, Type type)
         {
-           LocalizedResponseSet result = new LocalizedResponseSet();
+            LocalizedResponseSet result = new LocalizedResponseSet();
 
 
             var deser = YamlSerializationBuilder.GetYamlDeserializer();
 
             result.LocalizedResponses = new List<LocalizedResponse>();
 
-            
+
             do
             {
 
-                if (parser.Current.GetType() == _sequenceStartType )                    
+                if (parser.Current.GetType() == _sequenceStartType)
                 {
                     parser.MoveNext(); // skip the sequence start
                 }
-                
+
                 LocalizedResponse locResponse = (LocalizedResponse)deser.Deserialize(parser, typeof(LocalizedResponse));
                 result.LocalizedResponses.Add(locResponse);
                 parser.MoveNext();

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Story;
 
@@ -20,9 +17,9 @@ namespace Whetstone.StoryEngine.Repository
         Task<CanFulfillResponse> CanFulfillIntentAsync(StoryRequest request);
 
 
-      //  Task<string> GetTitleIdAsync(string applicationId);
+        //  Task<string> GetTitleIdAsync(string applicationId);
 
-        Task<StoryPhoneInfo> GetPhoneInfoAsync( TitleVersion titleVersion);
-       
+        Task<StoryPhoneInfo> GetPhoneInfoAsync(TitleVersion titleVersion);
+
     }
 }

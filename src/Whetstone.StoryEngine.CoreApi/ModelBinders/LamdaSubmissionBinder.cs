@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Serialization;
-using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.CoreApi.ModelBinders
 {
-    public class LamdaSubmissionBinder<T> : IModelBinder where T : class 
+    public class LamdaSubmissionBinder<T> : IModelBinder where T : class
     {
 
         public async Task BindModelAsync(ModelBindingContext bindingContext)
@@ -53,7 +50,7 @@ namespace Whetstone.StoryEngine.CoreApi.ModelBinders
 
             if (contentType.Contains("json"))
                 versionModel = DeserializeJson<T>(bindingContext, modelText);
-            else if(contentType.Contains("yaml") || contentType.Contains("yml"))
+            else if (contentType.Contains("yaml") || contentType.Contains("yml"))
                 versionModel = DeserializeYaml<T>(bindingContext, modelText);
 
             bindingContext.Result = ModelBindingResult.Success(versionModel);
@@ -72,7 +69,7 @@ namespace Whetstone.StoryEngine.CoreApi.ModelBinders
             {
                 retVal = yamlDeser.Deserialize<T>(modelText);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 bindingContext.ModelState.AddModelError("yaml deserialization", ex, bindingContext.ModelMetadata);
                 bindingContext.Result = ModelBindingResult.Failed();

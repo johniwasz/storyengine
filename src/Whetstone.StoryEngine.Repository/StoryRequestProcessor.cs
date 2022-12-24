@@ -1,29 +1,29 @@
-﻿using System;
+﻿using Amazon.Lambda;
+using Amazon.Lambda.Model;
+using Amazon.XRay.Recorder.Core;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Models.Story;
-using System.Linq;
-using Microsoft.Extensions.Logging;
 using Whetstone.StoryEngine.Models.Actions;
-using Whetstone.StoryEngine.Models.Tracking;
-using Whetstone.StoryEngine.Models.Story.Ssml;
-using Whetstone.StoryEngine.Models.Story.Text;
-using Whetstone.StoryEngine.Models.Integration;
-using Amazon.Lambda.Model;
-using Amazon.Lambda;
-using Newtonsoft.Json;
-using System.IO;
-using System.Text;
-using System.Diagnostics;
-using Microsoft.Extensions.Options;
-using Whetstone.StoryEngine.Repository.Actions;
 using Whetstone.StoryEngine.Models.Conditions;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Data;
+using Whetstone.StoryEngine.Models.Integration;
+using Whetstone.StoryEngine.Models.Story;
+using Whetstone.StoryEngine.Models.Story.Ssml;
+using Whetstone.StoryEngine.Models.Story.Text;
+using Whetstone.StoryEngine.Models.Tracking;
+using Whetstone.StoryEngine.Repository.Actions;
 using Environment = System.Environment;
-using Amazon.XRay.Recorder.Core;
 
 namespace Whetstone.StoryEngine.Repository
 {
@@ -58,7 +58,7 @@ namespace Whetstone.StoryEngine.Repository
                 throw new ArgumentNullException(nameof(request));
 
             if (request.SessionContext == null)
-                throw new ArgumentNullException(nameof(request) , "SessionContext property cannot be null");
+                throw new ArgumentNullException(nameof(request), "SessionContext property cannot be null");
 
             bool isRequestProcessed = false;
             string engineError = null;
@@ -93,7 +93,7 @@ namespace Whetstone.StoryEngine.Repository
 
                 bool intentSupportsFulfill = false;
 
-     
+
                 if (request.RequestType != StoryRequestType.CanFulfillIntent)
                     throw new ArgumentException("StoryRequestType must be CanFulfillIntent request type");
 
@@ -107,7 +107,7 @@ namespace Whetstone.StoryEngine.Repository
                 if (intentSupportsFulfill)
                 {
                     _logger.LogInformation($"CanFulfill {request.Intent} intent request invoked. Intent supported.");
-                    canFulfillIntent = new CanFulfillResponse {CanFulfill = YesNoMaybeEnum.Yes};
+                    canFulfillIntent = new CanFulfillResponse { CanFulfill = YesNoMaybeEnum.Yes };
 
                     // If the intent request has slots associated, then match the slots.
 
@@ -154,7 +154,7 @@ namespace Whetstone.StoryEngine.Repository
                                     foreach (string key in extResult.SupportedSlots.Keys)
                                     {
                                         SlotCanFulFill canFulFillVal = extResult.SupportedSlots[key];
-                                        await _skillCache.SetCacheValueAsync<SlotCanFulFill>( applicationId, $"canfulfill: {key}:{canFulFillVal.Value}", canFulFillVal);
+                                        await _skillCache.SetCacheValueAsync<SlotCanFulFill>(applicationId, $"canfulfill: {key}:{canFulFillVal.Value}", canFulFillVal);
 
                                         canFulfillIntent.SlotFulFillment.Add(key, canFulFillVal);
                                     }
@@ -197,7 +197,7 @@ namespace Whetstone.StoryEngine.Repository
 
                                                 if ((matchedValues?.Any()).GetValueOrDefault(false))
                                                     canFulFillSlot.CanFulfill = YesNoMaybeEnum.Yes;
-                               
+
                                             }
                                         }
 
@@ -241,10 +241,10 @@ namespace Whetstone.StoryEngine.Repository
                 {
                     _logger.LogInformation($"CanFulfill {request.Intent} intent request invoked. Intent not supported.");
 
-                  
+
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 AWSXRayRecorder.Instance.AddException(ex);
                 StringBuilder errText = new StringBuilder();
@@ -269,7 +269,7 @@ namespace Whetstone.StoryEngine.Repository
             }
 
 
-            if(!isRequestProcessed || canFulfillIntent == null)
+            if (!isRequestProcessed || canFulfillIntent == null)
             {
                 canFulfillIntent = new CanFulfillResponse
                 {
@@ -290,9 +290,9 @@ namespace Whetstone.StoryEngine.Repository
 
                         canFulfillIntent.SlotFulFillment.Add(slot.Key, canFill);
                     }
-                }              
+                }
             }
-            
+
 
 
 
@@ -394,7 +394,7 @@ namespace Whetstone.StoryEngine.Repository
 
                     if (request.RequestType == StoryRequestType.Launch)
                         reqType = StoryRequestType.Intent;
-                }               
+                }
             }
             else
             {
@@ -404,7 +404,7 @@ namespace Whetstone.StoryEngine.Repository
             }
 
 
-            bool isPrivacyEnabled = await  _titleRep.IsPrivacyLoggingEnabledAsync(request.SessionContext.TitleVersion);
+            bool isPrivacyEnabled = await _titleRep.IsPrivacyLoggingEnabledAsync(request.SessionContext.TitleVersion);
 
             StringBuilder prenodeActionLog = new StringBuilder();
 
@@ -419,16 +419,16 @@ namespace Whetstone.StoryEngine.Repository
                 {
                     foreach (NodeActionData actionBase in storyIntent.Actions)
                     {
-                        string processActionResult =  await ProcessActionAsync(curUser.CurrentNodeName, curUser, actionBase, request);
+                        string processActionResult = await ProcessActionAsync(curUser.CurrentNodeName, curUser, actionBase, request);
                         prenodeActionLog.AppendLine(processActionResult);
                     }
                 }
             }
 
-           
+
             try
             {
-                if (!string.IsNullOrWhiteSpace(titleId) &&  curUser != null)
+                if (!string.IsNullOrWhiteSpace(titleId) && curUser != null)
                 {
                     // BUGBUG:TODO - Add handler for Pause
                     switch (reqType)
@@ -460,18 +460,18 @@ namespace Whetstone.StoryEngine.Repository
                             result = await GetHelpNodeAsync(curUser, request);
                             break;
                         case StoryRequestType.Reprompt:
-                            result = await GetRepromptResponseAsync( request, curUser);
+                            result = await GetRepromptResponseAsync(request, curUser);
                             break;
                     }
                 }
             }
-            catch(AggregateException aggEx)
+            catch (AggregateException aggEx)
             {
                 exceptions.AddRange(aggEx.InnerExceptions);
             }
             catch (Exception ex)
             {
-                exceptions.Add(ex);                
+                exceptions.Add(ex);
             }
 
             if (!exceptions.Any())
@@ -488,12 +488,12 @@ namespace Whetstone.StoryEngine.Repository
                     IEnumerable<SpeechFragment> clientFrag = result?.LocalizedResponse?.SpeechResponses;
                     if (clientFrag != null)
                     {
-                        result.LocalizedResponse.SpeechResponses = 
+                        result.LocalizedResponse.SpeechResponses =
                             await ApplyFragmentConditionsAsync(clientFrag, curUser, request.SessionContext.TitleVersion, _titleRep);
                     }
 
 
-                    IEnumerable<SpeechFragment> repromptFrags = result?.LocalizedResponse?.RepromptSpeechResponses;                 
+                    IEnumerable<SpeechFragment> repromptFrags = result?.LocalizedResponse?.RepromptSpeechResponses;
                     if (repromptFrags != null)
                     {
                         result.LocalizedResponse.RepromptSpeechResponses =
@@ -516,13 +516,13 @@ namespace Whetstone.StoryEngine.Repository
                         }
                     }
 
-                    if(!request.IsPingRequest.GetValueOrDefault(false))
+                    if (!request.IsPingRequest.GetValueOrDefault(false))
                     {
                         await StoryUserRepository.SaveUserAsync(curUser);
                     }
 
                     // If this is a single request, then make sure to end the session if there is no additional search result.
-                    StoryType storyType = await _titleRep.GetStoryTypeAsync( request.SessionContext.TitleVersion);
+                    StoryType storyType = await _titleRep.GetStoryTypeAsync(request.SessionContext.TitleVersion);
 
                     if (storyType == StoryType.SingleRequest)
                     {
@@ -594,27 +594,27 @@ namespace Whetstone.StoryEngine.Repository
                             result.PostNodeActionLog = postNodeActionLogText;
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     exceptions.Add(ex);
                 }
 
             }
 
-            if(exceptions.Any())
+            if (exceptions.Any())
             {
                 AWSXRayRecorder.Instance.AddException(new AggregateException(exceptions));
 
                 try
                 {
-                    StoryNode errorNode = await _titleRep.GetErrorNodeAsync( request.SessionContext.TitleVersion);
-                    if(errorNode!=null)
+                    StoryNode errorNode = await _titleRep.GetErrorNodeAsync(request.SessionContext.TitleVersion);
+                    if (errorNode != null)
                     {
                         var userConditionInfo = curUser.GetConditionInfo();
                         result = await errorNode.ToStoryResponseAsync(request.Locale, userConditionInfo, _titleRep, request.SessionContext.TitleVersion, _logger);
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     _logger.LogError(ex, $"Error processing error node in title {request.SessionContext.TitleVersion.ShortName} and version {request.SessionContext.TitleVersion.Version}");
                 }
@@ -623,7 +623,7 @@ namespace Whetstone.StoryEngine.Repository
 
                 errText.AppendLine($"Error on request from {request.ApplicationId}, client {request.Client}, locale {request.Locale} mapped to {request.SessionContext.TitleVersion.ShortName}, version {request.SessionContext.TitleVersion.Version}");
 
-                if(curUser!=null)
+                if (curUser != null)
                 {
                     if (!string.IsNullOrWhiteSpace(curUser.UserId))
                     {
@@ -633,7 +633,7 @@ namespace Whetstone.StoryEngine.Repository
                     if (!string.IsNullOrWhiteSpace(curUser.CurrentNodeName))
                     {
 
-                        if(!isPrivacyEnabled)
+                        if (!isPrivacyEnabled)
                             errText.AppendLine($"Current user node: {curUser.CurrentNodeName}");
                     }
 
@@ -667,7 +667,7 @@ namespace Whetstone.StoryEngine.Repository
                 }
                 errText.AppendLine();
 
-                foreach(Exception ex in exceptions)
+                foreach (Exception ex in exceptions)
                 {
                     errText.AppendLine(ex.ToString());
                     errText.AppendLine();
@@ -684,10 +684,10 @@ namespace Whetstone.StoryEngine.Repository
 
                 string errorText = errText.ToString();
                 _logger.LogError(errorText);
-                
+
                 result.ForceContinueSession = false;
                 result.EngineErrorText = errorText;
-                
+
             }
 
             try
@@ -695,16 +695,16 @@ namespace Whetstone.StoryEngine.Repository
                 if (!result.ForceContinueSession)
                     await this.SessionStoreManager.ClearSessionCacheAsync(request);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-             
 
-                if (result!=null)
+
+                if (result != null)
                 {
                     // Add this error to the end of the result.
-                    string errorMsg = $"Error clearing session cache on end of session: {ex}"; 
+                    string errorMsg = $"Error clearing session cache on end of session: {ex}";
 
-                    if(string.IsNullOrWhiteSpace(result.EngineErrorText))
+                    if (string.IsNullOrWhiteSpace(result.EngineErrorText))
                     {
                         result.EngineErrorText = errorMsg;
                     }
@@ -723,13 +723,13 @@ namespace Whetstone.StoryEngine.Repository
                 _logger.LogError(ex, "Error clearing session cache on end of session");
             }
 
-            
-            await _titleRep.ClearTitleAsync( request.SessionContext.TitleVersion);
+
+            await _titleRep.ClearTitleAsync(request.SessionContext.TitleVersion);
 
             processWatch.Stop();
             _logger.LogInformation($"Execution time (in milliseconds): {processWatch.ElapsedMilliseconds}");
 
-            if(!string.IsNullOrWhiteSpace(result.EngineErrorText))
+            if (!string.IsNullOrWhiteSpace(result.EngineErrorText))
             {
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine(result.EngineErrorText);
@@ -741,7 +741,7 @@ namespace Whetstone.StoryEngine.Repository
             result.ProcessDuration = processWatch.ElapsedMilliseconds;
             result.SessionContext = request.SessionContext;
 
-            
+
             // Clean up empty arrays
             CleanEmptyLists(result);
 
@@ -758,7 +758,7 @@ namespace Whetstone.StoryEngine.Repository
         {
             List<Choice> availableChoices = new List<Choice>();
 
-            if(choices!=null)
+            if (choices != null)
             {
                 availableChoices = await choices.GetAvailableChoicesAsync(conditions, _titleRep, titleVer).ConfigureAwait(false);
             }
@@ -845,7 +845,7 @@ namespace Whetstone.StoryEngine.Repository
                 stopNode = await _titleRep.GetNodeByNameAsync(request.SessionContext.TitleVersion, title.StopNodeName);
             }
 
-            result = await GetNodeResponse(stopNode, request.Locale, user.GetConditionInfo(),  request.SessionContext.TitleVersion, request.ApplicationId, false);
+            result = await GetNodeResponse(stopNode, request.Locale, user.GetConditionInfo(), request.SessionContext.TitleVersion, request.ApplicationId, false);
             result.ForceContinueSession = false;
             return result;
         }
@@ -875,7 +875,7 @@ namespace Whetstone.StoryEngine.Repository
             {
 
                 StoryNode foundNode = await _titleRep.GetNodeByNameAsync(req.SessionContext.TitleVersion, storyNodeName);
-                resp = await GetNodeResponse(foundNode, curUser.Locale, curUser.GetConditionInfo(), 
+                resp = await GetNodeResponse(foundNode, curUser.Locale, curUser.GetConditionInfo(),
                     req.SessionContext.TitleVersion, req.ApplicationId, true);
             }
 
@@ -916,7 +916,7 @@ namespace Whetstone.StoryEngine.Repository
                         if (isConditionMet)
                         {
 
-                            var trueFrags = await ApplyFragmentConditionsAsync( conFrag.TrueResultFragments, curUser,
+                            var trueFrags = await ApplyFragmentConditionsAsync(conFrag.TrueResultFragments, curUser,
                                 titleVersion, titleReader);
                             speechFragments.AddRange(trueFrags);
                         }
@@ -984,21 +984,21 @@ namespace Whetstone.StoryEngine.Repository
             return actionResultLog;
         }
 
-        private async Task<StoryResponse> GetRepeatResponseAsync( StoryRequest request, DataTitleClientUser user)
+        private async Task<StoryResponse> GetRepeatResponseAsync(StoryRequest request, DataTitleClientUser user)
         {
             string userNode = user.CurrentNodeName;
 
             StoryNode resumeNode = await _titleRep.GetNodeByNameAsync(request.SessionContext.TitleVersion, userNode);
-            return await GetNodeResponse(resumeNode, request.Locale , user.GetConditionInfo(), request.SessionContext.TitleVersion, request.ApplicationId, true);
+            return await GetNodeResponse(resumeNode, request.Locale, user.GetConditionInfo(), request.SessionContext.TitleVersion, request.ApplicationId, true);
 
         }
 
-        private async Task<StoryResponse> GetBeginResponseAsync( StoryRequest request, string applicationId,  DataTitleClientUser curUser)
+        private async Task<StoryResponse> GetBeginResponseAsync(StoryRequest request, string applicationId, DataTitleClientUser curUser)
         {
             // launch the story node.
             StoryTitle title = await _titleRep.GetByIdAsync(request.SessionContext.TitleVersion);
 
-            StoryNode beginNode = await _titleRep.GetNodeByNameAsync( request.SessionContext.TitleVersion, title.StartNodeName);
+            StoryNode beginNode = await _titleRep.GetNodeByNameAsync(request.SessionContext.TitleVersion, title.StartNodeName);
 
             bool isPrivacyLoggingEnabled = await _titleRep.IsPrivacyLoggingEnabledAsync(request.SessionContext.TitleVersion);
 
@@ -1007,8 +1007,8 @@ namespace Whetstone.StoryEngine.Repository
 
             // clear the current user info
             curUser.TitleState = new List<IStoryCrumb>();
-            
-            if(isPrivacyLoggingEnabled)
+
+            if (isPrivacyLoggingEnabled)
                 _logger.LogInformation($"Starting user {curUser.UserId} on a new adventure in title {titleId} on node (redacted)");
             else
                 _logger.LogInformation($"Starting user {curUser.UserId} on a new adventure in title {titleId} on node {beginNode.Name}");
@@ -1017,12 +1017,12 @@ namespace Whetstone.StoryEngine.Repository
             curUser.StoryNodeName = beginNode.Name;
 
             return await GetNodeResponse(beginNode, curUser.Locale, curUser.GetConditionInfo(), request.SessionContext.TitleVersion, applicationId);
-            
+
         }
 
 
         private async Task<StoryResponse> GetStartResponseAsync(StoryRequest req, string applicationId, DataTitleClientUser user)
-        { 
+        {
             StoryNode returnNode = null;
             user.TitleId = req.SessionContext.TitleVersion.TitleId.GetValueOrDefault();
 
@@ -1038,7 +1038,7 @@ namespace Whetstone.StoryEngine.Repository
                 {
                     StoryNode titleLaunchNode = await _titleRep.GetNodeByNameAsync(req.SessionContext.TitleVersion, title.NewUserNodeName);
 
-                    returnNode = titleLaunchNode 
+                    returnNode = titleLaunchNode
                         ?? throw new Exception($"New user node name {title.NewUserNodeName} not found in title {req.SessionContext.TitleVersion.ShortName} and version {req.SessionContext.TitleVersion.Version}.");
                 }
 
@@ -1058,7 +1058,7 @@ namespace Whetstone.StoryEngine.Repository
                     if (userCurrentNode != null)
                     {
                         var availableChoices =
-                             await userCurrentNode.Choices.GetAvailableChoicesAsync( conditionInfo, _titleRep, req.SessionContext.TitleVersion);
+                             await userCurrentNode.Choices.GetAvailableChoicesAsync(conditionInfo, _titleRep, req.SessionContext.TitleVersion);
 
 
                         if (availableChoices != null && availableChoices.Any() && !string.IsNullOrWhiteSpace(userCurrentNode.TitleId))
@@ -1068,21 +1068,21 @@ namespace Whetstone.StoryEngine.Repository
                             if (!string.IsNullOrWhiteSpace(title.ResumeNodeName))
                             {
                                 StoryNode resumeNode =
-                                    await _titleRep.GetNodeByNameAsync( req.SessionContext.TitleVersion, title.ResumeNodeName);
+                                    await _titleRep.GetNodeByNameAsync(req.SessionContext.TitleVersion, title.ResumeNodeName);
 
 
                                 returnNode = resumeNode;
                             }
-                           
 
-                           
+
+
                             resumeFound = true;
                             _logger.LogInformation($"Returning user found with game in progress on title {req.SessionContext.TitleVersion.ShortName} and version {req.SessionContext.TitleVersion.Version}");
                         }
                     }
                 }
 
-                if(!resumeFound)
+                if (!resumeFound)
                 {
 
                     if (!string.IsNullOrWhiteSpace(title.ReturningUserNodeName))
@@ -1138,8 +1138,8 @@ namespace Whetstone.StoryEngine.Repository
             }
             else
                 _logger.LogWarning("No intent requested");
- 
-        
+
+
             var condInfo = user.GetConditionInfo();
 
 
@@ -1153,7 +1153,7 @@ namespace Whetstone.StoryEngine.Repository
                 if (!string.IsNullOrWhiteSpace(user.CurrentNodeName))
                 {
 
-                    if(isPrivacyLogEnabled)
+                    if (isPrivacyLogEnabled)
                         _logger.LogInformation(
                             $"User current node (redacted) for user {user.UserId} on client {user.Client} not found. Redirecting to ReturningUser node");
                     else
@@ -1182,7 +1182,7 @@ namespace Whetstone.StoryEngine.Repository
                     request.SessionContext.TitleVersion, true, _logger);
 
 
-                if(string.IsNullOrWhiteSpace(request.Intent))
+                if (string.IsNullOrWhiteSpace(request.Intent))
                     return result;
 
                 curNode = responseNode;
@@ -1202,8 +1202,8 @@ namespace Whetstone.StoryEngine.Repository
             //  await LoadLibraryIntents(intentRep, curNode.Choices);
 
             Choice selectedChoice = availableChoices.FirstOrDefault(x => x.IntentName.Equals(request.Intent, StringComparison.OrdinalIgnoreCase));
-            
-             
+
+
             if (selectedChoice != null)
             {
                 await SessionStoreManager.ResetBadIntentCounterAsync(request);
@@ -1222,7 +1222,7 @@ namespace Whetstone.StoryEngine.Repository
                     condInfo = user.GetConditionInfo();
                 }
                 string nextNodeName =
-                    await selectedChoice.GetChoiceNodeNameAsync( request.Intent, condInfo, request.Slots, _titleRep, request.SessionContext.TitleVersion);
+                    await selectedChoice.GetChoiceNodeNameAsync(request.Intent, condInfo, request.Slots, _titleRep, request.SessionContext.TitleVersion);
 
                 if (!string.IsNullOrWhiteSpace(nextNodeName))
                 {
@@ -1233,13 +1233,13 @@ namespace Whetstone.StoryEngine.Repository
                         result = await GetNodeResponse(nextNode, user.Locale, condInfo, request.SessionContext.TitleVersion, request.ApplicationId);
 
                         string actionLog = actionResultBuilder.ToString();
-                        if(!string.IsNullOrWhiteSpace(actionLog))
+                        if (!string.IsNullOrWhiteSpace(actionLog))
                             result.PostNodeActionLog = actionLog;
 
                         user.StoryNodeName = nextNode.Name;
                     }
                     else
-                    { 
+                    {
                         StringBuilder builder = new StringBuilder();
 
                         if (isPrivacyLogEnabled)
@@ -1271,7 +1271,7 @@ namespace Whetstone.StoryEngine.Repository
                     StringBuilder builder = new StringBuilder();
 
 
-                    if(isPrivacyLogEnabled)
+                    if (isPrivacyLogEnabled)
                         builder.Append(
                             $"Destination node not resolved from choice on node (redacted) with intent (redacted) on node (redacted)");
                     else
@@ -1293,16 +1293,16 @@ namespace Whetstone.StoryEngine.Repository
 
                     _logger.LogWarning(builder.ToString());
                 }
-            
+
 
             }
 
             // If a result could not be determined, then exit. 
-            if(result==null)
+            if (result == null)
             {
                 // The user passed a bad intent. Increment the bad intent count. 
 
-               int badIntentCounter = await this.SessionStoreManager.IncrementBadIntentCounterAsync(request);
+                int badIntentCounter = await this.SessionStoreManager.IncrementBadIntentCounterAsync(request);
 
                 if (!isPrivacyLogEnabled)
                 {
@@ -1329,8 +1329,8 @@ namespace Whetstone.StoryEngine.Repository
                         //   retNode.LargeImageFile = curNode.LargeImageFile;
                         Choices = availableChoices
                     };
-                    LocalizedEngineResponse badResponse = await badIntentNode.GetResponseAsync( user.Locale, condInfo, _titleRep, request.SessionContext.TitleVersion, _logger);
-                    LocalizedEngineResponse origResponse = await curNode.GetResponseAsync( user.Locale, condInfo, _titleRep, request.SessionContext.TitleVersion, _logger);
+                    LocalizedEngineResponse badResponse = await badIntentNode.GetResponseAsync(user.Locale, condInfo, _titleRep, request.SessionContext.TitleVersion, _logger);
+                    LocalizedEngineResponse origResponse = await curNode.GetResponseAsync(user.Locale, condInfo, _titleRep, request.SessionContext.TitleVersion, _logger);
                     LocalizedEngineResponse returnResponse = new LocalizedEngineResponse
                     {
                         CardResponse = badResponse.CardResponse,
@@ -1339,7 +1339,7 @@ namespace Whetstone.StoryEngine.Repository
                         // Merge the speech responses of the bad node with the reprompt of the original node
                         SpeechResponses = badResponse.SpeechResponses
                     };
-                    if (origResponse?.RepromptSpeechResponses!=null)
+                    if (origResponse?.RepromptSpeechResponses != null)
                     {
                         returnResponse.SpeechResponses.AddRange(origResponse.RepromptSpeechResponses);
                         returnResponse.RepromptSpeechResponses = origResponse.RepromptSpeechResponses;
@@ -1352,7 +1352,7 @@ namespace Whetstone.StoryEngine.Repository
                 }
                 else
                 {
-                    result = await GetNodeResponse(curNode, user.Locale, condInfo,  request.SessionContext.TitleVersion, request.ApplicationId, true, false);
+                    result = await GetNodeResponse(curNode, user.Locale, condInfo, request.SessionContext.TitleVersion, request.ApplicationId, true, false);
                 }
 
             }
@@ -1363,7 +1363,7 @@ namespace Whetstone.StoryEngine.Repository
             {
                 // No more choices left; this is the end, my only friend.
                 StoryNode endNode = null;
-                
+
                 StoryTitle title = await _titleRep.GetByIdAsync(request.SessionContext.TitleVersion);
 
 
@@ -1377,7 +1377,7 @@ namespace Whetstone.StoryEngine.Repository
                 {
                     // Append additional values to the end node.
                     // This lets the exit node append some additional messages for a uniform exit.
-                    var endNodeResponse = await endNode.GetResponseAsync( user.Locale, condInfo, _titleRep, request.SessionContext.TitleVersion, _logger);
+                    var endNodeResponse = await endNode.GetResponseAsync(user.Locale, condInfo, _titleRep, request.SessionContext.TitleVersion, _logger);
 
                     if (endNodeResponse?.GeneratedTextResponse != null)
                     {
@@ -1416,17 +1416,17 @@ namespace Whetstone.StoryEngine.Repository
             ExternalFunctionResult extResult = null;
 
             bool hasNextAction = false;
-            if((node.DataRetrievalActions?.Any()).GetValueOrDefault())
+            if ((node.DataRetrievalActions?.Any()).GetValueOrDefault())
             {
                 searchResponses = new Dictionary<string, SearchResponse>();
 
                 foreach (DataRetrievalAction dataAction in node.DataRetrievalActions)
                 {
-                    if(dataAction is TableFunctionSearchAction)
+                    if (dataAction is TableFunctionSearchAction)
                     {
-                        var tableResponse =   await ProcessTableActionAsync(userLocale, conditionInfo.Crumbs, dataAction);
+                        var tableResponse = await ProcessTableActionAsync(userLocale, conditionInfo.Crumbs, dataAction);
 
-                        if(!string.IsNullOrWhiteSpace(tableResponse.Key))
+                        if (!string.IsNullOrWhiteSpace(tableResponse.Key))
                         {
                             searchResponses.Add(tableResponse.Key, tableResponse.Value);
                         }
@@ -1434,16 +1434,16 @@ namespace Whetstone.StoryEngine.Repository
 
 
                     // because the data action overrides the node response, there can be only one ExternalFunctionAction.
-                    if(dataAction is ExternalFunctionAction)
+                    if (dataAction is ExternalFunctionAction)
                     {
                         ExternalFunctionAction externalAction = dataAction as ExternalFunctionAction;
-                        extResult = await ProcessExternalActionAsync(userLocale, conditionInfo, externalAction,  applicationId);
-                        if(extResult?.HasNextResult==true)
+                        extResult = await ProcessExternalActionAsync(userLocale, conditionInfo, externalAction, applicationId);
+                        if (extResult?.HasNextResult == true)
                         {
                             hasNextAction = true;
                         }
 
-                    }                
+                    }
                 }
             }
 
@@ -1452,7 +1452,7 @@ namespace Whetstone.StoryEngine.Repository
 
             // If a localized response was processed from an external call, then override the
             // default response.
-            if (extResult?.Response!=null)
+            if (extResult?.Response != null)
             {
                 resp.LocalizedResponse = extResult.Response;
             }
@@ -1467,7 +1467,7 @@ namespace Whetstone.StoryEngine.Repository
 
         private async Task<ExternalFunctionResult> ProcessExternalCanValidateAsync(SearchRequest request, ExternalFunctionAction dataAction)
         {
-            
+
             string searchReqText = request.ToJsonString();
             ExternalFunctionResult extResult = await InvokeLambdaAsync<ExternalFunctionResult>(dataAction.FunctionName, searchReqText, dataAction.Alias);
             return extResult;
@@ -1596,18 +1596,18 @@ namespace Whetstone.StoryEngine.Repository
         {
 
             StringBuilder keyBuilder = new StringBuilder();
-            
+
             keyBuilder.Append(dataAction.FunctionName);
             keyBuilder.Append(":");
 
-            if(!string.IsNullOrWhiteSpace(dataAction.Alias))
+            if (!string.IsNullOrWhiteSpace(dataAction.Alias))
             {
                 keyBuilder.Append(dataAction.Alias);
-                keyBuilder.Append(":");                
+                keyBuilder.Append(":");
             }
 
 
-            if(req!=null)
+            if (req != null)
             {
                 keyBuilder.Append(req.ToString());
             }
@@ -1619,7 +1619,7 @@ namespace Whetstone.StoryEngine.Repository
 
 
 
-        
+
         private async Task<T> InvokeLambdaAsync<T>(string functionName, string requestText, string alias)
         {
             T retVal = default;
@@ -1648,9 +1648,9 @@ namespace Whetstone.StoryEngine.Repository
                 {
                     response = await lamdbaClient.InvokeAsync(ir);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    if(!string.IsNullOrWhiteSpace(alias))
+                    if (!string.IsNullOrWhiteSpace(alias))
                         _logger.LogError(ex, $"Error invoking lambda {functionName} with qualifier {alias}. Sent: {requestText}");
                     else
                         _logger.LogError(ex, $"Error invoking lambda {functionName}. Sent: {requestText}");
@@ -1666,7 +1666,7 @@ namespace Whetstone.StoryEngine.Repository
                     var serilizer = new JsonSerializer();
                     retVal = serilizer.Deserialize<T>(reader);
                 }
-              
+
             }
 
             return retVal;
@@ -1674,17 +1674,17 @@ namespace Whetstone.StoryEngine.Repository
 
 
 
-        private async Task<StoryResponse> GetRepromptResponseAsync( StoryRequest req, DataTitleClientUser user)
+        private async Task<StoryResponse> GetRepromptResponseAsync(StoryRequest req, DataTitleClientUser user)
         {
             StoryNode curNode = await _titleRep.GetNodeByNameAsync(req.SessionContext.TitleVersion, user.CurrentNodeName);
 
-            StoryResponse result =  await GetNodeResponse(curNode, user.Locale, user.GetConditionInfo(), req.SessionContext.TitleVersion, req.ApplicationId, true);
+            StoryResponse result = await GetNodeResponse(curNode, user.Locale, user.GetConditionInfo(), req.SessionContext.TitleVersion, req.ApplicationId, true);
 
             return result;
         }
 
-     
-        public override async Task<StoryPhoneInfo> GetPhoneInfoAsync( TitleVersion titleVersion)
+
+        public override async Task<StoryPhoneInfo> GetPhoneInfoAsync(TitleVersion titleVersion)
         {
             StoryPhoneInfo retPhoneInfo = await _titleRep.GetPhoneInfoAsync(titleVersion);
             return retPhoneInfo;

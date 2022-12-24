@@ -1,18 +1,13 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Data.Amazon;
+using Whetstone.StoryEngine.Data.Caching;
 using Whetstone.StoryEngine.Data.Yaml;
 using Whetstone.StoryEngine.Models;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
 using Whetstone.StoryEngine.Repository.Messaging;
-using Whetstone.StoryEngine.Data.Caching;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
+using Xunit;
 
 namespace Whetstone.StoryEngine.Test.User
 {
@@ -26,7 +21,7 @@ namespace Whetstone.StoryEngine.Test.User
 
             ITitleCacheRepository titleCacheRep = GetTitleCacheRepository();
 
-          
+
 
             ILogger<YamlTitleReader> yamlLogger = Services.GetService<ILogger<YamlTitleReader>>();
 

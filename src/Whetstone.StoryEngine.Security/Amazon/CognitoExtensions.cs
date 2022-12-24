@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Amazon.AspNetCore.Identity.Cognito.Extensions;
+﻿using Amazon.AspNetCore.Identity.Cognito.Extensions;
 using Whetstone.StoryEngine.Models.Configuration;
 
 namespace Whetstone.StoryEngine.Security.Amazon

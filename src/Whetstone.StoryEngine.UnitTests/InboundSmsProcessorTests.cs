@@ -4,9 +4,7 @@ using Amazon.XRay.Recorder.Core.Strategies;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.InboundSmsHandler;
 using Whetstone.StoryEngine.InboundSmsRepository;
@@ -50,8 +48,8 @@ namespace Whetstone.UnitTests
 
             try
             {
-              notReq =  await smsTasks.SmsHandlerTask(msg, testContext);
-            
+                notReq = await smsTasks.SmsHandlerTask(msg, testContext);
+
             }
             catch (Exception ex)
             {

@@ -1,11 +1,10 @@
 ﻿using MessagePack;
 using Microsoft.Extensions.Options;
-using Whetstone.StoryEngine.Data.FileStorage;
-using Whetstone.StoryEngine.Models.Configuration;
 using System;
 using System.IO;
 using System.Security.Cryptography;
-using System.Threading.Tasks;
+using Whetstone.StoryEngine.Data.FileStorage;
+using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.Repository.Amazon
@@ -14,7 +13,7 @@ namespace Whetstone.StoryEngine.Repository.Amazon
     {
 
 
-        public S3MediaStreamLinker(IOptions<EncryptionConfig> encryptConfig) : base( encryptConfig)
+        public S3MediaStreamLinker(IOptions<EncryptionConfig> encryptConfig) : base(encryptConfig)
         {
 
 
@@ -105,6 +104,6 @@ namespace Whetstone.StoryEngine.Repository.Amazon
         }
 
 
-     
+
     }
 }

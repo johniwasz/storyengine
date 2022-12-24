@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Whetstone.StoryEngine.Models.Actions;
 
 namespace Whetstone.StoryEngine.Repository.Actions
@@ -50,7 +49,7 @@ namespace Whetstone.StoryEngine.Repository.Actions
                     case NodeActionEnum.SmsConfirmation:
                         return serviceProvider.GetService<SmsConfirmationActionProcessor>();
                     default:
-                        throw new KeyNotFoundException(); 
+                        throw new KeyNotFoundException();
                 }
             });
 

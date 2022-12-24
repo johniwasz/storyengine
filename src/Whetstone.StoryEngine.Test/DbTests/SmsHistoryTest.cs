@@ -1,25 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Whetstone.StoryEngine.Models.Messaging;
-using Whetstone.StoryEngine.WebLibrary;
-using Xunit;
-using Amazon.Lambda.TestUtilities;
-using Npgsql;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using Whetstone.StoryEngine.Data.EntityFramework;
-using Whetstone.StoryEngine.Models.Messaging.Sms;
 using Microsoft.Extensions.Logging;
+using Npgsql;
+using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using Whetstone.StoryEngine.Data.EntityFramework;
+using Whetstone.StoryEngine.Models.Messaging;
+using Xunit;
 
 namespace Whetstone.StoryEngine.Test.DbTests
 {
 
     public class SmsHistoryTest : EntityContextTestBase
     {
-       
+
 
         [Fact]
         public async Task UpdateMessageStatus()
@@ -38,7 +32,7 @@ namespace Whetstone.StoryEngine.Test.DbTests
                 }
 
             }
-            catch(PostgresException postEx)
+            catch (PostgresException postEx)
             {
 
                 Debug.WriteLine(postEx);
@@ -52,11 +46,11 @@ namespace Whetstone.StoryEngine.Test.DbTests
 
         //    OutboundSmsBatchRecord outMessage = StepFunctionLaunchTest.GetSmsOutboundMessage("dev");
 
-            
+
         //    Function smsLoggerFunc = new Function();
 
         //    TestLambdaContext lambdaContext = new TestLambdaContext();
-           
+
         //   await smsLoggerFunc.FunctionHandler(outMessage, lambdaContext);
         //}
 
@@ -68,7 +62,7 @@ namespace Whetstone.StoryEngine.Test.DbTests
 
         //    OutboundSmsBatchRecord outMessage = StepFunctionLaunchTest.GetSmsOutboundMessage("dev");
 
-           
+
         //    Function smsLoggerFunc = new Function();
 
         //    TestLambdaContext lambdaContext = new TestLambdaContext();

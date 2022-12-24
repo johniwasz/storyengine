@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine;
 using Whetstone.StoryEngine.Data;
@@ -18,7 +16,7 @@ namespace Whetstone.UnitTests
     {
 
 
-        internal static async Task WriteResponseAsync(StoryRequest req, CanFulfillResponse resp,  ISessionLogger sessionLogger)
+        internal static async Task WriteResponseAsync(StoryRequest req, CanFulfillResponse resp, ISessionLogger sessionLogger)
         {
             if (resp == null)
                 throw new ArgumentException("response is null");
@@ -53,14 +51,14 @@ namespace Whetstone.UnitTests
             // Get an alexa response and if it does not exist, then get the default client response
             var speechResponse = localizedResponse.SpeechResponses;
 
-            string generatedText = localizedResponse.GeneratedTextResponse.CleanText(); 
+            string generatedText = localizedResponse.GeneratedTextResponse.CleanText();
 
             TitleVersion titleVer = new TitleVersion(resp.TitleId, resp.TitleVersion);
 
             if (speechResponse != null)
             {
 
-                string ssmlResponse = speechResponse?.ToSsml( mediaLinker, titleVer);
+                string ssmlResponse = speechResponse?.ToSsml(mediaLinker, titleVer);
 
                 Debug.WriteLine("SSML Response: ");
                 Debug.WriteLine(ssmlResponse);
@@ -72,7 +70,7 @@ namespace Whetstone.UnitTests
                 Debug.WriteLine(generatedText);
             }
 
- 
+
 
             var repromptResponse =
                 localizedResponse.RepromptSpeechResponses;
@@ -83,7 +81,7 @@ namespace Whetstone.UnitTests
             if (repromptResponse != null)
             {
                 string ssml =
-                    repromptResponse?.ToSsml( mediaLinker, titleVer);
+                    repromptResponse?.ToSsml(mediaLinker, titleVer);
 
                 Debug.WriteLine("SSML Reprompt: ");
                 Debug.WriteLine(ssml);
@@ -96,7 +94,7 @@ namespace Whetstone.UnitTests
 
             }
 
-            if (localizedResponse.CardResponse!=null)
+            if (localizedResponse.CardResponse != null)
             {
 
                 CardEngineResponse cardResp = localizedResponse.CardResponse;
@@ -146,7 +144,7 @@ namespace Whetstone.UnitTests
                 }
             }
 
-          
+
 
             if (resp.ForceContinueSession)
             {

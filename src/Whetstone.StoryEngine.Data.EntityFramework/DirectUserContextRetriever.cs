@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon;
-using Amazon.S3.Model.Internal.MarshallTransformations;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
+using System.Text;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Configuration;
 
 namespace Whetstone.StoryEngine.Data.EntityFramework
@@ -18,11 +15,11 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
 
         private readonly DBDirectConnectConfig _directConnectConfig;
 
-        public DirectUserContextRetriever(IOptions<EnvironmentConfig> envConfig, 
-            IOptions<DatabaseConfig> dbConfig, 
-            IMemoryCache memCache, 
-            ILogger<UserDataContext> contextLogger, 
-            ILogger<DirectUserContextRetriever> logger) :  base(envConfig, dbConfig, memCache, contextLogger, logger)
+        public DirectUserContextRetriever(IOptions<EnvironmentConfig> envConfig,
+            IOptions<DatabaseConfig> dbConfig,
+            IMemoryCache memCache,
+            ILogger<UserDataContext> contextLogger,
+            ILogger<DirectUserContextRetriever> logger) : base(envConfig, dbConfig, memCache, contextLogger, logger)
         {
 
             // Check for the direct connect settings

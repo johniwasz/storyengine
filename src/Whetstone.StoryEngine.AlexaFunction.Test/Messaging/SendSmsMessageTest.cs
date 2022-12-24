@@ -1,23 +1,23 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Amazon;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Amazon;
-using Microsoft.Extensions.Caching.Memory;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Messaging;
 using Whetstone.StoryEngine.Models.Messaging.Sms;
 using Whetstone.StoryEngine.Repository;
 using Whetstone.StoryEngine.Repository.Amazon;
 using Whetstone.StoryEngine.Repository.Messaging;
-using Microsoft.Extensions.Logging;
 
 namespace Whetstone.StoryEngine.AlexaFunction.Test.Messaging
 {
 
     [ExcludeFromCodeCoverage]
-    public  class SendSmsMessageTest
+    public class SendSmsMessageTest
     {
 
         private ISmsSender senderDelegate(SmsSenderType key)
@@ -93,7 +93,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test.Messaging
 
             firstMessage.Results = new List<OutboundMessageLogEntry>();
 
-        
+
 
             outMessage.Messages.Add(firstMessage);
 
@@ -103,7 +103,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test.Messaging
 
             secondMessage.Results = new List<OutboundMessageLogEntry>();
 
-         
+
             outMessage.Messages.Add(secondMessage);
 
 

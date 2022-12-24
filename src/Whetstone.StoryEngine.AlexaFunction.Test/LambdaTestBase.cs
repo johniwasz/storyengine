@@ -1,20 +1,14 @@
-﻿using Amazon.Lambda.TestUtilities;
+﻿using Amazon;
+using Amazon.Lambda.TestUtilities;
 using Newtonsoft.Json;
-using Whetstone.Alexa;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
-using Newtonsoft.Json.Serialization;
 using System.Threading.Tasks;
-using Whetstone.StoryEngine.Test;
-using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.WebLibrary;
-using Whetstone.StoryEngine.AlexaFunction.Test.Messaging;
-using Amazon;
+using Whetstone.Alexa;
 using Whetstone.StoryEngine.AlexaProcessor;
 using Whetstone.StoryEngine.DependencyInjection;
-using Whetstone.StoryEngine.Models;
+using Whetstone.StoryEngine.Test;
 
 namespace Whetstone.StoryEngine.AlexaFunction.Test
 {
@@ -37,27 +31,27 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
         public LambdaTestBase()
         {
-           Environment.SetEnvironmentVariable(ClientLambdaBase.STORYBUCKETCONFIG, 
-               "whetstonebucket-dev-s3bucket-1nridm382p5vm");
+            Environment.SetEnvironmentVariable(ClientLambdaBase.STORYBUCKETCONFIG,
+                "whetstonebucket-dev-s3bucket-1nridm382p5vm");
 
 
-           Environment.SetEnvironmentVariable(ClientLambdaBase.CACHESLIDINGCONFIG,
-               "900");
+            Environment.SetEnvironmentVariable(ClientLambdaBase.CACHESLIDINGCONFIG,
+                "900");
 
-           Environment.SetEnvironmentVariable(ClientLambdaBase.CACHETABLECONFIG,
-               "Whetstone-CacheTable-Dev-CacheTable-1A0X189QJZXYD");
+            Environment.SetEnvironmentVariable(ClientLambdaBase.CACHETABLECONFIG,
+                "Whetstone-CacheTable-Dev-CacheTable-1A0X189QJZXYD");
 
-           Environment.SetEnvironmentVariable(ClientLambdaBase.USERTABLECONFIG,
-               "Whetstone-DynamoDbStore-Dev-UserTable-1U8IU6T4JWRFU");
+            Environment.SetEnvironmentVariable(ClientLambdaBase.USERTABLECONFIG,
+                "Whetstone-DynamoDbStore-Dev-UserTable-1U8IU6T4JWRFU");
 
-           Environment.SetEnvironmentVariable(ClientLambdaBase.MESSAGESTEPFUNCTIONCONFIG,
-               "arn:aws:states:us-east-1:940085449815:stateMachine:MessageSenderStateMachine-TatdcODo5DL1");
+            Environment.SetEnvironmentVariable(ClientLambdaBase.MESSAGESTEPFUNCTIONCONFIG,
+                "arn:aws:states:us-east-1:940085449815:stateMachine:MessageSenderStateMachine-TatdcODo5DL1");
 
-           Environment.SetEnvironmentVariable(ClientLambdaBase.SESSIONAUDITURLCONFIG,
-               "https://sqs.us-east-1.amazonaws.com/940085449815/WhetstoneQueue-Dev-SessionAuditQueue-ZQNCFM1I9XSL");
+            Environment.SetEnvironmentVariable(ClientLambdaBase.SESSIONAUDITURLCONFIG,
+                "https://sqs.us-east-1.amazonaws.com/940085449815/WhetstoneQueue-Dev-SessionAuditQueue-ZQNCFM1I9XSL");
 
 
-           Environment.SetEnvironmentVariable("AWS_XRAY_CONTEXT_MISSING", "LOG_ERROR");
+            Environment.SetEnvironmentVariable("AWS_XRAY_CONTEXT_MISSING", "LOG_ERROR");
 
         }
 
@@ -139,7 +133,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
         }
 
-   
+
 
 
         protected async Task<AlexaResponse> GetIntentResult(AlexaSessionContext sessionContext, AlexaFunctionBase function, string intent)
@@ -193,7 +187,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
             }
 
             JsonSerializerSettings serSettings = new JsonSerializerSettings();
-          //  serSettings.Formatting = Formatting.Indented;
+            //  serSettings.Formatting = Formatting.Indented;
 
             string requestType = JsonConvert.SerializeObject(req, serSettings);
 
@@ -205,9 +199,9 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
 
 
-      
 
-       public void WriteResponse(AlexaResponse resp)
+
+        public void WriteResponse(AlexaResponse resp)
         {
             if (resp == null)
             {

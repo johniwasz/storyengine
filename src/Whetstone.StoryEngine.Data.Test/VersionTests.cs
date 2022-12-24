@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Amazon.S3;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Amazon.S3;
 using Whetstone.StoryEngine.Data.Amazon;
 using Whetstone.StoryEngine.Data.Caching;
 using Whetstone.StoryEngine.Data.EntityFramework.EntityManager;
@@ -65,7 +65,7 @@ namespace Whetstone.StoryEngine.Data.Tests
             newTitle.Id = titleId;
             newTitle.Description = "Test adding a new title";
             newTitle.Title = "New Title";
-            await dataRep.CreateOrUpdateTitleAsync( newTitle);
+            await dataRep.CreateOrUpdateTitleAsync(newTitle);
 
 
             TitleVersion titleVer = new TitleVersion(titleId, "0.1");
@@ -85,8 +85,8 @@ namespace Whetstone.StoryEngine.Data.Tests
             ILogger<S3FileStore> fileStoreLogger = CreateLogger<S3FileStore>();
             IAmazonS3 s3Client = GetS3Client();
             IFileRepository fileRep = new S3FileStore(opts, userContextRetriever, s3Client, fileStoreLogger);
-          
-            await fileRep.CopyMediaFilesAsync( titleId, null, "1.1");
+
+            await fileRep.CopyMediaFilesAsync(titleId, null, "1.1");
         }
 
         [Fact]
@@ -96,20 +96,20 @@ namespace Whetstone.StoryEngine.Data.Tests
             string titleId = "animalfarmpi";
 
             IUserContextRetriever userContextRetriever = GetUserContextRetriever(DBConnectionRetreiverType.Direct);
-         
+
 
             var opts = GetEnvironmentConfig();
             ILogger<S3FileStore> fileStoreLogger = CreateLogger<S3FileStore>();
             IAmazonS3 s3Client = GetS3Client();
-          
+
             IFileRepository fileRep = new S3FileStore(opts, userContextRetriever, s3Client, fileStoreLogger);
             ITitleCacheRepository titleCacheRepository = GetTitleCache();
 
             DataTitleVersionRepository versionRep = new DataTitleVersionRepository(userContextRetriever, titleCacheRepository, fileRep);
 
-            
+
             await versionRep.PurgeVersionAsync(titleId, "0.2");
-                
+
 
 
         }
@@ -131,7 +131,7 @@ namespace Whetstone.StoryEngine.Data.Tests
             IUserContextRetriever userContextRetriever = GetUserContextRetriever(DBConnectionRetreiverType.Direct);
 
             IAmazonS3 s3Client = GetS3Client();
-            IFileRepository fileRep = new S3FileStore(opts, userContextRetriever, s3Client,  fileStoreLogger);
+            IFileRepository fileRep = new S3FileStore(opts, userContextRetriever, s3Client, fileStoreLogger);
             TitleVersion titleVer = new TitleVersion(titleId, version);
 
             List<string> audioFiles = await fileRep.GetAudioFileListAsync(titleVer);
@@ -145,12 +145,12 @@ namespace Whetstone.StoryEngine.Data.Tests
             {
                 int maxCount = (i + portions < audioFileArray.Length) ? portions : audioFileArray.Length % portions;
                 string[] buffer = new string[maxCount];
-                Array.Copy(audioFileArray, i, buffer, 0, maxCount);               
+                Array.Copy(audioFileArray, i, buffer, 0, maxCount);
                 breakdowns.Add(buffer);
             }
 
 
-            
+
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
         Task<List<DataTitle>> GetTitles();
 
 
-      //  Task<DataStory> GetTitleByIdAsync(long titleId);
+        //  Task<DataStory> GetTitleByIdAsync(long titleId);
 
         Task<DataTitleVersion> GetCurrentTitleVersionAsync(string shortName, string version);
         Task<StoryNode> GetNodeByNameAsync(string titleId, string storyNodeName);

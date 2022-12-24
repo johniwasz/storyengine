@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon.SecurityToken;
+﻿using Amazon.SecurityToken;
 using Amazon.SecurityToken.Model;
-using Amazon.Runtime;
-using Whetstone.StoryEngine;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Whetstone.StoryEngine.Test.User
@@ -19,18 +13,18 @@ namespace Whetstone.StoryEngine.Test.User
         [Fact]
         public async Task GetTokenAsync()
         {
-          // AWSCredentials creds = new AWSCredentials();
+            // AWSCredentials creds = new AWSCredentials();
 
             using (AmazonSecurityTokenServiceClient secClient = new AmazonSecurityTokenServiceClient(Amazon.RegionEndpoint.USEast1))
             {
 
                 GetSessionTokenRequest tokReq = new GetSessionTokenRequest();
 
-               // tokReq.
+                // tokReq.
 
                 var sessionTokenResp = await secClient.GetSessionTokenAsync();
 
-               string sessionToken = sessionTokenResp.Credentials.SessionToken;
+                string sessionToken = sessionTokenResp.Credentials.SessionToken;
 
 
             }

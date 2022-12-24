@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Amazon.Lambda.APIGatewayEvents;
+﻿using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
-using Amazon.Lambda.Model;
 using Amazon.Runtime.Internal;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using Whetstone.StoryEngine.Data;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Bixby.Repository.Models;
+using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Repository;
@@ -36,7 +33,7 @@ namespace Whetstone.StoryEngine.Bixby.Repository
 
         private readonly AuditClientMessagesConfig _auditConfig;
         private readonly ISessionLogger _sessionLogger;
-        private readonly ILogger _dataLogger = null; 
+        private readonly ILogger _dataLogger = null;
 
 
         public BixbyCallbackRepository(IOptions<AuditClientMessagesConfig> auditConfig, IStoryRequestProcessor storyProcessor, IMediaLinker mediaLinker, IAppMappingReader appMappingReader,
@@ -84,7 +81,7 @@ namespace Whetstone.StoryEngine.Bixby.Repository
 
             try
             {
-                request = JsonConvert.DeserializeObject< BixbyRequest_V1>(bodyText);
+                request = JsonConvert.DeserializeObject<BixbyRequest_V1>(bodyText);
             }
             catch (Exception ex)
             {
@@ -97,7 +94,7 @@ namespace Whetstone.StoryEngine.Bixby.Repository
 
             StoryRequest storyReq = await request.ToStoryRequestAsync(_appMappingReader, alias);
 
-            string jsonResponse = await ProcessFlowRequestAsync(storyReq,  bodyText);
+            string jsonResponse = await ProcessFlowRequestAsync(storyReq, bodyText);
 
             //BixbyCallbackResponse_V1 bixbyResponse = new BixbyCallbackResponse_V1();
 
@@ -162,7 +159,7 @@ namespace Whetstone.StoryEngine.Bixby.Repository
                     alias = queryParams[ALIAS_PARAM];
             }
 
-            if(!string.IsNullOrWhiteSpace(alias))
+            if (!string.IsNullOrWhiteSpace(alias))
                 _dataLogger.LogInformation($"Requesting alias {alias}");
 
             return alias;
@@ -197,7 +194,7 @@ namespace Whetstone.StoryEngine.Bixby.Repository
                 }
 
             }
-            
+
 
             if (!isPostMethdod)
                 _dataLogger.LogError("Request is not a post method");
@@ -205,7 +202,7 @@ namespace Whetstone.StoryEngine.Bixby.Repository
             if (!isPathValid)
                 _dataLogger.LogError($"Request path is not {BixbyCallback_PATH}");
 
-            if(!isHttps)
+            if (!isHttps)
                 _dataLogger.LogError($"Request does not contain header {PROTO_HEADER} or {PROTO_HEADER} header value is not https");
 
 
@@ -225,7 +222,7 @@ namespace Whetstone.StoryEngine.Bixby.Repository
             return isValid;
         }
 
-        private async Task<string> ProcessFlowRequestAsync(StoryRequest storyReq,  string bodyText)
+        private async Task<string> ProcessFlowRequestAsync(StoryRequest storyReq, string bodyText)
         {
             StoryResponse storyResp = null;
 
@@ -243,7 +240,7 @@ namespace Whetstone.StoryEngine.Bixby.Repository
 
             try
             {
-                BixbyCallbackResponse_V1 bixbyResponse =  storyResp.ToBixbyCallbackResponse(_mediaLinker, _dataLogger);
+                BixbyCallbackResponse_V1 bixbyResponse = storyResp.ToBixbyCallbackResponse(_mediaLinker, _dataLogger);
                 responseJson = JsonConvert.SerializeObject(bixbyResponse);
             }
             catch (Exception ex)

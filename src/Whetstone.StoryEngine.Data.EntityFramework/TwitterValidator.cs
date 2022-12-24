@@ -1,12 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Whetstone.StoryEngine.Models.Admin;
 using Whetstone.StoryEngine.Models.Twitter;
 using Whetstone.StoryEngine.Repository.Twitter;
 

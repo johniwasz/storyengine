@@ -1,17 +1,14 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Whetstone.StoryEngine.Models.Story.Ssml;
 
 namespace Whetstone.StoryEngine.Models.Data
 {
 
-    [JsonObject(Title ="DataClientSpeechFragments")]
+    [JsonObject(Title = "DataClientSpeechFragments")]
     [DataContract]
     [Table("clientspeechfrags")]
     public class DataClientSpeechFragments

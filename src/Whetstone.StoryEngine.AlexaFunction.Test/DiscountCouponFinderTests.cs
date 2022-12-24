@@ -1,18 +1,10 @@
 ﻿#region namespaces
 using Amazon.Lambda.TestUtilities;
-using Newtonsoft.Json;
-using Whetstone.Alexa;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.Memory;
-using Newtonsoft.Json.Serialization;
-using Xunit;
 using System.Threading.Tasks;
+using Whetstone.Alexa;
+using Xunit;
 #endregion
 
 namespace Whetstone.StoryEngine.AlexaFunction.Test
@@ -29,7 +21,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
             TestLambdaLogger testLogger;
             string testLog;
             var function = new AlexaFunctionProxy();
-        
+
 
             AlexaSessionContext sessionContext = new AlexaSessionContext(AlexaSessionContext.DiscountCouponFinderId, JohnSessionId, "en-US", JohnTestId);
 
@@ -47,17 +39,17 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
             Debug.WriteLine(testLog);
 
 
-            Dictionary<string, string> drugSlots= new Dictionary<string, string>();
+            Dictionary<string, string> drugSlots = new Dictionary<string, string>();
 
             drugSlots.Add("drug", "Stateline");
 
-            
-           var intentResult = await GetIntentResult(sessionContext, function, "FindDiscountCouponForDrug", drugSlots,  RequestType.IntentRequest);
+
+            var intentResult = await GetIntentResult(sessionContext, function, "FindDiscountCouponForDrug", drugSlots, RequestType.IntentRequest);
 
 
-           
-            
-            intentResult = await GetIntentResult(sessionContext, function, "AMAZON.YesIntent",  RequestType.IntentRequest);
+
+
+            intentResult = await GetIntentResult(sessionContext, function, "AMAZON.YesIntent", RequestType.IntentRequest);
 
             //string ssmlText = SendIntent(sessionContext, function, "FindTrialByCityAndConditionIntent", trialSlots, RequestType.IntentRequest);
 
@@ -68,13 +60,13 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
             phoneNumberSlots.Add("phonenumber", "2675551212");
 
-           // phoneNumberSlots.Add("phonenumber", "6504352188");
+            // phoneNumberSlots.Add("phonenumber", "6504352188");
 
 
             intentResult = await GetIntentResult(sessionContext, function, "PhoneNumberIntent", phoneNumberSlots, RequestType.IntentRequest);
 
 
-            intentResult = await GetIntentResult(sessionContext, function, "AMAZON.NoIntent",RequestType.IntentRequest);
+            intentResult = await GetIntentResult(sessionContext, function, "AMAZON.NoIntent", RequestType.IntentRequest);
 
             intentResult = await GetIntentResult(sessionContext, function, "PhoneNumberIntent", phoneNumberSlots, RequestType.IntentRequest);
 
@@ -95,7 +87,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
 
 
-       
+
 
     }
 }

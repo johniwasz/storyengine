@@ -1,23 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Xunit;
-using Amazon.Lambda.Core;
-using Amazon.Lambda.TestUtilities;
 using Amazon.Lambda.APIGatewayEvents;
-
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-
-using Amazon;
+using Amazon.Lambda.TestUtilities;
 using Amazon.S3;
 using Amazon.S3.Util;
-using Amazon.S3.Model;
-
-using Whetstone.StoryEngine.CoreApi;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using Xunit;
 
 
 namespace Whetstone.StoryEngine.CoreApi.Tests
@@ -49,9 +39,9 @@ namespace Whetstone.StoryEngine.CoreApi.Tests
         [Fact]
         public async Task TestSuccessWorkFlow()
         {
-           
+
             var lambdaFunction = new LambdaEntryPoint();
-          //  Startup.Configuration[Startup.ContainerKey] = this.BucketName;
+            //  Startup.Configuration[Startup.ContainerKey] = this.BucketName;
 
             // Use sample API Gateway request that uploads an object with object key "foo.txt" and content of "Hello World".
             var requestStr = File.ReadAllText("./SampleRequests/S3ProxyController-Put.json");
@@ -69,7 +59,7 @@ namespace Whetstone.StoryEngine.CoreApi.Tests
 
             Assert.Equal(200, response.StatusCode);
             Assert.Equal("text/json", response.Headers["Content-Type"]);
-			Assert.Contains("foo.txt", response.Body);
+            Assert.Contains("foo.txt", response.Body);
 
             // Return the content of the new s3 object foo.txt
             requestStr = File.ReadAllText("./SampleRequests/S3ProxyController-GetByKey.json");

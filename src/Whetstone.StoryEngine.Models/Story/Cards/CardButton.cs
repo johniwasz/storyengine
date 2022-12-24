@@ -13,7 +13,7 @@ namespace Whetstone.StoryEngine.Models.Story.Cards
     [XmlInclude(typeof(LinkButton))]
     [JsonConverter(typeof(CardButtonConverter))]
     [MessagePack.Union(0, typeof(LinkButton))]
-    public abstract class CardButton 
+    public abstract class CardButton
     {
         [JsonConverter(typeof(StringEnumConverter))]
         [JsonProperty("buttonType", Order = 0, NullValueHandling = NullValueHandling.Ignore)]

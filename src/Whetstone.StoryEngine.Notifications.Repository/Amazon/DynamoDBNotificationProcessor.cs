@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using Newtonsoft.Json;
-
-using Amazon.DynamoDBv2;
+﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
-
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Notifications;
 using Whetstone.StoryEngine.SocketApi.Repository;
-using System.Net;
 
 namespace Whetstone.StoryEngine.Notifications.Repository.Amazon
 {
@@ -37,7 +33,7 @@ namespace Whetstone.StoryEngine.Notifications.Repository.Amazon
         /// </summary>
         private readonly string PendingNotificationsTableName;
 
-        public DynamoDBNotificationProcessor( ILogger<DynamoDBNotificationProcessor> logger, IAmazonDynamoDB ddbClient, IOptions<SocketConfig> socketConfig, ISocketConnectionManager connMgr, IServiceProvider services)
+        public DynamoDBNotificationProcessor(ILogger<DynamoDBNotificationProcessor> logger, IAmazonDynamoDB ddbClient, IOptions<SocketConfig> socketConfig, ISocketConnectionManager connMgr, IServiceProvider services)
         {
             _logger = logger;
             _ddbClient = ddbClient;
@@ -53,7 +49,7 @@ namespace Whetstone.StoryEngine.Notifications.Repository.Amazon
 
             _logger.LogDebug($"Processing RequestType: {request.RequestType}, IsRegisteredUser: {request.UserId}, ClientId: {request.ClientId}, ConnectionId: {request.ConnectionId}");
 
-            if ( request.RequestType == NotificationRequestType.SendNotificationToClient )
+            if (request.RequestType == NotificationRequestType.SendNotificationToClient)
             {
                 await this.SendNotificationToClient(request);
             }
@@ -78,7 +74,7 @@ namespace Whetstone.StoryEngine.Notifications.Repository.Amazon
 
                 foreach (IAuthenticatedSocket socket in clientSockets)
                 {
-                    if ( await this.WriteMessageToSocket(messageData, messageSender, socket) )
+                    if (await this.WriteMessageToSocket(messageData, messageSender, socket))
                     {
                         sentSuccessfully = true;
                     }
@@ -101,7 +97,7 @@ namespace Whetstone.StoryEngine.Notifications.Repository.Amazon
         {
             ICollection<NotificationMessage> clientMessages = await this.GetUserNotificationsForClientId(request.UserId, request.ClientId);
 
-            if ( clientMessages.Count > 0 )
+            if (clientMessages.Count > 0)
             {
                 IAuthenticatedSocket socket = await _connMgr.GetSocketByIdAsync(request.UserId, request.ConnectionId);
 
@@ -115,7 +111,7 @@ namespace Whetstone.StoryEngine.Notifications.Repository.Amazon
 
                         // If we successfully write data to the socket, remove the notification otherwise
                         // additional writes will probably fail so just bail out
-                        if ( await this.WriteMessageToSocket(messageData, messageSender, socket) )
+                        if (await this.WriteMessageToSocket(messageData, messageSender, socket))
                         {
                             await this.RemovePendingNotificationAsync(message.UserId, message.NotificationId);
                         }
@@ -137,18 +133,18 @@ namespace Whetstone.StoryEngine.Notifications.Repository.Amazon
 
         }
 
-        private void ValidateNotificationRequest( NotificationRequest request )
+        private void ValidateNotificationRequest(NotificationRequest request)
         {
             if (request == null)
                 throw new ArgumentNullException("ValidateNotificationRequest - request cannot be null");
 
-            if ( String.IsNullOrEmpty(request.UserId) )
+            if (String.IsNullOrEmpty(request.UserId))
                 throw new InvalidOperationException("ValidateNotificationRequest - IsRegisteredUser cannot be empty");
 
             if (String.IsNullOrEmpty(request.ClientId))
                 throw new InvalidOperationException("ValidateNotificationRequest - ClientId cannot be empty");
 
-            if ( request.RequestType == NotificationRequestType.SendNotificationToClient )
+            if (request.RequestType == NotificationRequestType.SendNotificationToClient)
             {
                 if (String.IsNullOrEmpty(request.NotificationId))
                     throw new InvalidOperationException("ValidateNotificationRequest SendNotificationToClient - NotificationId cannot be empty");
@@ -160,7 +156,7 @@ namespace Whetstone.StoryEngine.Notifications.Repository.Amazon
                     throw new InvalidOperationException("ValidateNotificationRequest SendNotificationToClient - Data cannot be empty");
 
             }
-            else if ( request.RequestType == NotificationRequestType.SendNotificationsForClient )
+            else if (request.RequestType == NotificationRequestType.SendNotificationsForClient)
             {
                 if (String.IsNullOrEmpty(request.ConnectionId))
                     throw new InvalidOperationException("ValidateNotificationRequest SendNotificationsForClient - ConnectionId cannot be empty");
@@ -176,7 +172,7 @@ namespace Whetstone.StoryEngine.Notifications.Repository.Amazon
 
         }
 
-        private NotificationMessage NotificationMessageFromNotificationRequest( NotificationRequest request )
+        private NotificationMessage NotificationMessageFromNotificationRequest(NotificationRequest request)
         {
             if (request.RequestType != NotificationRequestType.SendNotificationToClient)
                 throw new InvalidOperationException($"Cannot create NotificationMessage from request type: {request.RequestType}");
@@ -235,7 +231,7 @@ namespace Whetstone.StoryEngine.Notifications.Repository.Amazon
             await _ddbClient.DeleteItemAsync(ddbRequest);
         }
 
-        private async Task<ICollection<NotificationMessage>> GetUserNotificationsForClientId( string userId, string clientId )
+        private async Task<ICollection<NotificationMessage>> GetUserNotificationsForClientId(string userId, string clientId)
         {
             List<NotificationMessage> lstMessages = new List<NotificationMessage>();
 
@@ -272,7 +268,7 @@ namespace Whetstone.StoryEngine.Notifications.Repository.Amazon
                 string uId = item[UserIdField].S;
                 string notificationId = item[NotificationIdField].S;
                 string cId = item[ClientIdField].S;
-                NotificationDataType notificationType = (NotificationDataType) Enum.Parse(typeof(NotificationDataType), item[NotificationTypeField].S);
+                NotificationDataType notificationType = (NotificationDataType)Enum.Parse(typeof(NotificationDataType), item[NotificationTypeField].S);
                 string notification = item[NotificationField].S;
 
                 NotificationMessage message = new NotificationMessage

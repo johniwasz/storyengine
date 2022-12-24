@@ -1,10 +1,10 @@
-﻿using Amazon.Lambda.Core;
+﻿using Amazon.Lambda.APIGatewayEvents;
+using Amazon.Lambda.Core;
 using Amazon.Lambda.RuntimeSupport;
 using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Amazon.Lambda.APIGatewayEvents;
 
 namespace Whetstone.StoryEngine.SocketApi
 {
@@ -32,7 +32,7 @@ namespace Whetstone.StoryEngine.SocketApi
             //using var handlerWrapper = HandlerWrapper.GetHandlerWrapper<AlexaRequest, ILambdaContext, AlexaResponse>(ProcessRequestAsync, serializer);
             //using var bootstrap = new LambdaBootstrap(httpClient ?? new HttpClient(), handlerWrapper);
             //await bootstrap.RunAsync(cancellationToken);
-            
+
 #pragma warning disable IDE0063 // Use simple 'using' statement
             using (var handlerWrapper = HandlerWrapper.GetHandlerWrapper((Func<APIGatewayProxyRequest, ILambdaContext, Task<APIGatewayProxyResponse>>)ProcessRequestAsync, ser))
 #pragma warning restore IDE0063 // Use simple 'using' statement
@@ -49,11 +49,11 @@ namespace Whetstone.StoryEngine.SocketApi
             }
         }
 
-    
+
 
         public static async Task<APIGatewayProxyResponse> ProcessRequestAsync(APIGatewayProxyRequest request, ILambdaContext context)
         {
-            return await _nativeFunction.Value.RouteEntryHandlerAync(request, context);           
+            return await _nativeFunction.Value.RouteEntryHandlerAync(request, context);
         }
     }
 }

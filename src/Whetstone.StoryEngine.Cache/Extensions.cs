@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Extensions.Caching.Distributed;
+using System;
 using System.IO;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json;
-using Whetstone.StoryEngine.Cache.Models;
 
 namespace Whetstone.StoryEngine.Cache
 {
@@ -47,7 +44,7 @@ namespace Whetstone.StoryEngine.Cache
             {
                 using (MemoryStream memStream = new(contents))
                 {
-                    retVal = MessagePack.MessagePackSerializer.Deserialize<T>(memStream, MessagePack.Resolvers.TypelessContractlessStandardResolver.Options);                    
+                    retVal = MessagePack.MessagePackSerializer.Deserialize<T>(memStream, MessagePack.Resolvers.TypelessContractlessStandardResolver.Options);
                 }
             }
             return retVal;

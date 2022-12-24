@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Amazon.Lambda.Core;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Amazon.KeyManagementService.Model;
-using Amazon.Lambda.Core;
-using Amazon.Util;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Whetstone.StoryEngine.ConfigUtilities.Models;
 using Whetstone.StoryEngine.Models.Configuration;
 
@@ -116,7 +113,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities
                 customResp.Data = processResp.Data;
 
                 if (processResp.IsProcessed)
-                { 
+                {
                     customResp.Status = CustomResourceResponse.SUCCESS_STATUS;
                 }
                 else

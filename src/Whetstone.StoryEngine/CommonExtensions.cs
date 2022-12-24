@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -115,7 +114,7 @@ namespace Whetstone.StoryEngine
         public static string CleanText(this IEnumerable<TextFragmentBase> baseFragments)
         {
 
-            return CleanTextList(baseFragments).JoinList(); 
+            return CleanTextList(baseFragments).JoinList();
         }
 
     }

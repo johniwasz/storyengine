@@ -1,10 +1,6 @@
 ﻿using Amazon.Runtime;
 using Amazon.SecurityToken;
 using Amazon.SecurityToken.Model;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -33,7 +29,7 @@ namespace Whetstone.StoryEngine.Test.User
                     new SessionAWSCredentials(credentials.AccessKeyId,
                                               credentials.SecretAccessKey,
                                               credentials.SessionToken);
-               
+
             }
 
 

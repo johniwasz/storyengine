@@ -1,13 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Runtime.Serialization;
-using Newtonsoft.Json;
 using Whetstone.StoryEngine.Models.Actions;
 using Whetstone.StoryEngine.Models.Story;
-using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Data
 {
@@ -15,17 +13,17 @@ namespace Whetstone.StoryEngine.Models.Data
     [JsonObject]
     [DebuggerDisplay("Node Name = {Name}")]
     [Table("StoryNodes")]
-    public class DataNode 
+    public class DataNode
     {
         public DataNode()
         {
-     
+
         }
 
 
         public DataNode(string coordText)
         {
-     
+
             this.CoordinatesJson = coordText;
 
 
@@ -39,7 +37,7 @@ namespace Whetstone.StoryEngine.Models.Data
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [System.ComponentModel.DataAnnotations.Key]
         public long? Id { get; set; }
-        
+
         [JsonProperty]
         [DataMember()]
         public string Name { get; set; }

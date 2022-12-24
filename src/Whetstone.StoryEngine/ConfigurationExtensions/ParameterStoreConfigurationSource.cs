@@ -2,8 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Whetstone.StoryEngine.ConfigurationExtensions
 {
@@ -34,7 +32,7 @@ namespace Whetstone.StoryEngine.ConfigurationExtensions
         public virtual IConfigurationProvider Build(IConfigurationBuilder builder)
         {
 
-           ILogger<ParameterStoreProvider> logger =  _loggerFactory.CreateLogger<ParameterStoreProvider>();
+            ILogger<ParameterStoreProvider> logger = _loggerFactory.CreateLogger<ParameterStoreProvider>();
 
 
             ParameterStoreProvider prov = new ParameterStoreProvider(_endPoint, logger);

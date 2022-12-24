@@ -1,20 +1,17 @@
-﻿using System;
+﻿using CsvHelper;
+using CsvHelper.Configuration;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using CsvHelper;
-using CsvHelper.Configuration;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Whetstone.StoryEngine.CoreApi.Models;
 using Whetstone.StoryEngine.Models.Admin;
 using Whetstone.StoryEngine.Reporting.Models;
@@ -189,7 +186,7 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
 
                 using (StreamWriter writer = new StreamWriter(stream))
                 using (var csv = new CsvWriter(writer, config))
-                {                   
+                {
                     csv.Context.RegisterClassMap<MessageConsentReportRecordMap>();
                     csv.WriteRecords(messageRecords);
                     writer.Flush();
@@ -199,8 +196,8 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
                 memOutput = stream.ToArray();
             }
             //      writer.Write("Hello, World!");
-       //     writer.Flush();
-       //     stream.Position = 0;
+            //     writer.Flush();
+            //     stream.Position = 0;
 
 
             string fileName = "msgexport.csv";

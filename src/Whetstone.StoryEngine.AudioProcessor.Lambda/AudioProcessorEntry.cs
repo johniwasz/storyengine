@@ -1,25 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.IO;
-using System.Diagnostics;
-using System.Text;
-
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-
-using Whetstone.StoryEngine.WebLibrary;
-using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Data.Amazon;
 using Amazon.Lambda.Core;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
+using Whetstone.StoryEngine.AudioProcessor.Repository;
+using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models.AudioProcessor;
 using Whetstone.StoryEngine.Models.Configuration;
-
-using Whetstone.StoryEngine.AudioProcessor.Repository;
+using Whetstone.StoryEngine.WebLibrary;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
@@ -33,7 +22,7 @@ namespace Whetstone.StoryEngine.AudioProcessor.Lambda
 
         IFileRepository _fileRepository;
         private readonly ILogger<AudioProcessorEntry> _logger;
-        private readonly IAudioFileHandler _audioFileHandler; 
+        private readonly IAudioFileHandler _audioFileHandler;
 
         public AudioProcessorEntry()
             : base()

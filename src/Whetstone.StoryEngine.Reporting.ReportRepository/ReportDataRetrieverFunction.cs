@@ -1,15 +1,14 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using Npgsql;
+using NpgsqlTypes;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Npgsql;
-using NpgsqlTypes;
 using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Data.EntityFramework;
 using Whetstone.StoryEngine.Reporting.Models;
 
 namespace Whetstone.StoryEngine.Reporting.ReportRepository
@@ -62,7 +61,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
                 if (functionDef.Parameters == null)
                     throw new Exception(
                         $"Parameter mismatch. {parameters.Count} parameters passed and no parameters defined in report definition.");
-                    
+
                 StringBuilder mismatchBuilder = new StringBuilder();
                 // apply parameters to the function
                 foreach (string key in parameters.Keys)
@@ -93,7 +92,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
                                     }
                                     else
                                     {
-                                        Guid parsedGuid = Guid.Parse((string) paramVal);
+                                        Guid parsedGuid = Guid.Parse((string)paramVal);
                                         pgcom.Parameters.AddWithValue(foundParam.ParameterName, NpgsqlDbType.Uuid,
                                             parsedGuid);
                                     }
@@ -111,10 +110,10 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
                                     }
                                     else
                                     {
-                                        parsedDateTime = (DateTime) paramVal;
+                                        parsedDateTime = (DateTime)paramVal;
 
                                     }
-                                   
+
                                     pgcom.Parameters.AddWithValue(foundParam.ParameterName, NpgsqlDbType.Timestamp,
                                         parsedDateTime);
                                     break;

@@ -1,23 +1,20 @@
-﻿using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Data.Amazon;
-using Whetstone.StoryEngine.Data.Yaml;
-using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.Repository;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Xunit;
+using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Data.Caching;
+using Whetstone.StoryEngine.Data.Yaml;
 using Whetstone.StoryEngine.Models;
+using Whetstone.StoryEngine.Models.Story;
 using Whetstone.StoryEngine.Models.Story.Cards;
 using Whetstone.StoryEngine.Models.Story.Text;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
+using Whetstone.StoryEngine.Repository;
+using Xunit;
 
 namespace Whetstone.StoryEngine.Test
 {
@@ -85,17 +82,17 @@ namespace Whetstone.StoryEngine.Test
         public async Task ValidateElderGodsAsync()
         {
 
-            IFileRepository fileRep = Services.GetService<IFileRepository>();          
+            IFileRepository fileRep = Services.GetService<IFileRepository>();
 
             ITitleCacheRepository titleCacheRep = GetTitleCacheRepository();
 
-    
+
 
             ILogger<YamlTitleReader> yamlLogger = Services.GetService<ILogger<YamlTitleReader>>();
 
             ITitleReader titleReader = new YamlTitleReader(titleCacheRep, yamlLogger);
 
-            
+
             TitleVersion titleVersion = new TitleVersion("eyeoftheeldergods", "1.0");
 
             StoryTitle title = await titleReader.GetByIdAsync(titleVersion);
@@ -103,15 +100,15 @@ namespace Whetstone.StoryEngine.Test
             ITitleValidator validator = new TitleValidator(titleReader, fileRep);
 
 
-           StoryValidationResult valResult = await validator.ValidateTitleAsync(titleVersion);
+            StoryValidationResult valResult = await validator.ValidateTitleAsync(titleVersion);
 
-            if((valResult.NodeIssues?.Any()).GetValueOrDefault(false))
+            if ((valResult.NodeIssues?.Any()).GetValueOrDefault(false))
             {
-               
-                foreach(var nodeIssue in valResult.NodeIssues)
+
+                foreach (var nodeIssue in valResult.NodeIssues)
                 {
                     Debug.WriteLine(nodeIssue.NodeName);
-                    if((nodeIssue.Messages?.Any()).GetValueOrDefault())
+                    if ((nodeIssue.Messages?.Any()).GetValueOrDefault())
                     {
                         foreach (string valMessage in nodeIssue.Messages)
                             Debug.WriteLine(string.Concat("   ", valMessage));
@@ -120,12 +117,12 @@ namespace Whetstone.StoryEngine.Test
                 }
             }
 
-            if( (valResult.UnusedAudioFiles?.Any()).GetValueOrDefault(false))
+            if ((valResult.UnusedAudioFiles?.Any()).GetValueOrDefault(false))
             {
                 Debug.WriteLine("---------");
                 Debug.WriteLine("Unused Audio Files");
 
-                foreach(string unusedFile in valResult.UnusedAudioFiles)
+                foreach (string unusedFile in valResult.UnusedAudioFiles)
                 {
                     Debug.WriteLine(unusedFile);
                 }
@@ -136,7 +133,7 @@ namespace Whetstone.StoryEngine.Test
         public async Task ValidateWhetstoneTechnologiesAsync()
         {
 
-            ITitleCacheRepository titleCacheRep =GetTitleCacheRepository();
+            ITitleCacheRepository titleCacheRep = GetTitleCacheRepository();
 
             ILogger<YamlTitleReader> yamlLogger = Services.GetService<ILogger<YamlTitleReader>>();
 

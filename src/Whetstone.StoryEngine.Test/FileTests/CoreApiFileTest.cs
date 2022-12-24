@@ -1,17 +1,17 @@
-﻿using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Models.Admin;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Diagnostics;
-using System.Linq;
 using System.Collections.Generic;
-using System.IO;
-using Xunit;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
+using System.Linq;
 using System.Security.Claims;
-using Whetstone.StoryEngine.Security;
 using System.Threading;
+using System.Threading.Tasks;
+using Whetstone.StoryEngine.Data;
+using Whetstone.StoryEngine.Models.Admin;
+using Whetstone.StoryEngine.Security;
+using Xunit;
 
 namespace Whetstone.StoryEngine.Test.FileTests
 {
@@ -33,21 +33,21 @@ namespace Whetstone.StoryEngine.Test.FileTests
                 JwtSecurityToken token = new JwtSecurityToken("issuer", "audience", claims);
 
                 IAuthenticator cogAuth = Services.GetRequiredService<Whetstone.StoryEngine.Security.IAuthenticator>();
-                var claimsId =  await cogAuth.GetUserClaimsAsync(token);
+                var claimsId = await cogAuth.GetUserClaimsAsync(token);
                 ClaimsPrincipal prin = new ClaimsPrincipal(claimsId);
 
                 Thread.CurrentPrincipal = prin;
 
-               IProjectRepository projectRepository = Services.GetRequiredService<IProjectRepository>();
+                IProjectRepository projectRepository = Services.GetRequiredService<IProjectRepository>();
 
                 IFileRepository fileRep = Services.GetRequiredService<IFileRepository>();
 
-             
+
 
 
 
                 // Find the Whetstone Technologies project
-                IEnumerable <Project> projects = await projectRepository.GetProjectsAsync();
+                IEnumerable<Project> projects = await projectRepository.GetProjectsAsync();
                 Project whetstoneProject = projects.First<Project>(x => x.ShortName == "whetstonetechnologies");
 
                 if (whetstoneProject == null)
@@ -65,7 +65,7 @@ namespace Whetstone.StoryEngine.Test.FileTests
                 Guid versionId = version.Id.GetValueOrDefault();
 
                 AudioFileInfo fileInfo = null;
-                using ( MemoryStream stm = new MemoryStream(audioFile) )
+                using (MemoryStream stm = new MemoryStream(audioFile))
                 {
                     fileInfo = await fileRep.StoreAudioFileAsync(projectId, versionId, FILE_NAME, stm);
 
@@ -82,7 +82,7 @@ namespace Whetstone.StoryEngine.Test.FileTests
 
                 Console.WriteLine("AudioFileIntegrationTest successful!");
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex);
                 throw;

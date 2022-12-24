@@ -19,7 +19,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
         }
 
 
-        public async Task ImportFromZipAsync( byte[] importZip)
+        public async Task ImportFromZipAsync(byte[] importZip)
         {
             if (importZip == null || importZip.Length == 0)
                 throw new ArgumentException("importZip is null or empty");
@@ -42,7 +42,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
                         StoryTitle title = deser.Deserialize<StoryTitle>(rawText);
                         titleVersion.ShortName = title.Id;
                         titleVersion.Version = title.Version;
-                        await _fileRep.StoreTitleAsync(title);                                               
+                        await _fileRep.StoreTitleAsync(title);
                     }
 
                     var mediaEntries = archive.Entries.Where(x => !x.Name.EndsWith(".yaml", StringComparison.OrdinalIgnoreCase));

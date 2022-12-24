@@ -1,8 +1,8 @@
-﻿using System;
+﻿using CsvHelper;
+using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using CsvHelper;
 using Whetstone.StoryEngine.Models.Admin;
 using Whetstone.StoryEngine.Models.Configuration;
 using Xunit;
@@ -17,7 +17,7 @@ namespace Whetstone.StoryEngine.Data.Tests
 
             IUserContextRetriever userContextRetriever = GetUserContextRetriever(DBConnectionRetreiverType.Direct);
 
-          //  var userContext = await userContextRetriever.GetContextOptionsAsync();
+            //  var userContext = await userContextRetriever.GetContextOptionsAsync();
 
             MessageConsentReportRequest repRequest = new MessageConsentReportRequest();
             repRequest.TitleId = Guid.Parse("616a5f8e-fa08-41bf-b5a0-7a1ed4160db4");

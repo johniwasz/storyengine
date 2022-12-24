@@ -1,18 +1,16 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using Microsoft.Extensions.Caching.Memory;
+using System.Threading.Tasks;
 using Twilio.Security;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Messaging;
-using Whetstone.StoryEngine.Repository.Phone;
-using System.Threading.Tasks;
 
 namespace Whetstone.StoryEngine.Repository.Messaging
 {
-    public class TwilioVerifier : SecretStoreReaderBase<TwilioCredentials>,  ITwilioVerifier
+    public class TwilioVerifier : SecretStoreReaderBase<TwilioCredentials>, ITwilioVerifier
     {
         private ILogger<TwilioVerifier> _logger;
 
@@ -20,7 +18,7 @@ namespace Whetstone.StoryEngine.Repository.Messaging
 
         public TwilioVerifier(IOptions<TwilioConfig> twilioConfigOpts, ISecretStoreReader secureStoreReader, IMemoryCache memCache, ILogger<TwilioVerifier> logger) : base(secureStoreReader, memCache)
         {
-            _twilioSnapshotConfig = twilioConfigOpts?.Value 
+            _twilioSnapshotConfig = twilioConfigOpts?.Value
                                     ?? throw new ArgumentNullException($"{nameof(twilioConfigOpts)}");
 
             _logger = logger ?? throw new ArgumentNullException($"{nameof(logger)}");
@@ -64,7 +62,7 @@ namespace Whetstone.StoryEngine.Repository.Messaging
 
             var originalScheme = headerValues["X-Forwarded-Proto"];
 
-            var urlBuilder = new UriBuilder {Path = path, Host = hostName, Scheme = originalScheme};
+            var urlBuilder = new UriBuilder { Path = path, Host = hostName, Scheme = originalScheme };
 
 
             if (!string.IsNullOrWhiteSpace(alias))

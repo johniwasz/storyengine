@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Text;
@@ -38,15 +36,15 @@ namespace Whetstone.StoryEngine.Models.Data
 
                 sb.Append(':');
 
-                if(!string.IsNullOrWhiteSpace(SlotTypeName))
+                if (!string.IsNullOrWhiteSpace(SlotTypeName))
                     sb.Append(SlotTypeName);
 
                 sb.Append(':');
 
                 if (SlotType != null)
                 {
-                    if(!string.IsNullOrWhiteSpace(SlotType.Name))
-                    sb.Append(SlotType.Name);
+                    if (!string.IsNullOrWhiteSpace(SlotType.Name))
+                        sb.Append(SlotType.Name);
                 }
 
 

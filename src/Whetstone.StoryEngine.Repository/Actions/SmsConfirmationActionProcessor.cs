@@ -7,10 +7,8 @@ using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Actions;
 using Whetstone.StoryEngine.Models.Data;
-using Whetstone.StoryEngine.Models.Messaging;
 using Whetstone.StoryEngine.Models.Story;
 using Whetstone.StoryEngine.Models.Tracking;
-using Whetstone.StoryEngine.Repository.Messaging;
 using Whetstone.StoryEngine.Repository.Phone;
 
 
@@ -48,7 +46,7 @@ namespace Whetstone.StoryEngine.Repository.Actions
                 throw new ArgumentNullException(
                     $"{nameof(actionData)}", "Cannot be null and must be of type SmsConfifmrationActionData");
 
-            if(!(req.SessionContext.TitleVersion?.VersionId.HasValue).GetValueOrDefault(false))
+            if (!(req.SessionContext.TitleVersion?.VersionId.HasValue).GetValueOrDefault(false))
                 throw new ArgumentException(
                     $"Session request with client request id {req.RequestId} and engine request id {req.EngineRequestId} is missing the titleversionid value from the session context");
 
@@ -88,7 +86,7 @@ namespace Whetstone.StoryEngine.Repository.Actions
         private string GetUserPhoneNumber(StoryRequest req, string phoneNumberSlot, List<IStoryCrumb> crumbs)
         {
             string retPhoneNumber;
-            if(string.IsNullOrWhiteSpace(phoneNumberSlot))
+            if (string.IsNullOrWhiteSpace(phoneNumberSlot))
             {
                 // If the phone number is not set, then check if the client is an SMS type client. 
                 if (req.Client == Client.Sms)
@@ -119,14 +117,14 @@ namespace Whetstone.StoryEngine.Repository.Actions
             string retConsentName;
 
 
-            if(string.IsNullOrWhiteSpace(confirmationNameSlot))
+            if (string.IsNullOrWhiteSpace(confirmationNameSlot))
             {
-            
+
 
                 string titleConsent;
 
                 // if the confirmation name slot name is not specified, then pull it from the title.
-                StoryPhoneInfo storyPhone = await _titleReader.GetPhoneInfoAsync( req.SessionContext.TitleVersion);
+                StoryPhoneInfo storyPhone = await _titleReader.GetPhoneInfoAsync(req.SessionContext.TitleVersion);
 
                 titleConsent = storyPhone?.ConsentName;
 

@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Amazon;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-
-using Amazon.Lambda.Core;
+﻿using Amazon;
 using Amazon.Lambda.APIGatewayEvents;
-using Amazon.Lambda.AspNetCoreServer;
+using Amazon.Lambda.Core;
 using Amazon.Lambda.RuntimeSupport;
 using Amazon.Lambda.Serialization.Json;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using System;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.DependencyInjection;
 
 namespace Whetstone.StoryEngine.CoreApi

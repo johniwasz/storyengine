@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CsvHelper.Configuration;
+﻿using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
 using Newtonsoft.Json;
+using System;
 
 namespace Whetstone.StoryEngine.Models.Admin
 {
@@ -68,7 +66,7 @@ namespace Whetstone.StoryEngine.Models.Admin
         [Index(6)]
         [Name("sessionid")]
         [JsonProperty(PropertyName = "sessionId")]
-        public Guid? SessionId { get; set;  }
+        public Guid? SessionId { get; set; }
 
         /// <summary>
         /// Date and time the user granted consent to receive an SMS text message.

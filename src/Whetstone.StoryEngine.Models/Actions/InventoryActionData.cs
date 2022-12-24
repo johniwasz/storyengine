@@ -1,18 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
-using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.Models.Tracking;
-using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using Newtonsoft.Json;
+using Whetstone.StoryEngine.Models.Tracking;
 using YamlDotNet.Serialization;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Converters;
-using Whetstone.StoryEngine;
 
 namespace Whetstone.StoryEngine.Models.Actions
 {
@@ -24,13 +16,13 @@ namespace Whetstone.StoryEngine.Models.Actions
         /// Adds the item to the user's inventory
         /// </summary>
         [EnumMember(Value = "add")]
-        Add= 0,
+        Add = 0,
 
         /// <summary>
         /// Remove the item from inventory
         /// </summary>
         [EnumMember(Value = "remove")]
-        Remove =1,
+        Remove = 1,
 
 
         /// <summary>
@@ -47,7 +39,7 @@ namespace Whetstone.StoryEngine.Models.Actions
     /// </summary>
     [DataContract]
     [JsonObject]
-    [MessageObject]    
+    [MessageObject]
     public class InventoryActionData : NodeActionData
     {
 
@@ -61,12 +53,12 @@ namespace Whetstone.StoryEngine.Models.Actions
 
         [YamlIgnore]
         [JsonConverter(typeof(StringEnumConverter))]
-        [JsonProperty("nodeAction", Order =  0)]
+        [JsonProperty("nodeAction", Order = 0)]
         [DataMember]
         public sealed override NodeActionEnum NodeAction { get; set; }
 
 
-        [JsonProperty("item", Order =  1, NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("item", Order = 1, NullValueHandling = NullValueHandling.Ignore)]
         [NotMapped]
         [DataMember]
         public InventoryItemBase Item { get; set; }

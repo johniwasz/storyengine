@@ -1,12 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using Newtonsoft.Json;
 using Whetstone.StoryEngine.Models.Conditions;
-using Whetstone.StoryEngine.Models.Data;
 using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Story
@@ -14,14 +12,14 @@ namespace Whetstone.StoryEngine.Models.Story
 
     public enum StoryType
     {
-        AppExperience =0,
-        SingleRequest =1
+        AppExperience = 0,
+        SingleRequest = 1
 
     }
 
 
     [DataContract]
-    public class StoryTitle 
+    public class StoryTitle
     {
 
         /// <summary>
@@ -30,7 +28,7 @@ namespace Whetstone.StoryEngine.Models.Story
         //  public ObjectId Id { get; set; }
         [Key]
         [DataMember]
-        [YamlMember(Alias = "id", Order = 0, ApplyNamingConventions =false)]
+        [YamlMember(Alias = "id", Order = 0, ApplyNamingConventions = false)]
         [JsonProperty(PropertyName = "id", Required = Required.Always)]
         public string Id { get; set; }
 
@@ -67,7 +65,7 @@ namespace Whetstone.StoryEngine.Models.Story
         public string Version { get; set; }
 
 
-        [DataMember(EmitDefaultValue =false)]        
+        [DataMember(EmitDefaultValue = false)]
         [YamlMember(Alias = "storyType", Order = 5)]
         [JsonProperty(PropertyName = "storyType", NullValueHandling = NullValueHandling.Ignore)]
         public StoryType StoryType { get; set; }
@@ -95,7 +93,7 @@ namespace Whetstone.StoryEngine.Models.Story
         /// Summary of the skill.
         /// </summary>   
         [DataMember]
-        [YamlMember(Alias ="description", Order = 8)]
+        [YamlMember(Alias = "description", Order = 8)]
         [JsonProperty(PropertyName = "description", NullValueHandling = NullValueHandling.Ignore)]
         public string Description { get; set; }
 
@@ -133,7 +131,7 @@ namespace Whetstone.StoryEngine.Models.Story
 
         [DataMember]
         [NotMapped]
-        [YamlMember(Alias = "resumeNodeName", Order =14)]
+        [YamlMember(Alias = "resumeNodeName", Order = 14)]
         [JsonProperty(PropertyName = "resumeNodeName", NullValueHandling = NullValueHandling.Ignore)]
         public string ResumeNodeName { get; set; }
 
@@ -172,7 +170,7 @@ namespace Whetstone.StoryEngine.Models.Story
         /// <remarks>Do not store to the database in this format.</remarks>      
         [DataMember]
         [InverseProperty("Title")]
-        [YamlMember(Alias ="nodes", Order = 19)]
+        [YamlMember(Alias = "nodes", Order = 19)]
         [JsonProperty(PropertyName = "nodes", NullValueHandling = NullValueHandling.Ignore)]
         public List<StoryNode> Nodes { get; set; }
 
@@ -180,7 +178,7 @@ namespace Whetstone.StoryEngine.Models.Story
         /// For serialization
         /// </summary>        
         [DataMember]
-        [YamlMember(Alias ="intents", Order = 20)]
+        [YamlMember(Alias = "intents", Order = 20)]
         [JsonProperty(PropertyName = "intents", NullValueHandling = NullValueHandling.Ignore)]
         public List<Intent> Intents { get; set; }
 
@@ -191,11 +189,11 @@ namespace Whetstone.StoryEngine.Models.Story
         [JsonProperty(PropertyName = "conditions", NullValueHandling = NullValueHandling.Ignore)]
         public List<StoryConditionBase> Conditions { get; set; }
 
-        
+
 
 
         [NotMapped]
-        [DataMember]     
+        [DataMember]
         //[InverseProperty("BadResponseTitle")]
         [YamlMember(Alias = "badIntentResponses", Order = 22)]
         [JsonProperty(PropertyName = "badIntentResponses", NullValueHandling = NullValueHandling.Ignore)]
@@ -213,10 +211,10 @@ namespace Whetstone.StoryEngine.Models.Story
 
 
         [DataMember]
-        [YamlMember(Alias = "slotTypes",Order = 24)]
+        [YamlMember(Alias = "slotTypes", Order = 24)]
         [JsonProperty(PropertyName = "slotTypes", NullValueHandling = NullValueHandling.Ignore)]
         public List<SlotType> Slots { get; set; }
-        
+
 
 
     }

@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Amazon.AspNetCore.Identity.Cognito.Extensions;
+﻿using Amazon.AspNetCore.Identity.Cognito.Extensions;
 using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Npgsql;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Whetstone.StoryEngine.Cache;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Data;
 using Whetstone.StoryEngine.Security.Claims;
-using Whetstone.StoryEngine.Cache;
 
 
 namespace Whetstone.StoryEngine.Security.Amazon
@@ -30,7 +28,7 @@ namespace Whetstone.StoryEngine.Security.Amazon
         ErrorGettingUser
     }
 
-    internal enum UserConfirmationStatus 
+    internal enum UserConfirmationStatus
     {
         UserConfirmed,
         UserNotConfirmed,
@@ -54,9 +52,9 @@ namespace Whetstone.StoryEngine.Security.Amazon
             new LazyConcurrentDictionary<CognitoConfig, TokenValidationParameters>();
 
 
-        public CognitoAuthenticator(IAmazonCognitoIdentityProvider identityProvider, 
-            IUserContextRetriever userContextRetriever, 
-            IOptions<CognitoConfig> cogOptions, 
+        public CognitoAuthenticator(IAmazonCognitoIdentityProvider identityProvider,
+            IUserContextRetriever userContextRetriever,
+            IOptions<CognitoConfig> cogOptions,
             IJwtTokenParser tokenParser,
             IDistributedCache cache,
             ILogger<CognitoAuthenticator> logger)
@@ -64,7 +62,7 @@ namespace Whetstone.StoryEngine.Security.Amazon
             _cogOptions = cogOptions?.Value ?? throw new ArgumentNullException(nameof(cogOptions));
             _identityProvider = identityProvider ?? throw new ArgumentNullException(nameof(identityProvider));
             _tokenParser = tokenParser ?? throw new ArgumentNullException(nameof(tokenParser));
-           
+
 
             AWSCognitoClientOptions awsOpts = _cogOptions.ToAwsCognitoClientOptions();
 
@@ -103,7 +101,7 @@ namespace Whetstone.StoryEngine.Security.Amazon
             {
                 var response = await _identityProvider.InitiateAuthAsync(request);
 
-                
+
                 result = new TokenResult
                 {
                     AuthToken = response.AuthenticationResult.AccessToken,
@@ -136,12 +134,12 @@ namespace Whetstone.StoryEngine.Security.Amazon
 
                 string internalError =
                     $"User {creds.UserName} not found in user pool {_cogOptions.UserPoolId} and user pool client id {_cogOptions.UserPoolClientId}";
-              
+
                 throw new UserNotAuthenticatedException(publicErrorMessage, internalError, ex);
             }
             catch (Exception ex)
             {
-              
+
                 string internalError = $"Unexpected error authenticating user. User name: {creds.UserName} user pool {_cogOptions.UserPoolId} and user pool client id {_cogOptions.UserPoolClientId}";
                 throw new UserNotAuthenticatedException(publicErrorMessage, internalError, ex);
             }
@@ -149,13 +147,13 @@ namespace Whetstone.StoryEngine.Security.Amazon
 
             // Get the permissions
             try
-            { 
+            {
                 // Parse the access token and get the sub.
                 var jwtToken = _tokenParser.ParseAuthToken(result.AuthToken);
 
                 IEnumerable<ClaimsIdentity> claimIdentities = await this.GetUserClaimsAsync(jwtToken);
                 List<string> permissions = new List<string>();
-                    
+
                 foreach (var claimId in claimIdentities)
                 {
                     var foundPerms = claimId.Claims.Where(x => x.Type.Equals(SoniBridgeClaimTypes.Permission)).Select(x => x.Value);
@@ -223,26 +221,26 @@ namespace Whetstone.StoryEngine.Security.Amazon
         {
             UserConfirmationStatus? confStatus = null;
 
-           var (adminUser, status) = await GetUser(userName);
+            var (adminUser, status) = await GetUser(userName);
 
-           switch (status)
-           {
-               case GetUserStatus.UserExists:
-                   
-                        // Check if the user has been confirmed. If the user has, then do not send a confirmation code.
-                        // Currently, only email confirmation is supported. 
-                        // This will need to be revisited if phone confirmation is required.
-                        confStatus = adminUser.IsEmailConfirmed()
-                            ? UserConfirmationStatus.UserConfirmed
-                            : UserConfirmationStatus.UserNotConfirmed;
-                        break;
+            switch (status)
+            {
+                case GetUserStatus.UserExists:
+
+                    // Check if the user has been confirmed. If the user has, then do not send a confirmation code.
+                    // Currently, only email confirmation is supported. 
+                    // This will need to be revisited if phone confirmation is required.
+                    confStatus = adminUser.IsEmailConfirmed()
+                        ? UserConfirmationStatus.UserConfirmed
+                        : UserConfirmationStatus.UserNotConfirmed;
+                    break;
                 case GetUserStatus.ErrorGettingUser:
                     confStatus = UserConfirmationStatus.ErrorGettingUser;
                     break;
                 case GetUserStatus.UserDoesNotExist:
                     confStatus = UserConfirmationStatus.UserDoesNotExist;
                     break;
-           }
+            }
 
             return confStatus;
         }
@@ -258,9 +256,9 @@ namespace Whetstone.StoryEngine.Security.Amazon
 
             try
             {
-               ResendConfirmationCodeResponse resendResp =  await _identityProvider.ResendConfirmationCodeAsync(resendConfirmationRequest);
+                ResendConfirmationCodeResponse resendResp = await _identityProvider.ResendConfirmationCodeAsync(resendConfirmationRequest);
 
-               
+
                 _logger.LogInformation(
                     $"Resending confirmation code fore user {resendRequest.UserName} for pool client {_cogOptions.UserPoolClientId}");
             }
@@ -300,7 +298,7 @@ namespace Whetstone.StoryEngine.Security.Amazon
             catch (Exception ex)
             {
                 retStatus = GetUserStatus.ErrorGettingUser;
-                _logger.LogWarning($"User {userName} not found",ex);
+                _logger.LogWarning($"User {userName} not found", ex);
             }
 
 
@@ -449,7 +447,7 @@ namespace Whetstone.StoryEngine.Security.Amazon
             };
             signUpReq.UserAttributes.Add(emailAttribute);
 
-            
+
             SignUpResponse createResponse = null;
 
             try
@@ -496,7 +494,7 @@ namespace Whetstone.StoryEngine.Security.Amazon
 
 
 
-            if (createResponse!=null)
+            if (createResponse != null)
             {
                 // Add the user sub and user name to the database.
                 DataUser newUser = new DataUser
@@ -603,7 +601,7 @@ namespace Whetstone.StoryEngine.Security.Amazon
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            if(string.IsNullOrWhiteSpace(request.AuthToken))
+            if (string.IsNullOrWhiteSpace(request.AuthToken))
                 throw new ArgumentNullException(nameof(request), "AuthToken property cannot be null");
 
             GlobalSignOutRequest signOutRequest = new GlobalSignOutRequest
@@ -611,7 +609,7 @@ namespace Whetstone.StoryEngine.Security.Amazon
                 AccessToken = request.AuthToken
             };
 
-            
+
             try
             {
                 var signOutResponse = await _identityProvider.GlobalSignOutAsync(signOutRequest);
@@ -638,8 +636,8 @@ namespace Whetstone.StoryEngine.Security.Amazon
             if (string.IsNullOrWhiteSpace(token.Subject))
                 throw new ArgumentNullException(nameof(token), "Subject cannot be null or empty");
 
-           
-            
+
+
             string sub = token.Subject;
 
             List<Claim> userClaims = _cache.Get<List<Claim>>(container, sub);
@@ -730,7 +728,7 @@ namespace Whetstone.StoryEngine.Security.Amazon
                             userClaims.Add(new Claim(SoniBridgeClaimTypes.Permission, entitlement, ClaimValueTypes.String));
                         }
 
-                    
+
                         // Add to cache
                         await _cache.SetAsync(container, sub, userClaims, new DistributedCacheEntryOptions() { AbsoluteExpirationRelativeToNow = token.ValidTo - DateTime.UtcNow });
 
@@ -755,6 +753,6 @@ namespace Whetstone.StoryEngine.Security.Amazon
             });
         }
 
-      
+
     }
 }

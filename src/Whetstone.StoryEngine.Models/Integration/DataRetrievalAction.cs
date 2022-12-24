@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Integration
@@ -12,7 +9,7 @@ namespace Whetstone.StoryEngine.Models.Integration
     public enum DataRetrievalType
     {
         TableSearch = 1,
-        ExternalRequest =2
+        ExternalRequest = 2
 
     }
 
@@ -32,7 +29,7 @@ namespace Whetstone.StoryEngine.Models.Integration
         public long? Id { get; set; }
 
 
-       
+
         public abstract DataRetrievalType DataRetrievalType { get; set; }
 
 

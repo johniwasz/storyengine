@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Amazon.Auth.AccessControlPolicy;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace Whetstone.StoryEngine.LambdaUtilities.KeyPolicy
 {
     public enum KeyGrantType
     {
-        Encrypt =1,
-        Decrypt =2,
-        EncryptDecrypt=3
+        Encrypt = 1,
+        Decrypt = 2,
+        EncryptDecrypt = 3
     }
 
 
     public class KeyPolicyRequest
     {
-        [JsonProperty(PropertyName =  "ServiceToken")]
+        [JsonProperty(PropertyName = "ServiceToken")]
         public string ServiceToken { get; set; }
 
         /// <summary>

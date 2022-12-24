@@ -1,10 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Whetstone.StoryEngine.Models.Tracking;
 using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
+using Whetstone.StoryEngine.Models.Tracking;
 
 namespace Whetstone.StoryEngine.Models.Serialization
 {
@@ -18,7 +15,7 @@ namespace Whetstone.StoryEngine.Models.Serialization
         public override bool CanRead
         {
             get { return true; }
-            
+
         }
 
 
@@ -28,18 +25,18 @@ namespace Whetstone.StoryEngine.Models.Serialization
         }
 
 
-        public override void WriteJson(JsonWriter writer,  object value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             JObject jo = new JObject();
 
 
-           if(value is UniqueItem)
+            if (value is UniqueItem)
             {
                 UniqueItem uniqueItem = value as UniqueItem;
                 jo.Add("type", "ui");
                 jo.Add("name", uniqueItem.Name);
             }
-           else if (value is MultiItem)
+            else if (value is MultiItem)
             {
                 MultiItem multi = value as MultiItem;
 
@@ -47,7 +44,7 @@ namespace Whetstone.StoryEngine.Models.Serialization
                 jo.Add("name", multi.Name);
                 jo.Add("count", multi.Count);
             }
-           else if( value is NodeVisitRecord)
+            else if (value is NodeVisitRecord)
             {
                 NodeVisitRecord nodeRec = value as NodeVisitRecord;
                 jo.Add("type", "nv");
@@ -55,15 +52,15 @@ namespace Whetstone.StoryEngine.Models.Serialization
                 jo.Add("count", nodeRec.VisitCount);
 
             }
-            else if(value is SelectedItem)
+            else if (value is SelectedItem)
             {
                 SelectedItem selItem = value as SelectedItem;
                 jo.Add("type", "si");
                 jo.Add("name", selItem.Name);
                 jo.Add("value", selItem.Value);
             }
-            
-           
+
+
             jo.WriteTo(writer);
         }
 
@@ -75,7 +72,7 @@ namespace Whetstone.StoryEngine.Models.Serialization
             {
                 jsonObject = JObject.Load(reader);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 reader.Skip();
 

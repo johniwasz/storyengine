@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.UnitTests

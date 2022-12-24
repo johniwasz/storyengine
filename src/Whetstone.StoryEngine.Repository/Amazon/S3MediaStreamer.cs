@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Microsoft.Extensions.Options;
+using System;
+using System.IO;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data.FileStorage;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine;
 using Whetstone.StoryEngine.Models.Story;
-using Amazon;
 
 namespace Whetstone.StoryEngine.Repository.Amazon
 {
@@ -40,11 +37,11 @@ namespace Whetstone.StoryEngine.Repository.Amazon
             _bucketName = envConfig.BucketName;
 
             if (string.IsNullOrWhiteSpace(_bucketName))
-                throw new ArgumentException(nameof(envOptions) , "BucketName setting cannot be null or empty");
+                throw new ArgumentException(nameof(envOptions), "BucketName setting cannot be null or empty");
 
         }
 
-       
+
 
 
         public async Task<SimpleMediaResponse> GetFileStreamAsync(string environment, TitleVersion titleVer, string fileName, bool isFileNameEncrypted = true)
@@ -126,7 +123,7 @@ namespace Whetstone.StoryEngine.Repository.Amazon
 
             if (mediaLink.AbsoluteExpireTime >= DateTime.UtcNow)
                 return mediaLink.FileName;
-          
+
 
 
             return null;

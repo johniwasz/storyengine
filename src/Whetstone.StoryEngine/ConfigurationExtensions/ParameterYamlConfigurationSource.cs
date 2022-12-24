@@ -1,11 +1,11 @@
-﻿using System;
-using Amazon;
+﻿using Amazon;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace Whetstone.StoryEngine.ConfigurationExtensions
 {
-    public class ParameterYamlConfigurationSource: IConfigurationSource
+    public class ParameterYamlConfigurationSource : IConfigurationSource
     {
 
         private readonly string _parameterKey;
@@ -33,7 +33,7 @@ namespace Whetstone.StoryEngine.ConfigurationExtensions
             ILogger<ParameterYamlStoreProvider> paramLogger = _loggerFactory.CreateLogger<ParameterYamlStoreProvider>();
 
 
-            ParameterYamlStoreProvider prov = new ParameterYamlStoreProvider(_region,  _parameterKey, paramLogger);
+            ParameterYamlStoreProvider prov = new ParameterYamlStoreProvider(_region, _parameterKey, paramLogger);
 
             return prov;
         }

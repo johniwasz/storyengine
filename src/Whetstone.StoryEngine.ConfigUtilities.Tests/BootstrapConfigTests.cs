@@ -1,12 +1,9 @@
-﻿using System;
+﻿using Amazon.Lambda.TestUtilities;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using System.Text;
-using Amazon.Lambda.TestUtilities;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Whetstone.StoryEngine.ConfigUtilities.ConfigUpdate;
 using Whetstone.StoryEngine.Models.Configuration;
 using Xunit;
@@ -26,7 +23,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities.Tests
 
             CustomResourceRequest resourceReq = JsonConvert.DeserializeObject<CustomResourceRequest>(text);
 
-      
+
 
             TestLambdaContext testContext = new TestLambdaContext();
 
@@ -50,7 +47,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities.Tests
             };
 
             updateRequest.ConfigEntries.Add(new ConfigEntry
-                { ConfigType = ConfigEntryType.CognitoUserClientSecret, Value = new string[] { "us-east-1_xu0geY2cC", "4o29k16f10ir3o7job8mmiabad" } });
+            { ConfigType = ConfigEntryType.CognitoUserClientSecret, Value = new string[] { "us-east-1_xu0geY2cC", "4o29k16f10ir3o7job8mmiabad" } });
 
             string text = File.ReadAllText("Messages/CognitoUpdate.json");
 
@@ -85,7 +82,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities.Tests
 
 
             updateRequest.ConfigEntries.Add(new ConfigEntry
-                { ConfigType = ConfigEntryType.CognitoUserPoolId, Value = "us-east-1_xu0geY2cC" });
+            { ConfigType = ConfigEntryType.CognitoUserPoolId, Value = "us-east-1_xu0geY2cC" });
 
             string text = File.ReadAllText("Messages/CognitoUpdate.json");
 
@@ -110,14 +107,14 @@ namespace Whetstone.StoryEngine.ConfigUtilities.Tests
             ConfigUpdateRequest updateRequest = new ConfigUpdateRequest();
             updateRequest.ConfigEntries = new List<ConfigEntry>();
             updateRequest.Parameter = "/storyengine/dev/bootstrap";
-            
+
             //updateRequest.KeyId = "alias/devEnvironmentKey";
             //updateRequest.ConfigEntries.Add(new ConfigEntry
             //    { ConfigType = ConfigEntryType.ReportBucket, Value = "anotherreportbucketname" });
 
 
             updateRequest.ConfigEntries.Add(new ConfigEntry
-                { ConfigType = ConfigEntryType.SessionAuditQueue, Value = "WhetstoneQueue-Dev-SessionAuditQueue-ZQNCFM1I9XSL" });
+            { ConfigType = ConfigEntryType.SessionAuditQueue, Value = "WhetstoneQueue-Dev-SessionAuditQueue-ZQNCFM1I9XSL" });
 
             string text = File.ReadAllText("Messages/ConfigUpdateRequest.json");
 
@@ -144,12 +141,12 @@ namespace Whetstone.StoryEngine.ConfigUtilities.Tests
             updateRequest.Parameter = "/storyengine/dev/bootstrap";
             //updateRequest.KeyId = "alias/devEnvironmentKey";
             updateRequest.ConfigEntries.Add(new ConfigEntry
-                { ConfigType = ConfigEntryType.TwilioTestKey, Value = "dsfdsfL" });
-                
+            { ConfigType = ConfigEntryType.TwilioTestKey, Value = "dsfdsfL" });
+
             string text = File.ReadAllText("Messages/ConfigUpdateRequest.json");
 
             CustomResourceRequest resourceReq = JsonConvert.DeserializeObject<CustomResourceRequest>(text);
-            
+
             resourceReq.ResourceProperties = JObject.FromObject(updateRequest);
 
 
@@ -198,7 +195,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities.Tests
             updateRequest.Parameter = "/storyengine/dev/bootstrap";
             //updateRequest.KeyId = "alias/devEnvironmentKey";
             updateRequest.ConfigEntries.Add(new ConfigEntry
-                { ConfigType = ConfigEntryType.DefaultSmsSenderType, Value = "SomeDiscountProvider" });
+            { ConfigType = ConfigEntryType.DefaultSmsSenderType, Value = "SomeDiscountProvider" });
 
             string text = File.ReadAllText("Messages/ConfigUpdateRequest.json");
 

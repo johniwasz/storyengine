@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Notifications.Repository.Amazon;
@@ -13,7 +13,7 @@ namespace Whetstone.StoryEngine.Notifications.Repository.Extensions
     {
         public static IServiceCollection AddNotificationProcessor(this IServiceCollection services, BootstrapConfig bootConfig, bool useLambda = true)
         {
-            if ( useLambda )
+            if (useLambda)
             {
                 services.AddSingleton<INotificationProcessor, LambdaNotificationProcessor>();
             }

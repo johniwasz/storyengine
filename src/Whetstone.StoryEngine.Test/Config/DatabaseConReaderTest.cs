@@ -1,9 +1,6 @@
 ﻿using Amazon.SimpleSystemsManagement;
 using Amazon.SimpleSystemsManagement.Model;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -34,7 +31,7 @@ namespace Whetstone.StoryEngine.Test.Config
             });
 
             string paramVal = response.Parameter.Value;
-            
+
 
         }
 

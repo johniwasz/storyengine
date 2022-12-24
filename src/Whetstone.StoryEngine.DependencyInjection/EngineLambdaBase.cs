@@ -1,13 +1,8 @@
-﻿using Amazon.Lambda.Core;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Whetstone.StoryEngine.Models.Configuration;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
+using Whetstone.StoryEngine.Models.Configuration;
 
 
 namespace Whetstone.StoryEngine.DependencyInjection
@@ -26,14 +21,14 @@ namespace Whetstone.StoryEngine.DependencyInjection
         public IConfiguration Configuration { get; set; }
 
 
- 
+
         public EngineLambdaBase()
         {
 
             Console.WriteLine("Entering EngineLambdaBase constructor");
             Stopwatch configWatch = new Stopwatch();
             configWatch.Start();
-            Configuration =  Bootstrapping.BuildConfiguration();
+            Configuration = Bootstrapping.BuildConfiguration();
             configWatch.Stop();
             Console.WriteLine($"Config load time is {configWatch.ElapsedMilliseconds}ms");
 

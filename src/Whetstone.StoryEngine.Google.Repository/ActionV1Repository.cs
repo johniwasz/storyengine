@@ -1,13 +1,9 @@
 ﻿using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
-using Amazon.Runtime.Internal;
 using Amazon.XRay.Recorder.Core;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Whetstone.Google.Actions.V1;
 using Whetstone.StoryEngine.Data;
@@ -30,7 +26,7 @@ namespace Whetstone.StoryEngine.Google.Repository
 
         public ActionV1Repository(IOptions<AuditClientMessagesConfig> auditConfig, IStoryRequestProcessor storyProcessor, IMediaLinker mediaLinker, IAppMappingReader appMappingReader,
              ISessionLogger sessionLogger, ILogger<ActionV1Repository> logger) : base(logger)
-        {           
+        {
             _storyProcessor = storyProcessor ?? throw new ArgumentNullException(nameof(storyProcessor));
             _mediaLinker = mediaLinker ?? throw new ArgumentNullException(nameof(mediaLinker));
             _appMappingReader = appMappingReader ?? throw new ArgumentNullException(nameof(appMappingReader));
@@ -57,7 +53,7 @@ namespace Whetstone.StoryEngine.Google.Repository
 
             string bodyText = gatewayRequest.Body;
             try
-            {              
+            {
                 request = HandlerRequest.FromJson(bodyText);
             }
             catch (Exception ex)

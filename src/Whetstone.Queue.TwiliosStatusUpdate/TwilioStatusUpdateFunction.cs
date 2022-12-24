@@ -1,15 +1,15 @@
-using System;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.SQSEvents;
-using Whetstone.StoryEngine;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+using Whetstone.StoryEngine;
+using Whetstone.StoryEngine.DependencyInjection;
 using Whetstone.StoryEngine.Models.Messaging;
 using Whetstone.StoryEngine.Repository.Messaging;
-using System.Web;
-using Whetstone.StoryEngine.DependencyInjection;
 
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
@@ -20,7 +20,7 @@ namespace Whetstone.Queue.TwiliosStatusUpdate
 
     public class TwilioStatusUpdateFunction : EngineLambdaBase
     {
-       
+
 
         /// <summary>
         /// Default constructor. This constructor is used by Lambda to construct the instance. When invoked in a Lambda environment
@@ -52,7 +52,7 @@ namespace Whetstone.Queue.TwiliosStatusUpdate
 
             foreach (var message in evnt.Records)
             {
-                await ProcessMessageAsync(message, statusCallbackHandler); 
+                await ProcessMessageAsync(message, statusCallbackHandler);
             }
         }
 
@@ -82,9 +82,9 @@ namespace Whetstone.Queue.TwiliosStatusUpdate
         {
 
             string messageId = message.MessageId;
-            
-            
-            if(message.MessageAttributes==null)
+
+
+            if (message.MessageAttributes == null)
                 throw new Exception($"Message id {message.MessageId} has no attributes. Attributes are expected");
 
             var originalScheme = message.MessageAttributes.ContainsKey(TwilioStatusUpdateMessage.ORIGINAL_SCHEME_ATTRIBUTE) ? message.MessageAttributes[TwilioStatusUpdateMessage.ORIGINAL_SCHEME_ATTRIBUTE] : null;
@@ -114,7 +114,7 @@ namespace Whetstone.Queue.TwiliosStatusUpdate
 
             if (!string.IsNullOrWhiteSpace(attributeCheckResult))
                 throw new Exception(string.Concat($"Message attribute issues with message id {messageId}:", attributeCheckResult));
-            
+
             UriBuilder originalUrlBuilder = new UriBuilder
             {
                 Scheme = originalScheme.StringValue,
@@ -153,7 +153,7 @@ namespace Whetstone.Queue.TwiliosStatusUpdate
             logger.LogInformation($"Message body for message id {messageId}: {message.Body}");
 
             twilioStatusMessage.MessageBody = HttpUtility.ParseQueryString(message.Body).ToDictionary();
-            
+
 
             return twilioStatusMessage;
 

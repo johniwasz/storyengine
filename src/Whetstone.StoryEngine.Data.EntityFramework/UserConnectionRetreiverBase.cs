@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon;
+﻿using Amazon;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
+using System.Text;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Configuration;
 
 namespace Whetstone.StoryEngine.Data.EntityFramework
@@ -107,7 +106,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
 
             var contextOptions = await GetContextOptionsAsync();
 
-            
+
             IUserDataContext dataContext = new UserDataContext(contextOptions, _dataContextLogger);
 
 
@@ -141,7 +140,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
 
                     logFact.AddProvider(new EFLoggerProvider());
                     contextBuilder.UseLoggerFactory(logFact);
-                    
+
                     contextBuilder.EnableSensitiveDataLogging();
 
                 }
@@ -168,7 +167,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
             return dataContext;
         }
 
-       public abstract Task<string> GetConnectionStringAsync();
+        public abstract Task<string> GetConnectionStringAsync();
 
     }
 }

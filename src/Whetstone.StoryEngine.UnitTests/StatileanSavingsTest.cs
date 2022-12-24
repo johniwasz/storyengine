@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Moq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models;
@@ -267,8 +265,8 @@ namespace Whetstone.UnitTests
 
             mocker.ProcessNotificationFunc = processNotifFunc;
 
-            IServiceCollection servCol = mocker.InitServiceCollection( titleVer);
-         
+            IServiceCollection servCol = mocker.InitServiceCollection(titleVer);
+
 
             IServiceProvider servProv = servCol.BuildServiceProvider();
 
@@ -289,7 +287,7 @@ namespace Whetstone.UnitTests
 
             StorySessionContext context = new StorySessionContext(titleVer, clientType);
 
-            StoryRequest request =  context.CreateLaunchRequest();
+            StoryRequest request = context.CreateLaunchRequest();
 
             StoryResponse resp = await storyRepProc.ProcessStoryRequestAsync(request);
             DataTitleClientUser curUser = await userRepo.GetUserAsync(request);
@@ -298,17 +296,17 @@ namespace Whetstone.UnitTests
             Assert.True(string.IsNullOrWhiteSpace(resp.EngineErrorText), $"Engine error found: {resp.EngineErrorText}");
             await ResponseHelper.WriteResponseAsync(request, resp, linker, sessionLogger);
 
-         // Confirm over 18
+            // Confirm over 18
             request = context.CreateIntentRequest("YesIntent");
             request.SessionContext = resp.SessionContext;
             resp = await storyRepProc.ProcessStoryRequestAsync(request);
 
             curUser = await userRepo.GetUserAsync(request);
-            Assert.True(curUser.CurrentNodeName.Equals("StatileanInsuranceCheck"),$"Expected node StatileanInsuranceCheck. Found {curUser.CurrentNodeName}");
+            Assert.True(curUser.CurrentNodeName.Equals("StatileanInsuranceCheck"), $"Expected node StatileanInsuranceCheck. Found {curUser.CurrentNodeName}");
             Assert.True(resp.ForceContinueSession, "Force continue session on YesIntent should be true");
             Assert.True(string.IsNullOrWhiteSpace(resp.EngineErrorText), $"Engine error found: {resp.EngineErrorText}");
             curUser = await userRepo.GetUserAsync(request);
-            
+
 
             await ResponseHelper.WriteResponseAsync(request, resp, linker, sessionLogger);
 
@@ -344,9 +342,9 @@ namespace Whetstone.UnitTests
 
             // Convert the crumbs into selected items and validate.
             List<SelectedItem> selItems = new List<SelectedItem>();
-            foreach(IStoryCrumb crumb in crumbs)
+            foreach (IStoryCrumb crumb in crumbs)
             {
-                if(crumb is SelectedItem)
+                if (crumb is SelectedItem)
                 {
                     if (crumb is SelectedItem selItem)
                         selItems.Add(selItem);
@@ -360,7 +358,7 @@ namespace Whetstone.UnitTests
 
             consentTypeName = consentTypeItem.Value;
 
-            
+
             // Find the mobile phone
             SelectedItem phoneNumItem = selItems.FirstOrDefault(x => x.Name.Equals("phonenumber"));
             Assert.True(phoneNumItem != null, "phonenumber selected item not found");

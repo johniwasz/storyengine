@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using Newtonsoft.Json;
 using Whetstone.StoryEngine.Models.Data;
 using Whetstone.StoryEngine.Models.Tracking;
 using YamlDotNet.Serialization;
@@ -51,7 +49,7 @@ namespace Whetstone.StoryEngine.Models.Conditions
         [YamlIgnore]
         [DataMember]
         [NotMapped]
-        [JsonProperty("conditionType", Order =0)]
+        [JsonProperty("conditionType", Order = 0)]
         public sealed override ConditionType ConditionType { get; set; }
 
         public override bool IsStoryCondition(ConditionInfo conditionInfo)

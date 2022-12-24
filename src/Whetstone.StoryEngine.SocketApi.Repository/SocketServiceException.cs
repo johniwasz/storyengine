@@ -10,7 +10,7 @@ namespace Whetstone.StoryEngine.SocketApi.Repository
         {
         }
 
-        public SocketServiceException( string message ) :
+        public SocketServiceException(string message) :
             base(message)
         {
         }

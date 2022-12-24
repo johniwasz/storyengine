@@ -1,16 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using System.Text;
-using Newtonsoft.Json;
-using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.Models.Data
 {
-   
-    [JsonObject(IsReference =true)]
+
+    [JsonObject(IsReference = true)]
     [DataContract]
     [Table("InventoryItems")]
     public class DataInventoryItem
@@ -21,7 +18,7 @@ namespace Whetstone.StoryEngine.Models.Data
 
         }
 
-        [JsonProperty(PropertyName ="sysId", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "sysId", NullValueHandling = NullValueHandling.Ignore)]
         [DataMember]
         [DatabaseGenerated((DatabaseGeneratedOption.Identity))]
         [Key]

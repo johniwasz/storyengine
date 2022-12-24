@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Extensions.Logging;
+using Renci.SshNet;
+using Renci.SshNet.Common;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Amazon.SimpleNotificationService.Model;
-using Microsoft.Extensions.Logging;
-using Renci.SshNet;
-using Renci.SshNet.Common;
 using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.Repository.Amazon;
 
 namespace Whetstone.StoryEngine.Repository
 {

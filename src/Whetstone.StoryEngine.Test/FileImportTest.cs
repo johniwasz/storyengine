@@ -1,42 +1,35 @@
-﻿using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Data.Amazon;
-using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.Models.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
-using Whetstone.StoryEngine.Repository;
-using Xunit;
+using Whetstone.StoryEngine.Data.Amazon;
+using Whetstone.StoryEngine.Models.Serialization;
 using Whetstone.StoryEngine.Models.Story;
+using Xunit;
 
 namespace Whetstone.StoryEngine.Test
 {
 
     public class FileImportTest : TestServerFixture
     {
-  
-        [Theory(DisplayName ="Import Audio File")]
+
+        [Theory(DisplayName = "Import Audio File")]
         [InlineData("backgroundopen.mp3", "test_adventure", "1.0")]
         [InlineData("restart.mp3", null, "1.0")]
-        [InlineData("storyintro.mp3",null, "1.0")]
+        [InlineData("storyintro.mp3", null, "1.0")]
         [InlineData("trollgrowl.mp3", "test_adventure", "1.1")]
         [InlineData("trollsniff.mp3", "test_adventure", "1.1")]
         public async void ImportAudioFile(string audioFile, string title, string version)
         {
 
-          string testDataFile = string.Concat(@"AudioFiles\", audioFile);
+            string testDataFile = string.Concat(@"AudioFiles\", audioFile);
 
-           byte[] audioContent = File.ReadAllBytes(testDataFile);
+            byte[] audioContent = File.ReadAllBytes(testDataFile);
 
 
             S3FileStore blobRep = GetBlobRepository();
 
             TitleVersion titleVer = new TitleVersion(title, version);
 
-             await blobRep.StoreFileAsync( titleVer, audioFile, audioContent);
+            await blobRep.StoreFileAsync(titleVer, audioFile, audioContent);
 
         }
 
@@ -50,10 +43,10 @@ namespace Whetstone.StoryEngine.Test
 
             TitleVersion titleVer = new TitleVersion("test_adventure", "1.0");
 
-            byte[] fileContents = await blobRep.GetFileContentAsync( titleVer, "trollgrowl.mp3");
+            byte[] fileContents = await blobRep.GetFileContentAsync(titleVer, "trollgrowl.mp3");
         }
 
-    
+
         [Fact(DisplayName = "Save Yaml Dictionary")]
         public void AppYamlSave()
         {
@@ -70,14 +63,14 @@ namespace Whetstone.StoryEngine.Test
             string rawText = yamlSerializer.Serialize(titleMappings);
 
 
-            
+
             var yamlDeserializer = YamlSerializationBuilder.GetYamlDeserializer();
             Dictionary<string, string> skillMappings = yamlDeserializer.Deserialize<Dictionary<string, string>>(rawText);
 
 
-          //  File.WriteAllText("appmappings.yaml", rawText);
+            //  File.WriteAllText("appmappings.yaml", rawText);
 
-            
+
         }
 
 

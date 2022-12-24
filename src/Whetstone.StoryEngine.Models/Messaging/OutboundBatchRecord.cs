@@ -5,10 +5,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using System.Text;
 using Whetstone.StoryEngine.Models.Data;
 using Whetstone.StoryEngine.Models.Messaging.Sms;
-using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.Models.Messaging
 {
@@ -24,7 +22,7 @@ namespace Whetstone.StoryEngine.Models.Messaging
         [System.ComponentModel.DataAnnotations.Key]
         [DataMember]
         [JsonRequired]
-        [Column("id", Order =0)]
+        [Column("id", Order = 0)]
         [JsonProperty(PropertyName = "id")]
         public Guid Id { get; set; }
 
@@ -46,7 +44,7 @@ namespace Whetstone.StoryEngine.Models.Messaging
         [JsonProperty(PropertyName = "smsToNumberid")]
         public Guid? SmsToNumberId { get; set; }
 
-      
+
         [DataMember]
         [Column("smsfromnumberid", Order = 4)]
         [JsonProperty(PropertyName = "smsFromNumberId")]
@@ -58,7 +56,7 @@ namespace Whetstone.StoryEngine.Models.Messaging
         [JsonProperty(PropertyName = "consentId")]
         public Guid? ConsentId { get; set; }
 
-        [DataMember]       
+        [DataMember]
         [Column("smsprovider", Order = 6)]
         [JsonProperty(PropertyName = "smsprovider")]
         [JsonConverter(typeof(StringEnumConverter))]
@@ -87,7 +85,7 @@ namespace Whetstone.StoryEngine.Models.Messaging
         [JsonRequired]
         [NotMapped]
         [DataMember]
-        [JsonProperty(PropertyName ="isSaved", DefaultValueHandling = DefaultValueHandling.Include)]
+        [JsonProperty(PropertyName = "isSaved", DefaultValueHandling = DefaultValueHandling.Include)]
         public bool IsSaved { get; set; }
 
 
@@ -116,6 +114,6 @@ namespace Whetstone.StoryEngine.Models.Messaging
         [NotMapped]
         [JsonConverter(typeof(StringEnumConverter))]
         [JsonProperty(PropertyName = "notificationType")]
-        public NotificationTypeEnum NotificationType { get { return NotificationTypeEnum.Sms; } set { /* do nothing */ }  }
+        public NotificationTypeEnum NotificationType { get { return NotificationTypeEnum.Sms; } set { /* do nothing */ } }
     }
 }

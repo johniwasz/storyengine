@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Amazon.S3;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System.IO;
-using System.Text;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Data.Amazon;
-using Xunit;
-using Whetstone.StoryEngine.Models.Configuration;
-using Newtonsoft.Json;
-using Whetstone.StoryEngine.Models.Story;
 using Whetstone.StoryEngine.Models.Serialization;
-using System.Threading.Tasks;
-using Amazon.S3;
+using Whetstone.StoryEngine.Models.Story;
 using Whetstone.StoryEngine.Test;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
+using Xunit;
 
 namespace Whetstone.StoryEngine.AlexaFunction.Test
 {
@@ -30,8 +25,8 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
             var yamlDeserializer = YamlSerializationBuilder.GetYamlDeserializer();
             StoryTitle title = yamlDeserializer.Deserialize<StoryTitle>(yamlRawText);
 
-          
-      
+
+
         }
 
         [Fact(DisplayName = "Import Animal Farm Zip to S3")]
@@ -55,7 +50,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
             IStoryTitleImporter storyImporter = new S3StoryTitleImporter(fileRep);
 
-           await storyImporter.ImportFromZipAsync(importZip);
+            await storyImporter.ImportFromZipAsync(importZip);
 
         }
 

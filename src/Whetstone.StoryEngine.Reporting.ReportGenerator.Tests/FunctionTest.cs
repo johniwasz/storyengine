@@ -1,24 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Amazon;
-using Xunit;
-using Amazon.Lambda.Core;
-using Amazon.Lambda.TestUtilities;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Renci.SshNet;
+using System;
+using System.IO;
+using System.Text;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Serialization;
-using Whetstone.StoryEngine.Reporting.ReportGenerator;
 using Whetstone.StoryEngine.Repository;
 using Whetstone.StoryEngine.Repository.Amazon;
-using SftpClient = Whetstone.StoryEngine.Repository.SftpClient;
+using Xunit;
 using ISftpClient = Whetstone.StoryEngine.Repository.ISftpClient;
-using Microsoft.Extensions.Logging;
+using SftpClient = Whetstone.StoryEngine.Repository.SftpClient;
 
 namespace Whetstone.StoryEngine.Reporting.ReportGenerator.Tests
 {
@@ -59,7 +53,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportGenerator.Tests
 
             var connectionInfo = new ConnectionInfo(ftpConfig.Host,
                 ftpConfig.UserName,
-                new PasswordAuthenticationMethod(ftpConfig.UserName,ftpConfig.UserSecret));
+                new PasswordAuthenticationMethod(ftpConfig.UserName, ftpConfig.UserSecret));
 
             string fileName = DateTime.UtcNow.ToString("yyyyMMdd");
 
@@ -72,9 +66,9 @@ namespace Whetstone.StoryEngine.Reporting.ReportGenerator.Tests
                 var dirList = client.ListDirectory(".");
 
                 StringBuilder csvContents = new StringBuilder();
-               
+
                 using (MemoryStream memStream = new MemoryStream())
-                { 
+                {
                     client.DownloadFile("sampleexport.csv", memStream);
                     memStream.Position = 0;
                     using (var reader = new StreamReader(memStream))
@@ -116,7 +110,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportGenerator.Tests
 
             var storeLogger = logFactory.CreateLogger<ParameterStoreReader>();
 
-            EnvironmentConfig envConfig = new EnvironmentConfig {Region = RegionEndpoint.USEast1};
+            EnvironmentConfig envConfig = new EnvironmentConfig { Region = RegionEndpoint.USEast1 };
 
 
             var envOptions = Options.Create(envConfig);

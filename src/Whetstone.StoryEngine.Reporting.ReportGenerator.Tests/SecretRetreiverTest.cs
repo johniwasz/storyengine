@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon;
+﻿using Amazon;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Repository;
 using Whetstone.StoryEngine.Repository.Amazon;
@@ -48,7 +44,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportGenerator.Tests
 
             string fileName = "@@FormatUTC(yyyy-MM-ddTHHmmss)@@_Whetstone_Stateline_VoiceAssistantAPILog.csv";
 
-            string retVal = await  MacroProcessing.ProcessMacrosAsync(fileName);
+            string retVal = await MacroProcessing.ProcessMacrosAsync(fileName);
 
 
 

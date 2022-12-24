@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
 
 namespace Whetstone.StoryEngine.Reporting.Models
 {
@@ -33,7 +32,7 @@ namespace Whetstone.StoryEngine.Reporting.Models
         /// If missing, the report is sent immediately. If set, then the report is sent on or shortly after
         /// the specified date and time. The date must be in the future.
         /// </summary>
-        [JsonProperty(PropertyName = "deliveryTime",NullValueHandling =  NullValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "deliveryTime", NullValueHandling = NullValueHandling.Ignore)]
         public DateTime? DeliveryTime { get; set; }
 
 

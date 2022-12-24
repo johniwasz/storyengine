@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json.Converters;
-using Whetstone.StoryEngine.Models.Data;
+using System;
 
 namespace Whetstone.StoryEngine.Models.Messaging
 {
@@ -17,7 +14,7 @@ namespace Whetstone.StoryEngine.Models.Messaging
         /// <summary>
         /// SendStatus a Google or Alexa notification
         /// </summary>
-        SpeechClientNotification =2,
+        SpeechClientNotification = 2,
     }
 
 
@@ -49,7 +46,7 @@ namespace Whetstone.StoryEngine.Models.Messaging
 
         Guid? Id { get; set; }
 
-      
+
         NotificationTypeEnum NotificationType { get; set; }
 
 

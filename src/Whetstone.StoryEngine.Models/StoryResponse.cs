@@ -1,11 +1,9 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Whetstone.StoryEngine.Models.Actions;
 using Whetstone.StoryEngine.Models.Integration;
 using Whetstone.StoryEngine.Models.Story;
-using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models
 {

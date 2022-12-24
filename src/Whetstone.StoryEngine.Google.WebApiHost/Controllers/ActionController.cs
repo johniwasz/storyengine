@@ -2,9 +2,7 @@
 using Amazon.Lambda.Core;
 using Amazon.Lambda.TestUtilities;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Whetstone.Google.Actions.V1;
 using Whetstone.StoryEngine.Google.Actions.LambdaHost;
@@ -21,7 +19,7 @@ namespace Whetstone.StoryEngine.Google.WebApiHost.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task<ActionResult> PostAsync([FromBody][ModelBinder(typeof(HandlerBinder))]  HandlerRequest value, [FromQuery] string alias, [FromQuery] string appid)
+        public async Task<ActionResult> PostAsync([FromBody][ModelBinder(typeof(HandlerBinder))] HandlerRequest value, [FromQuery] string alias, [FromQuery] string appid)
         {
 
             //Thread.Sleep(1000);

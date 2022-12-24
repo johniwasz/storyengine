@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Amazon.CognitoIdentityProvider.Model;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Whetstone.StoryEngine.CoreApi.Models;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Security;
 using Whetstone.StoryEngine.Security.Claims;
 using SignUpRequest = Whetstone.StoryEngine.Security.SignUpRequest;
@@ -16,7 +12,7 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
 {
 
 
-    
+
     [Route("api/user")]
     [ApiController]
     public class UserController : ControllerBase
@@ -100,15 +96,15 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
         public async Task<IActionResult> GetPermissionsAsync()
         {
 
-           return await Task.Run(() =>
-            {
+            return await Task.Run(() =>
+             {
 
-                var perms = this.User.Claims.Where(x => x.Type.Equals(SoniBridgeClaimTypes.Permission))
-                    .Select(x => x.Value);
+                 var perms = this.User.Claims.Where(x => x.Type.Equals(SoniBridgeClaimTypes.Permission))
+                     .Select(x => x.Value);
 
 
-                return new OkObjectResult(perms);
-            });
+                 return new OkObjectResult(perms);
+             });
         }
 
 

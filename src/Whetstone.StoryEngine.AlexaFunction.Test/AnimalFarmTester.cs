@@ -1,33 +1,18 @@
 ﻿
 using Amazon.Lambda.TestUtilities;
 using Newtonsoft.Json;
-using Whetstone.Alexa;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.Memory;
-using Newtonsoft.Json.Serialization;
-using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Data.Amazon;
-using Whetstone.StoryEngine.Data.FileStorage;
-using Whetstone.StoryEngine.Data.Yaml;
-using Whetstone.StoryEngine.Models;
+using System.Threading.Tasks;
+using Whetstone.Alexa;
 using Whetstone.StoryEngine.Models.Actions;
-using Whetstone.StoryEngine.Models.Conditions;
-using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Serialization;
 using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.Models.Story.Ssml;
-using Whetstone.StoryEngine.Models.Story.Text;
 using Whetstone.StoryEngine.Models.Tracking;
-using Whetstone.StoryEngine.Models.Validation;
 using Xunit;
-using System.Threading.Tasks;
-using Whetstone.StoryEngine.Data.Caching;
 
 namespace Whetstone.StoryEngine.AlexaFunction.Test
 {
@@ -42,7 +27,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
             string locale = "en-US";
 
-            AlexaSessionContext sessionContext = new AlexaSessionContext(AlexaSessionContext.AnimalFarmPIId, string.Concat("testsession_", Guid.NewGuid().ToString()),locale);
+            AlexaSessionContext sessionContext = new AlexaSessionContext(AlexaSessionContext.AnimalFarmPIId, string.Concat("testsession_", Guid.NewGuid().ToString()), locale);
 
             var context = GetLambdaContext();
 
@@ -129,7 +114,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
             location.Add("location", "outside");
             intentResp = await SendIntent(sessionContext, function, "GotoLocationIntent", location, RequestType.IntentRequest, intentResp.SessionAttributes);
 
-           
+
             location = new Dictionary<string, string>();
             location.Add("location", "barn");
             intentResp = await SendIntent(sessionContext, function, "GotoLocationIntent", location, RequestType.IntentRequest, intentResp.SessionAttributes);
@@ -138,7 +123,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
             location = new Dictionary<string, string>();
             location.Add("location", "milfred");
             intentResp = await SendIntent(sessionContext, function, "GoToLocationIntent", location, RequestType.IntentRequest, intentResp.SessionAttributes);
-            
+
 
             location = new Dictionary<string, string>();
             location.Add("item", "record");
@@ -150,7 +135,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
 
 
-            location = new Dictionary<string, string>();      
+            location = new Dictionary<string, string>();
             location.Add("item", "catnip");
             intentResp = await SendIntent(sessionContext, function, "TakeItemIntent", location, RequestType.IntentRequest, intentResp.SessionAttributes);
 
@@ -201,23 +186,23 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
             //JsonSerializerSettings serSettings = new JsonSerializerSettings();
             //serSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             //serSettings.Formatting = Formatting.Indented;
-       
+
 
             //string responseText = JsonConvert.SerializeObject(returnVal, serSettings);
 
             Debug.WriteLine(returnVal.Response.OutputSpeech.Ssml);
             testLogger = context.Logger as TestLambdaLogger;
             testLog = testLogger.Buffer.ToString();
-    
-           Debug.WriteLine(testLog);
+
+            Debug.WriteLine(testLog);
 
 
-           AlexaResponse ssmlText = await SendIntent(sessionContext, function, "StartInvestigationIntent", returnVal.SessionAttributes);
+            AlexaResponse ssmlText = await SendIntent(sessionContext, function, "StartInvestigationIntent", returnVal.SessionAttributes);
 
 
-            Dictionary<string,string> location  = new Dictionary<string, string>();
+            Dictionary<string, string> location = new Dictionary<string, string>();
 
-                         
+
             ssmlText = await SendIntent(sessionContext, function, "DarkAndStormyIntent", returnVal.SessionAttributes);
 
             ssmlText = await SendIntent(sessionContext, function, "EndGameIntent", returnVal.SessionAttributes);
@@ -227,12 +212,12 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
             ssmlText = await SendIntent(sessionContext, function, "AMAZON.YesIntent", returnVal.SessionAttributes);
 
-  
+
 
 
             location = new Dictionary<string, string>();
-         //   location.Add("location", "kitchen");
-         //   location.Add("location", "barn");
+            //   location.Add("location", "kitchen");
+            //   location.Add("location", "barn");
             location.Add("location", "tractor");
 
             ssmlText = await SendIntent(sessionContext, function, "GoToLocationIntent", location, RequestType.IntentRequest, returnVal.SessionAttributes);
@@ -305,7 +290,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
             location = new Dictionary<string, string>();
             location.Add("item", "airhorn");
-            ssmlText = await SendIntent(sessionContext, function, "TakeItemIntent", location,RequestType.IntentRequest, returnVal.SessionAttributes);
+            ssmlText = await SendIntent(sessionContext, function, "TakeItemIntent", location, RequestType.IntentRequest, returnVal.SessionAttributes);
 
             location = new Dictionary<string, string>();
             location.Add("verb", "play");
@@ -391,7 +376,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
             ssmlText = await SendIntent(sessionContext, function, "GiveRatSandwichIntent", ssmlText.SessionAttributes);
 
-     
+
 
 
         }
@@ -464,7 +449,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
 
 
- 
+
 
         private AlexaRequest GetRequestByFile(string fileName)
         {
@@ -510,15 +495,15 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
             foreach (var node in adventureTitle.Nodes)
             {
-                foreach(var respSet in node.ResponseSet)
+                foreach (var respSet in node.ResponseSet)
                 {
 
-                    foreach(var locResp in respSet.LocalizedResponses)
+                    foreach (var locResp in respSet.LocalizedResponses)
                     {
-                        if(string.IsNullOrWhiteSpace(locResp.LargeImageFile))                        
+                        if (string.IsNullOrWhiteSpace(locResp.LargeImageFile))
                             locResp.LargeImageFile = "afi-welcome-lg.png";
-                        
-                        if(string.IsNullOrWhiteSpace(locResp.SmallImageFile))
+
+                        if (string.IsNullOrWhiteSpace(locResp.SmallImageFile))
                             locResp.SmallImageFile = "afi-welcome-sm.png";
 
 
@@ -533,10 +518,10 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
             var ser = YamlSerializationBuilder.GetYamlSerializer();
 
             string rawText = ser.Serialize(adventureTitle);
-            
+
 
         }
 
-  
+
     }
 }

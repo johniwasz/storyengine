@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Whetstone.StoryEngine.LambdaUtilities
 {
-    public class InvalidRoleException: Exception
+    public class InvalidRoleException : Exception
     {
 
 

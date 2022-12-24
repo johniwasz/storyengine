@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Whetstone.StoryEngine.Cache;
 using System;
-
 using System.Threading.Tasks;
+using Whetstone.StoryEngine.Cache;
 
 namespace Whetstone.StoryEngine.Repository
 {
@@ -14,17 +12,17 @@ namespace Whetstone.StoryEngine.Repository
         private const string CONTAINERPREFIX = "skillcache";
 
 
-        private  IDistributedCache _cache;
+        private IDistributedCache _cache;
         private readonly ILogger<SkillCache> _logger;
 
-        public SkillCache( IDistributedCache cache, ILogger<SkillCache> logger)
+        public SkillCache(IDistributedCache cache, ILogger<SkillCache> logger)
         {
             _cache = cache ?? throw new ArgumentNullException($"{nameof(cache)}");
 
             _logger = logger ?? throw new ArgumentNullException($"{nameof(logger)}");
         }
 
-        public async  Task<T> GetCacheValueAsync<T>(string skillId, string cacheItemName)
+        public async Task<T> GetCacheValueAsync<T>(string skillId, string cacheItemName)
         {
             if (string.IsNullOrWhiteSpace(skillId))
                 throw new ArgumentException("skillId cannot be null or empty");
@@ -65,7 +63,7 @@ namespace Whetstone.StoryEngine.Repository
         }
 
 
-        private string GetCacheKey( string skillId, string cacheItemName)
+        private string GetCacheKey(string skillId, string cacheItemName)
         {
             string retVal = string.Concat(skillId, ":", cacheItemName);
             return retVal;

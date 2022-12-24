@@ -1,15 +1,10 @@
-
-using System;
-using System.Collections.Generic;
-using System.IO;
-
 namespace Whetstone.StoryEngine.Cache.Models
 {
     public class CacheItem : ICacheTable
     {
 
 
-     
+
         public string CacheKey { get; set; }
 
         public byte[] Value { get; set; }

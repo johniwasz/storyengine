@@ -1,25 +1,21 @@
-﻿using Google.Cloud.Dialogflow.V2;
-
-using Newtonsoft.Json;
-using Whetstone.Google.Actions.V1;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using Xunit;
-using Whetstone.StoryEngine.Models.Story;
+﻿using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
-using Moq;
-using Amazon.Lambda.APIGatewayEvents;
-using Whetstone.UnitTests;
-using System.Threading.Tasks;
-using Whetstone.StoryEngine.Repository;
-using Whetstone.StoryEngine.Data;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
-using Whetstone.StoryEngine.Google.Repository;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Moq;
+using Newtonsoft.Json;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using Whetstone.Google.Actions.V1;
+using Whetstone.StoryEngine.Data;
+using Whetstone.StoryEngine.Google.Repository;
 using Whetstone.StoryEngine.Models.Configuration;
+using Whetstone.StoryEngine.Models.Story;
+using Whetstone.StoryEngine.Repository;
+using Whetstone.UnitTests;
+using Xunit;
 
 namespace Whetstone.StoryEngine.UnitTests
 {
@@ -31,7 +27,7 @@ namespace Whetstone.StoryEngine.UnitTests
         public void LoadAlexaRequest()
         {
 
-           
+
 
             string text = File.ReadAllText(@"GoogleActionMessages/Whetstone/ActionLaunchMessage.json");
 

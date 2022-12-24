@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
-using Whetstone.StoryEngine.Models.Admin;
-
-namespace Whetstone.StoryEngine.Models.Serialization
+﻿namespace Whetstone.StoryEngine.Models.Serialization
 {
 
     /*

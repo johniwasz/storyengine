@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
-using Amazon.DynamoDBv2;
+﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using Amazon.XRay.Recorder.Core;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Nito.AsyncEx;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Cache.Manager;
 using Whetstone.StoryEngine.Cache.Models;
 
@@ -35,7 +35,7 @@ namespace Whetstone.StoryEngine.Cache.DynamoDB
             _cacheTtlManager = cacheTtlManager ?? throw new ArgumentNullException(nameof(cacheTtlManager));
 
 
-            if(cacheConfig?.Value==null)
+            if (cacheConfig?.Value == null)
                 throw new ArgumentNullException(nameof(cacheConfig.Value));
 
             if (string.IsNullOrWhiteSpace(cacheConfig?.Value?.TableName))

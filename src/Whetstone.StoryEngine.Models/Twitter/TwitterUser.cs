@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models.Twitter
 {
@@ -82,7 +80,7 @@ namespace Whetstone.StoryEngine.Models.Twitter
         [JsonProperty(PropertyName = "profile_sidebar_border_color")]
         public long ProfileSidebarBorderColor { get; set; }
 
-        [JsonProperty(PropertyName ="time_zone")]
+        [JsonProperty(PropertyName = "time_zone")]
         public string Timezone { get; set; }
 
         [JsonProperty(PropertyName = "geo_enabled")]
@@ -105,7 +103,7 @@ namespace Whetstone.StoryEngine.Models.Twitter
         public bool ProfileBackgroundTile { get; set; }
 
         [JsonProperty(PropertyName = "listed_count")]
-        public long ListedCount { get; set;  }
+        public long ListedCount { get; set; }
 
 
         [JsonProperty(PropertyName = "profile_sidebar_fill_color")]

@@ -1,22 +1,19 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using Newtonsoft.Json;
-using YamlDotNet.Serialization;
 using System.Diagnostics;
-using Whetstone.StoryEngine.Models.Serialization;
+using System.Runtime.Serialization;
 using Whetstone.StoryEngine.Models.Actions;
 using Whetstone.StoryEngine.Models.Integration;
+using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Story
 {
 
-   // [JsonConverter(typeof(DollarIdPreservingConverter<Intent>))]
- 
+    // [JsonConverter(typeof(DollarIdPreservingConverter<Intent>))]
+
     public static class WhetstoneIntents
     {
         public static readonly string US_PHONENUMBER_INTENT = "WHETSTONE.US_PHONENUMBER";
@@ -55,7 +52,7 @@ namespace Whetstone.StoryEngine.Models.Story
 
         [DataMember]
         [YamlMember(Alias = "id", Order = 1)]
-        [JsonProperty(PropertyName ="sysId")]
+        [JsonProperty(PropertyName = "sysId")]
         public long? Id { get; set; }
 
 
@@ -119,9 +116,9 @@ namespace Whetstone.StoryEngine.Models.Story
         /// Used to change user state or perform some action on user state.
         /// </summary>
         /// <remarks>This includes things like saving node visits or changing inventory status.</remarks>
-        [YamlMember(Alias ="actions")]
+        [YamlMember(Alias = "actions")]
         [JsonProperty("actions")]
-        [DataMember()]        
+        [DataMember()]
         public List<NodeActionData> Actions { get; set; }
 
     }

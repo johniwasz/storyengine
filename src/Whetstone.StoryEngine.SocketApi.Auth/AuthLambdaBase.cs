@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Amazon.Runtime;
-using System.Text;
+﻿using Amazon;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-
-using Amazon;
-
-using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.DependencyInjection;
-using Whetstone.StoryEngine.Security;
-using Whetstone.StoryEngine.Models;
-
 using Serilog;
 using Serilog.Extensions.Logging;
+using System;
+using System.Diagnostics;
+using Whetstone.StoryEngine.DependencyInjection;
+using Whetstone.StoryEngine.Models;
+using Whetstone.StoryEngine.Models.Configuration;
 
 namespace Whetstone.StoryEngine.SocketApi
 {

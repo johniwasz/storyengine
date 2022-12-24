@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Whetstone.StoryEngine.Models.Data;
+using System;
 using Whetstone.StoryEngine.Models.Story.Text;
 
 namespace Whetstone.StoryEngine.Models.Serialization
@@ -22,7 +19,7 @@ namespace Whetstone.StoryEngine.Models.Serialization
             get { return true; }
 
         }
-        
+
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {

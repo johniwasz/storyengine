@@ -1,12 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using Whetstone.StoryEngine.Models.Data;
 using Whetstone.StoryEngine.Repository.Phone;
-using Whetstone.StoryEngine;
-using Whetstone.StoryEngine.Data;
 
 namespace Whetstone.StoryEngine.Data.EntityFramework
 {

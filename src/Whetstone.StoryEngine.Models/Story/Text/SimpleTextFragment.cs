@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.Serialization;
-using System.Text;
-using MessagePack;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 using Whetstone.StoryEngine.Models.Story.Ssml;
 using YamlDotNet.Serialization;
 
@@ -31,7 +27,7 @@ namespace Whetstone.StoryEngine.Models.Story.Text
         [DataMember]
         [MessagePack.Key(1)]
         [YamlMember(Order = 1)]
-        [JsonProperty(PropertyName ="text", NullValueHandling =  NullValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "text", NullValueHandling = NullValueHandling.Ignore)]
         public string Text { get; set; }
 
         [NotMapped]

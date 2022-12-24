@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 using Whetstone.StoryEngine.Data.EntityFramework.MigrationOperations;
 
 namespace Whetstone.StoryEngine.Data.Create.Migrations

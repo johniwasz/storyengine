@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models.Data
 {
@@ -28,7 +26,7 @@ namespace Whetstone.StoryEngine.Models.Data
         {
             IEnumerator colEnum = GetEnumerator();
 
-         
+
             yield return colEnum;
         }
 

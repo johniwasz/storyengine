@@ -1,5 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+﻿using Amazon.Lambda.Core;
+using Amazon.XRay.Recorder.Core;
+using Amazon.XRay.Recorder.Core.Strategies;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Concurrent;
@@ -7,12 +11,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
-using Amazon.Lambda.Core;
-using Microsoft.Extensions.Caching.Distributed;
+using Whetstone.StoryEngine.Cache;
 using Whetstone.StoryEngine.Data;
+using Whetstone.StoryEngine.Data.Caching;
+using Whetstone.StoryEngine.Data.EntityFramework;
+using Whetstone.StoryEngine.Data.EntityFramework.EntityManager;
+using Whetstone.StoryEngine.MessageSender;
+using Whetstone.StoryEngine.MessageSender.SaveMessageTask;
 using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Data;
 using Whetstone.StoryEngine.Models.Messaging;
 using Whetstone.StoryEngine.Models.Serialization;
@@ -20,23 +28,13 @@ using Whetstone.StoryEngine.Models.Story;
 using Whetstone.StoryEngine.Repository;
 using Whetstone.StoryEngine.Repository.Messaging;
 using Whetstone.StoryEngine.Repository.Phone;
-using Whetstone.StoryEngine.MessageSender;
 using Xunit;
-using System.Linq;
-using Whetstone.StoryEngine.Cache;
-using Whetstone.StoryEngine.Data.Caching;
-using Whetstone.StoryEngine.Data.EntityFramework.EntityManager;
-using Whetstone.StoryEngine.MessageSender.SaveMessageTask;
-using Amazon.XRay.Recorder.Core;
-using Amazon.XRay.Recorder.Core.Strategies;
-using Microsoft.Extensions.Logging;
-using Whetstone.StoryEngine.Data.EntityFramework;
 
 namespace Whetstone.StoryEngine.Test
 {
     public class EngineTests : TestServerFixture
     {
-       
+
 
 
 #pragma warning disable xUnit1013 // Public method should be marked as test
@@ -93,7 +91,7 @@ namespace Whetstone.StoryEngine.Test
 
             Assert.True(appMapping.Version.Equals("0.3"));
 
-           appMapping = await appReader.GetTitleAsync(Client.Alexa, "amzn1.ask.skill.b46248ca-35ad-4ddf-a2f7-333578bf9029", "LIVE");
+            appMapping = await appReader.GetTitleAsync(Client.Alexa, "amzn1.ask.skill.b46248ca-35ad-4ddf-a2f7-333578bf9029", "LIVE");
 
 
             Assert.True(appMapping.Version.Equals("0.3"));
@@ -105,12 +103,12 @@ namespace Whetstone.StoryEngine.Test
 
             ITitleCacheRepository titleCacheRep = Services.GetRequiredService<ITitleCacheRepository>();
 
-           var title = await titleCacheRep.GetStoryTitleAsync(appMapping);
+            var title = await titleCacheRep.GetStoryTitleAsync(appMapping);
 
 
         }
 
-       
+
 
         [Fact]
         public async Task BasicCacheReadWriteTest()
@@ -800,7 +798,7 @@ namespace Whetstone.StoryEngine.Test
             Locale = locale;
             UserId = Guid.NewGuid().ToString("N");
             SessionId = Guid.NewGuid().ToString("N");
-            
+
             EngineSessionId = Guid.NewGuid();
         }
 
@@ -817,14 +815,14 @@ namespace Whetstone.StoryEngine.Test
         }
 
 
-        public StoryRequest GetIntentRequest(string intent,  StoryRequestType requestType, EngineSessionContext sessionContext)
+        public StoryRequest GetIntentRequest(string intent, StoryRequestType requestType, EngineSessionContext sessionContext)
         {
             return GetIntentRequest(intent, null, requestType, sessionContext);
 
         }
 
 
-        
+
 
         public StoryRequest GetIntentRequest(string intent, Dictionary<string, string> slotValues, StoryRequestType requestType, EngineSessionContext sessionContext)
         {
@@ -887,14 +885,14 @@ namespace Whetstone.StoryEngine.Test
             req.Intent = intent;
             req.Slots = slotValues;
             req.IsNewSession = false;
-            if(sessionContext!=null)
+            if (sessionContext != null)
                 req.SessionContext = sessionContext;
 
 
             return req;
         }
 
-       public StoryRequest GetLaunchRequest()
+        public StoryRequest GetLaunchRequest()
         {
             StoryRequest req = BootstrapRequest();
 
@@ -905,15 +903,15 @@ namespace Whetstone.StoryEngine.Test
         }
 
 
-       public StoryRequest GetResumeRequest()
-       {
-           StoryRequest req = BootstrapRequest();
+        public StoryRequest GetResumeRequest()
+        {
+            StoryRequest req = BootstrapRequest();
 
-           req.RequestType = StoryRequestType.Resume;
-           req.IsNewSession = true;
+            req.RequestType = StoryRequestType.Resume;
+            req.IsNewSession = true;
 
-           return req;
-       }
+            return req;
+        }
 
 
 

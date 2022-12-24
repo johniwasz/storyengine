@@ -1,28 +1,27 @@
 using Amazon.Lambda.Core;
 using Amazon.Lambda.RuntimeSupport;
-using Amazon.Lambda.Serialization.Json;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
+using System.Diagnostics;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
+using Whetstone.StoryEngine.Data.DependencyInjection;
+using Whetstone.StoryEngine.Data.EntityFramework;
 using Whetstone.StoryEngine.DependencyInjection;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Messaging;
+using Whetstone.StoryEngine.Models.Messaging.Sms;
 using Whetstone.StoryEngine.Repository;
 using Whetstone.StoryEngine.Repository.Messaging;
-using Microsoft.Extensions.DependencyInjection;
-using Whetstone.StoryEngine.Models.Messaging.Sms;
-using Microsoft.Extensions.Options;
-using System.Diagnostics;
-using Whetstone.StoryEngine.Data.DependencyInjection;
 using Whetstone.StoryEngine.Repository.Phone;
-using Microsoft.Extensions.Configuration;
-using System.Net.Http;
-using System.Threading;
-using Whetstone.StoryEngine.Data.EntityFramework;
 
 namespace Whetstone.StoryEngine.MessageSender.SaveMessageTask
 {
-    public class MessageSaveFunction :  EngineLambdaBase
+    public class MessageSaveFunction : EngineLambdaBase
     {
 
 

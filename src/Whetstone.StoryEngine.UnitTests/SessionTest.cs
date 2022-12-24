@@ -1,23 +1,20 @@
-﻿using Whetstone.StoryEngine.Models;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Xunit;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
+using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Messaging;
 using Whetstone.StoryEngine.Models.Story;
 using Whetstone.StoryEngine.Repository;
+using Xunit;
 
 namespace Whetstone.UnitTests
 {
 
-    public class SessionTest 
+    public class SessionTest
     {
 
 
@@ -31,13 +28,13 @@ namespace Whetstone.UnitTests
 
             TitleVersion titleVer = TitleVersionUtil.GetWhetstoneTitle();
 
-            IServiceCollection servCol = mocker.InitServiceCollection( titleVer);
+            IServiceCollection servCol = mocker.InitServiceCollection(titleVer);
 
             IServiceProvider servProv = servCol.BuildServiceProvider();
 
             RequestRecordMessage sessionQueueMsg = JsonConvert.DeserializeObject<RequestRecordMessage>(sessionTextMsg);
 
-           ISessionLogger sessionLogger =  servProv.GetRequiredService<ISessionLogger>();
+            ISessionLogger sessionLogger = servProv.GetRequiredService<ISessionLogger>();
 
 
             await sessionLogger.LogRequestAsync(sessionQueueMsg);
@@ -86,10 +83,10 @@ namespace Whetstone.UnitTests
             var storeManager = GetSessionStoreManager();
 
             int badIntentCounter = await storeManager.GetBadIntentCounterAsync(req);
-            Debug.Assert(badIntentCounter==0, "Bad intent counter is not zero");
+            Debug.Assert(badIntentCounter == 0, "Bad intent counter is not zero");
 
             // increment the counter
-            badIntentCounter =  await storeManager.IncrementBadIntentCounterAsync(req);
+            badIntentCounter = await storeManager.IncrementBadIntentCounterAsync(req);
             Debug.Assert(badIntentCounter == 1, "Bad intent counter is not incremented");
 
             // reset the counter

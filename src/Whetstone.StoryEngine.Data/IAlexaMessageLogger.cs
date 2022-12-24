@@ -1,8 +1,6 @@
-﻿using Whetstone.Alexa;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
+using Whetstone.Alexa;
 
 namespace Whetstone.StoryEngine.Data
 {
@@ -14,7 +12,7 @@ namespace Whetstone.StoryEngine.Data
 
         Task LogResponseAsync(AlexaRequest request, AlexaResponse response, Exception error);
 
-        Task LogResponseAsync(AlexaRequest request, AlexaResponse response,string errorMessage);
+        Task LogResponseAsync(AlexaRequest request, AlexaResponse response, string errorMessage);
 
     }
 }

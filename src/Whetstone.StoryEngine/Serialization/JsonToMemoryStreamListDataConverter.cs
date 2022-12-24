@@ -52,7 +52,7 @@ namespace Whetstone.StoryEngine.Serialization
                     reader.Read();
                     if (reader.TokenType == JsonToken.String)
                     {
-                        MemoryStream memoryStream = new MemoryStream(Convert.FromBase64String(reader.Value as string)); 
+                        MemoryStream memoryStream = new MemoryStream(Convert.FromBase64String(reader.Value as string));
                         memoryStreamList.Add(memoryStream);
                     }
                 }
@@ -66,5 +66,5 @@ namespace Whetstone.StoryEngine.Serialization
             throw new NotSupportedException();
         }
     }
-    
+
 }

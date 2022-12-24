@@ -1,18 +1,17 @@
 ﻿using Newtonsoft.Json;
-using Whetstone.StoryEngine.Models.Story;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Runtime.Serialization;
-using System.Text;
+using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.Models.Data
 {
     [DebuggerDisplay("Intent Name = {Name}")]
     [Table("Intents")]
-    public   class DataIntent :  IStoryDataItem
+    public class DataIntent : IStoryDataItem
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [System.ComponentModel.DataAnnotations.Key]
@@ -45,13 +44,13 @@ namespace Whetstone.StoryEngine.Models.Data
         [DataMember]
         public long? VersionId { get; set; }
 
-      
+
 
 
         [Column("LocalizedIntents", TypeName = "jsonb")]
         private string LocalizedIntentsJson { get; set; }
 
-        [JsonProperty(IsReference =false)]
+        [JsonProperty(IsReference = false)]
         [NotMapped]
         [DataMember]
         public List<LocalizedIntent> LocalizedIntents
@@ -70,6 +69,6 @@ namespace Whetstone.StoryEngine.Models.Data
         [ForeignKey("IntentId")]
         [DataMember]
         public List<DataIntentSlotMapping> SlotTypeMappings { get; set; }
-      
+
     }
 }

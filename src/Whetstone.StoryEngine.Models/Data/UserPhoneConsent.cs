@@ -1,13 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using Amazon.DynamoDBv2.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
 using System.Runtime.Serialization;
-using System.Text;
-using Amazon.DynamoDBv2.Model;
 using Whetstone.StoryEngine.Models.Messaging;
-using Whetstone.StoryEngine.Models.Messaging.Sms;
 
 namespace Whetstone.StoryEngine.Models.Data
 {
@@ -154,7 +152,7 @@ namespace Whetstone.StoryEngine.Models.Data
                 }
 
                 AttributeValue consentId = new AttributeValue(phoneConsent.Id.ToString());
-                consentDynamoRecord.Add(FIELD_CONSENTID , consentId);
+                consentDynamoRecord.Add(FIELD_CONSENTID, consentId);
 
                 if (!phoneConsent.SmsConsentDate.HasValue)
                     phoneConsent.SmsConsentDate = DateTime.UtcNow;
@@ -210,7 +208,7 @@ namespace Whetstone.StoryEngine.Models.Data
 
                 if (!string.IsNullOrWhiteSpace(userId) && !string.IsNullOrWhiteSpace(consentId))
                 {
-                    phoneConsent = new UserPhoneConsent {  TitleClientUserId = Guid.Parse(userId), Id = Guid.Parse(consentId)};
+                    phoneConsent = new UserPhoneConsent { TitleClientUserId = Guid.Parse(userId), Id = Guid.Parse(consentId) };
 
                     if (attribValues.ContainsKey(FIELD_TITLEVERSIONID))
                         phoneConsent.TitleVersionId = Guid.Parse(attribValues[FIELD_TITLEVERSIONID].S);
@@ -225,7 +223,7 @@ namespace Whetstone.StoryEngine.Models.Data
                         phoneConsent.SmsConsentDate = DateTime.Parse(attribValues[FIELD_CONSENTDATE].S);
 
                     if (attribValues.ContainsKey(FIELD_ENGINEREQUESTID))
-                        phoneConsent.EngineRequestId= Guid.Parse(attribValues[FIELD_ENGINEREQUESTID].S);
+                        phoneConsent.EngineRequestId = Guid.Parse(attribValues[FIELD_ENGINEREQUESTID].S);
 
                     if (attribValues.ContainsKey(FIELD_CONSENTNAME))
                         phoneConsent.Name = attribValues[FIELD_CONSENTNAME].S;

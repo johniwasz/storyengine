@@ -1,23 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Xunit;
-using Amazon.Lambda.Core;
+﻿using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.TestUtilities;
-using Amazon.Lambda.APIGatewayEvents;
-
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-
-using Amazon;
-using Amazon.S3;
-using Amazon.S3.Util;
-using Amazon.S3.Model;
-
-using Whetstone.StoryEngine.CoreApi;
+using System.IO;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace Whetstone.StoryEngine.CoreApi.Tests
 {
@@ -54,10 +40,10 @@ namespace Whetstone.StoryEngine.CoreApi.Tests
 
             var storyTitleText = File.ReadAllText("./JsonSamples/animalfarmtestupdate.json");
             request.Body = storyTitleText;
-           // request.Headers = new Dictionary<string, string>();
-           // request.Headers.Add("Content-Type", "application/json");
+            // request.Headers = new Dictionary<string, string>();
+            // request.Headers.Add("Content-Type", "application/json");
 
-           // string textRequest = JsonConvert.SerializeObject(request, Formatting.Indented);
+            // string textRequest = JsonConvert.SerializeObject(request, Formatting.Indented);
 
             var context = new TestLambdaContext();
             var response = await lambdaFunction.FunctionHandlerAsync(request, context);

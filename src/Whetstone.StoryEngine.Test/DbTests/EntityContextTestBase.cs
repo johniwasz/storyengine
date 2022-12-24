@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
-using Whetstone.StoryEngine.Data;
 
 namespace Whetstone.StoryEngine.Test.DbTests
 {
@@ -35,7 +30,7 @@ namespace Whetstone.StoryEngine.Test.DbTests
 
                 }
 
-               ) ;
+               );
 
 
 

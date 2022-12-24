@@ -1,17 +1,11 @@
+using Amazon.Lambda.TestUtilities;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using Amazon.Auth.AccessControlPolicy;
-using Xunit;
-using Amazon.Lambda.Core;
-using Amazon.Lambda.TestUtilities;
-using Amazon.Lambda.APIGatewayEvents;
-using Newtonsoft.Json;
-using Whetstone.StoryEngine.ConfigUtilities;
 using Whetstone.StoryEngine.Models.Configuration;
+using Xunit;
 
 namespace Whetstone.StoryEngine.ConfigUtilities.Tests
 {
@@ -33,7 +27,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities.Tests
 
             KeyPolicyCustomActionFunction policyFunction = new KeyPolicyCustomActionFunction();
 
-             await policyFunction.FunctionHandlerAsync(resourceReq, testContext);
+            await policyFunction.FunctionHandlerAsync(resourceReq, testContext);
 
 
         }
@@ -81,13 +75,13 @@ namespace Whetstone.StoryEngine.ConfigUtilities.Tests
         public async Task TetGetMethod()
         {
 
-           string envVar =  Environment.GetEnvironmentVariable("_LAMBDA_RUNTIME_LOAD_TIME");
+            string envVar = Environment.GetEnvironmentVariable("_LAMBDA_RUNTIME_LOAD_TIME");
 
-            var loadTime =  TimeSpan.FromTicks(1858608824241);
+            var loadTime = TimeSpan.FromTicks(1858608824241);
 
             //DateTime curTime = 1603876105013.FromUnixTime();
 
-           long curNanoTime =  GetNanoTime();
+            long curNanoTime = GetNanoTime();
 
 
             long runtime = (curNanoTime - 1603876105013) / 1000000;
@@ -112,7 +106,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities.Tests
 
             TestLambdaContext testContext = new TestLambdaContext();
             KeyPolicyCustomActionFunction policyFunction = new KeyPolicyCustomActionFunction();
-           await  policyFunction.FunctionHandlerAsync(resourceReq, testContext);
+            await policyFunction.FunctionHandlerAsync(resourceReq, testContext);
         }
 
 
@@ -125,6 +119,6 @@ namespace Whetstone.StoryEngine.ConfigUtilities.Tests
         }
 
 
- 
+
     }
 }

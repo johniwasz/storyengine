@@ -1,21 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 using Amazon.Lambda.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-
-using Whetstone.StoryEngine.DependencyInjection;
+using System.Threading.Tasks;
+using Whetstone.StoryEngine.Models.Configuration;
+using Whetstone.StoryEngine.Models.Notifications;
 using Whetstone.StoryEngine.Notifications.Repository;
 using Whetstone.StoryEngine.Notifications.Repository.Extensions;
-
-using Whetstone.StoryEngine.Models.Notifications;
-
 using Whetstone.StoryEngine.WebLibrary;
-using Whetstone.StoryEngine.Models.Configuration;
 
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.

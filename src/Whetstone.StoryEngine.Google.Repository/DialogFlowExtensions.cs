@@ -1,29 +1,29 @@
-﻿using System;
+﻿using Google.Cloud.Dialogflow.V2;
+using Google.Protobuf.Collections;
+using Google.Protobuf.WellKnownTypes;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Whetstone.StoryEngine.Repository;
-using Microsoft.Extensions.Logging;
 using Whetstone.StoryEngine.Data;
-using Google.Cloud.Dialogflow.V2;
-using Google.Protobuf.WellKnownTypes;
-using Whetstone.StoryEngine.Models;
-using Newtonsoft.Json;
-using System.Diagnostics;
-using Intent = Google.Cloud.Dialogflow.V2.Intent;
-using Context = Google.Cloud.Dialogflow.V2.Context;
-using Google.Protobuf.Collections;
 using Whetstone.StoryEngine.DependencyInjection;
 using Whetstone.StoryEngine.Google.Repository.Models;
+using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Story.Cards;
 using Whetstone.StoryEngine.Models.Story.Text;
+using Whetstone.StoryEngine.Repository;
+using Context = Google.Cloud.Dialogflow.V2.Context;
+using Intent = Google.Cloud.Dialogflow.V2.Intent;
 
 namespace Whetstone.StoryEngine.Google.Repository
 {
     public static class DialogFlowExtensions
     {
         private static readonly string SessionContextName = "enginecontext";
-        
+
         private static readonly string INTENT_MAIN = "actions.intent.MAIN";
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace Whetstone.StoryEngine.Google.Repository
 
         private static readonly string AUDIO_CAPABILITY = "actions.capability.AUDIO_OUTPUT";
 
-        public static readonly string  SCREEN_CAPABILITY = "actions.capability.SCREEN_OUTPUT";
+        public static readonly string SCREEN_CAPABILITY = "actions.capability.SCREEN_OUTPUT";
 
         public static readonly string WEBBROWSER_CAPABILITY = "actions.capability.WEB_BROWSER";
 
@@ -161,7 +161,7 @@ namespace Whetstone.StoryEngine.Google.Repository
                 // ReSharper disable once AssignNullToNotNullAttribute
                 textResponses.AddRange(response.LocalizedResponse.GeneratedTextResponse);
             }
-           
+
             foreach (TextFragmentBase textResponse in textResponses)
             {
 
@@ -269,12 +269,12 @@ namespace Whetstone.StoryEngine.Google.Repository
         }
 
         /// <summary>
-            /// Converts the story response to an Alexa response.
-            /// </summary>
-            /// <param name="response"></param>
-            /// <param name="environment"></param>
-            /// <returns></returns>
-            public static WebhookResponse ToDialogFlowResponse(this StoryResponse response,  SurfaceCapabilities surfaceCaps, IMediaLinker mediaLinker, ILogger responseLogger, string userId, string contextPrefix)
+        /// Converts the story response to an Alexa response.
+        /// </summary>
+        /// <param name="response"></param>
+        /// <param name="environment"></param>
+        /// <returns></returns>
+        public static WebhookResponse ToDialogFlowResponse(this StoryResponse response, SurfaceCapabilities surfaceCaps, IMediaLinker mediaLinker, ILogger responseLogger, string userId, string contextPrefix)
         {
             if (surfaceCaps == null)
                 throw new ArgumentNullException(nameof(surfaceCaps));
@@ -289,7 +289,7 @@ namespace Whetstone.StoryEngine.Google.Repository
                 throw new ArgumentNullException(nameof(response));
 
             if (response.LocalizedResponse == null)
-                throw new ArgumentException(nameof(response), 
+                throw new ArgumentException(nameof(response),
                     $"{nameof(response.LocalizedResponse)} has an empty response. This is an invalid conditionBase.");
 
 
@@ -304,14 +304,14 @@ namespace Whetstone.StoryEngine.Google.Repository
             // Get an alexa response and if it does not exist, then get the default client response
             var speechResponse = localizedResponse.SpeechResponses;
 
-            
+
 
             // speechResponse = null;
             if (speechResponse != null)
             {
                 var simpleResp = new Intent.Types.Message.Types.SimpleResponse
                 {
-                    Ssml =  speechResponse?.ToSsml(mediaLinker,
+                    Ssml = speechResponse?.ToSsml(mediaLinker,
                         response?.SessionContext?.TitleVersion)
                 };
 
@@ -319,7 +319,7 @@ namespace Whetstone.StoryEngine.Google.Repository
 
                 message.SimpleResponses.SimpleResponses_.Add(simpleResp);
             }
-            else 
+            else
             {
                 string generatedText = localizedResponse.GeneratedTextResponse.GetCleanText();
                 if (!string.IsNullOrWhiteSpace(generatedText))
@@ -336,7 +336,7 @@ namespace Whetstone.StoryEngine.Google.Repository
 
             // TODO do not consider the send card response boolean.
 
-            if (localizedResponse.CardResponse!=null  &&
+            if (localizedResponse.CardResponse != null &&
                  (surfaceCaps.HasScreen || surfaceCaps.HasWebBrowser))
             {
 
@@ -350,14 +350,14 @@ namespace Whetstone.StoryEngine.Google.Repository
 
 
                 string cardText = null;
-                
-                if((storyCard.Text?.Any()).GetValueOrDefault(false))
+
+                if ((storyCard.Text?.Any()).GetValueOrDefault(false))
                     cardText = string.Join(' ', storyCard.Text);
 
                 basicCardResponse.BasicCard.FormattedText = string.IsNullOrWhiteSpace(cardText) ? string.Empty : cardText;
 
                 string cardTitle = string.IsNullOrWhiteSpace(storyCard.CardTitle) ? "Default title" : storyCard.CardTitle;
- 
+
                 basicCardResponse.BasicCard.Title = cardTitle;
 
                 bool hasImage = false;
@@ -379,15 +379,15 @@ namespace Whetstone.StoryEngine.Google.Repository
                 }
 
                 // Add buttons if available.
-                if((storyCard.Buttons?.Any()).GetValueOrDefault(false))
+                if ((storyCard.Buttons?.Any()).GetValueOrDefault(false))
                 {
-                    foreach(CardButton storyButton in storyCard.Buttons)
+                    foreach (CardButton storyButton in storyCard.Buttons)
                     {
 
                         if (storyButton is LinkButton linkButton)
                         {
                             Intent.Types.Message.Types.BasicCard.Types.Button btn =
-                                new Intent.Types.Message.Types.BasicCard.Types.Button {Title = linkButton.LinkText};
+                                new Intent.Types.Message.Types.BasicCard.Types.Button { Title = linkButton.LinkText };
 
                             Intent.Types.Message.Types.BasicCard.Types.Button.Types.OpenUriAction uriAction =
                                 new Intent.Types.Message.Types.BasicCard.Types.Button.Types.OpenUriAction
@@ -406,7 +406,7 @@ namespace Whetstone.StoryEngine.Google.Repository
 
             }
 
-            if((response.Suggestions?.Any()).GetValueOrDefault(false))
+            if ((response.Suggestions?.Any()).GetValueOrDefault(false))
             {
                 var suggestionMessage = new Intent.Types.Message
                 {
@@ -424,7 +424,7 @@ namespace Whetstone.StoryEngine.Google.Repository
                             Debug.WriteLine("Suggestion is too long");
 
                         suggestionMessage.Suggestions.Suggestions_.Add(new Intent.Types.Message.Types.Suggestion()
-                            {Title = textSuggestion});
+                        { Title = textSuggestion });
                     }
 
                 webResp.FulfillmentMessages.Add(suggestionMessage);
@@ -448,7 +448,7 @@ namespace Whetstone.StoryEngine.Google.Repository
             // Store the engine session context (allow it to expire after 20 min)
             Context itemContext = new Context
             {
-                LifespanCount  = 99,
+                LifespanCount = 99,
                 Name = GetContextName(contextPrefix),
                 Parameters = new Struct()
             };
@@ -504,13 +504,13 @@ namespace Whetstone.StoryEngine.Google.Repository
 
                     Struct surface = structPayLoad.Fields["surface"].StructValue;
 
-                    if(surface!=null)
+                    if (surface != null)
                     {
-                        if((surface.Fields?.Keys?.Contains("capabilities")).GetValueOrDefault(false))
+                        if ((surface.Fields?.Keys?.Contains("capabilities")).GetValueOrDefault(false))
                         {
                             ListValue capList = surface.Fields?["capabilities"]?.ListValue;
 
-                            if(capList!=null)
+                            if (capList != null)
                             {
                                 foreach (var capVal in capList.Values)
                                 {
@@ -621,7 +621,7 @@ namespace Whetstone.StoryEngine.Google.Repository
             StoryRequest storyReq;
             if (req.OriginalDetectIntentRequest.Source.Equals("facebook"))
             {
-               
+
                 storyReq = await GetFacebookMessengerRequestAsync(alias, req, appReader, logger);
 
             }
@@ -652,7 +652,7 @@ namespace Whetstone.StoryEngine.Google.Repository
 
                 // If the query text is FACEBOOK_WELCOME, then disregard the intent text.
                 // The user has not communicated an intent despite the inbound message.
-                if(req.QueryResult.QueryText.Equals("FACEBOOK_WELCOME"))
+                if (req.QueryResult.QueryText.Equals("FACEBOOK_WELCOME"))
                 {
                     storyReq.Intent = null;
                 }

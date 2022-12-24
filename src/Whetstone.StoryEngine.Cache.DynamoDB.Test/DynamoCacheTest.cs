@@ -1,4 +1,5 @@
 using Amazon;
+using Amazon.S3;
 using Amazon.XRay.Recorder.Core;
 using Amazon.XRay.Recorder.Core.Strategies;
 using Microsoft.Extensions.Logging;
@@ -10,7 +11,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Amazon.S3;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Data.Amazon;
 using Whetstone.StoryEngine.Data.Caching;
@@ -34,7 +34,7 @@ namespace Whetstone.StoryEngine.Cache.DynamoDB.Test
             AWSXRayRecorder.Instance.ContextMissingStrategy = ContextMissingStrategy.LOG_ERROR;
 
             List<Guid> userIds = new List<Guid>();
-            for(int i=0; i<100; i++)
+            for (int i = 0; i < 100; i++)
             {
                 userIds.Add(Guid.NewGuid());
 
@@ -126,7 +126,7 @@ namespace Whetstone.StoryEngine.Cache.DynamoDB.Test
 
                     Console.WriteLine($"User {user.UserId}");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     response.Exceptions.Add(ex);
                 }
@@ -153,12 +153,12 @@ namespace Whetstone.StoryEngine.Cache.DynamoDB.Test
 
                 if ((overTime.Exceptions?.Any()).GetValueOrDefault(false))
                 {
-                    foreach(Exception ex in overTime.Exceptions)
+                    foreach (Exception ex in overTime.Exceptions)
                     {
                         Debug.WriteLine(ex);
                     }
                 }
-                   
+
             }
 
         }
@@ -174,7 +174,7 @@ namespace Whetstone.StoryEngine.Cache.DynamoDB.Test
             ThreadPool.SetMaxThreads(10, 10);
             ThreadPool.GetMinThreads(out minThreads, out minCompletionThreads);
             Debug.WriteLine($"min threads: {minThreads}; min completion threads: {minCompletionThreads}");
-           
+
 
             ThreadPool.GetAvailableThreads(out availThreads, out availCompletionThreads);
             Debug.WriteLine($"available threads: {availThreads}; min completion threads: {availCompletionThreads}");

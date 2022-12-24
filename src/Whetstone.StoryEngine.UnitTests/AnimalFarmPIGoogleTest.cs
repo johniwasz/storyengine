@@ -1,22 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon.Lambda.APIGatewayEvents;
-using Google.Cloud.Dialogflow.V2;
+﻿using Google.Cloud.Dialogflow.V2;
 using Google.Protobuf;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Moq;
-using Newtonsoft.Json;
+using System.IO;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Google.Repository;
-using Whetstone.StoryEngine.Google.Repository.Models;
 using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.Repository;
-using Whetstone.UnitTests;
 using Xunit;
 using MockFactory = Whetstone.UnitTests.MockFactory;
 
@@ -98,10 +87,10 @@ namespace Whetstone.StoryEngine.UnitTests
 
             JsonParser jsonParser = new JsonParser(JsonParser.Settings.Default.WithIgnoreUnknownFields(true));
             WebhookRequest hookRequest = jsonParser.Parse<WebhookRequest>(simulatorStartRequest);
-            
+
             var mocker = new MockFactory();
 
-            IAppMappingReader appReader =  mocker.GetMockAppMappingReader();
+            IAppMappingReader appReader = mocker.GetMockAppMappingReader();
 
             ILogger<AnimalFarmPIGoogleTests> logger = mocker.GetLogger<AnimalFarmPIGoogleTests>();
 

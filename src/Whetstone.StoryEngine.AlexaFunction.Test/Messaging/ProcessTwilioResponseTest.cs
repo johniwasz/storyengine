@@ -1,17 +1,13 @@
-﻿using Amazon.Lambda.SQSEvents;
+﻿using Amazon;
+using Amazon.Lambda.SQSEvents;
 using Amazon.SQS;
 using Amazon.SQS.Model;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using Amazon;
-using Twilio.Security;
 using Whetstone.Queue.TwiliosStatusUpdate;
-using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Messaging;
-using Whetstone.StoryEngine.WebLibrary;
 using Xunit;
 
 namespace Whetstone.StoryEngine.AlexaFunction.Test.Messaging
@@ -123,7 +119,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test.Messaging
 
 
                 var queryVals = HttpUtility.ParseQueryString(msg.Body).ToDictionary();
-                
+
 
 
 
@@ -145,7 +141,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test.Messaging
 
             TwilioStatusUpdateFunction twilioFunc = new TwilioStatusUpdateFunction();
 
-            
+
 
             SQSEvent sqsevent = new SQSEvent();
             sqsevent.Records = records;

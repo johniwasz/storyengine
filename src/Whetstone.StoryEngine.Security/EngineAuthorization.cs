@@ -1,15 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using Amazon.Runtime.Internal;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
-using Microsoft.Extensions.Logging;
 using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Security.Claims;
 
 namespace Whetstone.StoryEngine.Security
 {
@@ -60,13 +57,13 @@ namespace Whetstone.StoryEngine.Security
                                                                        && permReq.AllowedValues.Contains(x.Value));
 
                         }
-                       
+
 
                         // ReSharper disable once InvertIf
                         if (foundClaim == null)
                         {
                             failedRequirements.Add(authReq);
-                            if (permReq.AllowedValues!=null)
+                            if (permReq.AllowedValues != null)
                             {
                                 string permissions = string.Join(",", permReq.AllowedValues);
                                 _logger.LogWarning(

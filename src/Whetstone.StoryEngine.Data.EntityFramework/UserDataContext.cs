@@ -1,23 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Npgsql;
-using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Models.Data;
+using NpgsqlTypes;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Diagnostics;
-using NpgsqlTypes;
-using Whetstone.StoryEngine.Models.Admin;
-using Whetstone.StoryEngine.Models.Messaging;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.Extensions.Logging.Console;
-using Microsoft.Extensions.Options;
 using Whetstone.StoryEngine.Data.EntityFramework.MigrationOperations;
+using Whetstone.StoryEngine.Models;
+using Whetstone.StoryEngine.Models.Admin;
+using Whetstone.StoryEngine.Models.Data;
+using Whetstone.StoryEngine.Models.Messaging;
 
 namespace Whetstone.StoryEngine.Data.EntityFramework
 {
@@ -28,10 +26,11 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
         /// </summary>
         public static readonly string POSTGESQL_CODE_DUPLICATEKEY = "23505";
 
-        private static readonly ILoggerFactory loggerFactory = LoggerFactory.Create(builder => {
-                builder
-                    .AddConsole();
-            }
+        private static readonly ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
+        {
+            builder
+                .AddConsole();
+        }
         );
 
 
@@ -96,7 +95,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-     
+
             options
                 .ReplaceService<IMigrationsSqlGenerator, PostGresEngineMigrationGenerator>();
 #if DEBUG
@@ -107,7 +106,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
             base.OnConfiguring(options);
         }
 
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -129,7 +128,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
 
             modelBuilder.Entity<DataFunctionalEntitlementRoleXRef>()
                 .HasKey(idx =>
-                    new {idx.RoleId, idx.FunctionalEntitlementId}).HasName("pk_role_funcentitlement");
+                    new { idx.RoleId, idx.FunctionalEntitlementId }).HasName("pk_role_funcentitlement");
 
             modelBuilder.Entity<DataFunctionalEntitlementRoleXRef>()
                 .HasOne<DataFunctionalEntitlement>(x => x.FunctionalEntitlement)
@@ -145,7 +144,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
 
 
             modelBuilder.Entity<DataUserGroupXRef>()
-                .HasKey(key => new {key.GroupId, key.UserId}).HasName("pk_user_group");
+                .HasKey(key => new { key.GroupId, key.UserId }).HasName("pk_user_group");
 
 
             modelBuilder.Entity<DataUserGroupXRef>()
@@ -153,7 +152,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
                 .WithMany(u => u.GroupXRefs)
                 .OnDelete(DeleteBehavior.ClientCascade)
                 .HasForeignKey(u => u.UserId);
-            
+
 
             modelBuilder.Entity<DataUserGroupXRef>()
                 .HasOne<DataGroup>(x => x.Group)
@@ -163,7 +162,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
 
             modelBuilder.Entity<DataTitleGroupXRef>()
                 .HasKey(idx =>
-                    new {idx.GroupId, idx.TitleId}).HasName("pk_group_title");
+                    new { idx.GroupId, idx.TitleId }).HasName("pk_group_title");
 
 
             modelBuilder.Entity<DataTitleGroupXRef>()
@@ -182,7 +181,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
 
             modelBuilder.Entity<DataGroupRoleXRef>()
                 .HasKey(idx =>
-                    new {idx.GroupId, idx.RoleId}).HasName("pk_group_role");
+                    new { idx.GroupId, idx.RoleId }).HasName("pk_group_role");
 
             modelBuilder.Entity<DataGroupRoleXRef>()
                 .HasOne<DataRole>(x => x.Role)
@@ -288,8 +287,8 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
                 .Property(x => x.Id)
                 .IsRequired(true);
 
-         
-           
+
+
 
         }
 
@@ -306,7 +305,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
 
             ProjectVersionFileMapping dataVersion = null;
 
-            
+
             dataVersion = await this.TitleVersions.Join(this.Titles,
                 tv => tv.TitleId,
             t => t.Id,
@@ -315,9 +314,9 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
                 Title = t,
                 TitleVerion = tv
             })
-            .Where(t => t.Title.Id == projectId 
+            .Where(t => t.Title.Id == projectId
                 && t.TitleVerion.Id == versionId)
-                .Select(t => new ProjectVersionFileMapping { Version = t.TitleVerion.Version, ProjectAlias = t.Title.ShortName})
+                .Select(t => new ProjectVersionFileMapping { Version = t.TitleVerion.Version, ProjectAlias = t.Title.ShortName })
                 .SingleOrDefaultAsync();
 
 
@@ -503,7 +502,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
                 throw new ArgumentNullException(nameof(dataUser));
 
             if (!dataUser.Id.HasValue)
-                throw new ArgumentNullException(nameof(dataUser),"Id property must have a value");
+                throw new ArgumentNullException(nameof(dataUser), "Id property must have a value");
 
             if (string.IsNullOrWhiteSpace(dataUser.UserId))
                 throw new ArgumentNullException(nameof(dataUser), "UserId property must not be null or empty");
@@ -1224,17 +1223,17 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
                 if (ex.InnerException is PostgresException postEx)
                 {
 
-                    if ( postEx.SqlState.Equals(PostgresErrorCodes.ForeignKeyViolation))
+                    if (postEx.SqlState.Equals(PostgresErrorCodes.ForeignKeyViolation))
                     {
                         throw new DuplicateKeyException("Duplicate key error while adding new user");
                     }
-                  
+
                     throw postEx;
-                   
+
                 }
-   
+
                 throw;
-         
+
             }
 
 

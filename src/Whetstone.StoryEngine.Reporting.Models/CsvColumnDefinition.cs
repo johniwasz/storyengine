@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using YamlDotNet.Serialization;
+﻿using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Reporting.Models
 {
@@ -18,8 +15,8 @@ namespace Whetstone.StoryEngine.Reporting.Models
 
     public enum ValueCasing
     {
-        Upper =1,
-        Lower =2
+        Upper = 1,
+        Lower = 2
 
     }
 

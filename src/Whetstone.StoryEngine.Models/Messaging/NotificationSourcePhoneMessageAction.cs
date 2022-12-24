@@ -1,10 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Whetstone.StoryEngine.Models.Data;
-using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.Models.Messaging
 {

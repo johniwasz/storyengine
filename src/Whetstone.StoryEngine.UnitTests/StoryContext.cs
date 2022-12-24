@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Whetstone.Alexa;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Story;
 
@@ -28,7 +26,7 @@ namespace Whetstone.UnitTests
 
             string sessionId = string.Concat("amzn1.echo-api.session.", Guid.NewGuid().ToString("N"));
 
-            _titleVer = titleVer;   
+            _titleVer = titleVer;
             _sessionId = sessionId;
             _clientType = clientType;
             _engineSessionId = Guid.NewGuid();
@@ -42,7 +40,7 @@ namespace Whetstone.UnitTests
             {
                 _userId = userId;
             }
-         
+
             _applicationId = Guid.NewGuid().ToString("N");
             _locale = "en-US";
         }
@@ -69,7 +67,7 @@ namespace Whetstone.UnitTests
             return req;
         }
 
-        public  StoryRequest CreateCanFulfillIntentRequest(string intentName, Dictionary<string, string> slotValues)
+        public StoryRequest CreateCanFulfillIntentRequest(string intentName, Dictionary<string, string> slotValues)
         {
 
             StoryRequest req = InitRequest();
@@ -135,7 +133,7 @@ namespace Whetstone.UnitTests
             {
                 req.UserId = _userId;
             }
-     
+
             req.EngineRequestId = Guid.NewGuid();
 
             req.SessionId = _sessionId;
@@ -149,7 +147,7 @@ namespace Whetstone.UnitTests
             };
             req.SessionContext.TitleVersion.TitleId = new Guid();
             req.SessionContext.EngineSessionId = _engineSessionId;
-            
+
             return req;
         }
 

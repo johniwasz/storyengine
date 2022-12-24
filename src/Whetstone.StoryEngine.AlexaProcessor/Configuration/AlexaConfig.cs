@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Whetstone.StoryEngine.AlexaProcessor.Configuration
+﻿namespace Whetstone.StoryEngine.AlexaProcessor.Configuration
 {
     public class AlexaConfig
     {

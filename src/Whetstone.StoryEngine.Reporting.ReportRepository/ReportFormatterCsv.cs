@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Reporting.Models;
 
@@ -52,7 +52,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
             if (csvDefinition.Columns == null)
                 throw new ArgumentException($"{nameof(csvDefinition)} Columns property cannot be null");
 
-            if(csvDefinition.Columns.Count==0)
+            if (csvDefinition.Columns.Count == 0)
                 throw new ArgumentException($"{nameof(csvDefinition)} Columns property contains no columns");
 
             if (request == null)
@@ -63,14 +63,14 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
             // exactly one table expected in DataSet
             if (reportData.Tables.Count != 1)
                 throw new Exception($"Only only table expected in {nameof(reportData)}. Found {reportData.Tables.Count}");
-           
+
             outTable = reportData.Tables[0];
 
             StringBuilder colErrors = new StringBuilder();
-           
+
             List<string> columns = new List<string>();
             // create the headers
-            for(int i =0; i<csvDefinition.Columns.Count; i++)
+            for (int i = 0; i < csvDefinition.Columns.Count; i++)
             {
                 CsvColumnDefinition col = csvDefinition.Columns[i];
                 if (col == null)
@@ -83,7 +83,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
                     if (string.IsNullOrWhiteSpace(colName))
                         colErrors.AppendLine($"Column in index {i} name is null");
                     else
-                       columns.Add(colName);
+                        columns.Add(colName);
                 }
             }
 
@@ -94,7 +94,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
 
             string colErrText = colErrors.ToString();
 
-            if(!string.IsNullOrWhiteSpace(colErrText))
+            if (!string.IsNullOrWhiteSpace(colErrText))
                 throw new Exception(colErrText);
 
 
@@ -104,7 +104,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
 
             foreach (DataRow row in outTable.Rows)
             {
-                
+
                 List<string> rowValues = new List<string>();
 
                 for (int i = 0; i < csvDefinition.Columns.Count; i++)
@@ -191,7 +191,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
 
         private async Task<string> SaveReportMetadataAsync(int rowCount, ReportRequest repRequest, string outFile)
         {
-     
+
             string outFileName = $"{outFile}.json";
 
             ReportMetadata repMetadata = new ReportMetadata

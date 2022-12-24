@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Net;
 using System.Net.WebSockets;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.IO;
-using System.Text;
-using Microsoft.AspNetCore.Http;
-
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-
 using Whetstone.StoryEngine.Models.Notifications;
-using Whetstone.StoryEngine.SocketApi.Repository;
-using Whetstone.StoryEngine.Security;
-
 using Whetstone.StoryEngine.Notifications.Repository;
+using Whetstone.StoryEngine.SocketApi.Repository;
 
 namespace Whetstone.StoryEngine.CoreApi.WebSockets
 {
@@ -50,7 +43,7 @@ namespace Whetstone.StoryEngine.CoreApi.WebSockets
             var socket = await context.WebSockets.AcceptWebSocketAsync();
             AuthenticatedSocket authSocket = this.AuthenticateSocket(context, socket);
 
-            if ( authSocket != null )
+            if (authSocket != null)
             {
                 await _socketHandler.OnConnect(authSocket);
 
@@ -118,13 +111,13 @@ namespace Whetstone.StoryEngine.CoreApi.WebSockets
             string apiKey = this.GetRequestQueryParam(context.Request, "api");
             string clientId = this.GetRequestQueryParam(context.Request, "clientId");
 
-            if ( !String.IsNullOrEmpty(authToken) && !String.IsNullOrEmpty(apiKey) && !String.IsNullOrEmpty(clientId) )
+            if (!String.IsNullOrEmpty(authToken) && !String.IsNullOrEmpty(apiKey) && !String.IsNullOrEmpty(clientId))
             {
                 string userId = null;
 
                 ISocketResponse socketResponse = _socketHandler.ValidateSocketAuthToken(authToken, out userId);
 
-                if ( socketResponse.StatusCode == HttpStatusCode.OK )
+                if (socketResponse.StatusCode == HttpStatusCode.OK)
                 {
                     authSocket = new AuthenticatedSocket(socket, userId, authToken, clientId);
                 }

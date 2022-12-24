@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using Whetstone.StoryEngine.Models.Actions;
 using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.Models.Story.Ssml;
 
 namespace Whetstone.StoryEngine.Models.Data
 {
@@ -51,12 +47,12 @@ namespace Whetstone.StoryEngine.Models.Data
         //{
         //    DataChoice retChoice = new DataChoice();
 
-            
+
         //    // Find intent by name
-            
+
         //    DataIntent foundIntent =  storyVersion.Intents.FirstOrDefault(x => x.Name.Equals(choice.IntentName));
 
-            
+
 
         //    if (foundIntent != null)
         //        retChoice.Intent = foundIntent;
@@ -99,11 +95,11 @@ namespace Whetstone.StoryEngine.Models.Data
 
                         DataIntentSlotMapping mapping = new DataIntentSlotMapping();
                         mapping.Alias = key;
-                        mapping.SlotType = foundSlotType;                     
+                        mapping.SlotType = foundSlotType;
                         dataIntent.SlotTypeMappings.Add(mapping);
 
                     }
-                       
+
                 }
             }
 
@@ -111,7 +107,7 @@ namespace Whetstone.StoryEngine.Models.Data
             {
                 dataIntent.SlotTypeMappings = new List<DataIntentSlotMapping>();
 
-                foreach(IntentSlotMapping intentSlot in intent.SlotMappings)
+                foreach (IntentSlotMapping intentSlot in intent.SlotMappings)
                 {
                     string slotName = intentSlot.SlotType.Name;
 
@@ -157,7 +153,7 @@ namespace Whetstone.StoryEngine.Models.Data
         //        // dataLocIntent.Utterances = new List<string>();
         //        // dataLocIntent.Utterances.AddRange(locIntent.Utterances);
         //    }
-        
+
 
         //    return dataLocIntent;
         //}
@@ -301,7 +297,7 @@ namespace Whetstone.StoryEngine.Models.Data
 
         //        retVal.SpeechClient = clientFrags.SpeechClient;
 
-               
+
 
         //        if ((clientFrags.SpeechFragments?.Any()).GetValueOrDefault(false))
         //        {
@@ -372,7 +368,7 @@ namespace Whetstone.StoryEngine.Models.Data
         //        DataSsmlSpeechFragment ssmlDataFragment = new DataSsmlSpeechFragment();
         //        ssmlDataFragment.Ssml = ssmlFragment.Ssml;
         //        ssmlDataFragment.Voice = ssmlFragment.Voice;
-        
+
         //        if (!string.IsNullOrWhiteSpace(ssmlFragment.Voice))
         //        {
         //            ssmlDataFragment.VoiceFileId = ssmlFragment.VoiceFileId.HasValue ? ssmlFragment.VoiceFileId : Guid.NewGuid();
@@ -420,7 +416,7 @@ namespace Whetstone.StoryEngine.Models.Data
         //            {
         //                // Find the condition in the node visit or the inventory conditions
 
-          
+
 
         //                DataNodeVisitCondition foundVisitConditon = null;
         //                DataInventoryCondition dataInventoryCondition = null;
@@ -452,7 +448,7 @@ namespace Whetstone.StoryEngine.Models.Data
         //                catch(Exception ex)
         //                {
         //                    Debug.WriteLine(ex);
-                            
+
 
         //                }
         //            }

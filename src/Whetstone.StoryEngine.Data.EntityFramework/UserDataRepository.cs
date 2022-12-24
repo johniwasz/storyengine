@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Npgsql;
-using Org.BouncyCastle.Crypto.Tls;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Models.Admin;
 using Whetstone.StoryEngine.Models.Data;
 using Whetstone.StoryEngine.Models.Story;
 
@@ -51,7 +46,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
             Guid foundTitleId = default;
 
 
-         
+
 
             if (titleId.HasValue)
             {
@@ -64,13 +59,15 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
                     var foundTitle = await dbContext.Titles.Join(dbContext.TitleVersions,
                             t => t.Id,
                             tv => tv.TitleId,
-                            (t, tv) => new {TitleId = t.Id, VersionId = tv.Id})
+                            (t, tv) => new { TitleId = t.Id, VersionId = tv.Id })
                         .Join(dbContext.TitleVersionDeployments,
                             ttv => ttv.VersionId,
                             tvd => tvd.VersionId,
                             (ttv, tvd) => new
                             {
-                                DeploymentId = tvd.Id, ApplicationId = tvd.ClientIdentifier, ClientType = tvd.Client,
+                                DeploymentId = tvd.Id,
+                                ApplicationId = tvd.ClientIdentifier,
+                                ClientType = tvd.Client,
                                 TitleId = ttv.TitleId
                             })
                         .Where(x => request.ApplicationId.ToLower().Equals(x.ApplicationId.ToLower()) &&
@@ -83,7 +80,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
                 }
             }
 
-            user.TitleId =  foundTitleId;
+            user.TitleId = foundTitleId;
 
 
             // Add a new user to the database.
@@ -107,7 +104,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
- 
+
             Client clientType = request.Client;
             Guid? titleId = null;
             string titleShortName = null;
@@ -122,9 +119,9 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
             }
 
             DataTitleClientUser retUser = null;
-        
 
-            using (IUserDataContext context =await _contextRetriever.GetUserDataContextAsync())
+
+            using (IUserDataContext context = await _contextRetriever.GetUserDataContextAsync())
             {
                 DataTitleClientUser foundUser = null;
                 if (titleId.HasValue && !string.IsNullOrWhiteSpace(titleShortName))
@@ -134,7 +131,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
                                                                                             request.UserId) &&
                                                                                         x.Client == clientType);
 
-                 
+
                 }
                 else
                 {
@@ -148,12 +145,12 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
                             ttv => ttv.VersionId,
                             tvd => tvd.VersionId,
                             (ttv, tvd) => new
-                                { DeploymentId = tvd.Id, ApplicationId = tvd.ClientIdentifier, ClientType = tvd.Client, TitleId = ttv.TitleId, ShortName = ttv.ShortName })
+                            { DeploymentId = tvd.Id, ApplicationId = tvd.ClientIdentifier, ClientType = tvd.Client, TitleId = ttv.TitleId, ShortName = ttv.ShortName })
 
                         .Join(context.ClientUsers,
                             tvd => tvd.TitleId,
                             cu => cu.TitleId,
-                            (tvd, cu) => new { TitleId = tvd.TitleId, ApplicationId = tvd.ApplicationId, ClientType =tvd.ClientType, ClientUser = cu, ShortName =tvd.ShortName})
+                            (tvd, cu) => new { TitleId = tvd.TitleId, ApplicationId = tvd.ApplicationId, ClientType = tvd.ClientType, ClientUser = cu, ShortName = tvd.ShortName })
 
                         .Where(x => request.ApplicationId.ToLower().Equals(x.ApplicationId.ToLower()) &&
                                     request.Client.Equals(x.ClientType)).FirstOrDefaultAsync();
@@ -185,7 +182,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
             if (user == null)
                 throw new ArgumentException($"{nameof(user)} cannot be null");
 
-            if(user.LastAccessedDate == default(DateTime))
+            if (user.LastAccessedDate == default(DateTime))
                 user.LastAccessedDate = DateTime.UtcNow;
 
 
@@ -194,7 +191,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
 
                 using (var userContext = await _contextRetriever.GetUserDataContextAsync())
                 {
-                    await userContext.UpsertTitleUsertAsync( user);
+                    await userContext.UpsertTitleUsertAsync(user);
                 }
             }
             catch (DbUpdateException entityEx)
@@ -203,7 +200,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
                 {
                     if (entityEx.InnerException is PostgresException)
                     {
-                        PostgresException postEx = (PostgresException) entityEx.InnerException;
+                        PostgresException postEx = (PostgresException)entityEx.InnerException;
 
                         if (postEx.SqlState.Equals(UserDataContext.POSTGESQL_CODE_DUPLICATEKEY))
                         {
@@ -251,14 +248,14 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
 
             using (var dbContext = await _contextRetriever.GetUserDataContextAsync())
             {
-                    dbContext.ClientUsers.Add(user);
-                    await dbContext.SaveChangesAsync();
+                dbContext.ClientUsers.Add(user);
+                await dbContext.SaveChangesAsync();
             }
         }
 
         private async Task UpdateUserAsync(DataTitleClientUser user)
         {
-           
+
 
             bool isUpdate = false;
             DataTitleClientUser foundUser = null;
@@ -268,7 +265,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
             if (user.Id.HasValue)
             {
                 _dataLogger.LogInformation($"Retrieving user by id {user.Id}");
-    
+
                 using (var dbContext = await _contextRetriever.GetUserDataContextAsync())
                 {
                     foundUser = await dbContext.ClientUsers.FirstOrDefaultAsync(x => x.Id.Equals(user.Id));
@@ -302,7 +299,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
 
             if (isUpdate)
             {
-           
+
                 user.Id = foundUser.Id;
                 _dataLogger.LogInformation($"Updating user by user id {user.Id}");
 

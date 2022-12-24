@@ -1,30 +1,25 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Google.Repository.Models;
 using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Models.Data;
 using Whetstone.StoryEngine.Models.Messaging;
 using Whetstone.StoryEngine.Models.Story;
 using Whetstone.StoryEngine.Repository;
 using Whetstone.StoryEngine.UnitTests;
-using Whetstone.StoryEngine.Google.Repository;
 using Xunit;
-using System.Linq;
 
 namespace Whetstone.UnitTests
 {
-    public  class EyeOfTheElderGodsTests
+    public class EyeOfTheElderGodsTests
     {
 
         //[Fact]
         //public async Task TestB3Node()
-       
+
 
         //}
 
@@ -91,11 +86,11 @@ namespace Whetstone.UnitTests
             expectedResult.HasCardResponse = true;
 
             StoryRequest request = context.CreateLaunchRequest();
-            StoryResponse resp =  await ValidationUtility.ValidateNode(expectedResult, storyRepProc, request, userRepo, linker, sessLogger);
+            StoryResponse resp = await ValidationUtility.ValidateNode(expectedResult, storyRepProc, request, userRepo, linker, sessLogger);
             await ValidationUtility.ValidateGoogleResponse(resp, surfaceCaps, linker, logger, request.UserId, "prefix");
 
 
-               // (this StoryResponse response, SurfaceCapabilities surfaceCaps, IMediaLinker mediaLinker, ILogger responseLogger, string userId, string contextPrefix)
+            // (this StoryResponse response, SurfaceCapabilities surfaceCaps, IMediaLinker mediaLinker, ILogger responseLogger, string userId, string contextPrefix)
 
             expectedResult.NodeName = "A1";
             expectedResult.HasCardResponse = true;
@@ -115,7 +110,7 @@ namespace Whetstone.UnitTests
             //var googleEndCardResult = await ValidationUtility.ValidateNode(expectedResult, storyRepProc, request, userRepo, linker, sessLogger, false);
 
 
-    
+
 
         }
     }

@@ -5,8 +5,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Messaging;
@@ -28,7 +26,7 @@ namespace Whetstone.StoryEngine.Repository.Messaging
 
             _functionConfig = functionConfig?.Value ?? throw new ArgumentNullException($"{nameof(functionConfig)}");
 
-            EnvironmentConfig envSettings =  envConfig.Value ?? throw new ArgumentNullException($"{nameof(envConfig)}", "Value cannot have null settings");
+            EnvironmentConfig envSettings = envConfig.Value ?? throw new ArgumentNullException($"{nameof(envConfig)}", "Value cannot have null settings");
 
 
             _endpoint = envSettings.Region ?? throw new ArgumentNullException($"{nameof(envConfig)}", "cannot have a null Region");

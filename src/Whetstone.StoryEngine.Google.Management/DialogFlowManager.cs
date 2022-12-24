@@ -1,24 +1,21 @@
-﻿using Google.Cloud.Dialogflow.V2;
-using Google.Cloud;
-using Google.Api.Gax;
+﻿using Google.Api.Gax;
+using Google.Cloud.Dialogflow.V2;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-
-using System.Text;
-using System.Threading.Tasks;
-using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Models.Story;
-using Microsoft.Extensions.Logging;
-using Intent = Google.Cloud.Dialogflow.V2.Intent;
-using System.Text.RegularExpressions;
 using System.Data;
-using System.Threading;
-using Whetstone.StoryEngine.Google.Management.Models;
 using System.IO;
 using System.IO.Compression;
-using Newtonsoft.Json;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using Whetstone.StoryEngine.Google.Management.Models;
+using Whetstone.StoryEngine.Models;
+using Whetstone.StoryEngine.Models.Story;
+using Intent = Google.Cloud.Dialogflow.V2.Intent;
 
 namespace Whetstone.StoryEngine.Google.Management
 {
@@ -62,12 +59,12 @@ namespace Whetstone.StoryEngine.Google.Management
 
             PagedEnumerable<ListIntentsResponse, Intent> listResponses = client.ListIntents(listReq);
 
-          
+
             return listResponses;
 
         }
 
-        
+
 
         private async Task ImportIntentsByUsageAsync(string projectId, List<StoryNode> nodes, List<Whetstone.StoryEngine.Models.Story.Intent> intents, List<SlotType> slotTypes)
         {
@@ -131,7 +128,7 @@ namespace Whetstone.StoryEngine.Google.Management
                             {
                                 string slotName = storyIntent.SlotMappingsByName[key];
                                 var foundEntity = await entities.FirstOrDefaultAsync(x => x.DisplayName.Equals(slotName, StringComparison.OrdinalIgnoreCase));
-                                
+
 
                                 if (foundEntity == null)
                                 {
@@ -284,7 +281,7 @@ namespace Whetstone.StoryEngine.Google.Management
 
         }
 
-        private bool IsReservedSystemIntent( StoryEngine.Models.Story.Intent intent )
+        private bool IsReservedSystemIntent(StoryEngine.Models.Story.Intent intent)
         {
             var foundIntent = ReservedIntents.GetSystemIntents().FirstOrDefault(x => x.Name.Equals(intent.Name, StringComparison.OrdinalIgnoreCase));
             return foundIntent != null;
@@ -352,7 +349,7 @@ namespace Whetstone.StoryEngine.Google.Management
             // We need to update slots to support locales before this can happen
             // For now, we'll just pretend we're enumerating languages (we'll get
             // "en" this way
-            foreach( string language in languages )
+            foreach (string language in languages)
             {
                 List<DialogFlowEntityValues> entityValues = this.InitializeExportEntityValues(slot, language);
                 string valuesFileName = $"{_EntitiesFolderName}/{slot.Name}_entries_{language}.json";
@@ -387,10 +384,10 @@ namespace Whetstone.StoryEngine.Google.Management
             // Add Parameters for slots if we have them
             response.Parameters = new List<IntentParameter>();
 
-            if ( intent.SlotMappingsByName != null && intent.SlotMappingsByName.Count > 0 )
+            if (intent.SlotMappingsByName != null && intent.SlotMappingsByName.Count > 0)
             {
                 // We have one parameter per slot
-                foreach( string slotName in intent.SlotMappingsByName.Keys )
+                foreach (string slotName in intent.SlotMappingsByName.Keys)
                 {
                     string slotType = intent.SlotMappingsByName[slotName];
 
@@ -403,7 +400,7 @@ namespace Whetstone.StoryEngine.Google.Management
                     intentParam.OutputDialogContexts = new List<object>();
                     intentParam.IsList = false;
 
-                    if ( slotType.Equals("WHETSTONE.US_PHONENUMBER") )
+                    if (slotType.Equals("WHETSTONE.US_PHONENUMBER"))
                     {
                         slotType = "sys.phone-number";
                     }
@@ -466,7 +463,7 @@ namespace Whetstone.StoryEngine.Google.Management
             return entity;
         }
 
-        private List<DialogFlowEntityValues> InitializeExportEntityValues(StoryEngine.Models.SlotType slot, string language )
+        private List<DialogFlowEntityValues> InitializeExportEntityValues(StoryEngine.Models.SlotType slot, string language)
         {
             List<DialogFlowEntityValues> entityValues = new List<DialogFlowEntityValues>();
 
@@ -501,7 +498,7 @@ namespace Whetstone.StoryEngine.Google.Management
         {
             LocalizedIntent localizedIntent = intent.LocalizedIntents.FirstOrDefault(x => !String.IsNullOrEmpty(x.Locale) && x.Locale.Equals(language));
 
-            if ( localizedIntent == null )
+            if (localizedIntent == null)
             {
                 localizedIntent = intent.LocalizedIntents.FirstOrDefault(x => String.IsNullOrEmpty(x.Locale));
             }
@@ -515,13 +512,13 @@ namespace Whetstone.StoryEngine.Google.Management
 
             LocalizedIntent localizedIntent = this.GetLocalizedIntentForLanguage(intent, language);
 
-            if ( localizedIntent == null )
+            if (localizedIntent == null)
             {
                 throw new Exception($"Intent: {intent.Name} could not resolve LocalizedIntent for locale: {language}.");
             }
 
             // Should validate language here
-            if ( localizedIntent.Utterances != null )
+            if (localizedIntent.Utterances != null)
             {
                 foreach (string utterance in localizedIntent.Utterances)
                 {
@@ -539,24 +536,24 @@ namespace Whetstone.StoryEngine.Google.Management
             return trainingPhrases;
         }
 
-        private List<TrainingPhrasePart> BuildTrainingPhrasePartList(StoryEngine.Models.Story.Intent intent, List<SlotType> slots, string utterance )
+        private List<TrainingPhrasePart> BuildTrainingPhrasePartList(StoryEngine.Models.Story.Intent intent, List<SlotType> slots, string utterance)
         {
             List<TrainingPhrasePart> lstParts = new List<TrainingPhrasePart>();
 
             string parsedUtterance = utterance;
 
-            while(!String.IsNullOrEmpty(parsedUtterance))
+            while (!String.IsNullOrEmpty(parsedUtterance))
             {
                 int nSlotStart = 0;
 
-                if ( ( nSlotStart = parsedUtterance.IndexOf( '{' ) ) != -1 )
+                if ((nSlotStart = parsedUtterance.IndexOf('{')) != -1)
                 {
                     // Add the part up to the start of the slot
                     string beforeSlot = parsedUtterance.Substring(0, nSlotStart);
                     parsedUtterance = parsedUtterance.Substring(nSlotStart + 1);
 
                     // If we had a string before the slot, add that part.
-                    if ( !String.IsNullOrEmpty(beforeSlot) )
+                    if (!String.IsNullOrEmpty(beforeSlot))
                     {
                         TrainingPhrasePart phrasePart = new TrainingPhrasePart();
 
@@ -569,7 +566,7 @@ namespace Whetstone.StoryEngine.Google.Management
                     // Now see if the slot name matches one of our slot mappings.
                     int nSlotEnd = parsedUtterance.IndexOf('}');
 
-                    if ( nSlotEnd == -1 )
+                    if (nSlotEnd == -1)
                     {
                         throw new Exception($"Utterance: '{utterance}' for intent: {intent.Name} missing closing brace for slot.");
                     }
@@ -579,7 +576,7 @@ namespace Whetstone.StoryEngine.Google.Management
                     parsedUtterance = parsedUtterance.Substring(nSlotEnd + 1);
 
                     // Find the mapping based on the slot name alias in the string
-                    if ( intent.SlotMappingsByName == null || !intent.SlotMappingsByName.ContainsKey(slotName) )
+                    if (intent.SlotMappingsByName == null || !intent.SlotMappingsByName.ContainsKey(slotName))
                     {
                         throw new Exception($"Utterance: '{utterance}' for intent: {intent.Name} slot mapping: {slotName} not found.");
                     }
@@ -592,14 +589,14 @@ namespace Whetstone.StoryEngine.Google.Management
                     if (slot == null)
                     {
                         // The phone number slot is special cased
-                        if ( !(isPhoneNumberSlot = slotType.Equals("WHETSTONE.US_PHONENUMBER") ) )
+                        if (!(isPhoneNumberSlot = slotType.Equals("WHETSTONE.US_PHONENUMBER")))
                         {
                             throw new Exception($"Utterance: '{utterance}' for intent: {intent.Name} slot mapping: {slotName} slot type: {slotType} not found.");
                         }
                     }
 
                     TrainingPhrasePart part = new TrainingPhrasePart();
-                    if (isPhoneNumberSlot )
+                    if (isPhoneNumberSlot)
                     {
                         // Special case phone numbers - those use a system type.
                         part.Text = _phoneNumberExample;
@@ -648,7 +645,7 @@ namespace Whetstone.StoryEngine.Google.Management
 
                     var curIntent = storyIntent;
 
-                    if(storyIntent.Name.Equals(ReservedIntents.YesIntent.Name))
+                    if (storyIntent.Name.Equals(ReservedIntents.YesIntent.Name))
                     {
                         curIntent = ReservedIntents.YesIntent;
 
@@ -668,14 +665,17 @@ namespace Whetstone.StoryEngine.Google.Management
 
                         googleIntent.DisplayName = storyIntent.Name;
 
-                        ContextName outContext = new ContextName(projectId, "-", $"{storyIntent.Name}-FollowUp") ;
+                        ContextName outContext = new ContextName(projectId, "-", $"{storyIntent.Name}-FollowUp");
 
-                       googleIntent.OutputContexts.Add( new Context { ContextName = outContext,
-                        LifespanCount=5 }  );
+                        googleIntent.OutputContexts.Add(new Context
+                        {
+                            ContextName = outContext,
+                            LifespanCount = 5
+                        });
 
 
                         bool intentHasSlots = (storyIntent.SlotMappingsByName?.Keys?.Any()).GetValueOrDefault(false);
-;
+                        ;
 
                         googleIntent.WebhookState = intentHasSlots ? Intent.Types.WebhookState.EnabledForSlotFilling :
                                                     Intent.Types.WebhookState.Enabled;
@@ -694,13 +694,13 @@ namespace Whetstone.StoryEngine.Google.Management
                                 string slotName = storyIntent.SlotMappingsByName[key];
                                 var foundEntity = await entities.FirstOrDefaultAsync(x => x.DisplayName.Equals(slotName, StringComparison.OrdinalIgnoreCase));
 
-                                
+
 
                                 if (foundEntity == null)
                                 {
                                     // Check if the entity is a system entity 
 
-                                    if(key.Equals(WhetstoneIntents.US_PHONENUMBER_INTENT, StringComparison.OrdinalIgnoreCase))
+                                    if (key.Equals(WhetstoneIntents.US_PHONENUMBER_INTENT, StringComparison.OrdinalIgnoreCase))
                                     {
                                         Intent.Types.Parameter entityParam = new Intent.Types.Parameter();
                                         entityParam.DisplayName = "phone-number";
@@ -899,10 +899,10 @@ namespace Whetstone.StoryEngine.Google.Management
 
             SlotType curSlot = levels[level];
 
-            if(curSlot.Name.Equals(WhetstoneIntents.US_PHONENUMBER_INTENT))
+            if (curSlot.Name.Equals(WhetstoneIntents.US_PHONENUMBER_INTENT))
             {
                 string pathVal = null;
-                
+
                 if (path != null)
                 {
                     string itemVal = GetRandomTelNo();
@@ -1051,14 +1051,14 @@ namespace Whetstone.StoryEngine.Google.Management
         protected async Task ImportSlotTypesAsync(string projectId, List<SlotType> slotTypes)
         {
 
-            if((slotTypes?.Any()).GetValueOrDefault())
+            if ((slotTypes?.Any()).GetValueOrDefault())
             {
                 string parentName = GetParentName(projectId);
 
                 // import the slot types into the google project
 
                 var entityList = await GetEntityListAsync(projectId);
-             
+
                 foreach (SlotType slotType in slotTypes)
                 {
                     CreateEntityTypeRequest createReq = new CreateEntityTypeRequest();
@@ -1097,11 +1097,11 @@ namespace Whetstone.StoryEngine.Google.Management
         private async Task CreateOrUpdateEntityAsync(string projectId, EntityType entityType, PagedAsyncEnumerable<ListEntityTypesResponse, EntityType> entityList)
         {
 
-           var foundEntity = await entityList.FirstOrDefaultAsync(x => x.DisplayName.Equals(entityType.DisplayName, StringComparison.OrdinalIgnoreCase));
+            var foundEntity = await entityList.FirstOrDefaultAsync(x => x.DisplayName.Equals(entityType.DisplayName, StringComparison.OrdinalIgnoreCase));
 
             var entityClient = await EntityTypesClient.CreateAsync();
 
-            if(foundEntity==null)
+            if (foundEntity == null)
             {
                 CreateEntityTypeRequest createRequest = new CreateEntityTypeRequest();
                 createRequest.EntityType = entityType;
@@ -1112,7 +1112,7 @@ namespace Whetstone.StoryEngine.Google.Management
                     var createResponse = await entityClient.CreateEntityTypeAsync(createRequest);
                     _logger.LogInformation($"Created entity {entityType.DisplayName} Name: {createResponse.Name}");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     _logger.LogError(ex, $"Error creating entity {entityType.DisplayName}");
 
@@ -1128,7 +1128,7 @@ namespace Whetstone.StoryEngine.Google.Management
                     var updateResponse = await entityClient.UpdateEntityTypeAsync(updateRequest);
                     _logger.LogInformation($"Updated entity {entityType.DisplayName}, Name:{entityType.Name}");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     _logger.LogError(ex, $"Error updating entity {entityType.DisplayName} with name {entityType.Name}");
                 }

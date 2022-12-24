@@ -1,29 +1,26 @@
-﻿using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Models.Story;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Whetstone.StoryEngine.Models.Admin;
-using Whetstone.StoryEngine.Models.Data;
+using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.Data
 {
 
 
     public interface IFileRepository : IFileReader
-    {    
+    {
         Task StoreFileAsync(TitleVersion titleVersion, string fileName, byte[] contents);
 
-        Task<byte[]> GetFileContentAsync( TitleVersion titleVersion, string fileName);
+        Task<byte[]> GetFileContentAsync(TitleVersion titleVersion, string fileName);
 
-        Task<T> GetJsonFileAsync<T>( TitleVersion titleVersion, string fileName, JsonSerializerSettings settings);
+        Task<T> GetJsonFileAsync<T>(TitleVersion titleVersion, string fileName, JsonSerializerSettings settings);
 
-        Task<T> GetJsonFileAsync<T>( TitleVersion titleVersion, string fileName);
+        Task<T> GetJsonFileAsync<T>(TitleVersion titleVersion, string fileName);
 
-        Task<bool> DoesFileExistAsync( TitleVersion titleVersion, string fileName);
+        Task<bool> DoesFileExistAsync(TitleVersion titleVersion, string fileName);
 
         Task StoreTitleAsync(StoryTitle title);
 
@@ -37,7 +34,7 @@ namespace Whetstone.StoryEngine.Data
         Task CopyMediaFilesAsync(string titleId, string sourceVersion, string destVersion);
 
 
-        Task PurgeTitleAsync( TitleVersion titleVer);
+        Task PurgeTitleAsync(TitleVersion titleVer);
 
 
         Task DeleteTitleAsync(TitleVersion titleVer);
@@ -52,7 +49,7 @@ namespace Whetstone.StoryEngine.Data
 
         Task<FileContentStream> GetFileContentStreamAsync(Guid projectId, Guid versionId, string fileName);
 
-        Task<AudioFileInfo> StoreAudioFileAsync(Guid projectId, Guid versionId, string fileName, Stream stm );
+        Task<AudioFileInfo> StoreAudioFileAsync(Guid projectId, Guid versionId, string fileName, Stream stm);
 
         Task<AudioFileInfo> GetAudioFileInfoAsync(Guid projectId, Guid versionId, string fileName);
 

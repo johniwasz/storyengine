@@ -1,20 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
-using YamlDotNet.Serialization;
-using MessagePack;
-using Whetstone.StoryEngine.Models.Serialization;
-using Newtonsoft.Json;
-using Whetstone.StoryEngine.Models.Conditions;
-using Whetstone.StoryEngine.Models.Data;
+using System.Runtime.Serialization;
 using Whetstone.StoryEngine.Models.Actions;
+using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Story
 {
-    
+
     [Table("Choices")]
     [DataContract]
     [JsonObject]
@@ -24,17 +17,17 @@ namespace Whetstone.StoryEngine.Models.Story
 
         public Choice() : base()
         {
-          
+
 
         }
 
         [JsonProperty(PropertyName = "intentName", NullValueHandling = NullValueHandling.Ignore)]
         [YamlMember(Alias = "intentName", Order = 0)]
-        [DataMember] 
+        [DataMember]
         public string IntentName { get; set; }
 
         [DataMember]
-        [YamlMember(Alias = "conditions", Order = 1)]  
+        [YamlMember(Alias = "conditions", Order = 1)]
         [NotMapped]
         [JsonProperty(PropertyName = "conditions", NullValueHandling = NullValueHandling.Ignore)]
         public List<string> ConditionNames { get; set; }
@@ -56,6 +49,6 @@ namespace Whetstone.StoryEngine.Models.Story
 
     }
 
-   
-    
+
+
 }

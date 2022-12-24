@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System;
 using System.Diagnostics;
 using System.IO;
-
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-
 using Whetstone.StoryEngine.Models.AudioProcessor;
 using Whetstone.StoryEngine.Models.Configuration;
 
@@ -23,7 +21,7 @@ namespace Whetstone.StoryEngine.AudioProcessor.Repository
         private ILogger<FFMpegAudioProcessor> _logger;
         private AudioProcessorConfig _config;
 
-        public FFMpegAudioProcessor( ILogger<FFMpegAudioProcessor> logger, IOptions<AudioProcessorConfig> config )
+        public FFMpegAudioProcessor(ILogger<FFMpegAudioProcessor> logger, IOptions<AudioProcessorConfig> config)
         {
             _logger = logger;
             _config = config.Value;
@@ -41,7 +39,7 @@ namespace Whetstone.StoryEngine.AudioProcessor.Repository
         // Use the ffprobe binary to read the contents of the file at the specified path
         // and return information about the file.
 
-        public IAudioFileInfo GetAudioFileInfo( string inputFile )
+        public IAudioFileInfo GetAudioFileInfo(string inputFile)
         {
             Process process = new Process();
             process.StartInfo.FileName = FFProbeExePath;
@@ -53,7 +51,7 @@ namespace Whetstone.StoryEngine.AudioProcessor.Repository
             string err = process.StandardError.ReadToEnd();
             process.WaitForExit();
 
-            if ( process.ExitCode != EXIT_CODE_SUCCESS )
+            if (process.ExitCode != EXIT_CODE_SUCCESS)
             {
                 _logger.LogError($"ffprobe returned nonzero exit code: {process.ExitCode}.\n{err}");
                 throw new InvalidOperationException($"Unable to execute ffprobe on input file: {inputFile}, exit code: {process.ExitCode}");
@@ -64,7 +62,7 @@ namespace Whetstone.StoryEngine.AudioProcessor.Repository
 
         }
 
-        public void ConvertAudioFile( string inputFile, string outputFile )
+        public void ConvertAudioFile(string inputFile, string outputFile)
         {
             Process process = new Process();
             process.StartInfo.FileName = FFMpegExePath;

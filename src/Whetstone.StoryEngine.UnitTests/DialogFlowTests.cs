@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon.Lambda.APIGatewayEvents;
+﻿using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
-using Amazon.S3.Model;
-using Amazon.SQS.Model;
 using Google.Cloud.Dialogflow.V2;
 using Google.Protobuf;
-using Google.Protobuf.Collections;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Google.Repository;
 using Whetstone.StoryEngine.Models;
@@ -71,11 +67,11 @@ namespace Whetstone.UnitTests
             string fileContents = File.ReadAllText("DialogFlowMessages/whetstonedialogflow_sonibridge.json");
             proxyRequest.Body = fileContents;
 
-           proxyResponse =
-                await dialogRep.ProcessDialogFlowRequestAsync(proxyRequest, lambdaConfig);
-           webHookResp = jsonParser.Parse<WebhookResponse>(proxyResponse.Body);
-           Assert.True(webHookResp != null, "WebHook response is null");
-           WriteWebhookResponse(webHookResp);
+            proxyResponse =
+                 await dialogRep.ProcessDialogFlowRequestAsync(proxyRequest, lambdaConfig);
+            webHookResp = jsonParser.Parse<WebhookResponse>(proxyResponse.Body);
+            Assert.True(webHookResp != null, "WebHook response is null");
+            WriteWebhookResponse(webHookResp);
 
         }
 
@@ -123,7 +119,7 @@ namespace Whetstone.UnitTests
 
 
         [Theory]
-      //  [InlineData("DialogFlow-FacebookMessengerWelcome.json")]
+        //  [InlineData("DialogFlow-FacebookMessengerWelcome.json")]
         [InlineData("DialogFlow-FacebookMessengerSonibridge.json")]
         public async Task DeserializeWhetstoneFacebook(string messageFile)
         {
@@ -136,7 +132,7 @@ namespace Whetstone.UnitTests
             IServiceProvider servProv = servCol.BuildServiceProvider();
 
             IAppMappingReader mappingReader = servProv.GetService<IAppMappingReader>();
-         
+
             ILogger<DialogFlowRepository> repLogger = servProv.GetService<ILogger<DialogFlowRepository>>();
 
 
@@ -157,7 +153,7 @@ namespace Whetstone.UnitTests
         [Fact]
         public async Task ProcessWhetstoneFacebookWelcome()
         {
-            
+
             TitleVersion titleVer = TitleVersionUtil.GetWhetstoneTitle();
 
             DialogFlowRepository dialogRep = GetDialogFlowRepository(titleVer);
@@ -341,9 +337,9 @@ namespace Whetstone.UnitTests
                 });
 
 
-           var loggerMock = new Mock<ILogger<DialogFlowTests>>();
+            var loggerMock = new Mock<ILogger<DialogFlowTests>>();
 
-            StoryRequest storyReq = await webReq.ToStoryRequestAsync( appMappingReader.Object, null, loggerMock.Object);
+            StoryRequest storyReq = await webReq.ToStoryRequestAsync(appMappingReader.Object, null, loggerMock.Object);
 
 
 
@@ -384,12 +380,12 @@ namespace Whetstone.UnitTests
 
             var loggerMock = new Mock<ILogger<DialogFlowTests>>();
 
-            StoryRequest storyReq = await webReq.ToStoryRequestAsync( appMappingReader.Object, null, loggerMock.Object);
+            StoryRequest storyReq = await webReq.ToStoryRequestAsync(appMappingReader.Object, null, loggerMock.Object);
 
 
             Assert.True(storyReq.IntentConfidence.HasValue);
 
-           Assert.True(!string.IsNullOrWhiteSpace(storyReq.RawText));
+            Assert.True(!string.IsNullOrWhiteSpace(storyReq.RawText));
 
         }
 
@@ -416,7 +412,7 @@ namespace Whetstone.UnitTests
 
 
 
-            
+
 
         }
 
@@ -452,7 +448,7 @@ namespace Whetstone.UnitTests
             var appMappingReader = new Mock<IAppMappingReader>();
 
 
-            appMappingReader.Setup(x => x.GetTitleAsync( It.IsAny<Client>(), It.IsAny<string>(), It.IsAny<string>()))
+            appMappingReader.Setup(x => x.GetTitleAsync(It.IsAny<Client>(), It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync((Client clientType, string appId, string alias) =>
                 {
                     TitleVersion titleVersion = TitleVersionUtil.GetWhetstoneTitle();

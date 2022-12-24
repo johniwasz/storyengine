@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Renci.SshNet.Common;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Reporting.Models;
@@ -38,12 +33,12 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
 
         }
 
-        
+
         public async Task<ReportSendStatus> SendReportsAsync(ReportSendStatus sendStatus)
         {
 
             _logger.LogInformation("Entered SFTP report sender");
-            if(sendStatus == null)
+            if (sendStatus == null)
                 throw new ArgumentNullException($"{nameof(sendStatus)}");
 
             var destination = sendStatus.Destination;
@@ -53,11 +48,11 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
 
             var reportList = sendStatus.OutputFiles;
 
-            if(reportList == null)
+            if (reportList == null)
                 throw new ArgumentNullException($"{nameof(sendStatus)}", "OutputFiles cannot be null");
 
 
-            if(!(destination is ReportDestinationSftp sftpDestination))
+            if (!(destination is ReportDestinationSftp sftpDestination))
                 throw new ArgumentException($"{nameof(destination)} must be of type ReportDestinationSftp");
 
             if (string.IsNullOrWhiteSpace(sftpDestination.SecretStore))
@@ -69,7 +64,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
             var filesToSend = sendStatus.OutputFiles.Where(x => !x.IsSent).ToList();
 
 
-            if (!sendStatus.AllSent && filesToSend.Count>0)
+            if (!sendStatus.AllSent && filesToSend.Count > 0)
             {
 
                 _logger.LogInformation($"Files to send: {filesToSend.Count}");
@@ -153,7 +148,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
 
             _logger.LogInformation($"Getting secret store: {secretParam}");
 
-            string secretText= await _secretReader.GetValueAsync(secretParam);
+            string secretText = await _secretReader.GetValueAsync(secretParam);
             _logger.LogInformation($"Retrieved secret store: {secretParam}");
 
             if (string.IsNullOrWhiteSpace(secretText))
@@ -167,10 +162,10 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
             }
             catch (Exception ex)
             {
-               _logger.LogError(ex, $"Error deserializing secret value stored in {secretParam}");
+                _logger.LogError(ex, $"Error deserializing secret value stored in {secretParam}");
                 throw;
             }
-  
+
             return config;
 
         }

@@ -2,15 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models.Story
 {
 
     [JsonObject()]
-    public  class LocalizedPlainText : ILocalizedItem
+    public class LocalizedPlainText : ILocalizedItem
     {
 
         public LocalizedPlainText()
@@ -45,7 +43,7 @@ namespace Whetstone.StoryEngine.Models.Story
     public static class LocalizedPlainTextExtensions
     {
 
-        public static string GetLocalizedPlainText(this List<LocalizedPlainText> locList,  string locale)
+        public static string GetLocalizedPlainText(this List<LocalizedPlainText> locList, string locale)
         {
             if (locList == null)
                 throw new ArgumentNullException(nameof(locList));
@@ -54,7 +52,7 @@ namespace Whetstone.StoryEngine.Models.Story
 
             LocalizedPlainText locText = null;
 
-            if(locale!=null)
+            if (locale != null)
             {
                 locText = locList.FirstOrDefault(x => (x.Locale?.Equals(locale, StringComparison.OrdinalIgnoreCase)).GetValueOrDefault(false));
             }

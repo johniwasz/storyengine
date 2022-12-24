@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.Collections.Generic;
 
 namespace Whetstone.StoryEngine.ConfigUtilities.ConfigUpdate
 {
@@ -10,10 +8,10 @@ namespace Whetstone.StoryEngine.ConfigUtilities.ConfigUpdate
     public enum ConfigEntryType
     {
         ReportBucket = 1,
-        TitleBucket =2,
+        TitleBucket = 2,
         ReportStepFunction = 3,
-        SessionAuditQueue =4,
-        SessionLoggerType =5,
+        SessionAuditQueue = 4,
+        SessionLoggerType = 5,
         DynamoDbUserTable = 6,
         DynamoDbCacheTable = 7,
         CacheSlidingExpiration = 8,
@@ -21,22 +19,22 @@ namespace Whetstone.StoryEngine.ConfigUtilities.ConfigUpdate
         TwilioLiveKey = 10,
         TwilioTestKey = 11,
         TwilioSourceNumber = 12,
-        DefaultSmsSenderType = 13,        
+        DefaultSmsSenderType = 13,
         MessageSendRetryLimit = 15,
-        AdminApiClientId =16,
+        AdminApiClientId = 16,
         AdminApiMetadataAddress = 17,
         AdminApiResponseType = 18,
-        DynamoDBMaxErrorRetries =19,
+        DynamoDBMaxErrorRetries = 19,
         DynamoDBTimeout = 20,
         AuthenticatorType = 21,
         CognitoUserPoolId = 22,
         CognitoUserClientId = 23,
-        CognitoUserClientSecret =24,
-        CognitoUserPoolRegion=25,
-        SocketConnectionTableName=26,
-        SocketWriteEndpoint=27,
-        PendingNotificationsTableName=28,
-        NotificationsLambdaArn=29,
+        CognitoUserClientSecret = 24,
+        CognitoUserPoolRegion = 25,
+        SocketConnectionTableName = 26,
+        SocketWriteEndpoint = 27,
+        PendingNotificationsTableName = 28,
+        NotificationsLambdaArn = 29,
         NotificationsLambdaName = 30
     }
 

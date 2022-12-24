@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Whetstone.StoryEngine.SocketApi.Repository.Responses
+﻿namespace Whetstone.StoryEngine.SocketApi.Repository.Responses
 {
     public class SendMessageResponse : SocketResponse
     {

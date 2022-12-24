@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Amazon.Lambda.Core;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Diagnostics;
 using System.Text;
-using Microsoft.Extensions.Logging;
-using Amazon.Lambda.Core;
 using LogLevel = Amazon.Lambda.Core.LogLevel;
 
 namespace Whetstone.StoryEngine.Data.EntityFramework

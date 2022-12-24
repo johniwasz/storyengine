@@ -1,25 +1,21 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using System.Text;
-using Newtonsoft.Json;
-using Whetstone.StoryEngine.Models.Conditions;
-using Whetstone.StoryEngine.Models.Story;
-using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Data
 {
-   
-    [JsonObject(Title="Title", Description ="Root title definition")]
+
+    [JsonObject(Title = "Title", Description = "Root title definition")]
     [Table("titles")]
-    public class DataTitle 
+    public class DataTitle
     {
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [System.ComponentModel.DataAnnotations.Key]
-        [Column("id")]       
+        [Column("id")]
         [DataMember]
         public Guid? Id { get; set; }
 

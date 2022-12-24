@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Whetstone.StoryEngine.Models.AudioProcessor
+﻿namespace Whetstone.StoryEngine.Models.AudioProcessor
 {
     public interface IAudioProcessor
     {

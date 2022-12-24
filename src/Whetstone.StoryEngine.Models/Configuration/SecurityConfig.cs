@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
-using Whetstone.StoryEngine.Models;
+﻿using Newtonsoft.Json;
 using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Configuration

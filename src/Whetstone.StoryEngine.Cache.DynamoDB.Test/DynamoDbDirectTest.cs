@@ -5,10 +5,8 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Story;
 using Xunit;
 
@@ -36,13 +34,13 @@ namespace Whetstone.StoryEngine.Cache.DynamoDB.Test
                 userIds.Add(Guid.NewGuid());
 
             }
-          
+
             Stopwatch timer = new Stopwatch();
 
             var bag = new ConcurrentBag<TimingResponse>();
             var tasks = userIds.Select(async item =>
             {
-               
+
                 TimingResponse resp = new TimingResponse();
                 resp.Exceptions = new List<Exception>();
                 resp.IndividualTimings = new List<long>();
@@ -58,7 +56,7 @@ namespace Whetstone.StoryEngine.Cache.DynamoDB.Test
                 resp.IndividualTimings.Add(firstMark - markZero);
 
 
-             
+
                 mapping = await distCache.GetAsync<TitleVersion>("title", "mapping:alexa-amzn1.ask.skill.f3a97670-6175-42a7-85b5-ca7f5a5be40d-live");
 
                 long secondMark = timer.ElapsedMilliseconds;
@@ -71,7 +69,7 @@ namespace Whetstone.StoryEngine.Cache.DynamoDB.Test
 
                 //  await Task.Delay(2000);
 
-              
+
                 var storyTitle = await distCache.GetAsync<StoryTitle>("title", "version:animalfarmpi-1.5");
 
                 long thirdMark = timer.ElapsedMilliseconds;
@@ -96,13 +94,13 @@ namespace Whetstone.StoryEngine.Cache.DynamoDB.Test
                 //    Debug.WriteLine("whetstone title is found");
 
 
-               
+
                 resp.Milliseconds = thirdMark - markZero;
                 bag.Add(resp);
 
 
             });
-            
+
             timer.Start();
             await Task.WhenAll(tasks);
 
@@ -113,7 +111,7 @@ namespace Whetstone.StoryEngine.Cache.DynamoDB.Test
 
             Console.WriteLine($"average time {averageTime}");
 
-            var overTimes = bag.Where(x => x.Milliseconds > (timeout *4) || (x.Exceptions?.Any()).GetValueOrDefault(false));
+            var overTimes = bag.Where(x => x.Milliseconds > (timeout * 4) || (x.Exceptions?.Any()).GetValueOrDefault(false));
             foreach (var overTime in overTimes)
             {
                 Console.WriteLine(overTime.Milliseconds);
@@ -197,7 +195,7 @@ namespace Whetstone.StoryEngine.Cache.DynamoDB.Test
 
             }
 
-            
+
             var count = bag.Count;
 
             var averageTime = bag.Select(x => x.IndividualTimings.Average()).Average();
@@ -219,7 +217,7 @@ namespace Whetstone.StoryEngine.Cache.DynamoDB.Test
 
     }
 
-[DebuggerDisplay("Millisecods: {Milliseconds}")]
+    [DebuggerDisplay("Millisecods: {Milliseconds}")]
     public class TimingResponse
     {
         public long Milliseconds { get; set; }

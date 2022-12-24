@@ -1,17 +1,14 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using System.Text;
 using Whetstone.StoryEngine.Models.Story.Cards;
 using Whetstone.StoryEngine.Models.Story.Text;
 using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Story
 {
-    [JsonObject(Title ="LocalizedResponse")]
+    [JsonObject(Title = "LocalizedResponse")]
     [Table("LocResponse")]
     [DataContract]
     public class LocalizedResponse
@@ -71,7 +68,7 @@ namespace Whetstone.StoryEngine.Models.Story
         public List<ClientSpeechFragments> SpeechResponses { get; set; }
 
 
-     
+
         [DataMember]
         [YamlMember(Alias = "clientSpeechReprompts")]
         [JsonProperty("clientSpeechReprompts", NullValueHandling = NullValueHandling.Ignore)]

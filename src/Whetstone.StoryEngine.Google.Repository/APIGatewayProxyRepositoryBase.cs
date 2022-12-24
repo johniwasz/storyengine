@@ -1,16 +1,14 @@
 ﻿using Amazon.Lambda.APIGatewayEvents;
-using Amazon.Runtime.Internal;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace Whetstone.StoryEngine.Google.Repository
 {
     public abstract class APIGatewayProxyRepositoryBase
     {
-  
+
         private const string DIALOGFLOW_PATH = "/";
         private const string PROTO_HEADER = "X-Forwarded-Proto";
 
@@ -21,7 +19,7 @@ namespace Whetstone.StoryEngine.Google.Repository
         public APIGatewayProxyRepositoryBase(ILogger<APIGatewayProxyRepositoryBase> logger)
         {
             _dataLogger = logger ?? throw new ArgumentNullException(nameof(logger));
-           
+
         }
 
 

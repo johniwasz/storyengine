@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using Amazon.Lambda.Core;
@@ -10,6 +5,11 @@ using Amazon.Lambda.DynamoDBEvents;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Data.Amazon;
 using Whetstone.StoryEngine.Data.DependencyInjection;
@@ -31,10 +31,10 @@ namespace Whetstone.StoryEngine.DynamoDBMonitors
 
         internal enum PropagationType
         {
-            Unknown =0,
-            User =1,
-            Phone=2,
-            UserPhoneConsent =3
+            Unknown = 0,
+            User = 1,
+            Phone = 2,
+            UserPhoneConsent = 3
 
 
         }
@@ -55,7 +55,7 @@ namespace Whetstone.StoryEngine.DynamoDBMonitors
         /// <returns>The list of blogs</returns>
         public async Task SyncUserRecords(DynamoDBEvent request, ILambdaContext context)
         {
-            if(request==null)
+            if (request == null)
                 throw new ArgumentNullException($"{nameof(request)}");
 
 
@@ -71,7 +71,7 @@ namespace Whetstone.StoryEngine.DynamoDBMonitors
 
             ISmsConsentRepository databaseConsentRep = consentRepFunc(SmsConsentRepositoryType.Database);
             List<Exception> exList = new List<Exception>();
-            foreach (var streamItem in request.Records.OrderBy(x=> x.Dynamodb.SequenceNumber))
+            foreach (var streamItem in request.Records.OrderBy(x => x.Dynamodb.SequenceNumber))
             {
                 try
                 {
@@ -116,7 +116,7 @@ namespace Whetstone.StoryEngine.DynamoDBMonitors
                 }
             }
 
-            if(exList.Count>0)
+            if (exList.Count > 0)
                 throw new AggregateException(exList);
 
         }
@@ -128,7 +128,7 @@ namespace Whetstone.StoryEngine.DynamoDBMonitors
             string consentIdText = newStreamImage["id"].S;
 
 
-            ILogger<DynamoDBTableMonitorFunction> dbLogger = Services.GetService<ILogger<DynamoDBTableMonitorFunction>>(); 
+            ILogger<DynamoDBTableMonitorFunction> dbLogger = Services.GetService<ILogger<DynamoDBTableMonitorFunction>>();
 
             try
             {
@@ -192,12 +192,12 @@ namespace Whetstone.StoryEngine.DynamoDBMonitors
                 throw;
             }
 
-            if (phoneInfo!= null)
+            if (phoneInfo != null)
             {
                 // if the user coming in from dynamo db does not yet have a user id set,
                 // then set the new user flag so that the dynamodb record is updated
                 // with the database user id
-      
+
 
                 try
                 {
@@ -218,7 +218,7 @@ namespace Whetstone.StoryEngine.DynamoDBMonitors
                     throw;
                 }
 
-          
+
             }
             else
             {
@@ -240,7 +240,7 @@ namespace Whetstone.StoryEngine.DynamoDBMonitors
 
             try
             {
-                titleClient = (DataTitleClientUser) newStreamImage;
+                titleClient = (DataTitleClientUser)newStreamImage;
 
             }
             catch (Exception ex)

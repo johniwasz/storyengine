@@ -1,11 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Google.Management;
@@ -17,7 +15,7 @@ namespace Whetstone.StoryEngine.UnitTests.Google
 {
     public class NlpExportTest
     {
-    
+
 
         [Fact]
         public async Task ExportWhetstoneNlp()
@@ -146,7 +144,7 @@ namespace Whetstone.StoryEngine.UnitTests.Google
             }
         }
 
-        private void ValidateIntent( ZipArchive archive, string intentName )
+        private void ValidateIntent(ZipArchive archive, string intentName)
         {
             const string _intentsFolderName = "intents/";
 

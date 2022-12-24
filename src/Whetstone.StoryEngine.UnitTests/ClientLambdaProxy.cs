@@ -1,9 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Whetstone.StoryEngine.DependencyInjection;
 using Whetstone.StoryEngine.Models.Configuration;
 
@@ -23,7 +20,7 @@ namespace Whetstone.StoryEngine.UnitTests
 
         protected override void ConfigureServices(IServiceCollection services, IConfiguration config, BootstrapConfig bootConfig)
         {
-           // do nothing
+            // do nothing
         }
     }
 }

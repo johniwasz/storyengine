@@ -27,7 +27,7 @@ namespace Whetstone.StoryEngine.Data.Create.Migrations
             functionText = MigrationFunctionExtensions.GetFunctionContent("add_intentaction_isnewuser");
             migrationBuilder.Sql(functionText);
 
-            
+
 
         }
 

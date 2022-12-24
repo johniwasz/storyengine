@@ -1,19 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System.Threading.Tasks;
-using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Models.Data;
-using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.Repository;
-using Whetstone.StoryEngine.Repository.Messaging;
-using Whetstone.StoryEngine.Repository.Phone;
-using Xunit;
-
-namespace Whetstone.StoryEngine.Test.Messaging
+﻿namespace Whetstone.StoryEngine.Test.Messaging
 {
 
 
-    public  class SmsConsentTests : TestServerFixture
+    public class SmsConsentTests : TestServerFixture
     {
 
         //[Fact]
@@ -79,7 +68,7 @@ namespace Whetstone.StoryEngine.Test.Messaging
         //    notificationTitle.ConsentBehavior = ConsentBehaviorEnum.RecordConsentGrant;
         //    notificationTitle.ConsentName = "whetstonesms";
         //    notificationTitle.EngineRequestId = Guid.NewGuid();
-       
+
         //    notificationTitle.IsGranted = false;
         //    notificationTitle.TitleVersion = smsTitle;
         //    notificationTitle.TitleUserId = userInfo.Id.Value;

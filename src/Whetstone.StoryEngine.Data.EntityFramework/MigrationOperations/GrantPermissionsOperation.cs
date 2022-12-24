@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 
 namespace Whetstone.StoryEngine.Data.EntityFramework.MigrationOperations
@@ -10,10 +7,10 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.MigrationOperations
     [Flags]
     public enum Permission
     {
-        Select=1,
-        Update=2,
-        Insert=4,
-        Delete=8
+        Select = 1,
+        Update = 2,
+        Insert = 4,
+        Delete = 8
     }
 
     public class GrantPermissionOperation : Microsoft.EntityFrameworkCore.Migrations.Operations.MigrationOperation

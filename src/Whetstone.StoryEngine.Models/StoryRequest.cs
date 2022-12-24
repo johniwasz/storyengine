@@ -2,9 +2,7 @@
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Runtime.Serialization;
-using System.Text;
 using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.Models
@@ -16,33 +14,33 @@ namespace Whetstone.StoryEngine.Models
     /// </summary>
     public enum StoryRequestType
     {
-        Unknown =0,
-        Launch=1,
-        Begin=2,
-        Resume=3,
-        Stop=4,
-        Pause=5,
-        Intent=6,
-        Help=7,
-        Reprompt=8,
+        Unknown = 0,
+        Launch = 1,
+        Begin = 2,
+        Resume = 3,
+        Stop = 4,
+        Pause = 5,
+        Intent = 6,
+        Help = 7,
+        Reprompt = 8,
         Repeat = 9,
         CanFulfillIntent = 10
-        
+
     }
 
 
     public enum Client
     {
-        [EnumMember(Value ="unknown")]
-        Unknown =0,
+        [EnumMember(Value = "unknown")]
+        Unknown = 0,
         [EnumMember(Value = "alexa")]
-        Alexa =1,
+        Alexa = 1,
         [EnumMember(Value = "googlehome")]
-        GoogleHome =2,
+        GoogleHome = 2,
         [EnumMember(Value = "microsoftinvoke")]
-        MicrosoftInvoke =3,
+        MicrosoftInvoke = 3,
         [EnumMember(Value = "facebookmessenger")]
-        FacebookMessenger =4,
+        FacebookMessenger = 4,
         [EnumMember(Value = "sms")]
         Sms = 5,
         [EnumMember(Value = "bixby")]
@@ -55,11 +53,11 @@ namespace Whetstone.StoryEngine.Models
         [EnumMember(Value = "unknown")]
         Unknown = 0,
         [EnumMember(Value = "voice")]
-        Voice =1,
+        Voice = 1,
         [EnumMember(Value = "keyboard")]
-        Keyboard =2,
+        Keyboard = 2,
         [EnumMember(Value = "touch")]
-        Touch =3,
+        Touch = 3,
         [EnumMember(Value = "other")]
         Other = 99
 
@@ -67,7 +65,7 @@ namespace Whetstone.StoryEngine.Models
 
     public static class ReservedIntents
     {
-      
+
         public readonly static StoryEngine.Models.Story.Intent ResumeIntent = new Story.Intent()
         {
             Name = "ResumeIntent",
@@ -167,7 +165,7 @@ namespace Whetstone.StoryEngine.Models
                   }
              }
         };
-      
+
         public static readonly StoryEngine.Models.Story.Intent CancelIntent = new Story.Intent()
         {
             Name = "CancelIntent",
@@ -204,7 +202,7 @@ namespace Whetstone.StoryEngine.Models
                   }
              }
         };
-       
+
         public static readonly StoryEngine.Models.Story.Intent PauseIntent = new Story.Intent()
         {
             Name = "PauseIntent",
@@ -216,7 +214,7 @@ namespace Whetstone.StoryEngine.Models
                    {
                        "pause",
                        "pause game",
-                       "pause investigation"                      
+                       "pause investigation"
                    }
                   }
              }
@@ -495,7 +493,7 @@ namespace Whetstone.StoryEngine.Models
 
             if (!titleId.HasValue)
                 throw new Exception($"SessionContext does not contain the TitleId. Cannot generate user hash key from request {this.EngineRequestId} engine request id");
-            
+
             if (string.IsNullOrWhiteSpace(this.UserId))
                 throw new Exception(
                     $"UserId cannot be null or empty. Cannot generate user hash key from request {this.EngineRequestId} engine request id");

@@ -1,12 +1,10 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Google.Management.Models
 {
 
-  
+
     public class DialogFlowIntent
     {
         [JsonProperty("id", DefaultValueHandling = DefaultValueHandling.Ignore)]

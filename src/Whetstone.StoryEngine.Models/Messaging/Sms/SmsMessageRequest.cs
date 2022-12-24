@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models.Messaging.Sms
 {
     public enum SmsSenderType
     {
-        [EnumMember(Value= "unassigned")]
+        [EnumMember(Value = "unassigned")]
         Unassigned = 0,
         [EnumMember(Value = "pinpoint")]
         Pinpoint = 1,
@@ -24,7 +22,7 @@ namespace Whetstone.StoryEngine.Models.Messaging.Sms
     /// <remarks>
     /// This is not saved to the database.
     /// </remarks>
-    public class SmsMessageRequest 
+    public class SmsMessageRequest
     {
 
 

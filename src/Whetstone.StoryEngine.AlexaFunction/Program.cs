@@ -15,7 +15,7 @@ namespace Whetstone.StoryEngine.AlexaFunction
     {
 
 
-        private static Lazy<AlexaFunction> _nativeFunction = new Lazy<AlexaFunction> (GetNativeFunction);
+        private static Lazy<AlexaFunction> _nativeFunction = new Lazy<AlexaFunction>(GetNativeFunction);
 
 
         private static AlexaFunction GetNativeFunction()
@@ -27,9 +27,9 @@ namespace Whetstone.StoryEngine.AlexaFunction
         {
             AWSSDKHandler.RegisterXRayForAllServices();
             AWSXRayRecorder recorder = new AWSXRayRecorderBuilder()
-                .Build();          
+                .Build();
 
-            AWSXRayRecorder.InitializeInstance(recorder: recorder);          
+            AWSXRayRecorder.InitializeInstance(recorder: recorder);
             await RunAsync();
         }
         public static async Task RunAsync(
@@ -72,7 +72,7 @@ namespace Whetstone.StoryEngine.AlexaFunction
                 // Instantiate a LambdaBootstrap and run it.
                 // It will wait for invocations from AWS Lambda and call
                 // the handler function for each one.
-                using (var bootstrap= new LambdaBootstrap(httpClient ?? new HttpClient(),handlerWrapper))
+                using (var bootstrap = new LambdaBootstrap(httpClient ?? new HttpClient(), handlerWrapper))
                 {
                     await bootstrap.RunAsync(cancellationToken);
                 }

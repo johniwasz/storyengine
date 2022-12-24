@@ -1,18 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Npgsql;
-using Whetstone.StoryEngine.Models.Messaging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using static Amazon.Lambda.SQSEvents.SQSEvent;
-using System.Diagnostics;
-using Microsoft.Extensions.Options;
 using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Data.EntityFramework;
+using Whetstone.StoryEngine.Models.Messaging;
+using static Amazon.Lambda.SQSEvents.SQSEvent;
 
 namespace Whetstone.Queue.SessionLogger.Repository
 {
@@ -23,21 +20,21 @@ namespace Whetstone.Queue.SessionLogger.Repository
 
         private readonly ISessionLogger _sessionLogger;
 
-   
+
 
         public QueueSessionProcessor(ISessionLogger sessionLogger, ILogger<QueueSessionProcessor> logger)
         {
-            _logger = logger ?? throw new ArgumentNullException($"{nameof(logger)}");        
+            _logger = logger ?? throw new ArgumentNullException($"{nameof(logger)}");
 
-           _sessionLogger = sessionLogger ?? throw new ArgumentNullException($"{nameof(sessionLogger)}");
+            _sessionLogger = sessionLogger ?? throw new ArgumentNullException($"{nameof(sessionLogger)}");
 
         }
 
-        
+
 
         public async Task ProcessSessionLogMessages(List<SQSMessage> sqsMessages)
         {
-            
+
 
             List<Exception> messageExceptions = new List<Exception>();
 

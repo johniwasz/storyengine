@@ -1,9 +1,7 @@
 ﻿using Amazon.XRay.Recorder.Core;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,7 +17,7 @@ namespace Whetstone.StoryEngine
     public static class ThrottleManager
     {
 
-       public static async Task<TResponse> ThrottleRequestWithRetries<T, TResponse>(T requestItem, ProcessThrottledRequestAsync<T, TResponse> retriever, int engineTimeout, int maxRetries, ILogger logger, CancellationToken token = default)
+        public static async Task<TResponse> ThrottleRequestWithRetries<T, TResponse>(T requestItem, ProcessThrottledRequestAsync<T, TResponse> retriever, int engineTimeout, int maxRetries, ILogger logger, CancellationToken token = default)
         {
             int retryCount = 0;
 
@@ -73,7 +71,7 @@ namespace Whetstone.StoryEngine
                         else
                         {
 
-                           
+
                             // if it threw an unhandled exception, then rethrow 
                             if (getTask.Exception == null)
                             {
@@ -173,7 +171,7 @@ namespace Whetstone.StoryEngine
                     {
                         if (getTask.IsCompletedSuccessfully)
                         {
-                         
+
                             isComplete = true;
                         }
                         else
@@ -220,7 +218,7 @@ namespace Whetstone.StoryEngine
                 }
             };
 
-          
+
         }
     }
 }

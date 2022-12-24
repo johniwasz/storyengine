@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon.S3;
-using System.IO;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Data.Amazon;
 using Whetstone.StoryEngine.Data.FileStorage;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Serialization;
@@ -24,7 +20,7 @@ namespace Whetstone.StoryEngine.Repository
 
         public LocalFileReader(IOptions<LocalFileConfig> localFileConfig, ILogger<LocalFileReader> logger)
         {
-             _dataLogger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _dataLogger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             IOptions<LocalFileConfig> locConfig =
                 localFileConfig ?? throw new ArgumentNullException(nameof(localFileConfig));
@@ -62,7 +58,7 @@ namespace Whetstone.StoryEngine.Repository
                 tcs.SetException(new FileNotFoundException(errMsg));
                 return tcs.Task;
             }
-          
+
 
             return Task.FromResult(locTitle);
         }

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Whetstone.StoryEngine.Models.Story
+﻿namespace Whetstone.StoryEngine.Models.Story
 {
     public enum NodeMappingType
     {
         SingleNodeMapping = 0,
-        MultiNodeMapping =1,
+        MultiNodeMapping = 1,
         ConditionalNodeMapping = 3,
         SlotNodeMapping = 4,
-        SlotMap =5
+        SlotMap = 5
     }
 }

@@ -1,14 +1,10 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
-using Whetstone.StoryEngine.Cache;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using Whetstone.StoryEngine.Cache;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Story;
 
@@ -103,7 +99,7 @@ namespace Whetstone.StoryEngine.Data.Caching
                     retrievalTime.Stop();
 
 
-                    if(retTitle!= null)
+                    if (retTitle != null)
                         _titleLogger.LogDebug($"Title {memCacheKey} returned from file repository: {retrievalTime.ElapsedMilliseconds}");
                 }
                 else
@@ -194,7 +190,7 @@ namespace Whetstone.StoryEngine.Data.Caching
 
             _memCache.Remove($"{CONTAINER_PREFIX}:{clientKey}");
 
-            if(isPurge)
+            if (isPurge)
                 await _distCache.RemoveAsync(CONTAINER_PREFIX, clientKey);
         }
 

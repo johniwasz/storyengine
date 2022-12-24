@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 using Whetstone.StoryEngine.Models.Serialization;
 
 namespace Whetstone.StoryEngine.Reporting.Models.Serialization

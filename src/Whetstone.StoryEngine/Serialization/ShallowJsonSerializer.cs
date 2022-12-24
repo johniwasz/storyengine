@@ -1,7 +1,6 @@
 ﻿using Amazon.Lambda.Core;
 using Amazon.Lambda.Serialization.Json;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -45,7 +44,7 @@ namespace Whetstone.StoryEngine.Serialization
             if (converters == null)
                 return;
 
-           
+
 
             foreach (JsonConverter converter in converters)
                 this.serializer.Converters.Add(converter);

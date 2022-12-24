@@ -1,20 +1,14 @@
-﻿using Amazon.Lambda.TestUtilities;
-using Whetstone.Alexa;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
+using Whetstone.Alexa;
 using Xunit;
-using Whetstone.StoryEngine;
-using Amazon;
 
 namespace Whetstone.StoryEngine.AlexaFunction.Test
 {
     public class ElderGodsTest : LambdaTestBase
     {
-       
+
         internal const string userId = "amzn1.ask.account.AE3DZ3NJLES3Z5EM7IN3WO3ZH7LXFUGNZNVHHEDTD3YKRZMVPTKIQ6P3HR4WUHYI73XB4SG7E7AYQCXZUXOTIZRGZBLGL4R23HKINZTTWRH6VROUOFR4PLTLIT4HHJX34SNRPF3FNIMJSMFMRDC4N2GFRZNGRFGCWC2JHJMKDYHW5WORECJOHII7W4DDQOHNCJ3UXPTJKZQAOZQ";
         internal const string sessionId = "amzn1.echo-api.session.d3f663ca-8fff-47ce-b6a1-9c79d425bbef";
 
@@ -24,15 +18,15 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
             var function = new AlexaFunctionProxy();
 
 
-            AlexaSessionContext sessionContext = new AlexaSessionContext(ElderGodsSkilId, sessionId , "en-US", userId);
-            
+            AlexaSessionContext sessionContext = new AlexaSessionContext(ElderGodsSkilId, sessionId, "en-US", userId);
+
 
             var context = GetLambdaContext();
 
             AlexaResponse resp = await GetLaunchResult(sessionContext, function);
 
             resp = await GetIntentResult(sessionContext, function, "BeginIntent");
-            
+
 
         }
 
@@ -85,7 +79,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
             WriteResponse(resp);
 
             string userId = sessionContext.UserId;
-          
+
 
             location = GetLocationSlot("library");
             resp = await GetIntentResult(sessionContext, function, "GotoLocationIntent", location);
@@ -192,7 +186,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
             resp = await GetIntentResult(sessionContext, function, "WaitForIntent", character);
             WriteResponse(resp);
 
-           verbLocation = GetVerbTheLocationSlots("leave", "area");
+            verbLocation = GetVerbTheLocationSlots("leave", "area");
             resp = await GetIntentResult(sessionContext, function, "VerbTheLocationIntent", verbLocation);
             WriteResponse(resp);
 
@@ -307,27 +301,27 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
             Dictionary<string, string> verbAction = new Dictionary<string, string>();
 
             verbAction.Add("verb", verb);
-            verbAction.Add("action",action);
+            verbAction.Add("action", action);
 
             return verbAction;
         }
 
         private new void WriteResponse(AlexaResponse resp)
         {
-           if(resp==null)
+            if (resp == null)
             {
                 Debug.WriteLine("Null response");
             }
-           else
+            else
             {
                 var cardResp = resp.Response?.Card;
 
-                if(cardResp!=null)
+                if (cardResp != null)
                 {
                     Debug.WriteLine(string.Format("Card Response: {0}", cardResp.Title));
                     Debug.WriteLine("------");
                     Debug.WriteLine(cardResp.Content);
-                    if(cardResp.ImageAttributes!=null)
+                    if (cardResp.ImageAttributes != null)
                     {
                         if (!string.IsNullOrWhiteSpace(cardResp.ImageAttributes.LargeImageUrl))
                             Debug.WriteLine(string.Format("Large Image Url: {0}", cardResp.ImageAttributes.LargeImageUrl));
@@ -360,11 +354,11 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
                 var reprompt = resp.Response?.Reprompt;
 
-                if(reprompt!=null)
+                if (reprompt != null)
                 {
                     var repromptType = reprompt.OutputSpeech?.Type;
 
-                    if(repromptType.HasValue)
+                    if (repromptType.HasValue)
                     {
                         if (repromptType.Value == OutputSpeechType.PlainText)
                         {
@@ -399,11 +393,11 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
                 else
                     Debug.WriteLine("ShouldEndSession is missing");
 
-                
+
                 Debug.WriteLine("");
             }
 
-          
+
         }
 
         private Dictionary<string, string> GetCharacterSlot(string character)
@@ -411,7 +405,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
             Dictionary<string, string> verbItems = new Dictionary<string, string>();
 
             verbItems.Add("character", character);
-         
+
             return verbItems;
 
         }

@@ -44,12 +44,12 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
             Whetstone.StoryEngine.AlexaFunction.Program natFunc = new Program();
 
-           // await Native.Function.Main(null);
+            // await Native.Function.Main(null);
 
 
             // var returnVal = await Native.Function.FunctionHandler(req, context);
 
-          // string returnVal = Native.Function.FunctionHandler("sometext", context);
+            // string returnVal = Native.Function.FunctionHandler("sometext", context);
 
             var testLogger = context.Logger as TestLambdaLogger;
 
@@ -107,7 +107,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
                             AlexaResponse actual = JsonConvert.DeserializeObject<AlexaResponse>(jsonResponse);
 
-                           // Assert.Equal(new[] { 3, 2, 1 }, actual);
+                            // Assert.Equal(new[] { 3, 2, 1 }, actual);
                         });
 
                     }

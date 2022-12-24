@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Whetstone.StoryEngine.Models
+﻿namespace Whetstone.StoryEngine.Models
 {
     public interface IStoryEntity
     {

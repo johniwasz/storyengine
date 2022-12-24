@@ -1,13 +1,12 @@
 ﻿using MessagePack;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Whetstone.StoryEngine.Models.Serialization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Xml.Serialization;
+using Whetstone.StoryEngine.Models.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Data
 {
@@ -34,7 +33,7 @@ namespace Whetstone.StoryEngine.Models.Data
         [MessagePack.Key(0)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [System.ComponentModel.DataAnnotations.Key()]
-        [JsonProperty(PropertyName ="id", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "id", NullValueHandling = NullValueHandling.Ignore)]
         public long? Id { get; set; }
 
         [DataMember]
@@ -49,8 +48,8 @@ namespace Whetstone.StoryEngine.Models.Data
         [JsonIgnore()]
         public long? FalseResultParentId { get; set; }
 
-       [JsonIgnore()]
-       public long? VersionId { get; set; }
+        [JsonIgnore()]
+        public long? VersionId { get; set; }
 
         [JsonIgnore()]
         [ForeignKey("VersionId")]
@@ -86,7 +85,7 @@ namespace Whetstone.StoryEngine.Models.Data
 
         }
 
-        [JsonProperty("fileName", Order =1, NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("fileName", Order = 1, NullValueHandling = NullValueHandling.Ignore)]
         [DataMember]
         [Key(1)]
         //public Uri AudioUrl
@@ -98,7 +97,7 @@ namespace Whetstone.StoryEngine.Models.Data
         [NotMapped]
         [DataMember]
         [JsonConverter(typeof(StringEnumConverter))]
-        [JsonProperty("fragmentType", Order =  0)]
+        [JsonProperty("fragmentType", Order = 0)]
         [Key(2)]
         public sealed override SpeechFragmentType FragmentType { get; set; }
     }
@@ -108,7 +107,7 @@ namespace Whetstone.StoryEngine.Models.Data
     [MessagePackObject]
     public class DataSpeechText : DataSpeechFragment
     {
-    
+
         private string _speechText;
 
         public DataSpeechText()
@@ -126,7 +125,7 @@ namespace Whetstone.StoryEngine.Models.Data
 
         [JsonProperty("text", Order = 1, NullValueHandling = NullValueHandling.Ignore)]
         [DataMember]
-        [Key(1)]       
+        [Key(1)]
         public string Text { get { return _speechText; } set { _speechText = value; } }
 
         [Column("TextVoice")]
@@ -143,7 +142,7 @@ namespace Whetstone.StoryEngine.Models.Data
         public sealed override SpeechFragmentType FragmentType { get; set; }
 
         [Column("VoiceFileId")]
-        [JsonProperty("voiceFileId", Order =  3, NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("voiceFileId", Order = 3, NullValueHandling = NullValueHandling.Ignore)]
         [DataMember]
         [Key(4)]
         public Guid? VoiceFileId { get; set; }
@@ -165,7 +164,7 @@ namespace Whetstone.StoryEngine.Models.Data
         [DataMember]
         public int Duration { get; set; }
 
-  
+
         [NotMapped]
         [JsonConverter(typeof(StringEnumConverter))]
         [JsonProperty("fragmentType", Order = 0)]
@@ -194,7 +193,7 @@ namespace Whetstone.StoryEngine.Models.Data
 
         }
 
-        [JsonProperty("audioUrl", Order =1)]
+        [JsonProperty("audioUrl", Order = 1)]
         [DataMember]
         [Key(1)]
         //public Uri AudioUrl
@@ -233,7 +232,7 @@ namespace Whetstone.StoryEngine.Models.Data
 
         [Key(2)]
         [DataMember]
-        [JsonProperty("falseResultParentId",Order =2, NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("falseResultParentId", Order = 2, NullValueHandling = NullValueHandling.Ignore)]
         [ForeignKey("FalseResultParentId")]
         public ICollection<DataSpeechFragment> FalseResultFragments { get; set; }
 
@@ -278,7 +277,7 @@ namespace Whetstone.StoryEngine.Models.Data
 
 
         [Column("VoiceFileId")]
-        [JsonProperty("voiceFileId", Order = 3,NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("voiceFileId", Order = 3, NullValueHandling = NullValueHandling.Ignore)]
         [DataMember]
         [Key(4)]
         public Guid? VoiceFileId { get; set; }

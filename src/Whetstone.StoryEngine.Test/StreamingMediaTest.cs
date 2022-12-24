@@ -1,24 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Data.Amazon;
 using Whetstone.StoryEngine.Data.Caching;
 using Whetstone.StoryEngine.Data.Yaml;
-using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.Models.Data;
 using Whetstone.StoryEngine.Models.Story;
 using Whetstone.StoryEngine.Models.Story.Ssml;
-using Whetstone.StoryEngine.Repository;
-using Whetstone.StoryEngine.Repository.Amazon;
 using Xunit;
 
 namespace Whetstone.StoryEngine.Test
@@ -28,15 +18,15 @@ namespace Whetstone.StoryEngine.Test
     {
 
 
-        private async  Task<StoryTitle> GetTitleWithVoice()
+        private async Task<StoryTitle> GetTitleWithVoice()
         {
             ITitleCacheRepository titleCacheRep = Services.GetService<TitleCacheRepository>();
 
             ILogger<YamlTitleReader> yamlLogger = Services.GetService<ILogger<YamlTitleReader>>();
 
-            ITitleReader titleReader = new YamlTitleReader(titleCacheRep,  yamlLogger);
+            ITitleReader titleReader = new YamlTitleReader(titleCacheRep, yamlLogger);
 
-            TitleVersion titleVersion = new TitleVersion("animalfarmtest", "1.0"); 
+            TitleVersion titleVersion = new TitleVersion("animalfarmtest", "1.0");
 
 
             StoryTitle newTitle = await titleReader.GetByIdAsync(titleVersion);
@@ -63,7 +53,7 @@ namespace Whetstone.StoryEngine.Test
 
 
 
-      
+
 
 
 

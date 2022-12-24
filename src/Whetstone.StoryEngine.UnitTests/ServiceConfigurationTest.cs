@@ -1,12 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using Whetstone.StoryEngine.Repository.Actions;
-using Whetstone.StoryEngine;
 using Whetstone.StoryEngine.Models.Actions;
-using Whetstone.StoryEngine.Data;
+using Whetstone.StoryEngine.Repository.Actions;
+using Xunit;
 
 namespace Whetstone.UnitTests
 {
@@ -32,7 +28,7 @@ namespace Whetstone.UnitTests
 
             Func<NodeActionEnum, INodeActionProcessor> actionFunc = provider.GetService<Func<NodeActionEnum, INodeActionProcessor>>();
 
-           InventoryActionProcessor invProcessor = (InventoryActionProcessor) actionFunc(NodeActionEnum.Inventory);
+            InventoryActionProcessor invProcessor = (InventoryActionProcessor)actionFunc(NodeActionEnum.Inventory);
             Assert.NotNull(invProcessor);
 
             AssignSlotValueActionProcessor slotValueProcessor = (AssignSlotValueActionProcessor)actionFunc(NodeActionEnum.AssignValue);
@@ -46,7 +42,7 @@ namespace Whetstone.UnitTests
             NodeVisitRecordActionProcessor nodeVisitProcessor = (NodeVisitRecordActionProcessor)actionFunc(NodeActionEnum.NodeVisit);
             Assert.NotNull(nodeVisitProcessor);
 
-        
+
             PhoneMessageActionProcessor phoneProcessor = (PhoneMessageActionProcessor)actionFunc(NodeActionEnum.PhoneMessage);
             Assert.NotNull(phoneProcessor);
 
@@ -63,10 +59,10 @@ namespace Whetstone.UnitTests
 
 
 
-           // provider.GetService<INodeActionProcessor>()
+            // provider.GetService<INodeActionProcessor>()
 
         }
 
-      
+
     }
 }

@@ -1,7 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
 using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Configuration
@@ -80,7 +78,7 @@ namespace Whetstone.StoryEngine.Models.Configuration
         /// Number of seconds the RDS token is kept in memory. Defaults to 840 (14 min.) if not set. Amazon issued RDS
         /// authentication tokens are times for 15 min.
         /// </summary>
-        [JsonProperty(PropertyName = "tokenExpirationSeconds", NullValueHandling =  NullValueHandling.Ignore)]
+        [JsonProperty(PropertyName = "tokenExpirationSeconds", NullValueHandling = NullValueHandling.Ignore)]
         [YamlMember(Alias = "tokenExpirationSeconds")]
         public int? TokenExpirationSeconds { get; set; }
 

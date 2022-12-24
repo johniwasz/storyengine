@@ -3,9 +3,7 @@ using Amazon.Lambda.RuntimeSupport;
 using Amazon.Lambda.Serialization.Json;
 using Amazon.Lambda.SQSEvents;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -46,7 +44,7 @@ namespace Whetstone.Queue.SessionLogger
 
         public static async Task ProcessRequestAsync(SQSEvent request, ILambdaContext context)
         {
-           await _nativeFunction.Value.QueueFunctionHandler(request, context);
+            await _nativeFunction.Value.QueueFunctionHandler(request, context);
         }
 
 

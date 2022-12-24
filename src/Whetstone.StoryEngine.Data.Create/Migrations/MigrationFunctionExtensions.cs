@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
@@ -45,7 +44,7 @@ namespace Whetstone.StoryEngine.Data.Create.Migrations
             }
             catch (Exception ex)
             {
-                
+
                 throw new Exception($"Error getting resource {resourceName}", ex);
             }
 

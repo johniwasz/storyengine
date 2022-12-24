@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using YamlDotNet.Serialization;
 
@@ -17,7 +14,7 @@ namespace Whetstone.StoryEngine.Reporting.Models
         {
             get => ReportDestinationType.SftpEndpoint;
             set
-            { 
+            {
                 // do nothing
             }
 
@@ -34,7 +31,7 @@ namespace Whetstone.StoryEngine.Reporting.Models
         public string SecretStore { get; set; }
 
         [JsonProperty(PropertyName = "directory")]
-        [YamlMember(Alias =  "directory")]
+        [YamlMember(Alias = "directory")]
         public string Directory { get; set; }
 
 

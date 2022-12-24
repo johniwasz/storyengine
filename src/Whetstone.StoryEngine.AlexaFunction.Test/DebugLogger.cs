@@ -1,8 +1,5 @@
 ﻿using Amazon.Lambda.Core;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 
 namespace Whetstone.StoryEngine.AlexaFunction.Test
 {

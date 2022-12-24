@@ -1,31 +1,26 @@
-using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Repository;
+using Amazon.Lambda.TestUtilities;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Whetstone.Alexa;
+using Whetstone.StoryEngine.AlexaProcessor;
+using Whetstone.StoryEngine.Data;
+using Whetstone.StoryEngine.Models;
+using Whetstone.StoryEngine.Models.Actions;
+using Whetstone.StoryEngine.Models.Configuration;
+using Whetstone.StoryEngine.Models.Story;
+using Whetstone.StoryEngine.Repository;
+using Whetstone.StoryEngine.Repository.Actions;
 using Whetstone.UnitTests.MessageManagement;
 using Xunit;
-using Amazon.Lambda.TestUtilities;
-using Whetstone.StoryEngine;
-using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.Models.Configuration;
-using Moq;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Whetstone.StoryEngine.AlexaProcessor;
-using Whetstone.StoryEngine.Data.Amazon;
-using Whetstone.StoryEngine.DependencyInjection;
-using Whetstone.StoryEngine.Models.Actions;
-using Whetstone.StoryEngine.Repository.Actions;
-using Microsoft.Extensions.Logging;
 
 namespace Whetstone.UnitTests
 {
     public class LaunchTests
     {
-        [Fact(DisplayName ="Validate empty request")]
+        [Fact(DisplayName = "Validate empty request")]
         public async Task LaunchEmptyRequestAsync()
         {
 
@@ -39,7 +34,7 @@ namespace Whetstone.UnitTests
             titleVer.TitleId = Guid.NewGuid();
             titleVer.VersionId = Guid.NewGuid();
 
-            var servCol =  mocker.InitServiceCollection( titleVer);
+            var servCol = mocker.InitServiceCollection(titleVer);
 
             IServiceProvider servProv = servCol.BuildServiceProvider();
 
@@ -53,12 +48,12 @@ namespace Whetstone.UnitTests
             var context = new TestLambdaContext();
 
             AlexaRequest req = sessionContext.CreateLaunchRequest();
-            
+
             StoryRequest storyReq = req.ToStoryRequest();
             storyReq.SessionContext = new EngineSessionContext();
             storyReq.SessionContext.TitleVersion = titleVer;
 
-           StoryResponse resp =  await storyProcessor.ProcessStoryRequestAsync(storyReq);
+            StoryResponse resp = await storyProcessor.ProcessStoryRequestAsync(storyReq);
 
 
             Assert.True(resp.ForceContinueSession);
@@ -77,17 +72,17 @@ namespace Whetstone.UnitTests
 
             AlexaSessionContext sessionContext = new AlexaSessionContext(appIdGuid, Guid.NewGuid().ToString(), "en-US");
             AlexaRequest req = sessionContext.CreateLaunchRequest();
-          
+
             StoryRequest storyReq = req.ToStoryRequest();
             storyReq.SessionContext = new EngineSessionContext();
 
 
             var mocker = new MockFactory();
 
-          
+
             TitleVersion titleVer = TitleVersionUtil.GetClinicalTrialTitle();
             storyReq.SessionContext.TitleVersion = titleVer;
-            IServiceCollection servCol =  mocker.InitServiceCollection(titleVer);
+            IServiceCollection servCol = mocker.InitServiceCollection(titleVer);
 
 
             IStoryUserRepository StoryUserFunc(UserRepositoryType handlerKey) => mocker.GetStoryUserRepository();
@@ -102,7 +97,7 @@ namespace Whetstone.UnitTests
             IAppMappingReader appReader = servProv.GetRequiredService<IAppMappingReader>();
             ISkillCache skillCache = servProv.GetRequiredService<ISkillCache>();
             ISessionStoreManager sessionStore = servProv.GetRequiredService<ISessionStoreManager>();
-           
+
             IOptions<EnvironmentConfig> envOptions = servProv.GetRequiredService<IOptions<EnvironmentConfig>>();
             Func<NodeActionEnum, INodeActionProcessor> actionFunc =
                 servProv.GetRequiredService<Func<NodeActionEnum, INodeActionProcessor>>();
@@ -119,7 +114,7 @@ namespace Whetstone.UnitTests
 
 
             Assert.Equal(newUserNodeName, resp.NodeName);
-            
+
         }
 
 

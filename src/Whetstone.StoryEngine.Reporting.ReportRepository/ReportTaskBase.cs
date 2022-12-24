@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using Amazon;
+﻿using Amazon;
 using Amazon.S3;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
@@ -10,9 +6,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using Whetstone.StoryEngine.Cache;
 using Whetstone.StoryEngine.Cache.DynamoDB;
-using Whetstone.StoryEngine.Cache.Settings;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Data.Amazon;
 using Whetstone.StoryEngine.Data.DependencyInjection;
@@ -90,7 +88,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
                 .AddFilter<SerilogLoggerProvider>("Microsoft", LogLevel.Error)
                 .AddFilter<SerilogLoggerProvider>(level => level >= bootstrapConfig.LogLevel.GetValueOrDefault(LogLevel.Error))
 
-            ); 
+            );
 
             services.AddMemoryCache(x =>
             {
@@ -116,7 +114,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
             {
                 SlidingExpiration = new TimeSpan(0, 0, bootstrapConfig.CacheConfig.DefaultSlidingExpirationSeconds)
             };
-            Whetstone.StoryEngine.Cache.DistributedCacheExtensions.SetDefaultCacheOptions(distCacheOpts, 
+            Whetstone.StoryEngine.Cache.DistributedCacheExtensions.SetDefaultCacheOptions(distCacheOpts,
                 (bootstrapConfig.CacheConfig?.IsEnabled).GetValueOrDefault(true));
 
 
@@ -184,7 +182,7 @@ namespace Whetstone.StoryEngine.Reporting.ReportRepository
             services.AddTransient<ReportFormatterCsv>();
             //  services.AddTransient<SmsStepFunctionHandler>();
 
-            services.AddTransient<Func<ReportOutputType,IReportFormatter>>(serviceProvider =>outputKey =>
+            services.AddTransient<Func<ReportOutputType, IReportFormatter>>(serviceProvider => outputKey =>
             {
                 IReportFormatter reportFormatter = null;
 

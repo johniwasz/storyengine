@@ -1,15 +1,11 @@
+using Amazon.Lambda.Core;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
-using Newtonsoft.Json;
-using Amazon.Lambda.Core;
-using Whetstone.StoryEngine.Data;
-using Whetstone.Alexa;
-using Microsoft.Extensions.DependencyInjection;
-using Whetstone.StoryEngine.Repository;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Serialization;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+using Whetstone.Alexa;
 using Whetstone.StoryEngine.AlexaProcessor.Configuration;
 using Whetstone.StoryEngine.DependencyInjection;
 using Whetstone.StoryEngine.Models.Configuration;
@@ -20,8 +16,8 @@ using Whetstone.StoryEngine.Models.Configuration;
 //
 namespace Whetstone.StoryEngine.AlexaProcessor
 {
- public abstract class AlexaFunctionBase : ClientLambdaBase
- {    
+    public abstract class AlexaFunctionBase : ClientLambdaBase
+    {
 
         public AlexaFunctionBase() : base()
         {
@@ -48,7 +44,7 @@ namespace Whetstone.StoryEngine.AlexaProcessor
             DateTime? alexaRequestTime = request?.Request?.Timestamp;
 
             if (alexaRequestTime.HasValue && _coldStartTimer.IsRunning)
-            {   
+            {
                 //  _dataLogger.LogInformation();
                 var compareTime = DateTime.UtcNow;
 
@@ -83,8 +79,8 @@ namespace Whetstone.StoryEngine.AlexaProcessor
             return resp;
         }
 
-         protected override void ConfigureServices(IServiceCollection services, IConfiguration config, BootstrapConfig bootConfig)
-       
+        protected override void ConfigureServices(IServiceCollection services, IConfiguration config, BootstrapConfig bootConfig)
+
         {
 
             bool enforceAlexaPolicy = bootConfig.EnforceAlexaPolicy;
@@ -93,7 +89,7 @@ namespace Whetstone.StoryEngine.AlexaProcessor
                 options =>
                 {
                     options.EnforceAlexaPolicyCheck = enforceAlexaPolicy;
-                    
+
                 });
 
             services.AddTransient<IAlexaRequestProcessor, AlexaRequestProcessor>();

@@ -1,9 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Amazon;
-using Whetstone.StoryEngine.Models.Configuration;
+﻿using Amazon;
+using Microsoft.Extensions.Logging;
 
 namespace Whetstone.StoryEngine
 {
@@ -17,7 +13,7 @@ namespace Whetstone.StoryEngine
     public interface IContainerSettingsReader
     {
 
-        string BootstrapParameter { get;  }
+        string BootstrapParameter { get; }
 
 
         LogLevel LogLevel { get; }

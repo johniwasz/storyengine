@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Admin;
@@ -16,9 +15,9 @@ namespace Whetstone.StoryEngine.Data
         public TitleRepository(ITitleReader titleReader)
         {
             _titleReader = titleReader;
-           
+
         }
-        
+
 
         public async Task ClearTitleAsync(TitleVersion titleVersion)
         {
@@ -42,12 +41,12 @@ namespace Whetstone.StoryEngine.Data
 
         public async Task<StoryNode> GetBadIntentNodeAsync(TitleVersion titleVersion, int badIntentCount)
         {
-            return await _titleReader.GetBadIntentNodeAsync( titleVersion, badIntentCount);
+            return await _titleReader.GetBadIntentNodeAsync(titleVersion, badIntentCount);
         }
 
         public async Task<StoryTitle> GetByIdAsync(TitleVersion titleVersion)
         {
-            return await _titleReader.GetByIdAsync( titleVersion);
+            return await _titleReader.GetByIdAsync(titleVersion);
         }
 
         public async Task<StoryNode> GetErrorNodeAsync(TitleVersion titleVersion)
@@ -57,7 +56,7 @@ namespace Whetstone.StoryEngine.Data
 
         public async Task<Intent> GetIntentByNameAsync(TitleVersion titleVersion, string intentName)
         {
-            return await _titleReader.GetIntentByNameAsync( titleVersion, intentName);
+            return await _titleReader.GetIntentByNameAsync(titleVersion, intentName);
         }
 
         public async Task<List<Intent>> GetIntentsAsync(TitleVersion titleVersion)
@@ -90,12 +89,12 @@ namespace Whetstone.StoryEngine.Data
             return await _titleReader.GetStartNodeNameAsync(titleVersion, isNew);
         }
 
-        public async Task<StoryConditionBase> GetStoryConditionAsync( TitleVersion titleVersion, string conditionName)
+        public async Task<StoryConditionBase> GetStoryConditionAsync(TitleVersion titleVersion, string conditionName)
         {
             return await _titleReader.GetStoryConditionAsync(titleVersion, conditionName);
         }
 
-        public async Task<List<StoryConditionBase>> GetStoryConditionsAsync( TitleVersion titleVersion)
+        public async Task<List<StoryConditionBase>> GetStoryConditionsAsync(TitleVersion titleVersion)
         {
             return await _titleReader.GetStoryConditionsAsync(titleVersion);
         }

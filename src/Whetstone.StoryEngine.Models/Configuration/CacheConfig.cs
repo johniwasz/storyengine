@@ -1,18 +1,18 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Configuration
 {
     public class CacheConfig
     {
-        [YamlMember(Alias ="primaryEndpoint", Order = 0)]
+        [YamlMember(Alias = "primaryEndpoint", Order = 0)]
         [JsonProperty(PropertyName = "primaryEndpoint", NullValueHandling = NullValueHandling.Ignore)]
         public string PrimaryEndpoint { get; set; }
 
         [YamlMember(Alias = "readOnlyEndpoints", Order = 1)]
         [JsonProperty(PropertyName = "readOnlyEndpoints", NullValueHandling = NullValueHandling.Ignore)]
-        public List<string>  ReadOnlyEndpoints { get; set; }
+        public List<string> ReadOnlyEndpoints { get; set; }
 
 
         /// <summary>
@@ -22,8 +22,8 @@ namespace Whetstone.StoryEngine.Models.Configuration
         [JsonProperty(PropertyName = "token", NullValueHandling = NullValueHandling.Ignore)]
         public string Token { get; set; }
 
-        [JsonProperty(PropertyName = "dynamoDBTableName", NullValueHandling =  NullValueHandling.Ignore)]
-        [YamlMember(Alias = "dynamoDBTableName", Order =3)]
+        [JsonProperty(PropertyName = "dynamoDBTableName", NullValueHandling = NullValueHandling.Ignore)]
+        [YamlMember(Alias = "dynamoDBTableName", Order = 3)]
         public string DynamoDBTableName { get; set; }
 
 
@@ -32,7 +32,7 @@ namespace Whetstone.StoryEngine.Models.Configuration
         public int DefaultSlidingExpirationSeconds { get; set; }
 
 
-       
+
         [YamlMember(Alias = "isEnabled", Order = 5)]
         [JsonProperty(PropertyName = "isEnabled", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public bool IsEnabled { get; set; }
@@ -46,14 +46,14 @@ namespace Whetstone.StoryEngine.Models.Configuration
         public int? MaxEngineRetries { get; set; }
 
 
-        [YamlMember(Alias = "engineTimeout", Order =7 )]
+        [YamlMember(Alias = "engineTimeout", Order = 7)]
         [JsonProperty(PropertyName = "engineTimeout", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public int? EngineTimeout { get; set; }
 
 
         [YamlMember(Alias = "inMemoryCacheSizeLimit", Order = 8)]
         [JsonProperty(PropertyName = "inMemoryCacheSizeLimit", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public int? InMemoryCacheSizeLimit { get; set;  }
+        public int? InMemoryCacheSizeLimit { get; set; }
 
 
     }

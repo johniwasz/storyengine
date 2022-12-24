@@ -1,16 +1,13 @@
 ﻿using Microsoft.Extensions.Options;
-using Whetstone.StoryEngine.Data;
+using System;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data.FileStorage;
 using Whetstone.StoryEngine.Models.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.Repository.Amazon
 {
-    public class S3MediaLinker :FileLinkStore, IMediaLinker
+    public class S3MediaLinker : FileLinkStore, IMediaLinker
     {
 
 
@@ -21,7 +18,7 @@ namespace Whetstone.StoryEngine.Repository.Amazon
             if (envConfig == null)
                 throw new ArgumentNullException(nameof(envConfig));
 
-            if(envConfig.Value ==null)
+            if (envConfig.Value == null)
                 throw new ArgumentNullException(nameof(envConfig), "Value property cannot be null or empty");
 
 
@@ -36,7 +33,7 @@ namespace Whetstone.StoryEngine.Repository.Amazon
         public async Task<string> GetFileLinkAsync(TitleVersion titleVersion, string fileName)
         {
 
-            
+
             string internalPath = GetInternalPath(titleVersion, fileName);
 
             string bucketHost = string.Concat(_bucketName,

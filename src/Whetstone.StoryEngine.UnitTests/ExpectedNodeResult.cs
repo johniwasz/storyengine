@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Whetstone.StoryEngine.UnitTests
+﻿namespace Whetstone.StoryEngine.UnitTests
 {
     public class ExpectedNodeResult
     {

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Xml.Serialization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using YamlDotNet.Serialization;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Whetstone.StoryEngine.Models.Story.Text;
+using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Story.Cards
 {
@@ -69,6 +64,6 @@ namespace Whetstone.StoryEngine.Models.Story.Cards
         public List<CardButton> Buttons { get; set; }
 
 
-        
+
     }
 }

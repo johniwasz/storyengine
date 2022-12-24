@@ -1,16 +1,16 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
-using Whetstone.StoryEngine.Models.Story;
+using System.Linq;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Models.Tracking;
-using System.Linq;
 using Whetstone.StoryEngine.Models.Conditions;
 using Whetstone.StoryEngine.Models.Data;
-using Whetstone.StoryEngine.Models.Story.Text;
-using Whetstone.StoryEngine.Models.Story.Ssml;
-using Microsoft.Extensions.Logging;
+using Whetstone.StoryEngine.Models.Story;
 using Whetstone.StoryEngine.Models.Story.Cards;
+using Whetstone.StoryEngine.Models.Story.Ssml;
+using Whetstone.StoryEngine.Models.Story.Text;
+using Whetstone.StoryEngine.Models.Tracking;
 
 namespace Whetstone.StoryEngine.Data
 {
@@ -22,7 +22,7 @@ namespace Whetstone.StoryEngine.Data
         /// </summary>
         /// <param name="originalChoices"></param>
         /// <returns></returns>
-        public static async Task<List<Choice>> GetAvailableChoicesAsync(this IEnumerable<Choice> originalChoices,  ConditionInfo conditionInfo, ITitleReader reader, TitleVersion titleVersion)
+        public static async Task<List<Choice>> GetAvailableChoicesAsync(this IEnumerable<Choice> originalChoices, ConditionInfo conditionInfo, ITitleReader reader, TitleVersion titleVersion)
         {
             List<Choice> availableChoices = new List<Choice>();
 
@@ -63,7 +63,7 @@ namespace Whetstone.StoryEngine.Data
                 string conditionName = conditions[conditionIndex];
 
 
-                var foundCondition = await titleReader.GetStoryConditionAsync( titleVersion, conditionName);
+                var foundCondition = await titleReader.GetStoryConditionAsync(titleVersion, conditionName);
 
 
                 if (foundCondition != null)
@@ -81,8 +81,8 @@ namespace Whetstone.StoryEngine.Data
         public static List<string> GetSuggestions(this StoryNode node, string locale, ConditionInfo conditionInfo, List<StoryConditionBase> storyConditions)
         {
             List<string> suggestions = new List<string>();
-            
-            if((node.Choices?.Any()).GetValueOrDefault(false))
+
+            if ((node.Choices?.Any()).GetValueOrDefault(false))
             {
                 suggestions.AddRange(node.Choices.GetSuggestions(locale, conditionInfo, storyConditions));
             }
@@ -141,7 +141,7 @@ namespace Whetstone.StoryEngine.Data
                     isConditionMet = true;
 
                 if (nodeBase.GetType() == typeof(SlotMap) && isConditionMet)
-                { 
+                {
                     SlotMap map = (SlotMap)nodeBase;
 
                     foreach (var mapping in map.Mappings)
@@ -232,20 +232,20 @@ namespace Whetstone.StoryEngine.Data
 
 
 
-        public static async Task<StoryResponse> ToStoryResponseAsync(this StoryNode node,  string userLocale, ConditionInfo conditionInfo, ITitleReader titleReader, TitleVersion titleVersion, bool continueSession, ILogger logger)
+        public static async Task<StoryResponse> ToStoryResponseAsync(this StoryNode node, string userLocale, ConditionInfo conditionInfo, ITitleReader titleReader, TitleVersion titleVersion, bool continueSession, ILogger logger)
         {
 
             return await node.ToStoryResponseAsync(userLocale, conditionInfo, titleReader, titleVersion, continueSession, true, logger);
         }
 
-        public static async Task<StoryResponse> ToStoryResponseAsync(this StoryNode node,  string userLocale, ConditionInfo conditionInfo, ITitleReader titleReader, TitleVersion titleVersion, ILogger logger)
+        public static async Task<StoryResponse> ToStoryResponseAsync(this StoryNode node, string userLocale, ConditionInfo conditionInfo, ITitleReader titleReader, TitleVersion titleVersion, ILogger logger)
         {
 
-            return await  node.ToStoryResponseAsync(userLocale, conditionInfo, titleReader, titleVersion, false, true, logger);
+            return await node.ToStoryResponseAsync(userLocale, conditionInfo, titleReader, titleVersion, false, true, logger);
         }
 
 
-        public static async Task<StoryResponse> ToStoryResponseAsync(this StoryNode node, string userLocale, ConditionInfo conditionInfo,  ITitleReader titleReader, TitleVersion titleVersion, bool continueSession, bool isRequestValid, ILogger logger)
+        public static async Task<StoryResponse> ToStoryResponseAsync(this StoryNode node, string userLocale, ConditionInfo conditionInfo, ITitleReader titleReader, TitleVersion titleVersion, bool continueSession, bool isRequestValid, ILogger logger)
         {
             StoryResponse result = new StoryResponse
             {
@@ -261,7 +261,7 @@ namespace Whetstone.StoryEngine.Data
                 AuditBehavior = node.AuditBehavior
             };
 
-            var conditions = await titleReader.GetStoryConditionsAsync( titleVersion);
+            var conditions = await titleReader.GetStoryConditionsAsync(titleVersion);
             result.Suggestions = node.GetSuggestions(userLocale, conditionInfo, conditions);
             return result;
 
@@ -273,12 +273,12 @@ namespace Whetstone.StoryEngine.Data
         /// </summary>
         /// <param name="locResponse"></param>
         /// <returns></returns>
-        public static async Task<List<TextFragmentBase>> GetTextResponseAsync(this LocalizedResponse locResponse,  ConditionInfo conditionInfo, ITitleReader titleReader, TitleVersion titleVersion, ILogger logger )
+        public static async Task<List<TextFragmentBase>> GetTextResponseAsync(this LocalizedResponse locResponse, ConditionInfo conditionInfo, ITitleReader titleReader, TitleVersion titleVersion, ILogger logger)
         {
 
             List<TextFragmentBase> locText = null;
 
-            if (locResponse.TextFragments!=null)
+            if (locResponse.TextFragments != null)
             {
                 locText = await GetTextFragmentResponseAsync(locResponse.TextFragments, conditionInfo, titleReader, titleVersion, logger);
             }
@@ -327,7 +327,7 @@ namespace Whetstone.StoryEngine.Data
             }
         }
 
-        private static async  Task<List<TextFragmentBase>> GetTextFragmentResponseAsync( List<TextFragmentBase> textFrags, ConditionInfo conditionInfo, ITitleReader titleReader, TitleVersion titleVersion, ILogger logger)
+        private static async Task<List<TextFragmentBase>> GetTextFragmentResponseAsync(List<TextFragmentBase> textFrags, ConditionInfo conditionInfo, ITitleReader titleReader, TitleVersion titleVersion, ILogger logger)
         {
             List<TextFragmentBase> retValues = new List<TextFragmentBase>();
 
@@ -340,11 +340,11 @@ namespace Whetstone.StoryEngine.Data
                     if (textBase is SimpleTextFragment simpleFrag)
                     {
                         List<SelectedItem> selectedItems = conditionInfo.Crumbs.GetSelectedItems();
-                       
+
                         string processedText = await MacroProcessing.ProcessTextFragmentMacrosAsync(simpleFrag.Text, selectedItems, logger);
 
                         retValues.Add(new SimpleTextFragment(processedText));
-                 
+
                     }
 
                     if (textBase is AudioTextFragment audioFrag)
@@ -360,7 +360,7 @@ namespace Whetstone.StoryEngine.Data
                         {
 
 
-                            retValues.AddRange(await GetTextFragmentResponseAsync( condFrag.TrueResultFragments, conditionInfo,
+                            retValues.AddRange(await GetTextFragmentResponseAsync(condFrag.TrueResultFragments, conditionInfo,
                                 titleReader, titleVersion, logger));
                         }
                         else
@@ -379,7 +379,7 @@ namespace Whetstone.StoryEngine.Data
             return retValues;
         }
 
-        public static async Task<LocalizedEngineResponse> GetResponseAsync(this StoryNode node,string userLocale, ConditionInfo conditionInfo, ITitleReader titleReader, TitleVersion titleVersion, ILogger logger)
+        public static async Task<LocalizedEngineResponse> GetResponseAsync(this StoryNode node, string userLocale, ConditionInfo conditionInfo, ITitleReader titleReader, TitleVersion titleVersion, ILogger logger)
         {
             LocalizedEngineResponse returnResponse = null;
             LocalizedResponseSet selectedResponses = null;
@@ -395,12 +395,12 @@ namespace Whetstone.StoryEngine.Data
 
                 string logNodeName = isPrivacyLoggingEnabled ? "(redacted)" : node.Name;
 
-                foreach(var respSet in node.ResponseSet)
+                foreach (var respSet in node.ResponseSet)
                 {
 
                     if (respSet == null)
                     {
-                        
+
                         logger.LogWarning($"Node {logNodeName} has unexpected formatting. Found empty response set. Review node format");
                     }
                     else
@@ -417,7 +417,7 @@ namespace Whetstone.StoryEngine.Data
 
                         }
                         else
-                        { 
+                        {
                             // Find localized responses that match the user's locale
                             var locResponses = respSet.LocalizedResponses.Where(x => !string.IsNullOrWhiteSpace(x.Locale) &&
                                                             x.Locale.Equals(userLocale, StringComparison.OrdinalIgnoreCase)).ToList();
@@ -465,7 +465,7 @@ namespace Whetstone.StoryEngine.Data
                     // Is there a speech response for the client
                     var clientResp = storyResponse.SpeechResponses.FirstOrDefault(x => x.SpeechClient.GetValueOrDefault(Client.Unknown) == conditionInfo.UserClient);
 
-                    if(clientResp==null)
+                    if (clientResp == null)
                     {
                         // If there is no client-specific speech response, then select the default.
                         clientResp = storyResponse.SpeechResponses.FirstOrDefault(x => x.SpeechClient.GetValueOrDefault(Client.Unknown) == Client.Unknown);
@@ -478,7 +478,7 @@ namespace Whetstone.StoryEngine.Data
                 }
 
 
-               
+
                 // Return only the reprompt response for the selected client.
                 if ((storyResponse.RepromptSpeechResponses?.Any()).GetValueOrDefault(false))
                 {
@@ -512,7 +512,7 @@ namespace Whetstone.StoryEngine.Data
                         storyResponse.RepromptTextResponse
                     };
                 }
-                
+
 
                 // If we have a card response and the card responses list has values, then we should pull the appropriate
                 // card response from there. Otherwise the response is using the old style and will already have the appropriate
@@ -533,7 +533,7 @@ namespace Whetstone.StoryEngine.Data
                         {
                             // If there is no client-specific card response, then select the default.
                             storyCardResponse = storyResponse.CardResponses.FirstOrDefault(x => x.SpeechClient.GetValueOrDefault(Client.Unknown) == Client.Unknown);
-                       }
+                        }
                     }
 
                     cardResp = new Models.Story.Cards.CardEngineResponse();
@@ -551,8 +551,8 @@ namespace Whetstone.StoryEngine.Data
                         cardResp.CardTitle = storyCardResponse.CardTitle;
                         cardResp.LargeImageFile = storyCardResponse.LargeImageFile;
                         cardResp.SmallImageFile = storyCardResponse.SmallImageFile;
-                        
-                        var fragResponse = await GetTextFragmentResponseAsync(storyCardResponse.TextFragments, 
+
+                        var fragResponse = await GetTextFragmentResponseAsync(storyCardResponse.TextFragments,
                             conditionInfo, titleReader, titleVersion, logger);
 
                         cardResp.Text = fragResponse.CleanTextList();
@@ -572,15 +572,15 @@ namespace Whetstone.StoryEngine.Data
 
 
 
-        public static async Task<string> GetChoiceNodeNameAsync(this Choice selectedChoice,  string intentName, ConditionInfo conditionInfo, Dictionary<string,string> slots, ITitleReader titleReader, TitleVersion titleVersion)
+        public static async Task<string> GetChoiceNodeNameAsync(this Choice selectedChoice, string intentName, ConditionInfo conditionInfo, Dictionary<string, string> slots, ITitleReader titleReader, TitleVersion titleVersion)
         {
             NodeMappingBase nodeMapper = selectedChoice.NodeMapping;
 
-            return await GetNodeMapping( nodeMapper, intentName, conditionInfo, slots, titleReader, titleVersion);
+            return await GetNodeMapping(nodeMapper, intentName, conditionInfo, slots, titleReader, titleVersion);
         }
 
-        private static async Task<string> GetNodeMapping( NodeMappingBase nodeMapper, string intentName, ConditionInfo conditionInfo, Dictionary<string, string> slots, ITitleReader titleReader, TitleVersion titleVersion)
-           
+        private static async Task<string> GetNodeMapping(NodeMappingBase nodeMapper, string intentName, ConditionInfo conditionInfo, Dictionary<string, string> slots, ITitleReader titleReader, TitleVersion titleVersion)
+
         {
             if (nodeMapper == null)
                 return null;
@@ -605,7 +605,7 @@ namespace Whetstone.StoryEngine.Data
 
                 if ((multiNodeMapping.Conditions?.Any()).GetValueOrDefault(false))
                 {
-                    if (!(await multiNodeMapping.Conditions.IsConditionMetAsync(conditionInfo, titleReader,titleVersion)))
+                    if (!(await multiNodeMapping.Conditions.IsConditionMetAsync(conditionInfo, titleReader, titleVersion)))
                         return null;
 
                 }
@@ -639,7 +639,7 @@ namespace Whetstone.StoryEngine.Data
                 }
 
                 if (mappingBaseResult != null)
-                    return await GetNodeMapping( mappingBaseResult, intentName, conditionInfo, slots, titleReader, titleVersion);
+                    return await GetNodeMapping(mappingBaseResult, intentName, conditionInfo, slots, titleReader, titleVersion);
             }
 
             if (nodeMapper is SlotMap)
@@ -654,28 +654,28 @@ namespace Whetstone.StoryEngine.Data
 
                 List<SlotNodeMapping> slotMappings = map.Mappings;
 
-              //  Dictionary<string, List<string>> flattenedSlotsValues = new Dictionary<string, List<string>>();
+                //  Dictionary<string, List<string>> flattenedSlotsValues = new Dictionary<string, List<string>>();
                 Intent parentIntent = title.Intents.FirstOrDefault(x =>
                     x.Name.Equals(intentName, StringComparison.OrdinalIgnoreCase));
 
-                
+
                 // Get the acutal slot value from the slot mapping
                 Dictionary<string, string> resolvedSlotValues = new Dictionary<string, string>();
 
                 foreach (string passedSlotKey in slots.Keys)
-                {                    
+                {
                     string passedSlotValue = slots[passedSlotKey];
 
                     if (!string.IsNullOrWhiteSpace(passedSlotValue))
                     {
                         // only evaluate if the provided slot mapping is one that the choice node is looking for
 
-                    
+
                         var foundSlotMapping = parentIntent.SlotMappingsByName.FirstOrDefault(x =>
                             x.Key.Equals(passedSlotKey, StringComparison.OrdinalIgnoreCase) ||
                             x.Value.Equals(passedSlotKey, StringComparison.OrdinalIgnoreCase));
 
-                        string matchedKey =foundSlotMapping.Key;
+                        string matchedKey = foundSlotMapping.Key;
 
                         if (!string.IsNullOrWhiteSpace(matchedKey))
                         {
@@ -716,7 +716,7 @@ namespace Whetstone.StoryEngine.Data
                 string foundNode = null;
                 int index = 0;
 
-         
+
                 while (foundNode == null && index < slotMappings.Count)
                 {
 
@@ -766,7 +766,7 @@ namespace Whetstone.StoryEngine.Data
 
                             if (isFound)
                             {
-                                foundNode = await GetNodeMapping( nodeMapping.NodeMap, intentName, conditionInfo, slots,
+                                foundNode = await GetNodeMapping(nodeMapping.NodeMap, intentName, conditionInfo, slots,
                                     titleReader, titleVersion);
 
                                 if (foundNode == null)
@@ -802,7 +802,7 @@ namespace Whetstone.StoryEngine.Data
 
         private static int GetRandomIndex(int upperIndex)
         {
-            int pickedIndex =  StaticRandom.Next(0, upperIndex+1);
+            int pickedIndex = StaticRandom.Next(0, upperIndex + 1);
 
             return pickedIndex;
         }

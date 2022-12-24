@@ -1,26 +1,16 @@
-﻿using System;
+﻿using Amazon;
+using Amazon.S3;
+using Amazon.S3.Model;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using Newtonsoft.Json;
-using Whetstone.Alexa;
-using Xunit;
-using Amazon.S3;
 using System.Threading.Tasks;
-using Amazon.S3.Model;
-using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.WebLibrary;
-using Whetstone.StoryEngine;
-using Whetstone.StoryEngine.Models.Serialization;
-using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Data.Amazon;
-using Microsoft.Extensions.Options;
-using Whetstone.StoryEngine.Models.Configuration;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.Memory;
-using Amazon;
+using Whetstone.Alexa;
 using Whetstone.StoryEngine.AlexaProcessor;
-using Whetstone.StoryEngine.DependencyInjection;
+using Whetstone.StoryEngine.Models;
+using Whetstone.StoryEngine.Models.Serialization;
+using Xunit;
 
 namespace Whetstone.StoryEngine.AlexaFunction.Test
 {
@@ -105,7 +95,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
             RegionEndpoint endpoint = RegionEndpoint.USEast1;
 
-             await StoreFileAsync(endpoint, "dev-sbsstoryengine", "global/appmappings.yaml", "text/yaml", appMappingText);
+            await StoreFileAsync(endpoint, "dev-sbsstoryengine", "global/appmappings.yaml", "text/yaml", appMappingText);
 
 
 

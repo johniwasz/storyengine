@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon.AspNetCore.Identity.Cognito.Extensions;
-using Amazon.CognitoIdentityProvider;
-using Google.Apis.Logging;
-using Microsoft.Extensions.Logging;
-using Amazon.CognitoIdentity;
-using Amazon.CognitoIdentity.Model;
+﻿using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Security;
 using Whetstone.StoryEngine.Security.Amazon;
 using Xunit;
-using Microsoft.Extensions.Caching.Distributed;
 
 
 namespace Whetstone.StoryEngine.Test.Security
@@ -36,7 +29,7 @@ namespace Whetstone.StoryEngine.Test.Security
             clientOpts.UserPoolId = "us-east-1_xu0geY2cC";
 
 
-            
+
             IAmazonCognitoIdentityProvider cogProvider = new AmazonCognitoIdentityProviderClient();
 
             //DescribeIdentityProviderRequest poolReq = new DescribeIdentityProviderRequest();
@@ -83,7 +76,7 @@ namespace Whetstone.StoryEngine.Test.Security
 
             AuthCredentials testCreds = await GetTestCredentialsAsync(TESTCRED01);
 
-            var authResults  = await authenticator.AuthenticateAsync(testCreds);
+            var authResults = await authenticator.AuthenticateAsync(testCreds);
 
 
 
@@ -91,7 +84,7 @@ namespace Whetstone.StoryEngine.Test.Security
             RefreshSessionRequest refreshReq = new RefreshSessionRequest();
             refreshReq.RefreshToken = authResults.RefreshToken;
             refreshReq.AuthToken = authResults.AuthToken;
-           // refreshReq.SystemUserId = authResults.
+            // refreshReq.SystemUserId = authResults.
 
             authResults = await authenticator.RefreshTokenAsync(refreshReq);
 

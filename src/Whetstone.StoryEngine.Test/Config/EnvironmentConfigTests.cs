@@ -1,30 +1,18 @@
 ﻿using Amazon;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design.Serialization;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon.S3;
-using Amazon.S3.Model;
-using Microsoft.Extensions.Caching.Redis;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using StackExchange.Redis;
+using System.IO;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.DependencyInjection;
-using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.WebLibrary;
-using Xunit;
-using YamlDotNet.Serialization;
 using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Models.Messaging.Sms;
+using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Serialization;
 using Whetstone.StoryEngine.Models.Story;
-using Microsoft.Extensions.Logging;
+using Xunit;
+using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Test.Config
 {
@@ -32,12 +20,12 @@ namespace Whetstone.StoryEngine.Test.Config
     public class EnvironmentConfigTests
     {
 
-      //  private static Microsoft.Extensions.Logging.ILogger _logger = StoryEngineLogFactory.CreateLogger<EnvironmentConfigTests>();
+        //  private static Microsoft.Extensions.Logging.ILogger _logger = StoryEngineLogFactory.CreateLogger<EnvironmentConfigTests>();
 
         [Fact]
         public async Task LoadEnvironmentsTest()
         {
-            System.Environment.SetEnvironmentVariable("BOOTSTRAP","/storyengine/dev/bootstrap");
+            System.Environment.SetEnvironmentVariable("BOOTSTRAP", "/storyengine/dev/bootstrap");
             System.Environment.SetEnvironmentVariable(ContainerSettingsReader.AWSDEFAULTREGION, RegionEndpoint.USEast1.SystemName);
             Bootstrapping bootStrap = new Bootstrapping();
 
@@ -54,7 +42,7 @@ namespace Whetstone.StoryEngine.Test.Config
                 builder.AddConsole();
                 builder.AddDebug();
             });
-      
+
 
             bootConfig.DatabaseSettings.Settings.Remove("Password");
 
@@ -83,11 +71,11 @@ namespace Whetstone.StoryEngine.Test.Config
             IStoryUserRepository storyUserRep = servProv.GetRequiredService<IStoryUserRepository>();
             IAppMappingReader appReader = servProv.GetRequiredService<IAppMappingReader>();
 
-           // string userId = "test-user-7DFD8AC2-2A61-404E-B62C-4A355DF1D2D7";
+            // string userId = "test-user-7DFD8AC2-2A61-404E-B62C-4A355DF1D2D7";
             string clientId = "amzn1.ask.skill.c4cabd50-2cd5-4e4c-a03c-a57d4f2a0e5f";
             var clientType = Client.Alexa;
 
-            TitleVersion titleVer = await appReader.GetTitleAsync( clientType, clientId, null);
+            TitleVersion titleVer = await appReader.GetTitleAsync(clientType, clientId, null);
             EngineClientContext engineContext = new EngineClientContext(titleVer, clientId, clientType, "en-US");
 
 
@@ -106,7 +94,7 @@ namespace Whetstone.StoryEngine.Test.Config
 
             Deserializer deser = new Deserializer();
 
-            BootstrapConfig bootConfig =  deser.Deserialize<BootstrapConfig>(bootstrapText);
+            BootstrapConfig bootConfig = deser.Deserialize<BootstrapConfig>(bootstrapText);
 
             bootConfig.DynamoDBTables = new DynamoDBTablesConfig
             {
@@ -120,7 +108,7 @@ namespace Whetstone.StoryEngine.Test.Config
 
 
 
-     
+
 
 
     }

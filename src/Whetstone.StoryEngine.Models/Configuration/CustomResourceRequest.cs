@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace Whetstone.StoryEngine.Models.Configuration
@@ -13,8 +10,8 @@ namespace Whetstone.StoryEngine.Models.Configuration
     public enum ResourceRequestType
     {
         Create = 1,
-        Update =2,
-        Delete =3 
+        Update = 2,
+        Delete = 3
 
     }
 
@@ -47,7 +44,7 @@ namespace Whetstone.StoryEngine.Models.Configuration
         /// <summary>
         ///  Per Amazon documentation, this can be "Create", "Update", or "Delete" 
         /// </summary>
-        [JsonProperty(PropertyName = "RequestType", Required =  Required.Always)]
+        [JsonProperty(PropertyName = "RequestType", Required = Required.Always)]
         [JsonConverter(typeof(StringEnumConverter))]
         public ResourceRequestType RequestType { get; set; }
 
@@ -56,7 +53,7 @@ namespace Whetstone.StoryEngine.Models.Configuration
         /// The response URL identifies a presigned S3 bucket that receives responses from the custom resource
         /// provider to AWS CloudFormation.
         /// </summary>
-        [JsonProperty(PropertyName= "ResponseURL", Required =  Required.Always)]
+        [JsonProperty(PropertyName = "ResponseURL", Required = Required.Always)]
         public string ResponseUrl { get; set; }
 
         /// <summary>

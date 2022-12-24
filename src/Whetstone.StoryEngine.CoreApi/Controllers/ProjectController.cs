@@ -1,30 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
-using Microsoft.AspNetCore.Authorization;
-
-using Newtonsoft.Json;
-
-using Whetstone.StoryEngine.AlexaProcessor;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Whetstone.StoryEngine.CoreApi.Models;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models.Admin;
-using Whetstone.StoryEngine.Google.Management;
-using Whetstone.StoryEngine.Repository;
-using Whetstone.StoryEngine.CoreApi.Models;
 using Whetstone.StoryEngine.Models.Notifications;
 using Whetstone.StoryEngine.Notifications.Repository;
-
-using System.Security.Claims;
 
 namespace Whetstone.StoryEngine.CoreApi.Controllers
 {
 
-    
+
     [ApiController]
     //  [EnableCors("CorsPolicy")]
     [Route("api/project")]
@@ -44,7 +37,7 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
         public ProjectController(IProjectRepository projectRepository, IFileRepository fileRepo, INotificationProcessor notificationProcessor)
         {
             //_logger = logger ?? throw new ArgumentNullException(nameof(logger));
-           
+
             //_titleValidator = titleValidator ?? throw new ArgumentNullException(nameof(titleValidator));
             //_alexaExporter = alexaExporter ?? throw new ArgumentNullException(nameof(alexaExporter));
             //_dialogFlowManager = dialogFlowManager ?? throw new ArgumentNullException(nameof(dialogFlowManager));
@@ -56,7 +49,7 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
         }
 
 
-       
+
         [Authorize(Security.FunctionalEntitlements.PermissionViewProject)]
         [HttpGet()]
         public async Task<IActionResult> GetProjects()
@@ -164,7 +157,7 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
         [Authorize(Security.FunctionalEntitlements.IsRegisteredUser)]
         [Route("{projectId}/version/{versionId}/audio/{fileName}/content")]
         [HttpPost]
-        public async Task<IActionResult> AddAudioContent([FromRoute] Guid projectId, [FromRoute] Guid versionId, [FromRoute] string fileName, [FromForm] SimpleFileUpload formData )
+        public async Task<IActionResult> AddAudioContent([FromRoute] Guid projectId, [FromRoute] Guid versionId, [FromRoute] string fileName, [FromForm] SimpleFileUpload formData)
         {
             HttpStatusCode statusCode = HttpStatusCode.OK;
 
@@ -186,14 +179,14 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
                 statusCode = HttpStatusCode.BadRequest;
                 errList.Add($"{nameof(versionId)} must have a value");
             }
-            if ( formData == null )
+            if (formData == null)
             {
                 statusCode = HttpStatusCode.BadRequest;
                 errList.Add($"{nameof(formData)} cannot be null");
             }
             else
             {
-                if ( formData.UploadedFile == null )
+                if (formData.UploadedFile == null)
                 {
                     statusCode = HttpStatusCode.BadRequest;
                     errList.Add($"{nameof(formData.UploadedFile)} cannot be null");
@@ -278,7 +271,7 @@ namespace Whetstone.StoryEngine.CoreApi.Controllers
         [HttpPost]
         public async Task<IActionResult> AddDeployment([FromRoute] Guid projectId, [FromRoute] Guid versionId, [FromBody] AddVersionDeploymentRequest deploymentRequest)
         {
-           VersionDeployment deploymentResult = await _projectRepository.AddVersionDeploymentAsync(projectId, versionId, deploymentRequest);
+            VersionDeployment deploymentResult = await _projectRepository.AddVersionDeploymentAsync(projectId, versionId, deploymentRequest);
             return new OkObjectResult(deploymentResult);
         }
 

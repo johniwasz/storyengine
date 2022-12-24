@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Whetstone.Alexa;
 using Xunit;
@@ -40,7 +38,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
             Dictionary<string, string> phoneSlots = new Dictionary<string, string>();
 
             phoneSlots.Add("phonenumber", "2675551212");
-                
+
             resp = await GetIntentResult(sessionContext, function, "PhoneNumberIntent", phoneSlots);
             WriteResponse(resp);
 

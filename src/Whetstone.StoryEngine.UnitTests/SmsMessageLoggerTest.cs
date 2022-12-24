@@ -1,14 +1,6 @@
-﻿using Amazon.Lambda.TestUtilities;
-using Microsoft.Extensions.DependencyInjection;
-using Moq;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Messaging;
-using Whetstone.StoryEngine.Models.Messaging.Sms;
-using Whetstone.StoryEngine.Repository.Messaging;
-using Xunit;
 
 namespace Whetstone.UnitTests
 {

@@ -1,14 +1,11 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models.Messaging
 {
     public enum ClientMessageType
     {
-        Request =1,
-        Response=2
+        Request = 1,
+        Response = 2
     }
 
 
@@ -18,7 +15,7 @@ namespace Whetstone.StoryEngine.Models.Messaging
         /// <summary>
         /// The type of client response
         /// </summary>
-        [JsonProperty(PropertyName ="clientType")]
+        [JsonProperty(PropertyName = "clientType")]
         public Client ClientType { get; set; }
 
         /// <summary>

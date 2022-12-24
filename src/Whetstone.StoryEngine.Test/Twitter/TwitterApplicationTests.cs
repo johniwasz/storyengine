@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Admin;
-using Microsoft.Extensions.DependencyInjection;
 using Whetstone.StoryEngine.Models.Twitter;
-using Xunit;
 using Whetstone.StoryEngine.Repository.Twitter;
+using Xunit;
 
 namespace Whetstone.StoryEngine.Test.Twitter
 {
@@ -43,7 +40,7 @@ namespace Whetstone.StoryEngine.Test.Twitter
 
             var appResponse = await appManager.AddTwitterApplicationAsync(addTwitterApp);
 
-            
+
 
         }
 

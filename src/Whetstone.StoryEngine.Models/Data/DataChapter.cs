@@ -1,11 +1,9 @@
 ﻿using Newtonsoft.Json;
-using Whetstone.StoryEngine.Models.Story;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using System.Text;
+using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.Models.Data
 {
@@ -23,7 +21,7 @@ namespace Whetstone.StoryEngine.Models.Data
         [DataMember]
         public int Sequence { get; set; }
 
-        
+
 
         [Column("Names", TypeName = "jsonb")]
         private string NamesJson { get; set; }
@@ -40,7 +38,7 @@ namespace Whetstone.StoryEngine.Models.Data
             }
             set
             {
-               NamesJson = JsonConvert.SerializeObject(value);
+                NamesJson = JsonConvert.SerializeObject(value);
             }
         }
 
@@ -49,7 +47,7 @@ namespace Whetstone.StoryEngine.Models.Data
         /// This is for serialization and deserializaton.
         /// </summary>
         /// <remarks>Do not store to the database in this format.</remarks>      
-        [DataMember]  
+        [DataMember]
         [ForeignKey("ChapterId")]
         public List<DataNode> Nodes { get; set; }
 

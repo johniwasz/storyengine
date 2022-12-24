@@ -1,18 +1,9 @@
-﻿using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.Models.Tracking;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.ComponentModel.DataAnnotations.Schema;
-using MessagePack;
-using Newtonsoft.Json;
-using Whetstone.StoryEngine.Models.Serialization;
-using System.Runtime.Serialization;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System.Linq;
-using Whetstone.StoryEngine.Models;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
+using Whetstone.StoryEngine.Models.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Actions
 {
@@ -20,7 +11,7 @@ namespace Whetstone.StoryEngine.Models.Actions
     /// <summary>
     /// This marks what action is performed when a user visits a story node.
     /// </summary>
-    [JsonConverter(typeof(NodeActionConverter))]   
+    [JsonConverter(typeof(NodeActionConverter))]
     [Table("NodeActions")]
     [DataContract]
     [XmlInclude(typeof(InventoryActionData))]
@@ -43,7 +34,7 @@ namespace Whetstone.StoryEngine.Models.Actions
     [MessagePack.Union(7, typeof(ValidatePhoneNumberActionData))]
     [MessagePack.Union(8, typeof(SmsConfirmationActionData))]
     [MessagePack.Union(9, typeof(GetSmsConfirmationActionData))]
-    public abstract  class NodeActionData
+    public abstract class NodeActionData
     {
         [DataMember]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -51,7 +42,7 @@ namespace Whetstone.StoryEngine.Models.Actions
         [JsonProperty(PropertyName = "id", NullValueHandling = NullValueHandling.Ignore)]
         public long? Id { get; set; }
 
-      
+
         [IgnoreDataMember]
         [JsonIgnore]
         [NotMapped]
@@ -66,6 +57,6 @@ namespace Whetstone.StoryEngine.Models.Actions
         public bool? IsPermanent { get; set; }
 
 
-       
+
     }
 }

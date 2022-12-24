@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Whetstone.StoryEngine.Models.Story.Cards;
 
 namespace Whetstone.StoryEngine.Models.Serialization
@@ -54,7 +52,7 @@ namespace Whetstone.StoryEngine.Models.Serialization
                     {
                         case CardButtonType.Link:
                             return ConvertObject<CardButtonType, CardButton>(jo.ToString(), serializer,
-                                conResolver);  
+                                conResolver);
 
                         default:
                             throw new JsonSerializationException($"Unrecognized CardButtonType {enumText}");

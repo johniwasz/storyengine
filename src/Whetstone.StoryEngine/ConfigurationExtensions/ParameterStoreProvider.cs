@@ -6,8 +6,6 @@ using Microsoft.Extensions.Logging;
 using Nito.AsyncEx;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Whetstone.StoryEngine.ConfigurationExtensions
 {
@@ -50,7 +48,7 @@ namespace Whetstone.StoryEngine.ConfigurationExtensions
             }
             else
             {
-               
+
                 try
                 {
                     GetParameterResponse getResp = null;
@@ -75,7 +73,7 @@ namespace Whetstone.StoryEngine.ConfigurationExtensions
                         if (ex is ParameterNotFoundException)
                         {
                             _logger.LogDebug($"Parameter {key} not found in parameter store");
-                           // _paramStoreDictionary.AddOrUpdate(key, (string) null, (keyText, oldValue) => null);
+                            // _paramStoreDictionary.AddOrUpdate(key, (string) null, (keyText, oldValue) => null);
 
                         }
                         else
@@ -83,7 +81,7 @@ namespace Whetstone.StoryEngine.ConfigurationExtensions
                             _logger.LogError(ex, $"Error getting {key} from parameter store");
                         }
                     }
-  
+
                     value = null;
 
                 }

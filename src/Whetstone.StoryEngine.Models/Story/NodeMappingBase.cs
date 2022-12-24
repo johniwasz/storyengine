@@ -1,19 +1,17 @@
-﻿using System;
+﻿using MessagePack;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Xml.Serialization;
-using MessagePack;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Whetstone.StoryEngine.Models.Serialization;
 using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Story
 {
 
-    
+
     [Table("NodeMappings")]
     [XmlInclude(typeof(SingleNodeMapping))]
     [XmlInclude(typeof(MultiNodeMapping))]
@@ -59,7 +57,7 @@ namespace Whetstone.StoryEngine.Models.Story
 
         [NotMapped]
         [YamlIgnore]
-        [JsonProperty("nodeMappingType", Order =  0, NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("nodeMappingType", Order = 0, NullValueHandling = NullValueHandling.Ignore)]
         [JsonConverter(typeof(StringEnumConverter))]
         [DataMember]
         [Key(2)]
@@ -88,7 +86,7 @@ namespace Whetstone.StoryEngine.Models.Story
         [JsonProperty("requiredSlotValues", Order = 2, NullValueHandling = NullValueHandling.Ignore)]
         [Key(2)]
         [NotMapped]
-        [DataMember] 
+        [DataMember]
         public Dictionary<string, List<string>> RequiredSlotValues
         {
             get;
@@ -97,14 +95,14 @@ namespace Whetstone.StoryEngine.Models.Story
 
         [NotMapped]
         [YamlIgnore]
-        [JsonProperty("nodeMappingType", Order =  0)]
+        [JsonProperty("nodeMappingType", Order = 0)]
         [JsonConverter(typeof(StringEnumConverter))]
         [DataMember]
         [Key(3)]
         public sealed override NodeMappingType NodeMapping { get; set; }
 
 
-        }
+    }
 
     [DataContract]
     [JsonObject()]
@@ -115,7 +113,7 @@ namespace Whetstone.StoryEngine.Models.Story
         {
             this.NodeMapping = NodeMappingType.SingleNodeMapping;
         }
-        
+
 
         public SingleNodeMapping(string nodeName)
         {
@@ -166,7 +164,7 @@ namespace Whetstone.StoryEngine.Models.Story
 
         [NotMapped]
         [JsonProperty("nodeMappingType", Order = 0)]
-         [YamlIgnore]
+        [YamlIgnore]
         [DataMember]
         [JsonConverter(typeof(StringEnumConverter))]
         [Key(2)]
@@ -201,7 +199,7 @@ namespace Whetstone.StoryEngine.Models.Story
 
         [JsonProperty("falseConditionResult", Order = 2, NullValueHandling = NullValueHandling.Ignore)]
         [Key(2)]
-        [YamlMember(Alias = "falseConditionResult", Order =2)]
+        [YamlMember(Alias = "falseConditionResult", Order = 2)]
         [DataMember]
         public NodeMappingBase FalseConditionResult { get; set; }
 

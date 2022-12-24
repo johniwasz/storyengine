@@ -1,7 +1,6 @@
-﻿using Whetstone.StoryEngine.Models.Tracking;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
+using Whetstone.StoryEngine.Models.Tracking;
 
 namespace Whetstone.StoryEngine.Models.Integration
 {
@@ -46,15 +45,15 @@ namespace Whetstone.StoryEngine.Models.Integration
             sb.Append(searchType);
             sb.Append("|");
 
-            if(!string.IsNullOrWhiteSpace(Locale))
+            if (!string.IsNullOrWhiteSpace(Locale))
             {
                 sb.Append(Locale);
                 sb.Append("|");
             }
 
-            if(Crumbs!=null)
-            {                
-                foreach(IStoryCrumb crumb in Crumbs)
+            if (Crumbs != null)
+            {
+                foreach (IStoryCrumb crumb in Crumbs)
                 {
 
                     sb.Append(crumb.ToString());
@@ -65,7 +64,7 @@ namespace Whetstone.StoryEngine.Models.Integration
 
             string searchText = sb.ToString();
 
-            if (searchText.Substring(searchText.Length - 1, 1).Equals("|")) 
+            if (searchText.Substring(searchText.Length - 1, 1).Equals("|"))
             {
                 searchText = searchText.Substring(0, searchText.Length - 1);
 

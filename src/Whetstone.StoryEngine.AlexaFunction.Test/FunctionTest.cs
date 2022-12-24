@@ -1,17 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Xunit;
-using Amazon;
-using Amazon.Lambda.Core;
 using Amazon.Lambda.TestUtilities;
-using Whetstone.StoryEngine.AlexaFunction;
-using Whetstone.Alexa;
-using System.IO;
-using Newtonsoft.Json;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using Whetstone.Alexa;
+using Xunit;
 
 namespace Whetstone.StoryEngine.AlexaFunction.Test
 {
@@ -46,7 +40,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
             context.ClientContext = testContext;
             var function = new AlexaFunctionProxy();
 
-           var returnVal = function.FunctionHandlerAsync(req, context);
+            var returnVal = function.FunctionHandlerAsync(req, context);
 
             var testLogger = context.Logger as TestLambdaLogger;
 
@@ -55,7 +49,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
             Debug.WriteLine(testLog);
 
-           // Assert.Contains("Stream processing complete", testLogger.Buffer.ToString());
+            // Assert.Contains("Stream processing complete", testLogger.Buffer.ToString());
         }
 
         [Fact(DisplayName = "Restart Test")]
@@ -142,7 +136,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
 
             string alexaResponse = null;
-            using(MemoryStream memStream = new MemoryStream())
+            using (MemoryStream memStream = new MemoryStream())
             {
                 ser.Serialize(returnVal, memStream);
 
@@ -152,8 +146,8 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
                     alexaResponse = reader.ReadToEnd();
                 }
             }
-    
-          
+
+
 
             var testLogger = context.Logger as TestLambdaLogger;
 

@@ -1,21 +1,21 @@
-using System.Threading.Tasks;
 using Amazon;
 using Amazon.S3;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
+using Whetstone.StoryEngine.Data.Amazon;
 using Whetstone.StoryEngine.Data.Caching;
 using Whetstone.StoryEngine.Data.EntityFramework.EntityManager;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Story;
 using Xunit;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Whetstone.StoryEngine.Data.Amazon;
 
 namespace Whetstone.StoryEngine.Data.Tests
 {
     public class CreateStoryTests : DataTestBase
     {
         [Fact]
-        public async Task  CreateSampleStory()
+        public async Task CreateSampleStory()
         {
 
             var inMemoryCache = GetInMemoryCache();
@@ -41,7 +41,7 @@ namespace Whetstone.StoryEngine.Data.Tests
             ITitleCacheRepository titleCacheRep = new TitleCacheRepository(fileRep, distCacheDict, inMemoryCache, titleLogger);
 
 
-         
+
             DataTitleRepository dataRep = new DataTitleRepository(userContextRetriever, titleCacheRep, null, null);
 
             StoryTitle newTitle = new StoryTitle();
@@ -61,7 +61,7 @@ namespace Whetstone.StoryEngine.Data.Tests
         }
 
 
-       
+
 
 
     }

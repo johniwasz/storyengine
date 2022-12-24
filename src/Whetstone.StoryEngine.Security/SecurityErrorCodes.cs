@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Whetstone.StoryEngine.Security
+﻿namespace Whetstone.StoryEngine.Security
 {
     public static class SecurityErrorCodes
     {

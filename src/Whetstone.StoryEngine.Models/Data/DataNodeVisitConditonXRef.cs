@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
-using Whetstone.StoryEngine.Models.Story;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Whetstone.StoryEngine.Models.Data
 {

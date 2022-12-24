@@ -1,17 +1,13 @@
-﻿using System;
+﻿using Amazon.ApiGatewayManagementApi;
+using Amazon.ApiGatewayManagementApi.Model;
+using Amazon.Runtime;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-
-using Amazon.ApiGatewayManagementApi;
-using Amazon.ApiGatewayManagementApi.Model;
-using Amazon.Runtime;
-
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-
-using Whetstone.StoryEngine.SocketApi.Repository;
 using Whetstone.StoryEngine.Models.Configuration;
 
 namespace Whetstone.StoryEngine.SocketApi.Repository.Amazon

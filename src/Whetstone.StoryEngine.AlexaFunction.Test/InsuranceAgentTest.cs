@@ -1,8 +1,5 @@
-﻿using Amazon.Lambda.TestUtilities;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
 using Whetstone.Alexa;
 using Xunit;
@@ -48,7 +45,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
             resp = await GetIntentResult(sessionContext, function, "NoIntent");
             WriteResponse(resp);
 
-            
+
             resp = await GetIntentResult(sessionContext, function, "AMAZON.FallbackIntent", firstName);
             WriteResponse(resp);
 

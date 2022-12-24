@@ -1,14 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Text;
-using Microsoft.Net.Http.Headers;
-using System.Reflection;
-using Microsoft.Extensions.Logging;
-using Whetstone.StoryEngine.Models.Story;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Serialization;
+using Whetstone.StoryEngine.Models.Story;
 using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.CoreApi.Formatters
@@ -40,7 +39,7 @@ namespace Whetstone.StoryEngine.CoreApi.Formatters
             }
             return false;
         }
- 
+
 
 
         public override Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
@@ -74,6 +73,6 @@ namespace Whetstone.StoryEngine.CoreApi.Formatters
 
             logger.LogInformation($"Writing {title.Title} to YAML");
         }
-        
+
     }
 }

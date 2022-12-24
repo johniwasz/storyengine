@@ -1,5 +1,5 @@
-﻿using Whetstone.StoryEngine.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Data;
 
 namespace Whetstone.StoryEngine.Data

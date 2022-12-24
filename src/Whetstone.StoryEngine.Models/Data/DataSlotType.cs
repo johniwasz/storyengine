@@ -1,13 +1,10 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models.Data
 {
@@ -20,7 +17,7 @@ namespace Whetstone.StoryEngine.Models.Data
         public DataSlotType()
         {
 
-         }
+        }
 
 
         public DataSlotType(string valueObject)
@@ -45,7 +42,7 @@ namespace Whetstone.StoryEngine.Models.Data
 
         [Column("ValuesJson", TypeName = "jsonb")]
         private string ValuesJson { get; set; }
-       
+
 
         [NotMapped]
         [DataMember]
@@ -97,7 +94,7 @@ namespace Whetstone.StoryEngine.Models.Data
     //    public string Value { get; set; }
 
 
-        
+
     //    [Column("Synonyms")]
     //    [DataMember]
     //    public string[] Synonyms { get; set; }

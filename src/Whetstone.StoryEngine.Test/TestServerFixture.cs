@@ -1,55 +1,51 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using Amazon;
+using Amazon.CognitoIdentityProvider;
+using Amazon.DynamoDBv2;
+using Amazon.S3;
+using Amazon.XRay.Recorder.Core;
+using Amazon.XRay.Recorder.Core.Strategies;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Configuration;
-using System.Linq;
-using Microsoft.Net.Http.Headers;
-using Whetstone.StoryEngine.Models.Configuration;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Caching.Memory;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
-using Whetstone.StoryEngine.Data.Amazon;
-using Whetstone.StoryEngine.Data;
-using System.Diagnostics;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Whetstone.StoryEngine.Repository;
-using Whetstone.StoryEngine.Repository.Amazon;
-using Microsoft.EntityFrameworkCore;
-using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.Data.Yaml;
-using System.IO;
-using Whetstone.StoryEngine.Models.Serialization;
-using Amazon;
-using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
-using Whetstone.StoryEngine.Data.Caching;
-using Whetstone.StoryEngine.Models;
+using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Reflection;
-using Amazon.DynamoDBv2;
-using Amazon.S3;
-using Microsoft.Extensions.Logging;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Whetstone.StoryEngine.Data;
+using Whetstone.StoryEngine.Data.Amazon;
+using Whetstone.StoryEngine.Data.Caching;
 using Whetstone.StoryEngine.Data.DependencyInjection;
 using Whetstone.StoryEngine.Data.EntityFramework;
 using Whetstone.StoryEngine.Data.EntityFramework.EntityManager;
+using Whetstone.StoryEngine.Data.Yaml;
 using Whetstone.StoryEngine.DependencyInjection;
+using Whetstone.StoryEngine.Models;
+using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Data;
+using Whetstone.StoryEngine.Models.Serialization;
+using Whetstone.StoryEngine.Models.Story;
+using Whetstone.StoryEngine.Models.Story.Cards;
+using Whetstone.StoryEngine.Repository;
+using Whetstone.StoryEngine.Repository.Amazon;
 using Whetstone.StoryEngine.Repository.Messaging;
 using Whetstone.StoryEngine.Repository.Phone;
-using Whetstone.StoryEngine.Models.Story.Cards;
-using Amazon.XRay.Recorder.Core;
-using Amazon.XRay.Recorder.Core.Strategies;
-using Whetstone.StoryEngine.Test.DbTests;
-using Microsoft.AspNetCore.Authorization;
-using Whetstone.StoryEngine.Security.Amazon;
-using Amazon.CognitoIdentityProvider;
-using Whetstone.StoryEngine.Security;
-using Whetstone.StoryEngine.Models.Admin;
 using Whetstone.StoryEngine.Repository.Twitter;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Whetstone.StoryEngine.Security;
+using Whetstone.StoryEngine.Security.Amazon;
+using Whetstone.StoryEngine.Test.DbTests;
 
 namespace Whetstone.StoryEngine.Test
 {
@@ -124,7 +120,7 @@ namespace Whetstone.StoryEngine.Test
             Bootstrapping.ConfigureServices(ServiceCollection, Configuration, bootConfig);
             DataBootstrapping.ConfigureDatabaseService(this.ServiceCollection, bootConfig.DatabaseSettings);
 
-            
+
 
 
             this.ServiceCollection.AddTransient<UserDataRepository>();
@@ -136,7 +132,7 @@ namespace Whetstone.StoryEngine.Test
                 {
                     case UserRepositoryType.Database:
                         retUserRep = serviceProvider.GetService<UserDataRepository>();
-                       
+
                         break;
                     case UserRepositoryType.DynamoDB:
                         retUserRep = serviceProvider.GetService<DynamoDBUserRepository>();
@@ -224,15 +220,15 @@ namespace Whetstone.StoryEngine.Test
         }
 
 
-        protected  DbContextOptions<UserDataContext> GetUserDatabaseOptions()
+        protected DbContextOptions<UserDataContext> GetUserDatabaseOptions()
         {
 
             DbContextOptionsBuilder<UserDataContext> builder = new DbContextOptionsBuilder<UserDataContext>();
 
-           string dbCon = System.Environment.GetEnvironmentVariable("DATABASECONNECTION");
+            string dbCon = System.Environment.GetEnvironmentVariable("DATABASECONNECTION");
 
 
-           builder.UseNpgsql(dbCon, b => { b.EnableRetryOnFailure(); });
+            builder.UseNpgsql(dbCon, b => { b.EnableRetryOnFailure(); });
 
 
             return builder.Options;
@@ -270,7 +266,7 @@ namespace Whetstone.StoryEngine.Test
             dbConfig.Settings.Add("Host", "127.0.0.1");
             dbConfig.Settings.Add("Database", "postgres");
             dbConfig.SmsUser = "postgres";
-            dbConfig.EnableSensitiveLogging =true;
+            dbConfig.EnableSensitiveLogging = true;
             dbConfig.DirectConnect = new DBDirectConnectConfig();
             dbConfig.DirectConnect.UserName = "postgres";
             dbConfig.DirectConnect.ClientSecret = "xxxxxxxx";
@@ -286,7 +282,7 @@ namespace Whetstone.StoryEngine.Test
                 this.Services.GetService<ILogger<DirectUserContextRetriever>>();
 
             var distCache = this.Services.GetService<IMemoryCache>();
-         
+
             IUserContextRetriever directRetriever = new DirectUserContextRetriever(envOpts, dbOptions, distCache, contextLogger, directLogger);
 
 
@@ -297,7 +293,7 @@ namespace Whetstone.StoryEngine.Test
 
         protected JsonSerializerSettings GetJsonSettings()
         {
-            
+
             JsonSerializerSettings serSettings = new JsonSerializerSettings();
 
 
@@ -329,7 +325,7 @@ namespace Whetstone.StoryEngine.Test
             return storeManager;
         }
 
-        protected async Task<StoryTitle> GetTitleAsync( TitleVersion titleVer)
+        protected async Task<StoryTitle> GetTitleAsync(TitleVersion titleVer)
         {
 
             ITitleCacheRepository titleCacheRep = GetTitleCacheRepository();
@@ -345,7 +341,7 @@ namespace Whetstone.StoryEngine.Test
         }
 
 
-        protected  IDistributedCache GetMemoryCache()
+        protected IDistributedCache GetMemoryCache()
         {
             MemoryDistributedCacheOptions memOptions = new MemoryDistributedCacheOptions();
 
@@ -374,8 +370,8 @@ namespace Whetstone.StoryEngine.Test
 
             IStoryUserRepository userRep = userStoryFunc(UserRepositoryType.DynamoDB);
 
-            DataTitleClientUser curUser = await  userRep.GetUserAsync(req);
-            
+            DataTitleClientUser curUser = await userRep.GetUserAsync(req);
+
             Debug.WriteLine($"Current node: {curUser.CurrentNodeName}");
             Debug.WriteLine($"StoryNode node: {curUser.StoryNodeName}");
             Debug.WriteLine($"Client type: {clientType}");
@@ -401,7 +397,7 @@ namespace Whetstone.StoryEngine.Test
             if (speechResponse != null)
             {
 
-                string ssmlResponse =  speechResponse?.ToSsml(mediaLinker, titleVer);
+                string ssmlResponse = speechResponse?.ToSsml(mediaLinker, titleVer);
 
                 Debug.WriteLine("SSML Response: ");
                 Debug.WriteLine(ssmlResponse);
@@ -429,7 +425,7 @@ namespace Whetstone.StoryEngine.Test
 
                 Debug.WriteLine("SSML Reprompt: ");
                 Debug.WriteLine(ssml);
-                
+
             }
             else
             {
@@ -437,14 +433,14 @@ namespace Whetstone.StoryEngine.Test
                 Debug.WriteLine(localizedResponse.RepromptTextResponses);
 
             }
-            
-            if (!string.IsNullOrWhiteSpace(generatedText) && localizedResponse.CardResponse!=null)
+
+            if (!string.IsNullOrWhiteSpace(generatedText) && localizedResponse.CardResponse != null)
             {
                 CardEngineResponse cardResp = localizedResponse.CardResponse;
 
                 string cardTitle = string.IsNullOrWhiteSpace(cardResp.CardTitle) ? "Default title" : cardResp.CardTitle;
 
-                Debug.WriteLine($"Card Title: {cardTitle}"); 
+                Debug.WriteLine($"Card Title: {cardTitle}");
 
                 if (!string.IsNullOrWhiteSpace(cardResp.SmallImageFile) ||
                      !string.IsNullOrWhiteSpace(cardResp.LargeImageFile))
@@ -452,7 +448,7 @@ namespace Whetstone.StoryEngine.Test
 
                     Debug.WriteLine($"Card Text: {generatedText}");
 
-                if(cardResp.Text!=null)
+                if (cardResp.Text != null)
                 {
                     string cardText = string.Join(' ', cardResp.Text);
 
@@ -468,17 +464,17 @@ namespace Whetstone.StoryEngine.Test
                 }
 
 
-                 if (!string.IsNullOrWhiteSpace(cardResp.LargeImageFile))
-                { 
-                    string largeUrl = mediaLinker.GetFileLink( titleVer, cardResp.LargeImageFile);
+                if (!string.IsNullOrWhiteSpace(cardResp.LargeImageFile))
+                {
+                    string largeUrl = mediaLinker.GetFileLink(titleVer, cardResp.LargeImageFile);
                     Debug.WriteLine($"Card large image: {largeUrl}");
                 }
             }
 
 
-            if(resp.ForceContinueSession)
+            if (resp.ForceContinueSession)
             {
-                Debug.WriteLine("Session Continues");           
+                Debug.WriteLine("Session Continues");
             }
             else
                 Debug.WriteLine("Session Ends");
@@ -533,7 +529,7 @@ namespace Whetstone.StoryEngine.Test
             }
 
             return zipBytes;
-          
+
         }
 
 
@@ -545,7 +541,7 @@ namespace Whetstone.StoryEngine.Test
             if (memCache.TryGetValue(testCredentialStore, out object value))
             {
                 retCreds = value as AuthCredentials;
-             
+
             }
             else
             {
@@ -557,13 +553,13 @@ namespace Whetstone.StoryEngine.Test
 
                 memCache.Set(testCredentialStore, retCreds);
 
-            }   
-            
+            }
+
             return retCreds;
         }
 
 
-        internal async Task<T> GetSecretAsync<T>(string secretStore)  where T : class
+        internal async Task<T> GetSecretAsync<T>(string secretStore) where T : class
         {
             IMemoryCache memCache = Services.GetService<IMemoryCache>();
             T retCreds = null;
@@ -620,7 +616,7 @@ namespace Whetstone.StoryEngine.Test
             var claimIdentities =
                 await authenticator.GetUserClaimsAsync(token);
 
-          
+
 
             ClaimsPrincipal prin = new ClaimsPrincipal(claimIdentities);
 

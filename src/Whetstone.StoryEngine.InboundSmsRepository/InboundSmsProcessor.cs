@@ -1,17 +1,13 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Data;
 using Whetstone.StoryEngine.Models.Messaging;
 using Whetstone.StoryEngine.Models.Messaging.Sms;
@@ -63,13 +59,13 @@ namespace Whetstone.StoryEngine.InboundSmsRepository
             _sessionLogger = sessionLogger ?? throw new ArgumentNullException(nameof(sessionLogger));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-            if (userRepFunc==null)
+            if (userRepFunc == null)
                 throw new ArgumentNullException(nameof(userRepFunc));
 
             _userRepo = userRepFunc(UserRepositoryType.DynamoDB) ??
                         throw new ArgumentException($"Could not get the DynamoDB user repository type");
 
-            if(sendFunction == null)
+            if (sendFunction == null)
                 throw new ArgumentNullException(nameof(sendFunction));
 
             _notifDispatcher = sendFunction(NotificationsDispatchTypeEnum.StepFunction) ??
@@ -130,7 +126,7 @@ namespace Whetstone.StoryEngine.InboundSmsRepository
                             notifRequest = await DispatchMessageAsync(storyReq, storyResp, senderType, consentId);
                     }
                     else
-                        notifRequest= await DispatchMessageAsync( storyReq, storyResp, senderType, consentId);
+                        notifRequest = await DispatchMessageAsync(storyReq, storyResp, senderType, consentId);
 
 
                     await _sessionLogger.LogRequestAsync(storyReq, storyResp);
@@ -211,7 +207,7 @@ namespace Whetstone.StoryEngine.InboundSmsRepository
             req.SessionContext = new EngineSessionContext
             {
                 TitleVersion = titleVer,
-                
+
                 EngineSessionId = Guid.NewGuid()
             };
 
@@ -271,7 +267,7 @@ textVal.Equals("START", StringComparison.OrdinalIgnoreCase))
         }
 
 
-        private async Task<INotificationRequest> DispatchMessageAsync( StoryRequest storyReq, StoryResponse storyResp, SmsSenderType senderType, Guid? consentId)
+        private async Task<INotificationRequest> DispatchMessageAsync(StoryRequest storyReq, StoryResponse storyResp, SmsSenderType senderType, Guid? consentId)
         {
             InboundSmsNotification notificationSource = new InboundSmsNotification
             {
@@ -318,7 +314,7 @@ textVal.Equals("START", StringComparison.OrdinalIgnoreCase))
 
         }
 
-        private async Task<(ConsentStatus, Guid? )> GetConsentAsync(StoryRequest storyReq, bool includePreconditionConsents = true)
+        private async Task<(ConsentStatus, Guid?)> GetConsentAsync(StoryRequest storyReq, bool includePreconditionConsents = true)
         {
             if (storyReq == null)
             {
@@ -349,7 +345,7 @@ textVal.Equals("START", StringComparison.OrdinalIgnoreCase))
             bool reqConsent = true;
 
             var phoneData = await _phoneRep.GetPhoneInfoAsync(phoneNumber);
-        
+
             Guid? consentId = null;
 
             // This should be done when calling into the title for the first time. 

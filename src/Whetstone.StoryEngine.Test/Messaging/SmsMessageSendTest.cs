@@ -1,41 +1,35 @@
-﻿using Amazon.Lambda.TestUtilities;
+﻿using Amazon;
+using Amazon.Lambda.TestUtilities;
+using Amazon.StepFunctions;
+using Amazon.StepFunctions.Model;
+using MartinCostello.Testing.AwsLambdaTestServer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Moq;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using Amazon;
-using Amazon.StepFunctions;
-using Amazon.StepFunctions.Model;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using Whetstone.StoryEngine;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Data.EntityFramework;
 using Whetstone.StoryEngine.DependencyInjection;
+using Whetstone.StoryEngine.MessageSender;
+using Whetstone.StoryEngine.MessageSender.SaveMessageTask;
 using Whetstone.StoryEngine.Models;
+using Whetstone.StoryEngine.Models.Admin;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Data;
 using Whetstone.StoryEngine.Models.Messaging;
 using Whetstone.StoryEngine.Models.Messaging.Sms;
-using Whetstone.StoryEngine.OutboutSmsSender;
-using Whetstone.StoryEngine.Repository;
-using Whetstone.StoryEngine.Repository.Messaging;
-using Xunit;
 using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.Repository.Phone;
-using Whetstone.StoryEngine.MessageSender;
-using System.Threading;
-using MartinCostello.Testing.AwsLambdaTestServer;
-using Whetstone.StoryEngine.MessageSender.SaveMessageTask;
-using Microsoft.Extensions.Logging;
-using Whetstone.StoryEngine.Models.Admin;
 using Whetstone.StoryEngine.Models.Story.Text;
+using Whetstone.StoryEngine.Repository.Messaging;
+using Whetstone.StoryEngine.Repository.Phone;
+using Xunit;
 
 namespace Whetstone.StoryEngine.Test.Messaging
 {
@@ -140,7 +134,7 @@ namespace Whetstone.StoryEngine.Test.Messaging
         [Fact]
         public async Task ProcessSmsMessage()
         {
-            
+
             //string smsTextRequest = File.ReadAllText("Messages/TwilioOutboundMessage.json");
             string smsTextRequest = File.ReadAllText("Messages/smsresponsemessage.json");
 
@@ -179,7 +173,7 @@ namespace Whetstone.StoryEngine.Test.Messaging
 
             string notificationPayload = File.ReadAllText("Messages/smsCrxRequest.json");
 
-           INotificationRequest smsPushRequest = JsonConvert.DeserializeObject<SmsNotificationRequest>(notificationPayload);
+            INotificationRequest smsPushRequest = JsonConvert.DeserializeObject<SmsNotificationRequest>(notificationPayload);
 
             var lambdaContext = new TestLambdaContext();
 
@@ -219,7 +213,7 @@ namespace Whetstone.StoryEngine.Test.Messaging
             IAppMappingReader appMapper = servProv.GetService<IAppMappingReader>();
 
             var titleDeployments = await titleRep.GetAllTitleDeploymentsAsync();
-            var titleAdmin =  titleDeployments.FirstOrDefault(x => x.ShortName.Equals(shortName));
+            var titleAdmin = titleDeployments.FirstOrDefault(x => x.ShortName.Equals(shortName));
 
             TitleVersionAdmin firstVer = titleAdmin.Versions.FirstOrDefault();
             TitleVersionDeploymentBasic deployment = firstVer.Deployments.FirstOrDefault(x => x.ClientType == userClient);
@@ -231,11 +225,11 @@ namespace Whetstone.StoryEngine.Test.Messaging
             };
             Guid userId = Guid.NewGuid();
 
-            NotificationSourcePhoneMessageAction notSource = (NotificationSourcePhoneMessageAction) notReq.Source;
+            NotificationSourcePhoneMessageAction notSource = (NotificationSourcePhoneMessageAction)notReq.Source;
             notSource.Consent = new UserPhoneConsent()
             {
-                IsSmsConsentGranted =  true,
-                TitleVersionId=  titleVer.VersionId.GetValueOrDefault(Guid.NewGuid()),
+                IsSmsConsentGranted = true,
+                TitleVersionId = titleVer.VersionId.GetValueOrDefault(Guid.NewGuid()),
                 TitleClientUserId = userId,
                 SmsConsentDate = DateTime.UtcNow
 
@@ -302,7 +296,7 @@ namespace Whetstone.StoryEngine.Test.Messaging
 
             string notificationPayload = File.ReadAllText("Messages/notificationRequest.json");
 
-            SmsNotificationRequest smsPushRequest =  JsonConvert.DeserializeObject<SmsNotificationRequest>(notificationPayload);
+            SmsNotificationRequest smsPushRequest = JsonConvert.DeserializeObject<SmsNotificationRequest>(notificationPayload);
 
             var servProv = GetServiceProvider();
 
@@ -333,7 +327,7 @@ namespace Whetstone.StoryEngine.Test.Messaging
 
             notReq.DestinationNumberId = phoneInfo.Id;
 
-          //  IPhoneInfoRetriever phoneRetriever = new TwilioPhoneInfoRetriever()
+            //  IPhoneInfoRetriever phoneRetriever = new TwilioPhoneInfoRetriever()
 
             var function = new MessageSaveFunction();
             // Invoke the lambda function and confirm the string was upper cased.

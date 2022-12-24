@@ -1,48 +1,47 @@
-﻿using Moq;
-using Whetstone.StoryEngine;
-using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Repository;
+﻿using Amazon;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Moq;
+using Serilog;
+using Serilog.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.Models.Story.Text;
-using System.Linq;
-using Whetstone.StoryEngine.Models.Messaging;
-using Microsoft.Extensions.Options;
-using Whetstone.StoryEngine.Repository.Amazon;
-using Microsoft.Extensions.DependencyInjection;
-using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.Repository.Messaging;
-using Whetstone.StoryEngine.Models.Tracking;
-using Whetstone.StoryEngine.Repository.Actions;
 using System.IO;
-using Whetstone.StoryEngine.Models.Serialization;
-using Whetstone.StoryEngine.Models.Data;
+using System.Linq;
 using System.Threading.Tasks;
-using Amazon;
-using Microsoft.EntityFrameworkCore;
-using Whetstone.StoryEngine.Models.Conditions;
-using Whetstone.StoryEngine.Models.Messaging.Sms;
-using Whetstone.StoryEngine.Repository.Phone;
-using Whetstone.StoryEngine.Data.EntityFramework;
-using Microsoft.Extensions.Logging.Console;
-using Microsoft.Extensions.Logging;
+using Whetstone.StoryEngine;
 using Whetstone.StoryEngine.AlexaProcessor;
 using Whetstone.StoryEngine.AlexaProcessor.Configuration;
+using Whetstone.StoryEngine.Data;
+using Whetstone.StoryEngine.Data.EntityFramework;
+using Whetstone.StoryEngine.Models;
+using Whetstone.StoryEngine.Models.Conditions;
+using Whetstone.StoryEngine.Models.Configuration;
+using Whetstone.StoryEngine.Models.Data;
+using Whetstone.StoryEngine.Models.Messaging;
+using Whetstone.StoryEngine.Models.Messaging.Sms;
+using Whetstone.StoryEngine.Models.Serialization;
+using Whetstone.StoryEngine.Models.Story;
+using Whetstone.StoryEngine.Models.Story.Text;
+using Whetstone.StoryEngine.Models.Tracking;
+using Whetstone.StoryEngine.Repository;
+using Whetstone.StoryEngine.Repository.Actions;
+using Whetstone.StoryEngine.Repository.Amazon;
+using Whetstone.StoryEngine.Repository.Messaging;
+using Whetstone.StoryEngine.Repository.Phone;
 using Whetstone.StoryEngine.SocketApi.Repository;
-using Serilog.Extensions.Logging;
-using Serilog;
 
 namespace Whetstone.UnitTests
 {
     internal delegate void ProcessBatchRequest(OutboundBatchRecord message);
 
     internal delegate void ProcessNotificationRequest(INotificationRequest notificationRequest);
-    
+
     internal delegate void ProcessSessionLog(RequestRecordMessage requestMsg);
 
-   
+
 
     internal class MockFactory
     {
@@ -51,7 +50,7 @@ namespace Whetstone.UnitTests
         {
 
             System.Environment.SetEnvironmentVariable("AWS_XRAY_CONTEXT_MISSING", "LOG_ERROR");
-               
+
 
         }
         internal ProcessBatchRequest ProcessSmsBatchFunc { get; set; }
@@ -68,8 +67,8 @@ namespace Whetstone.UnitTests
 
             var whetstoneQueeu = new Mock<IWhetstoneQueue>();
 
-            whetstoneQueeu.Setup(x => x.AddMessageToQueueAsync<RequestRecordMessage>( It.IsAny<string>(), It.IsAny<RequestRecordMessage>()))
-                .Callback(( string queueName, RequestRecordMessage requestRecord) =>
+            whetstoneQueeu.Setup(x => x.AddMessageToQueueAsync<RequestRecordMessage>(It.IsAny<string>(), It.IsAny<RequestRecordMessage>()))
+                .Callback((string queueName, RequestRecordMessage requestRecord) =>
                 {
                     ProcessWhetstoneQueueFunc?.Invoke(requestRecord);
 
@@ -92,7 +91,7 @@ namespace Whetstone.UnitTests
 
                     List<string> responseTextList = resp.LocalizedResponse.GeneratedTextResponse.CleanTextList();
                     string returnText = string.Empty;
-                    if(responseTextList!=null)
+                    if (responseTextList != null)
                     {
                         foreach (string responseText in responseTextList)
                             returnText = string.Concat(returnText, responseText);
@@ -118,7 +117,8 @@ namespace Whetstone.UnitTests
 
         internal ILogger<T> GetLogger<T>()
         {
-            var loggerFactory = LoggerFactory.Create(builder => {
+            var loggerFactory = LoggerFactory.Create(builder =>
+            {
                 builder
                        .AddConsole();
             });
@@ -130,7 +130,8 @@ namespace Whetstone.UnitTests
 
         internal Microsoft.Extensions.Logging.ILogger GetLogger()
         {
-            var loggerFactory = LoggerFactory.Create(builder => {
+            var loggerFactory = LoggerFactory.Create(builder =>
+            {
                 builder
                     .AddConsole();
             });
@@ -142,7 +143,7 @@ namespace Whetstone.UnitTests
 
         internal IAppMappingReader GetMockAppMappingReader()
         {
-            var  appMappingMock = new Mock<IAppMappingReader>();
+            var appMappingMock = new Mock<IAppMappingReader>();
 
             appMappingMock.Setup(x => x.GetTitleAsync(Client.GoogleHome, "animalfarmpi", null))
                 .ReturnsAsync(new TitleVersion("animalfarmpi", "1.5"));
@@ -158,7 +159,7 @@ namespace Whetstone.UnitTests
 
 
             auditMock.Setup(x => x.Get(It.IsAny<string>()))
-                .Returns(new AuditClientMessagesConfig() {AuditClientMessages = true});
+                .Returns(new AuditClientMessagesConfig() { AuditClientMessages = true });
 
 
             return auditMock.Object;
@@ -173,7 +174,7 @@ namespace Whetstone.UnitTests
 
             Dictionary<string, UserPhoneConsent> crossTitleDict = new Dictionary<string, UserPhoneConsent>();
 
-            
+
 
 
             consentRepo.Setup(x => x.SaveConsentAsync(It.IsAny<UserPhoneConsent>()))
@@ -202,13 +203,13 @@ namespace Whetstone.UnitTests
                     return phoneConsent;
                 });
 
-            consentRepo.Setup(x => x.GetConsentAsync( It.IsAny<string>(),  It.IsAny<Guid>()))
-                .ReturnsAsync(( string consentName,  Guid phoneId) =>
+            consentRepo.Setup(x => x.GetConsentAsync(It.IsAny<string>(), It.IsAny<Guid>()))
+                .ReturnsAsync((string consentName, Guid phoneId) =>
                 {
                     UserPhoneConsent retConsent = null;
                     string key = $"{consentName}|{phoneId}";
-                    if(consentDict.ContainsKey(key))
-                         retConsent = consentDict[key];
+                    if (consentDict.ContainsKey(key))
+                        retConsent = consentDict[key];
                     return retConsent;
                 });
 
@@ -263,7 +264,7 @@ namespace Whetstone.UnitTests
 
                     return user;
                 });
-            
+
 
             storyUserRepMock.Setup(x => x.GetUserAsync(It.IsAny<StoryRequest>()))
                .ReturnsAsync(
@@ -300,7 +301,7 @@ namespace Whetstone.UnitTests
                });
 
 
-            storyUserRepMock.Setup(x => x.SaveUserAsync( It.IsAny<DataTitleClientUser>()))
+            storyUserRepMock.Setup(x => x.SaveUserAsync(It.IsAny<DataTitleClientUser>()))
                 .Callback(
                 (DataTitleClientUser user) =>
                  {
@@ -338,7 +339,7 @@ namespace Whetstone.UnitTests
                         retPhone.Type = PhoneTypeEnum.Mobile;
                         retPhone.CanGetSmsMessage = true;
                     }
-                    else if(phoneNumber.Equals("+12158852358"))
+                    else if (phoneNumber.Equals("+12158852358"))
                     {
                         retPhone.Id = new Guid("3E0CF1AB-842D-417C-9D2F-C3743A2E1064");
                         retPhone.PhoneNumber = phoneNumber;
@@ -363,20 +364,20 @@ namespace Whetstone.UnitTests
         {
             var titleMock = new Mock<ITitleReader>();
 
-            titleMock.Setup(x => x.GetPhoneInfoAsync( It.IsAny<TitleVersion>()))
-                .ReturnsAsync(( TitleVersion titleId) =>
+            titleMock.Setup(x => x.GetPhoneInfoAsync(It.IsAny<TitleVersion>()))
+                .ReturnsAsync((TitleVersion titleId) =>
                 {
                     return title.PhoneInfo;
                 });
 
             titleMock.Setup(x => x.GetIntentsAsync(It.IsAny<TitleVersion>()))
-                .ReturnsAsync(( TitleVersion titleId) =>
+                .ReturnsAsync((TitleVersion titleId) =>
                 {
                     return title.Intents;
                 });
 
             titleMock.Setup(x => x.GetByIdAsync(It.IsAny<TitleVersion>()))
-                .ReturnsAsync(( TitleVersion titleId) =>
+                .ReturnsAsync((TitleVersion titleId) =>
                 {
                     return title;
                 });
@@ -384,18 +385,18 @@ namespace Whetstone.UnitTests
             titleMock.Setup(x => x.GetNodeByNameAsync(It.IsAny<TitleVersion>(), It.IsAny<string>()))
                 .ReturnsAsync((TitleVersion titleVer, string nodeName) =>
                 {
-                    StoryNode retNode =  title.Nodes.FirstOrDefault(x => x.Name.Equals(nodeName));
+                    StoryNode retNode = title.Nodes.FirstOrDefault(x => x.Name.Equals(nodeName));
 
                     return retNode;
                 });
 
 
-            titleMock.Setup(x => x.GetIntentByNameAsync( It.IsAny<TitleVersion>(), It.IsAny<string>()))
+            titleMock.Setup(x => x.GetIntentByNameAsync(It.IsAny<TitleVersion>(), It.IsAny<string>()))
                 .ReturnsAsync((TitleVersion titleId, string intentName) =>
                 {
                     Intent returnIntent = null;
 
-                    if((title.Intents?.Any()).GetValueOrDefault(false))
+                    if ((title.Intents?.Any()).GetValueOrDefault(false))
                     {
                         returnIntent = title.Intents.FirstOrDefault(x => x.Name.Equals(intentName, StringComparison.OrdinalIgnoreCase));
                     }
@@ -406,7 +407,7 @@ namespace Whetstone.UnitTests
 
 
             titleMock.Setup(x => x.GetStoryConditionAsync(It.IsAny<TitleVersion>(), It.IsAny<string>()))
-                    .ReturnsAsync(( TitleVersion titleId, string condName) =>
+                    .ReturnsAsync((TitleVersion titleId, string condName) =>
                     {
                         StoryConditionBase storyCond = null;
 
@@ -437,7 +438,7 @@ namespace Whetstone.UnitTests
                 });
 
 
-            titleMock.Setup(x => x.GetStartNodeNameAsync( It.IsAny<TitleVersion>(), It.IsAny<bool>()))
+            titleMock.Setup(x => x.GetStartNodeNameAsync(It.IsAny<TitleVersion>(), It.IsAny<bool>()))
                 .ReturnsAsync((TitleVersion titleId, bool isNewUser) =>
                 {
                     string retNodeName;
@@ -460,15 +461,15 @@ namespace Whetstone.UnitTests
 
                         if (title.BadIntentResponses != null)
                         {
-                            if(title.BadIntentResponses.Count>0)
+                            if (title.BadIntentResponses.Count > 0)
                                 return title.BadIntentResponses[0];
                         }
 
                         return null;
                     });
 
-            titleMock.Setup(x => x.GetSlotTypes( It.IsAny<TitleVersion>()))
-                .ReturnsAsync(( TitleVersion titleId) => { return title.Slots; });
+            titleMock.Setup(x => x.GetSlotTypes(It.IsAny<TitleVersion>()))
+                .ReturnsAsync((TitleVersion titleId) => { return title.Slots; });
 
 
             return titleMock.Object;
@@ -482,7 +483,7 @@ namespace Whetstone.UnitTests
 
             smsHandler.Setup(x => x.SendOutboundSmsMessagesAsync(It.IsAny<OutboundBatchRecord>()))
                 .ReturnsAsync((OutboundBatchRecord outboundBatch) =>
-                { 
+                {
                     outboundBatch.AllSent = allSent;
                     ProcessSmsBatchFunc?.Invoke(outboundBatch);
                     return outboundBatch;
@@ -494,8 +495,8 @@ namespace Whetstone.UnitTests
 
         }
 
-        
-        internal static ITitleReader GetNewUserTitle(StoryRequest req,  string newUserNodeName)
+
+        internal static ITitleReader GetNewUserTitle(StoryRequest req, string newUserNodeName)
         {
 
             var titleReaderMock = new Mock<ITitleReader>();
@@ -571,7 +572,7 @@ namespace Whetstone.UnitTests
             return title;
         }
 
-        internal IServiceCollection InitServiceCollection( TitleVersion titleVer)
+        internal IServiceCollection InitServiceCollection(TitleVersion titleVer)
         {
 
             StoryTitle loadedTitle = LoadStoryTitle(titleVer);
@@ -631,7 +632,7 @@ namespace Whetstone.UnitTests
                 services.AddTransient<IAppMappingReader>(x => appMappingMock.Object);
             }
 
-      
+
             // Create Distributed Cache
 
             services.AddMemoryCache();
@@ -640,7 +641,7 @@ namespace Whetstone.UnitTests
 
             var providers = new LoggerProviderCollection();
 
-            Log.Logger = new LoggerConfiguration()   
+            Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Verbose()
                 .WriteTo.Console()
                 .WriteTo.Debug()
@@ -672,12 +673,12 @@ namespace Whetstone.UnitTests
 
 
 
-            services.Configure<SessionAuditConfig>( options =>
+            services.Configure<SessionAuditConfig>(options =>
             {
                 options.SessionAuditQueue = "sqsauditqueue";
             });
 
-            services.Configure<AuditClientMessagesConfig>( options =>
+            services.Configure<AuditClientMessagesConfig>(options =>
                 {
                     options.AuditClientMessages = true;
                 });
@@ -702,9 +703,9 @@ namespace Whetstone.UnitTests
 
 
             IStoryUserRepository storyUserRep = GetStoryUserRepository();
-          
 
-            services.AddSingleton<Func<UserRepositoryType,IStoryUserRepository>>(dispatcherFunc => key =>
+
+            services.AddSingleton<Func<UserRepositoryType, IStoryUserRepository>>(dispatcherFunc => key =>
             {
                 return storyUserRep;
             });
@@ -759,7 +760,7 @@ namespace Whetstone.UnitTests
             // Add this so we know what environment to access the queue in.
             IPhoneInfoRetriever phoneRetriever = MockFactory.GetPhoneTypeRetriever();
 
-           
+
 
             services.Configure<PhoneConfig>(options =>
             {
@@ -769,14 +770,14 @@ namespace Whetstone.UnitTests
 
 
 
-       
-                services.Configure<SmsStepFunctionHandlerConfig>( options =>
-                {
-                    options.ResourceName = "arn:aws:states:us-east-1:940085449815:stateMachine:SaveMessageTestFunctions";
 
-                });
+            services.Configure<SmsStepFunctionHandlerConfig>(options =>
+            {
+                options.ResourceName = "arn:aws:states:us-east-1:940085449815:stateMachine:SaveMessageTestFunctions";
 
-          
+            });
+
+
 
 
             var mockStepSender = new Mock<IStepFunctionSender>();
@@ -859,7 +860,7 @@ namespace Whetstone.UnitTests
 
 
             var twilioVerMock = new Mock<ITwilioVerifier>();
-            twilioVerMock.Setup(x => x.ValidateTwilioMessageAsync( It.IsAny<string>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<string>()))
+            twilioVerMock.Setup(x => x.ValidateTwilioMessageAsync(It.IsAny<string>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<IDictionary<string, string>>(), It.IsAny<string>()))
                 .ReturnsAsync(true);
 
             services.AddTransient<ITwilioVerifier>(x => twilioVerMock.Object);
@@ -873,7 +874,7 @@ namespace Whetstone.UnitTests
                 smsSenderMock.SetupGet(x => x.ProviderName).Returns(SmsSenderType.Twilio);
 
                 smsSenderMock.Setup(x => x.SendSmsMessageAsync(It.IsAny<SmsMessageRequest>()))
-                .ReturnsAsync(( SmsMessageRequest msgReq) =>
+                .ReturnsAsync((SmsMessageRequest msgReq) =>
                 {
                     OutboundMessageLogEntry logEntry = new OutboundMessageLogEntry();
                     return logEntry;
@@ -881,17 +882,17 @@ namespace Whetstone.UnitTests
                 });
 
                 return smsSenderMock.Object;
-               
+
             });
 
-            services.Configure<MessagingConfig>( options =>
+            services.Configure<MessagingConfig>(options =>
             {
                 options.MessageSendDelayInterval = 0;
                 options.ThrottleRetryLimit = 3;
             });
 
 
-           // string twilioKeyEntry = GetEncryptedValue("/storyengine/dev/twiliokeys");
+            // string twilioKeyEntry = GetEncryptedValue("/storyengine/dev/twiliokeys");
 
             string twilioKeyEntry = GetEncryptedValue();
 
@@ -918,7 +919,7 @@ namespace Whetstone.UnitTests
         {
             var sessionStoreMock = new Mock<ISessionStoreManager>();
 
-            Dictionary<string, int> badIntentCountStore = new Dictionary<string,int>();
+            Dictionary<string, int> badIntentCountStore = new Dictionary<string, int>();
 
             Dictionary<string, SessionStartType> startTypeStore = new Dictionary<string, SessionStartType>();
 
@@ -927,7 +928,7 @@ namespace Whetstone.UnitTests
                 {
                     int badIntentCount = 0;
                     string sessionId = req.SessionId;
-                    if(badIntentCountStore.ContainsKey(sessionId))
+                    if (badIntentCountStore.ContainsKey(sessionId))
                     {
                         badIntentCount = badIntentCountStore[sessionId];
                     }
@@ -960,7 +961,7 @@ namespace Whetstone.UnitTests
             sessionStoreMock.Setup(x => x.ResetBadIntentCounterAsync(It.IsAny<StoryRequest>()))
                .Callback((StoryRequest req) =>
                 {
-                  
+
                     string sessionId = req.SessionId;
                     if (badIntentCountStore.ContainsKey(sessionId))
                     {
@@ -969,7 +970,7 @@ namespace Whetstone.UnitTests
                     }
                     else
                     {
-                        badIntentCountStore.Add(sessionId,0);
+                        badIntentCountStore.Add(sessionId, 0);
                     }
 
                 }).Returns(Task.FromResult(0));
@@ -995,7 +996,7 @@ namespace Whetstone.UnitTests
 
                        string sessionId = req.SessionId;
 
-                       if(startTypeStore.ContainsKey(sessionId))
+                       if (startTypeStore.ContainsKey(sessionId))
                        {
                            startTypeStore[sessionId] = retType;
 
@@ -1014,7 +1015,7 @@ namespace Whetstone.UnitTests
                    .ReturnsAsync((StoryRequest req) =>
                    {
                        SessionStartType retType;
-                      
+
                        string sessionId = req.SessionId;
 
                        if (startTypeStore.ContainsKey(sessionId))

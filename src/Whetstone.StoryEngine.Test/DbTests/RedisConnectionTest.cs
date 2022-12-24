@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.Redis;
+﻿using Microsoft.Extensions.Caching.Redis;
 using StackExchange.Redis;
-using Xunit;
-using Whetstone.StoryEngine;
-using Whetstone.StoryEngine.ConfigurationExtensions;
+using System;
 using Whetstone.StoryEngine.Models.Serialization;
-using Whetstone.StoryEngine.Models.Story;
+using Xunit;
 
 namespace Whetstone.StoryEngine.Test.DbTests
 {
@@ -60,7 +50,7 @@ namespace Whetstone.StoryEngine.Test.DbTests
         //    }
         //}
 
-        
+
 
 
         private RedisCache GetSecuredCache()
@@ -74,7 +64,7 @@ namespace Whetstone.StoryEngine.Test.DbTests
                 EndPoints =
                  {
 
-                     
+
                      {"master.whe1h1z0hoh9gbbk.drbjq8.usw2.cache.amazonaws.com:6379"},
                      {"whe1h1z0hoh9gbbk-001.whe1h1z0hoh9gbbk.drbjq8.usw2.cache.amazonaws.com:6379"},
                      {"whe1h1z0hoh9gbbk-002.whe1h1z0hoh9gbbk.drbjq8.usw2.cache.amazonaws.com:6379"}
@@ -97,7 +87,7 @@ namespace Whetstone.StoryEngine.Test.DbTests
         }
 
 
-  
+
 
         [Fact]
         public void SerializeRedisSettings()
@@ -108,7 +98,7 @@ namespace Whetstone.StoryEngine.Test.DbTests
 
 
 
-           var  redisOpts = new ConfigurationOptions
+            var redisOpts = new ConfigurationOptions
             {
                 EndPoints =
                 {
@@ -120,7 +110,7 @@ namespace Whetstone.StoryEngine.Test.DbTests
 
             };
 
-           string yamlText = yamlSerializer.Serialize(redisOpts);
+            string yamlText = yamlSerializer.Serialize(redisOpts);
 
         }
 

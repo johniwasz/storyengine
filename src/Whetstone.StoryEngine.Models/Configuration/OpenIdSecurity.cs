@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Configuration
@@ -25,6 +22,6 @@ namespace Whetstone.StoryEngine.Models.Configuration
         [JsonProperty(PropertyName = "responseType")]
         [YamlMember(Alias = "responseType")]
         public string ResponseType { get; set; }
-        
+
     }
 }

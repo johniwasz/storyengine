@@ -1,17 +1,13 @@
+using Amazon.Lambda.APIGatewayEvents;
+using Amazon.Lambda.Core;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-
-using Amazon.Lambda.Core;
-using Amazon.Lambda.APIGatewayEvents;
-
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-
+using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Security;
-using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.SocketApi.Repository;
 
 
@@ -52,7 +48,7 @@ namespace Whetstone.StoryEngine.SocketApi.Auth
                 userId = _authorizer.GetValidUserIdFromAuthToken(authToken);
                 authorized = true;
             }
-            catch(TokenIsExpiredException)
+            catch (TokenIsExpiredException)
             {
                 _logger.LogError("Auth Token Expired Exception");
             }

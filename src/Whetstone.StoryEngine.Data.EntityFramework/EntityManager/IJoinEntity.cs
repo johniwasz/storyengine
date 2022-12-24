@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
+﻿namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
 {
     public interface IJoinEntity<TEntity>
     {

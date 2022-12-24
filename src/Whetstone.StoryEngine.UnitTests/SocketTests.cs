@@ -1,10 +1,7 @@
-﻿using System;
-using Xunit;
-
-using Whetstone.UnitTests;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using Whetstone.StoryEngine.SocketApi.Repository;
-
-using Microsoft.Extensions.DependencyInjection;
+using Xunit;
 
 namespace Whetstone.UnitTests
 {
@@ -39,7 +36,7 @@ namespace Whetstone.UnitTests
             long clientMsgId = 1L;
 
 
-            string message = String.Format("{{ \"message\": \"sendMessage\", \"authToken\": \"{0}\", \"clientMsgId\": {1}, \"data\": \"Hello Weird!\" }}", authToken, clientMsgId );
+            string message = String.Format("{{ \"message\": \"sendMessage\", \"authToken\": \"{0}\", \"clientMsgId\": {1}, \"data\": \"Hello Weird!\" }}", authToken, clientMsgId);
 
             ISocketResponse response = await socketHandler.OnReceiveMessage(userId, connectionId, message);
 

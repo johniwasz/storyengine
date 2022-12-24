@@ -1,15 +1,11 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models.Serialization
 {
 
-    public class DollarIdPreservingConverter<T> : JsonConverter where T: new()
+    public class DollarIdPreservingConverter<T> : JsonConverter where T : new()
     {
         public override bool CanConvert(Type objectType)
         {
@@ -43,7 +39,7 @@ namespace Whetstone.StoryEngine.Models.Serialization
                     serializer.ReferenceResolver.AddReference(serializer.Context, idGuid.ToString(), retObj);
                 }
 
-             
+
 
             }
 

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Whetstone.StoryEngine.ConfigUtilities.Models
 {
@@ -23,6 +21,6 @@ namespace Whetstone.StoryEngine.ConfigUtilities.Models
         /// List of name value pairs to send in the response.
         /// </summary>
         internal Dictionary<string, string> Data { get; set; }
-        
+
     }
 }

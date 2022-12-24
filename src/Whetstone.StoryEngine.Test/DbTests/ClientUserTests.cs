@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon;
+﻿using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
-using Amazon.Runtime.Internal;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Xunit;
 
 
@@ -59,14 +55,14 @@ namespace Whetstone.StoryEngine.Test.DbTests
                 }
 
 
-         
+
 
 
             }
 
         }
 
-        private async  Task ProcessShardIterator(string shardIterator)
+        private async Task ProcessShardIterator(string shardIterator)
         {
 
             GetRecordsRequest recordRequest = new GetRecordsRequest

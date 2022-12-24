@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
-using Amazon;
+﻿using Amazon;
 using Amazon.SimpleSystemsManagement;
 using Amazon.SimpleSystemsManagement.Model;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Nito.AsyncEx;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
 
 namespace Whetstone.StoryEngine.ConfigurationExtensions
 {
@@ -73,7 +73,7 @@ namespace Whetstone.StoryEngine.ConfigurationExtensions
 
             byte[] byteArray = Encoding.UTF8.GetBytes(paramValue);
             //byte[] byteArray = Encoding.ASCII.GetBytes(contents);
-          
+
             using (MemoryStream stream = new MemoryStream(byteArray))
             {
                 configData = parser.Parse(stream);

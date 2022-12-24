@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Whetstone.StoryEngine.Security.Claims
+﻿namespace Whetstone.StoryEngine.Security.Claims
 {
     public static class SoniBridgeClaimTypes
     {

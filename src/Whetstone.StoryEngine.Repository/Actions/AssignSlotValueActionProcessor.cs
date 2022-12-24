@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
@@ -27,7 +26,7 @@ namespace Whetstone.StoryEngine.Repository.Actions
             _titleReader = titleReader ?? throw new ArgumentNullException(nameof(titleReader));
 
 
-            
+
         }
 
 
@@ -38,7 +37,7 @@ namespace Whetstone.StoryEngine.Repository.Actions
             if (req == null)
                 throw new ArgumentNullException(nameof(req));
 
-            if(req.SessionContext?.TitleVersion ==null)
+            if (req.SessionContext?.TitleVersion == null)
                 throw new ArgumentNullException(nameof(req), "SessionContext.TitleVersion cannot be null");
 
             if (actionData == null)
@@ -121,13 +120,13 @@ namespace Whetstone.StoryEngine.Repository.Actions
 
             List<SelectedItem> selItems = new List<SelectedItem>();
 
-            foreach(IStoryCrumb crumb in crumbs)
+            foreach (IStoryCrumb crumb in crumbs)
             {
                 if (crumb is SelectedItem)
                     selItems.Add((SelectedItem)crumb);
             }
 
-            foreach(Match match in matches)
+            foreach (Match match in matches)
             {
                 string originalMatch = match.Value;
                 string formattedMatch = originalMatch.Substring(1, originalMatch.Length - 2);

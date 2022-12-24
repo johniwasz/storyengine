@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Story;
 
@@ -10,7 +7,7 @@ namespace Whetstone.StoryEngine.Data.Caching
     public interface ITitleCacheRepository
     {
 
-        Task<StoryTitle> GetStoryTitleAsync( TitleVersion titleVersion);
+        Task<StoryTitle> GetStoryTitleAsync(TitleVersion titleVersion);
 
         Task SetTitleVersionAsync(StoryTitle title);
 
@@ -26,7 +23,7 @@ namespace Whetstone.StoryEngine.Data.Caching
 
         Task SetAppMappingAsync(Client clientType, string clientAppId, TitleVersion titleVersion);
 
-        Task<TitleVersion> GetAppMappingAsync( Client clientType, string clientAppId, string alias);
+        Task<TitleVersion> GetAppMappingAsync(Client clientType, string clientAppId, string alias);
 
 
         /// <summary>

@@ -1,11 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
-using Whetstone.StoryEngine.Models.Data;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Whetstone.StoryEngine.Models.Data;
 
 namespace Whetstone.StoryEngine.Models.Serialization
 {

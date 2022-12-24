@@ -1,12 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Messaging;
 using Whetstone.StoryEngine.Models.Messaging.Sms;
-using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.OutboutSmsSender;
 using Whetstone.StoryEngine.Repository;
 using Whetstone.StoryEngine.Repository.Messaging;
 
@@ -20,7 +16,7 @@ namespace Whetstone.UnitTests
         {
         }
 
-        public static void SetupUnitTestSmsDependencies( IServiceCollection servCol )
+        public static void SetupUnitTestSmsDependencies(IServiceCollection servCol)
         {
             servCol.AddTransient<EmptySmsSender>();
 
@@ -31,20 +27,20 @@ namespace Whetstone.UnitTests
 
             var mocker = new MockFactory();
 
-            ISmsHandler smsHandlerMock =  mocker.GetSmsHandler(true);
+            ISmsHandler smsHandlerMock = mocker.GetSmsHandler(true);
 
             servCol.AddTransient<ISmsHandler>(x => smsHandlerMock);
 
-          //  servCol.AddTransient<SmsDirectSendHandler>(x => MockFactory.GetDirectSendMock(true));
+            //  servCol.AddTransient<SmsDirectSendHandler>(x => MockFactory.GetDirectSendMock(true));
 
-        //    SmsDirectSendHandler
+            //    SmsDirectSendHandler
 
 
 
         }
 
 #pragma warning disable CS1998
-        public async Task<OutboundMessageLogEntry> SendSmsMessageAsync( SmsMessageRequest messageRequest)
+        public async Task<OutboundMessageLogEntry> SendSmsMessageAsync(SmsMessageRequest messageRequest)
         {
 #pragma warning restore CS1998
             OutboundMessageLogEntry result = new OutboundMessageLogEntry();

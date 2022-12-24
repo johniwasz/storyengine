@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Whetstone.StoryEngine.Cache.DynamoDB
+﻿namespace Whetstone.StoryEngine.Cache.DynamoDB
 {
     public class DynamoDBCacheConfig
     {

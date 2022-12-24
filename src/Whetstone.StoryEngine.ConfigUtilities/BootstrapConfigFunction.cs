@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Amazon;
+﻿using Amazon;
 using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
 using Amazon.Lambda.Core;
@@ -12,7 +7,11 @@ using Amazon.SimpleSystemsManagement.Model;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
-using Org.BouncyCastle.Math.EC.Rfc7748;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.ConfigUtilities.ConfigUpdate;
 using Whetstone.StoryEngine.ConfigUtilities.Models;
 using Whetstone.StoryEngine.Models;
@@ -30,10 +29,10 @@ namespace Whetstone.StoryEngine.ConfigUtilities
     {
 
 
-        
 
-    internal override async Task<RequestProcessResponse> ProcessRequestAsync(ResourceRequestType requestType,
-            ConfigUpdateRequest configRequest, ILambdaLogger logger)
+
+        internal override async Task<RequestProcessResponse> ProcessRequestAsync(ResourceRequestType requestType,
+                ConfigUpdateRequest configRequest, ILambdaLogger logger)
         {
             RequestProcessResponse procResponse = new RequestProcessResponse
             {
@@ -123,7 +122,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities
                     configEntry.Value = null;
 
                 retResp = await UpdateConfiguration(bootConfig, configEntry, logger);
-                if (retResp.IsProcessed && retResp.Data!=null)
+                if (retResp.IsProcessed && retResp.Data != null)
                 {
                     if (retResp.Data.Keys.Any())
                     {
@@ -161,7 +160,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities
                 case ConfigEntryType.ReportBucket:
                     retReq = UpdateConfig(entry, logger, new Action<string>(configVal =>
                     {
-                        bootConfig.ReportBucket= configVal;
+                        bootConfig.ReportBucket = configVal;
                     }));
                     break;
                 case ConfigEntryType.TitleBucket:
@@ -186,7 +185,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities
                 case ConfigEntryType.SessionLoggerType:
                     retReq = UpdateEnumConfig<SessionLoggerType>(entry, logger, SessionLoggerType.Queue, (
                         configVal =>
-                        { 
+                        {
                             bootConfig.SessionLoggerType = configVal;
                         }));
                     break;
@@ -235,7 +234,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities
                         if (bootConfig.SmsConfig.TwilioConfig == null)
                             bootConfig.SmsConfig.TwilioConfig = new TwilioConfig();
 
-                        bootConfig.SmsConfig.TwilioConfig.TestCredentials= configVal;
+                        bootConfig.SmsConfig.TwilioConfig.TestCredentials = configVal;
                     }));
                     break;
                 case ConfigEntryType.TwilioSourceNumber:
@@ -266,7 +265,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities
                         if (bootConfig.OpenIdSecurity == null)
                             bootConfig.OpenIdSecurity = new OpenIdSecurity();
 
-                        bootConfig.OpenIdSecurity.ClientId= configVal;
+                        bootConfig.OpenIdSecurity.ClientId = configVal;
                     }));
                     break;
                 case ConfigEntryType.AdminApiMetadataAddress:
@@ -329,7 +328,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities
                         if (bootConfig.Security == null)
                             bootConfig.Security = new SecurityConfig();
 
-                        if(bootConfig.Security.Cognito == null)
+                        if (bootConfig.Security.Cognito == null)
                             bootConfig.Security.Cognito = new CognitoConfig();
 
                         bootConfig.Security.Cognito.UserPoolClientId = configVal;
@@ -451,7 +450,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities
 
         private async Task<string> GetCognitoClientSecretAsync(JArray configVal)
         {
-         
+
             // expecting two values
             if (configVal == null)
                 throw new ArgumentNullException(nameof(configVal));
@@ -495,7 +494,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities
             return retVal;
         }
 
-        private RequestProcessResponse UpdateConfig<T>(ConfigEntry entry, ILambdaLogger logger, Action<T> configUpdater) where T: class
+        private RequestProcessResponse UpdateConfig<T>(ConfigEntry entry, ILambdaLogger logger, Action<T> configUpdater) where T : class
         {
             RequestProcessResponse resp = new RequestProcessResponse();
             T configValue = default(T);
@@ -519,7 +518,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities
             resp.Data = new Dictionary<string, string>();
 
 
-            string configText = (string) (object) configValue;
+            string configText = (string)(object)configValue;
 
             if (string.IsNullOrWhiteSpace(configText))
             {
@@ -693,8 +692,8 @@ namespace Whetstone.StoryEngine.ConfigUtilities
         }
 
 
-    
-        
+
+
 
         private RequestProcessResponse UpdateCacheSlidingExpiration(BootstrapConfig bootConfig, dynamic value, ILambdaLogger logger)
         {
@@ -759,7 +758,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities
                 }
                 else if (value is string)
                 {
-                    if (bool.TryParse((string) value, out bool boolResult))
+                    if (bool.TryParse((string)value, out bool boolResult))
                     {
                         isCacheEnabledVal = boolResult;
                     }
@@ -827,8 +826,8 @@ namespace Whetstone.StoryEngine.ConfigUtilities
                 logger.Log($"Setting DynamoDbCacheTable entry to {cacheTableVal}");
                 resp.Data.Add(ConfigEntryType.DynamoDbCacheTable.ToString(), cacheTableVal);
             }
-         
-            if(bootConfig.CacheConfig== null)
+
+            if (bootConfig.CacheConfig == null)
                 bootConfig.CacheConfig = new CacheConfig();
 
             bootConfig.CacheConfig.DynamoDBTableName = cacheTableVal;
@@ -862,23 +861,23 @@ namespace Whetstone.StoryEngine.ConfigUtilities
             });
 
 
-             var storeLogger = logFactory.CreateLogger<ParameterStoreReader>();
+            var storeLogger = logFactory.CreateLogger<ParameterStoreReader>();
 
 
             IParameterStoreReader paramReader = new ParameterStoreReader(envOpts, storeLogger);
 
             logger.LogLine($"Getting parameter {paramName}");
 
-            string paramValue = await  paramReader.GetValueAsync(paramName);
+            string paramValue = await paramReader.GetValueAsync(paramName);
 
             if (!string.IsNullOrWhiteSpace(paramValue))
             {
-                var yamlDeser  = YamlSerializationBuilder.GetYamlDeserializer();
+                var yamlDeser = YamlSerializationBuilder.GetYamlDeserializer();
 
-          
+
                 configVal = yamlDeser.Deserialize<BootstrapConfig>(paramValue);
 
-               
+
 
                 logger.LogLine($"Deserialized parameter {paramName}");
             }
@@ -911,7 +910,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities
 
 
             if (!string.IsNullOrWhiteSpace(keyId))
-            { 
+            {
                 putReq.Type = ParameterType.SecureString;
                 putReq.KeyId = keyId;
             }
@@ -920,7 +919,7 @@ namespace Whetstone.StoryEngine.ConfigUtilities
 
             try
             {
-               PutParameterResponse putResp = null;
+                PutParameterResponse putResp = null;
                 RegionEndpoint region = StoryEngine.ContainerSettingsReader.GetAwsDefaultEndpoint();
                 using (var ssmClient = new AmazonSimpleSystemsManagementClient(region))
                 {

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.IO.Compression;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Data
 {
@@ -13,7 +10,7 @@ namespace Whetstone.StoryEngine.Data
             byte[] bytes = null;
             using (var stream = entry.Open())
             {
-              
+
                 using (var ms = new MemoryStream())
                 {
                     stream.CopyTo(ms);
@@ -23,7 +20,7 @@ namespace Whetstone.StoryEngine.Data
             return bytes;
         }
 
-        
+
         internal static string ToText(this ZipArchiveEntry entry)
         {
 

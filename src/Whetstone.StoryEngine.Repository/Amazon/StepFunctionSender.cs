@@ -1,13 +1,12 @@
-﻿using Newtonsoft.Json;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
+﻿using Amazon;
 using Amazon.StepFunctions;
 using Amazon.StepFunctions.Model;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using System;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Configuration;
-using Amazon;
 
 namespace Whetstone.StoryEngine.Repository.Amazon
 {
@@ -40,7 +39,7 @@ namespace Whetstone.StoryEngine.Repository.Amazon
             executionRequest.StateMachineArn = stepFunctionName;
             executionRequest.Name = Guid.NewGuid().ToString();
             executionRequest.Input = JsonConvert.SerializeObject(message);
-           
+
             try
             {
                 using (AmazonStepFunctionsClient stepFunctionClient = new AmazonStepFunctionsClient(_endpoint))

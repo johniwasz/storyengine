@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.Data
 {
-    public interface IIntentRepository 
+    public interface IIntentRepository
     {
 
         void AddOrUpdate(List<Intent> intents);
 
-       // Task AddOrUpdateAsync(List<Intent> intents);
+        // Task AddOrUpdateAsync(List<Intent> intents);
 
 
         Task CreateAsync(Intent intents);

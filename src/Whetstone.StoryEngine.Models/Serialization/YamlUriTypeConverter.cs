@@ -1,7 +1,5 @@
 ﻿
 using System;
-using System.Collections.Generic;
-using System.Text;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
@@ -28,7 +26,7 @@ namespace Whetstone.StoryEngine.Models.Serialization
             else
             {
                 string rawText = scalar.Value;
-          
+
                 return new Uri(rawText);
             }
         }
@@ -37,12 +35,12 @@ namespace Whetstone.StoryEngine.Models.Serialization
         {
             Uri outUri = value as Uri;
 
-            if(outUri!=null)
+            if (outUri != null)
             {
 
                 Scalar newQuote = new Scalar(outUri.ToString());
 
-                emitter.Emit(new Scalar(newQuote.Anchor, newQuote.Tag, newQuote.Value, ScalarStyle.SingleQuoted,newQuote.IsPlainImplicit, newQuote.IsQuotedImplicit));
+                emitter.Emit(new Scalar(newQuote.Anchor, newQuote.Tag, newQuote.Value, ScalarStyle.SingleQuoted, newQuote.IsPlainImplicit, newQuote.IsQuotedImplicit));
 
             }
         }

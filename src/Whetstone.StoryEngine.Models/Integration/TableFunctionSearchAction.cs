@@ -1,10 +1,7 @@
 ﻿using Newtonsoft.Json;
-using Whetstone.StoryEngine.Models.Actions;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using System.Text;
+using Whetstone.StoryEngine.Models.Actions;
 using YamlDotNet.Serialization;
 
 namespace Whetstone.StoryEngine.Models.Integration
@@ -40,7 +37,7 @@ namespace Whetstone.StoryEngine.Models.Integration
         [DataMember]
         public string FunctionName { get; set; }
 
-        
+
         /// <summary>
         /// The name to reference in speech fragments when processing the search result.
         /// </summary>

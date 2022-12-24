@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Amazon.Runtime;
-using System.Text;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using System;
+using System.Diagnostics;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Messaging.Sms;
-using Amazon.XRay.Recorder.Core;
 
 namespace Whetstone.StoryEngine.DependencyInjection
 {
@@ -166,7 +161,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
                 isEnabled = isEnabledResult;
             }
 
-            
+
             config.IsEnabled = isEnabled;
 
             int slidingSeconds = GetIntConfig(configuration, CACHESLIDINGCONFIG);
@@ -186,7 +181,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
 
 
             string cacheEngineTimeoutText = configuration[MAXCACHEENGINETIMEOUTCONFIG];
-            if(int.TryParse(cacheEngineTimeoutText, out int engineTimeout))
+            if (int.TryParse(cacheEngineTimeoutText, out int engineTimeout))
             {
                 config.EngineTimeout = engineTimeout;
             }
@@ -263,6 +258,6 @@ namespace Whetstone.StoryEngine.DependencyInjection
 
         protected abstract void ConfigureServices(IServiceCollection services, IConfiguration config,
             BootstrapConfig bootConfig);
-       
+
     }
 }

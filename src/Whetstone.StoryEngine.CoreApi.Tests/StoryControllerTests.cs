@@ -2,16 +2,13 @@
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.TestUtilities;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace Whetstone.StoryEngine.CoreApi.Tests
 {
-    public  class StoryControllerTests : CoreApiTestBase
+    public class StoryControllerTests : CoreApiTestBase
     {
         [Fact]
         public async Task GetTestFile()

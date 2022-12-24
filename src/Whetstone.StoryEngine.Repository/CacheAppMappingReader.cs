@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using Amazon.RDS.Model;
-using Microsoft.Extensions.Caching.Memory;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Data.Caching;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Story;
-using Microsoft.Extensions.Options;
 
 namespace Whetstone.StoryEngine.Repository
 {
@@ -16,7 +11,7 @@ namespace Whetstone.StoryEngine.Repository
     {
 
         private readonly ITitleCacheRepository _titleCacheRep;
-  
+
         //private static InMe
 
         public CacheAppMappingReader(ITitleCacheRepository titleCacheRep)
@@ -35,7 +30,7 @@ namespace Whetstone.StoryEngine.Repository
         /// <returns></returns>
         public async Task<TitleVersion> GetTitleAsync(Client clientType, string appId, string alias)
         {
-            TitleVersion titleVer = await  _titleCacheRep.GetAppMappingAsync(clientType, appId, alias);
+            TitleVersion titleVer = await _titleCacheRep.GetAppMappingAsync(clientType, appId, alias);
             return titleVer;
         }
     }

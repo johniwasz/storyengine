@@ -2,19 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Actions;
+using Whetstone.StoryEngine.Models.Conditions;
+using Whetstone.StoryEngine.Models.Data;
 using Whetstone.StoryEngine.Models.Messaging;
 using Whetstone.StoryEngine.Models.Messaging.Sms;
 using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.Models.Tracking;
-using Whetstone.StoryEngine.Models.Conditions;
-using Whetstone.StoryEngine.Models.Data;
 using Whetstone.StoryEngine.Models.Story.Text;
+using Whetstone.StoryEngine.Models.Tracking;
 using Whetstone.StoryEngine.Repository.Messaging;
 using Whetstone.StoryEngine.Repository.Phone;
 
@@ -28,7 +27,7 @@ namespace Whetstone.StoryEngine.Repository.Actions
         private readonly ITitleReader _titleReader;
         private readonly IPhoneInfoRetriever _phoneTypeRetriever;
         private readonly ISmsConsentRepository _consentRep;
-     
+
 
         public PhoneMessageActionProcessor(ITitleReader titleReader,
                                                 Func<NotificationsDispatchTypeEnum, INotificationDispatcher> dispatcherFunc,
@@ -37,9 +36,9 @@ namespace Whetstone.StoryEngine.Repository.Actions
                                                 ILogger<PhoneMessageActionProcessor> logger)
         {
             _titleReader = titleReader ?? throw new ArgumentNullException(nameof(titleReader));
-           
+
             _phoneTypeRetriever = phoneTypeRetriever ?? throw new ArgumentNullException(nameof(phoneTypeRetriever));
-            _dispatcherFunc= dispatcherFunc ?? throw new ArgumentNullException(nameof(dispatcherFunc));
+            _dispatcherFunc = dispatcherFunc ?? throw new ArgumentNullException(nameof(dispatcherFunc));
             _consentRep = consentRepo ??
                           throw new ArgumentNullException(nameof(consentRepo));
 
@@ -54,7 +53,7 @@ namespace Whetstone.StoryEngine.Repository.Actions
             if (req == null)
                 throw new ArgumentNullException(nameof(req));
 
-            if(req.SessionContext?.TitleVersion == null)
+            if (req.SessionContext?.TitleVersion == null)
                 throw new ArgumentNullException(nameof(req), "SessionContext.TitleVersion cannot be null");
 
             if (crumbs == null)
@@ -70,14 +69,15 @@ namespace Whetstone.StoryEngine.Repository.Actions
 
             if (phoneTitleInfo == null)
             {
-                StoryPhoneInfo storyPhone = await _titleReader.GetPhoneInfoAsync( req.SessionContext.TitleVersion);
+                StoryPhoneInfo storyPhone = await _titleReader.GetPhoneInfoAsync(req.SessionContext.TitleVersion);
 
                 if (storyPhone == null)
                     throw new Exception($"Story title {req.SessionContext.TitleVersion.ShortName} version {req.SessionContext.TitleVersion.Version} does not include phone info for sending messages");
 
                 phoneTitleInfo = new PhoneInfo
                 {
-                    SmsService = storyPhone.SmsService, SourcePhone = storyPhone.SourcePhone
+                    SmsService = storyPhone.SmsService,
+                    SourcePhone = storyPhone.SourcePhone
                 };
 
             }
@@ -91,8 +91,8 @@ namespace Whetstone.StoryEngine.Repository.Actions
 
             if (string.IsNullOrWhiteSpace(phoneData.PhoneNumberSlot))
                 throw new Exception("Phone message action could not be executed. Phone number slot name not provided.");
-            
-          
+
+
             SelectedItem phoneItem = selItems.FirstOrDefault(x => x.Name.Equals(phoneData.PhoneNumberSlot, StringComparison.OrdinalIgnoreCase));
 
             if (phoneItem == null)
@@ -102,7 +102,7 @@ namespace Whetstone.StoryEngine.Repository.Actions
                 throw new Exception($"Phone slot {phoneData.PhoneNumberSlot} found, but phone number value is missing.");
 
             phoneNumber = phoneItem.Value;
-            
+
 
             // Grab Application, user, session and request ids from the incoming request
 
@@ -152,11 +152,11 @@ namespace Whetstone.StoryEngine.Repository.Actions
         {
 
 
-            DataPhone destPhone = await _phoneTypeRetriever.GetPhoneInfoAsync( formattedNumber);
+            DataPhone destPhone = await _phoneTypeRetriever.GetPhoneInfoAsync(formattedNumber);
 
-            if(!destPhone.Id.HasValue)
+            if (!destPhone.Id.HasValue)
                 destPhone.Id = Guid.NewGuid();
-            
+
 
             // If we got here, then the user has granted consent. Record it.
             UserPhoneConsent phoneConsent = new UserPhoneConsent
@@ -216,25 +216,25 @@ namespace Whetstone.StoryEngine.Repository.Actions
                             await MacroProcessing.ProcessTextFragmentMacrosAsync(phoneMessage.Message, selItems,
                                 _logger);
 
-                        if(notificationRequest.TextMessages==null)
+                        if (notificationRequest.TextMessages == null)
                             notificationRequest.TextMessages = new List<TextFragmentBase>();
 
-                        if(!string.IsNullOrWhiteSpace(sendText))
-                            notificationRequest.TextMessages.Add(new SimpleTextFragment(sendText));                   
+                        if (!string.IsNullOrWhiteSpace(sendText))
+                            notificationRequest.TextMessages.Add(new SimpleTextFragment(sendText));
 
                         if ((phoneMessage.Tags?.Any()).GetValueOrDefault(false))
                         {
-                            if(notificationRequest.Tags == null)
+                            if (notificationRequest.Tags == null)
                                 notificationRequest.Tags = new Dictionary<string, string>();
 
-                            foreach (var  sourceKey in phoneMessage.Tags.Keys)
+                            foreach (var sourceKey in phoneMessage.Tags.Keys)
                             {
                                 notificationRequest.Tags.Add(sourceKey, phoneMessage.Tags[sourceKey]);
                             }
                         }
 
 
-                        if(isPrivacyEnabled)
+                        if (isPrivacyEnabled)
                             phoneActionBuilder.AppendLine(
                               $"Queueing message to destination number {notificationRequest.DestinationNumberId} from {notificationRequest.SourceNumber}: (sendtext redacted)");
                         else
@@ -243,7 +243,7 @@ namespace Whetstone.StoryEngine.Repository.Actions
                     }
                     else
                     {
-                        if(isPrivacyEnabled)
+                        if (isPrivacyEnabled)
                             phoneActionBuilder.AppendLine(
                                 $"Conditions not met. Message is not being sent to phone number {notificationRequest.DestinationNumberId} from {notificationRequest.SourceNumber}: (sendtext redacted)");
                         else

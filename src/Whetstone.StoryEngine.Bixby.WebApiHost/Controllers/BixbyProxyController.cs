@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Amazon.Lambda.APIGatewayEvents;
+﻿using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.TestUtilities;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Whetstone.StoryEngine.Bixby.WebApiHost;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Whetstone.StoryEngine.Bixby.LambdaHost;
 using Whetstone.StoryEngine.Bixby.Repository.Models;
 
@@ -22,7 +18,7 @@ namespace Whetstone.StoryEngine.Bixby.WebApiHost.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task<object> PostAsync([FromBody] [ModelBinder(typeof(WebhookBinder))] BixbyRequest_V1 value)
+        public async Task<object> PostAsync([FromBody][ModelBinder(typeof(WebhookBinder))] BixbyRequest_V1 value)
         {
 
             APIGatewayProxyRequest proxyRequest = new APIGatewayProxyRequest

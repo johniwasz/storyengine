@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Data.DependencyInjection;
 using Whetstone.StoryEngine.Data.EntityFramework;
 using Whetstone.StoryEngine.DependencyInjection;
 using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.Repository.Messaging;
 
 namespace Whetstone.Queue.SessionLogger.Repository
 {
@@ -24,7 +20,7 @@ namespace Whetstone.Queue.SessionLogger.Repository
 
             DataBootstrapping.ConfigureDatabaseService(services, dbConfig);
 
-            services.AddTransient<ISessionLogger,SessionDataLogger>();
+            services.AddTransient<ISessionLogger, SessionDataLogger>();
 
             services.AddTransient<IQueueSessionProcessor, QueueSessionProcessor>();
 

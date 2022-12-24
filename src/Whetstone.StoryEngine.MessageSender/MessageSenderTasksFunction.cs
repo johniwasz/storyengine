@@ -1,21 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using Amazon.Lambda.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Whetstone.StoryEngine.Data.DependencyInjection;
+using Whetstone.StoryEngine.Data.EntityFramework;
 using Whetstone.StoryEngine.DependencyInjection;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Messaging;
 using Whetstone.StoryEngine.Models.Messaging.Sms;
 using Whetstone.StoryEngine.Repository;
 using Whetstone.StoryEngine.Repository.Messaging;
-using Whetstone.StoryEngine.Data.DependencyInjection;
 using Whetstone.StoryEngine.Repository.Phone;
-using Whetstone.StoryEngine.Data.EntityFramework;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Whetstone.StoryEngine.Serialization.ShallowJsonSerializer))]
@@ -24,7 +23,7 @@ namespace Whetstone.StoryEngine.MessageSender
     public class MessageSenderTasksFunction : EngineLambdaBase
     {
 
-     
+
 
 
         /// <summary>
@@ -131,7 +130,7 @@ namespace Whetstone.StoryEngine.MessageSender
 
         protected override void ConfigureServices(IServiceCollection services, IConfiguration config)
         {
-         
+
             BootstrapConfig bootConfig = Configuration.Get<BootstrapConfig>();
 
             DatabaseConfig dbConfig = bootConfig.DatabaseSettings;

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Models;
 
@@ -71,7 +69,7 @@ namespace Whetstone.StoryEngine.Repository
                 retType = SessionStartType.LaunchStart;
 
             }
-                
+
             context.SessionStartType = retType;
 
             return retType;

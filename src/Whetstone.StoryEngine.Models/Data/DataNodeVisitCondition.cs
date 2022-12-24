@@ -1,18 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using Newtonsoft.Json;
-using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.Models.Tracking;
 
 namespace Whetstone.StoryEngine.Models.Data
 {
-  
+
     [JsonObject()]
     [DataContract]
     [DebuggerDisplay("Name = {Name}; Id = {Id}")]
@@ -53,11 +48,11 @@ namespace Whetstone.StoryEngine.Models.Data
         public ICollection<DataNodeVisitConditionXRef> NodeVisitConditionXRefs { get; set; }
 
 
-       
+
         private List<FragmentNodeVisitConditionXRef> FragmentNodeVisitConditionXRefs { get; } = new List<FragmentNodeVisitConditionXRef>();
-        
-        
-        public ICollection<DataConditionalFragment> ConditionalFragments { get; set;  }
+
+
+        public ICollection<DataConditionalFragment> ConditionalFragments { get; set; }
 
 
 

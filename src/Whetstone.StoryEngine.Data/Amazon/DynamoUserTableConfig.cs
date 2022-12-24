@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Whetstone.StoryEngine.Data.Amazon
+﻿namespace Whetstone.StoryEngine.Data.Amazon
 {
     public class DynamoUserTableConfig
     {

@@ -1,8 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Whetstone.StoryEngine.Models.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models.Tracking
 {
@@ -13,7 +10,7 @@ namespace Whetstone.StoryEngine.Models.Tracking
     [JsonConverter(typeof(JsonStoryCrumbConverter))]
     public interface IStoryCrumb
     {
-       
+
 
     }
 }

@@ -1,20 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
 using Npgsql;
-using System.Linq;
 using System;
 using System.Collections.Generic;
-using Whetstone.StoryEngine.Data;
-using System.Threading.Tasks;
-using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Models.Data;
-using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.Data.Caching;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using Whetstone.StoryEngine.Data.Caching;
+using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Admin;
+using Whetstone.StoryEngine.Models.Data;
 using Whetstone.StoryEngine.Models.Serialization;
+using Whetstone.StoryEngine.Models.Story;
 
 namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
 {
@@ -23,7 +21,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
 
         private readonly IFileRepository _fileRep = null;
 
-        public DataTitleVersionRepository( IUserContextRetriever userContextRetriever,
+        public DataTitleVersionRepository(IUserContextRetriever userContextRetriever,
             ITitleCacheRepository titleCacheRep,
             IFileRepository fileRep) : base(userContextRetriever, titleCacheRep)
         {
@@ -31,11 +29,11 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
         }
 
 
-        
+
 
         public async Task CreateOrUpdateVersionAsync(StoryTitle title)
         {
-         
+
 
             if (title == null)
                 throw new ArgumentNullException(nameof(title));
@@ -89,7 +87,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
 
         private async Task CreateOrUpdateSimpleVersionAsync(Guid titleId, string titleName, string version, string description)
         {
-            if(string.IsNullOrWhiteSpace(titleName))
+            if (string.IsNullOrWhiteSpace(titleName))
                 throw new ArgumentNullException(nameof(titleName));
 
 
@@ -97,7 +95,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
                 throw new ArgumentNullException(nameof(version));
 
 
-         
+
             DataTitleVersion dataVersion = await GetVersionDataAsync(titleName, version);
             if (dataVersion != null)
             {
@@ -146,7 +144,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
             {
 
                 // The title exists. Now we will check if the version exists. 
-                DataTitleVersion dataVersion = await GetVersionDataAsync( publishRequest.TitleName, publishRequest.Version);
+                DataTitleVersion dataVersion = await GetVersionDataAsync(publishRequest.TitleName, publishRequest.Version);
 
                 Guid dataVersionId;
                 if (dataVersion == null)
@@ -158,7 +156,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
 
                     try
                     {
-                      
+
                         dataVersionId = await CreateOrUpdateVersionAsync(dataVersion);
                     }
                     catch (Exception ex)
@@ -180,7 +178,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
                 try
                 {
 
-                 
+
                     using (IUserDataContext userContext = await UserContextRetriever.GetUserDataContextAsync())
                     {
 
@@ -239,7 +237,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
 
                 if (newDeployment?.Id != null)
                 {
-                    await UpdateAppMappingAsync(publishRequest.ClientType,publishRequest.ClientId, newDeployment.Alias,
+                    await UpdateAppMappingAsync(publishRequest.ClientType, publishRequest.ClientId, newDeployment.Alias,
                         newDeployment.Id.Value);
 
                 }
@@ -279,16 +277,16 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
             }
 
 
-           
+
             using (IUserDataContext userContext = await UserContextRetriever.GetUserDataContextAsync())
             {
 
-            
+
 
                 var titleFound = await userContext.TitleVersionDeployments.Join(userContext.TitleVersions,
                         dtv => dtv.VersionId,
                         tv => tv.Id,
-                       (dtv, tv) => new TitleVersionCombo () { TitleVersionDeployment = dtv, TitleVersion = tv})
+                       (dtv, tv) => new TitleVersionCombo() { TitleVersionDeployment = dtv, TitleVersion = tv })
                     .Where(dtvFunc)
                     .Join(userContext.Titles,
                         dtv_tv => dtv_tv.TitleVersion.TitleId,
@@ -325,7 +323,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
                     };
 
                     // Update the title version in the cache.
-                    await UpdateAppMappingAsync(clientType, clientAppId,  retTitle);
+                    await UpdateAppMappingAsync(clientType, clientAppId, retTitle);
                 }
             }
         }
@@ -357,14 +355,14 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
                     await userContext.SaveChangesAsync();
                 }
             }
-            catch(DbUpdateException updateEx )
+            catch (DbUpdateException updateEx)
             {
-                if(updateEx.InnerException == null)
+                if (updateEx.InnerException == null)
                 {
                     throw;
                 }
 
-                if(updateEx.InnerException is PostgresException)
+                if (updateEx.InnerException is PostgresException)
                 {
                     PostgresException postEx = (PostgresException)updateEx.InnerException;
                     if (postEx.SqlState.Equals(UserDataContext.POSTGESQL_CODE_DUPLICATEKEY))
@@ -373,7 +371,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
                     }
 
                 }
-               
+
                 throw;
             }
 
@@ -388,7 +386,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
 
         public async Task<List<DataTitleVersionDeployment>> GetDeploymentsAsync(Guid versionId)
         {
-            List<DataTitleVersionDeployment> deployments= null;
+            List<DataTitleVersionDeployment> deployments = null;
             try
             {
                 using (IUserDataContext userContext = await UserContextRetriever.GetUserDataContextAsync())
@@ -413,7 +411,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
             Guid? dataVersionId = null;
             using (IUserDataContext userContext = await UserContextRetriever.GetUserDataContextAsync())
             {
-                DataTitleVersion foundVersion = await userContext.TitleVersions.SingleOrDefaultAsync(x =>                 
+                DataTitleVersion foundVersion = await userContext.TitleVersions.SingleOrDefaultAsync(x =>
                 x.Version.ToLower().Equals(version.ToLower()));
 
                 if (foundVersion != null)
@@ -430,7 +428,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
             if (string.IsNullOrWhiteSpace(titleName))
                 throw new ArgumentNullException(nameof(titleName));
 
-            if(string.IsNullOrWhiteSpace(version))
+            if (string.IsNullOrWhiteSpace(version))
                 throw new ArgumentNullException(nameof(version));
 
 
@@ -440,19 +438,19 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
 
             TitleVersion titleVer = new TitleVersion(titleName, version);
 
-            await _fileRep.DeleteTitleAsync( titleVer);
+            await _fileRep.DeleteTitleAsync(titleVer);
 
             await TitleCacheRep.RemoveTitleVersionAsync(titleVer, true);
 
-            if (dataTitle!=null)
+            if (dataTitle != null)
             {
-              
+
                 using (var userContext = await UserContextRetriever.GetUserDataContextAsync())
                 {
                     dataTitle.IsDeleted = true;
                     dataTitle.DeleteDate = DateTime.UtcNow;
                     userContext.TitleVersions.AddOrUpdate(dataTitle);
-                     await userContext.SaveChangesAsync();
+                    await userContext.SaveChangesAsync();
                 }
             }
             else
@@ -466,10 +464,10 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
             using (var userContext = await UserContextRetriever.GetUserDataContextAsync())
             {
 
-                var foundDeployments =  userContext.TitleVersionDeployments.Join(userContext.TitleVersions,
+                var foundDeployments = userContext.TitleVersionDeployments.Join(userContext.TitleVersions,
                         dtv => dtv.VersionId,
                         tv => tv.Id,
-                        (dtv, tv) => new {TitleVersionDeployment = dtv, TitleVerion = tv})
+                        (dtv, tv) => new { TitleVersionDeployment = dtv, TitleVerion = tv })
                     .Where(dtv_tv => !dtv_tv.TitleVersionDeployment.IsDeleted)
                     .Join(userContext.Titles,
                         dtv_tv => dtv_tv.TitleVerion.TitleId,
@@ -522,11 +520,11 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
 
             StoryTitle sourceTitle = null;
             TitleVersion sourceVer = null;
-           
+
             if (string.IsNullOrWhiteSpace(sourceVersion))
             {
                 // Get the root version
-                sourceVer = new TitleVersion(titleId, null);               
+                sourceVer = new TitleVersion(titleId, null);
             }
             else
             {
@@ -537,31 +535,31 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
             {
                 sourceTitle = await _fileRep.GetTitleContentsAsync(sourceVer);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new TitleNotFoundException($"Source title {titleId} and version {sourceVersion} not found", ex);
             }
 
             // Create the title if it doesn't already exist.
-            DataTitle dataTitle =  await CreateOrUpdateTitleAsync(sourceTitle.DataTitleId, sourceTitle.Id, sourceTitle.Title, sourceTitle.Description);
+            DataTitle dataTitle = await CreateOrUpdateTitleAsync(sourceTitle.DataTitleId, sourceTitle.Id, sourceTitle.Title, sourceTitle.Description);
 
             sourceTitle.DataTitleId = dataTitle.Id;
 
 
             // Create or update the data version
 
-  
+
             DataTitleVersion sourceDataTitleVersion = await GetVersionDataAsync(titleId, sourceVersion);
             string versionDescription = null;
 
 
             // Apply the version description to indicate it was cloned
-            string sourceVersionText =string.IsNullOrWhiteSpace(sourceVersion) ? "root" : sourceVersion;
+            string sourceVersionText = string.IsNullOrWhiteSpace(sourceVersion) ? "root" : sourceVersion;
 
 
             if (sourceDataTitleVersion == null)
             {
-            
+
                 versionDescription = $"Cloned from {sourceVersionText}";
             }
             else
@@ -576,8 +574,8 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
 
             // Does the version exist?
             TitleVersion destVer = new TitleVersion(titleId, destVersion);
-           
-            DataTitleVersion titleVersion = await GetVersionDataAsync( titleId, destVersion);
+
+            DataTitleVersion titleVersion = await GetVersionDataAsync(titleId, destVersion);
             Guid versionGuid;
 
             if (titleVersion == null)
@@ -587,7 +585,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
                 destDataVersion.Version = destVersion;
                 destDataVersion.Description = versionDescription;
 
-            
+
                 versionGuid = await CreateOrUpdateVersionAsync(destDataVersion);
             }
             else
@@ -599,10 +597,10 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
             // Save the source title to the file location
             sourceTitle.Version = destVersion;
 
-            await _fileRep.StoreTitleAsync( sourceTitle);
+            await _fileRep.StoreTitleAsync(sourceTitle);
 
             // Copy audio and image files.
-            await _fileRep.CopyMediaFilesAsync( sourceTitle.Id, sourceVersion, destVersion);
+            await _fileRep.CopyMediaFilesAsync(sourceTitle.Id, sourceVersion, destVersion);
 
             // Add the cloned title to cache
             await TitleCacheRep.SetTitleVersionAsync(sourceTitle);
@@ -624,10 +622,10 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
 
             // remove versions and deployments in the database.      
 
-            DataTitleVersion foundVersion = await GetVersionDataAsync( titleName, version, true);
+            DataTitleVersion foundVersion = await GetVersionDataAsync(titleName, version, true);
 
             if (foundVersion != null)
-            {           
+            {
                 using (var userContext = await UserContextRetriever.GetUserDataContextAsync())
                 {
                     userContext.TitleVersionDeployments.RemoveRange(
@@ -647,9 +645,9 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
         }
 
 
-        public async Task<byte[]> ExportToZip( TitleVersion titleVer)
+        public async Task<byte[]> ExportToZip(TitleVersion titleVer)
         {
-            StoryTitle title = await _fileRep.GetTitleContentsAsync( titleVer);
+            StoryTitle title = await _fileRep.GetTitleContentsAsync(titleVer);
 
             if (title == null)
                 throw new TitleNotFoundException($"Title {titleVer.ShortName} and version {titleVer.Version}");
@@ -723,19 +721,22 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
             using (var userContext = await UserContextRetriever.GetUserDataContextAsync())
             {
                 var foundDeployment =
-                  await   userContext.TitleVersionDeployments.Where(tvd => tvd.Id.Equals(deploymentId) && !tvd.IsDeleted)
+                  await userContext.TitleVersionDeployments.Where(tvd => tvd.Id.Equals(deploymentId) && !tvd.IsDeleted)
                         .Join(userContext.TitleVersions,
                             tvd => tvd.VersionId,
                             tv => tv.Id,
                             (tvd, tv) => new
                             {
-                                TitleVersionId = tv.Id,  tv.TitleId, DeploymentId = tvd.Id,  tvd.Alias,
+                                TitleVersionId = tv.Id,
+                                tv.TitleId,
+                                DeploymentId = tvd.Id,
+                                tvd.Alias,
                                 tvd.Client
                             })
                         .Join(userContext.Titles, joinObj => joinObj.TitleId, t => t.Id,
-                            (joinObj, t) => 
+                            (joinObj, t) =>
                                 new
-                                    { TitleId = t.Id.Value, ShortName = t.Title, joinObj.Alias,  joinObj.DeploymentId, VersionId = joinObj.TitleVersionId.Value }).SingleOrDefaultAsync();
+                                { TitleId = t.Id.Value, ShortName = t.Title, joinObj.Alias, joinObj.DeploymentId, VersionId = joinObj.TitleVersionId.Value }).SingleOrDefaultAsync();
 
 
                 if (foundDeployment != null)
@@ -756,7 +757,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
 
         }
 
-        
+
 
 
         public async Task<TitleVersionConfiguration> GetVersionConfigurationAsync(string titleId, string version)
@@ -784,7 +785,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
 
             try
             {
-              
+
                 using (var userContext = await UserContextRetriever.GetUserDataContextAsync())
                 {
                     var foundVersion =
@@ -803,7 +804,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
                                     tv.DeleteDate,
                                     tv.Version
 
-                                }).Where(x=> x.Version.Equals(version))
+                                }).Where(x => x.Version.Equals(version))
                             .SingleOrDefaultAsync();
 
 
@@ -848,19 +849,19 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
             if (updateVersionConfigReq == null)
                 throw new ArgumentNullException(nameof(updateVersionConfigReq));
 
-          
+
             DataTitleVersion dataTitleVer = null;
 
             try
             {
-                
+
                 // Get the title version requests
                 dataTitleVer = await GetVersionDataAsync(titleName, version);
             }
             catch (Exception ex)
             {
                 throw new Exception(
-                    $"Error getting version {version} for title {titleName} while attempting to update the configuration",ex);
+                    $"Error getting version {version} for title {titleName} while attempting to update the configuration", ex);
             }
 
 
@@ -891,7 +892,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
                 {
                     try
                     {
-                       
+
                         using (var userContext = await UserContextRetriever.GetUserDataContextAsync())
                         {
                             userContext.TitleVersions.Attach(dataTitleVer);
@@ -915,7 +916,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework.EntityManager
                     List<DataTitleVersionDeployment> versionDeployments = null;
                     try
                     {
-                      
+
                         using (var userContext = await UserContextRetriever.GetUserDataContextAsync())
                         {
                             versionDeployments =

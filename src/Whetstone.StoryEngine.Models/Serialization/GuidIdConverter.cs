@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Whetstone.StoryEngine.Models.Serialization
 {
@@ -12,7 +10,7 @@ namespace Whetstone.StoryEngine.Models.Serialization
 
             return (objectType == typeof(Guid?));
 
-          //  return (objectType.IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Guid));
+            //  return (objectType.IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Guid));
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -27,7 +25,7 @@ namespace Whetstone.StoryEngine.Models.Serialization
 
                     Guid outGuid;
 
-                    if(Guid.TryParse(str, out outGuid))
+                    if (Guid.TryParse(str, out outGuid))
                     {
                         retGuid = outGuid;
                     }
@@ -35,8 +33,8 @@ namespace Whetstone.StoryEngine.Models.Serialization
             }
             catch (Exception ex)
             {
-                throw new JsonSerializationException(string.Format("Error converting value {0} to type '{1}'.", 
-                    reader.Value, 
+                throw new JsonSerializationException(string.Format("Error converting value {0} to type '{1}'.",
+                    reader.Value,
                     objectType), ex);
             }
 

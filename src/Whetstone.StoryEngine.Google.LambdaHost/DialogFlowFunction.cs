@@ -3,13 +3,12 @@ using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.RuntimeSupport;
 using Amazon.Lambda.Serialization.Json;
+using Amazon.XRay.Recorder.Core;
+using Amazon.XRay.Recorder.Handlers.AwsSdk;
 using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Whetstone.StoryEngine.Google.Repository;
-using Amazon.XRay.Recorder.Core;
-using Amazon.XRay.Recorder.Handlers.AwsSdk;
 
 // 	AlexaFunction-Dev-AlexaFunctionErrorLogAlarm-131PBD32M6C80
 // aws cloudwatch set-alarm-state --region us-east-1 --alarm-name "AlexaFunction-Dev-AlexaFunctionErrorLogAlarm-131PBD32M6C80" --state-value OK --state-reason "identified alarm as a nonissue"
@@ -20,7 +19,7 @@ using Amazon.XRay.Recorder.Handlers.AwsSdk;
 
 namespace Whetstone.StoryEngine.Google.LambdaHost
 {
-    public class DialogFlowFunction 
+    public class DialogFlowFunction
     {
 
         private static readonly Lazy<NativeFunction> _nativeFunction = new Lazy<NativeFunction>(GetNativeFunction);
@@ -40,7 +39,7 @@ namespace Whetstone.StoryEngine.Google.LambdaHost
 
             await RunAsync();
         }
-            
+
 
         public static async Task RunAsync(
             HttpClient httpClient = null,

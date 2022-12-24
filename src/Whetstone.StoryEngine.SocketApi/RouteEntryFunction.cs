@@ -1,25 +1,16 @@
-using System;
-using System.Threading.Tasks;
-
-using Amazon.Lambda.Core;
 using Amazon.Lambda.APIGatewayEvents;
-
-using Microsoft.Extensions.DependencyInjection;
+using Amazon.Lambda.Core;
 using Microsoft.Extensions.Configuration;
-using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.SocketApi.Repository;
-using Whetstone.StoryEngine.SocketApi.Repository.Amazon;
-using Whetstone.StoryEngine.SocketApi.Repository.Extensions;
-using Whetstone.StoryEngine.Notifications.Repository.Extensions;
-using Whetstone.StoryEngine.Notifications.Repository;
-
-
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
-using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Data.Amazon;
+using System;
+using System.Threading.Tasks;
+using Whetstone.StoryEngine.Models.Configuration;
+using Whetstone.StoryEngine.Notifications.Repository;
+using Whetstone.StoryEngine.Notifications.Repository.Extensions;
+using Whetstone.StoryEngine.SocketApi.Repository;
+using Whetstone.StoryEngine.SocketApi.Repository.Extensions;
 using Whetstone.StoryEngine.WebLibrary;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
@@ -68,7 +59,7 @@ namespace Whetstone.StoryEngine.SocketApi
                 case "$connect": resp = await _socketHandlers.OnConnectHandler(request, context); break;
                 case "$disconnect": resp = await _socketHandlers.OnDisconnectHandler(request, context); break;
                 case "sendMessage": resp = await _socketHandlers.SendMessageHandler(request, context); break;
-                default: 
+                default:
                     context.Logger.LogLine($"Unrecognized Route: {request.RequestContext.RouteKey}");
                     throw new InvalidOperationException($"Unrecognized Route: {request.RequestContext.RouteKey}");
             }

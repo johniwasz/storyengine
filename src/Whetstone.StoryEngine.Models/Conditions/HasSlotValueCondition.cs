@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 using Whetstone.StoryEngine.Models.Tracking;
 using YamlDotNet.Serialization;
 
@@ -19,18 +18,18 @@ namespace Whetstone.StoryEngine.Models.Conditions
         /// <summary>
         /// If the slot has a value is that is not null and not an empty string, then return true.
         /// </summary>
-        [EnumMember(Value ="notempty")]
+        [EnumMember(Value = "notempty")]
         NotEmpty = 0,
         /// <summary>
         /// If the slot has a value that is null or an empty string, then return true.
         /// </summary>
-        [EnumMember(Value ="isempty")]
+        [EnumMember(Value = "isempty")]
         IsEmpty = 1,
         /// <summary>
         /// Compare the slot value to the Value property using a case insensitive compare. Return true if equal.
         /// </summary>
         [EnumMember(Value = "equals")]
-        Equals =2
+        Equals = 2
     }
 
 
@@ -49,7 +48,7 @@ namespace Whetstone.StoryEngine.Models.Conditions
             get { return ConditionType.SlotValue; }
 
             set { /* do nothing */ }
-           
+
         }
 
         public override bool IsStoryCondition(ConditionInfo condInfo)
@@ -74,7 +73,7 @@ namespace Whetstone.StoryEngine.Models.Conditions
                 }
             }
 
-            if(selItems.Any())
+            if (selItems.Any())
             {
 
                 SelectedItem foundItem = selItems.FirstOrDefault(x => x.Name.Equals(SlotName, StringComparison.OrdinalIgnoreCase));
@@ -83,12 +82,12 @@ namespace Whetstone.StoryEngine.Models.Conditions
                 if (foundItem != null)
                     foundValue = foundItem.Value;
 
-              
 
-                switch(ValueCheckType)
+
+                switch (ValueCheckType)
                 {
                     case SlotValueConditionCheckType.Equals:
-                        if(string.IsNullOrWhiteSpace(foundValue))
+                        if (string.IsNullOrWhiteSpace(foundValue))
                         {
                             isConditionMet = string.IsNullOrWhiteSpace(Value);
                         }
