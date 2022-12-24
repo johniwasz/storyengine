@@ -5,6 +5,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 using Serilog;
 using Serilog.Extensions.Logging;
 using System;
@@ -26,7 +27,7 @@ using Whetstone.StoryEngine.Repository.Amazon;
 
 namespace Whetstone.StoryEngine.DependencyInjection
 {
-    public class Bootstrapping
+    public static class Bootstrapping
     {
         public static readonly string DBUSERTYPE = "DBUSERTYPE";
 
@@ -63,7 +64,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
         {
             IConfiguration retConfiguration;
 
-            ILogger<Bootstrapping> logger = LogFactory.CreateLogger<Bootstrapping>();
+            ILogger logger = LogFactory.CreateLogger("Bootstrapping");
 
             try
             {
@@ -119,7 +120,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
             configServiceTimer.Start();
 
             // Logger to use only while configuring services.
-            ILogger<Bootstrapping> logger = LogFactory.CreateLogger<Bootstrapping>();
+            ILogger logger = LogFactory.CreateLogger("Bootstrapping");
 
             services.AddOptions();
             services.AddMemoryCache(x =>
@@ -226,9 +227,6 @@ namespace Whetstone.StoryEngine.DependencyInjection
             services.Configure<Models.Configuration.SessionAuditConfig>(
             options => { options.SessionAuditQueue = bootstrapConfig.SessionAuditQueue; });
 
-
-            services.Configure<PhoneConfig>(
-            options => { options.SourceSmsNumber = bootstrapConfig.SmsConfig?.SourceNumber; });
 
 
             services.Configure<DynamoDBTablesConfig>(options =>

@@ -82,9 +82,6 @@ namespace Whetstone.StoryEngine.Test
             //SessionLoggingUser = 2,
             //SmsUser = 3
 
-
-            Bootstrapping bootstrapping = new Bootstrapping();
-
             ServiceCollection = new ServiceCollection();
 
             Configuration = Bootstrapping.BuildConfiguration();

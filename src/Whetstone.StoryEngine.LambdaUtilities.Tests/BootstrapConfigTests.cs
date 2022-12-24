@@ -140,8 +140,6 @@ namespace Whetstone.StoryEngine.LambdaUtilities.Tests
             updateRequest.ConfigEntries = new List<ConfigEntry>();
             updateRequest.Parameter = "/storyengine/dev/bootstrap";
             //updateRequest.KeyId = "alias/devEnvironmentKey";
-            updateRequest.ConfigEntries.Add(new ConfigEntry
-            { ConfigType = ConfigEntryType.TwilioTestKey, Value = "dsfdsfL" });
 
             string text = File.ReadAllText("Messages/ConfigUpdateRequest.json");
 

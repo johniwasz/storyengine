@@ -32,7 +32,7 @@ namespace Whetstone.StoryEngine.Data.EntityFramework
                 throw new ArgumentNullException(
                     $"{nameof(dbConfig)} DirectConnect.ClientSecret password cannot be null or empty");
 
-            _dataLogger = logger ?? throw new ArgumentNullException($"{nameof(logger)}");
+            _dataLogger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
 
