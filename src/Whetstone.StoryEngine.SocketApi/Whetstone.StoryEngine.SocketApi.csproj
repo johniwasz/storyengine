@@ -20,8 +20,8 @@
     <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.3.0" />
     <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="2.5.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="AWSSDK.ApiGatewayManagementApi" Version="3.3.101.99" />
-    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.3.105.34" />
+     <PackageReference Include="AWSSDK.ApiGatewayManagementApi" Version="3.7.100.44" />
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.101.14" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Whetstone.StoryEngine.DependencyInjection\Whetstone.StoryEngine.DependencyInjection.csproj" />

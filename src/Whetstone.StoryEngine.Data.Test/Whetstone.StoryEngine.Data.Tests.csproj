@@ -7,8 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.3.105.30" />
-    <PackageReference Include="AWSSDK.RDS" Version="3.3.120.3" />
+    <Compile Remove="S3Store\**" />
+    <EmbeddedResource Remove="S3Store\**" />
+    <None Remove="S3Store\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.101.14" />
+    <PackageReference Include="AWSSDK.RDS" Version="3.7.111.1" />
     <PackageReference Include="CsvHelper" Version="30.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.0" />
@@ -23,10 +29,6 @@
     <ProjectReference Include="..\Whetstone.StoryEngine.Cache.DynamoDB\Whetstone.StoryEngine.Cache.DynamoDB.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine.Data.EntityFramework\Whetstone.StoryEngine.Data.EntityFramework.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine.Data\Whetstone.StoryEngine.Data.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="S3Store\" />
   </ItemGroup>
 
 </Project>

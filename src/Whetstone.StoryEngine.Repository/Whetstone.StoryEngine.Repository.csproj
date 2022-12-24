@@ -20,9 +20,13 @@
 
   <ItemGroup>
 
-    <PackageReference Include="AWSSDK.SecretsManager" Version="3.3.102.28" />
+    <PackageReference Include="AWSSDK.Lambda" Version="3.7.102.20" />
 
-    <PackageReference Include="AWSSDK.StepFunctions" Version="3.3.104.28" />
+    <PackageReference Include="AWSSDK.SecretsManager" Version="3.7.100.44" />
+
+    <PackageReference Include="AWSSDK.SimpleNotificationService" Version="3.7.100.45" />
+
+    <PackageReference Include="AWSSDK.StepFunctions" Version="3.7.102.17" />
 
     <PackageReference Include="AWSXRayRecorder.Core" Version="2.9.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />

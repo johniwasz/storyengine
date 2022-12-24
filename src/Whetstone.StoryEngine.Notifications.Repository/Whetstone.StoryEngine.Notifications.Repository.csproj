@@ -9,9 +9,9 @@
     <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.3.105.34" />
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.101.14" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-    <PackageReference Include="AWSSDK.Lambda" Version="3.3.109.40" />
+     <PackageReference Include="AWSSDK.Lambda" Version="3.7.102.20" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Whetstone.StoryEngine.Data.DependencyInjection\Whetstone.StoryEngine.Data.DependencyInjection.csproj" />
