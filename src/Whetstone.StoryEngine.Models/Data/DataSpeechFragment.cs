@@ -36,35 +36,38 @@ namespace Whetstone.StoryEngine.Models.Data
         [JsonProperty(PropertyName = "id", NullValueHandling = NullValueHandling.Ignore)]
         public long? Id { get; set; }
 
+        [IgnoreDataMember]
         [DataMember]
         public int Sequence { get; set; }
 
+        [IgnoreDataMember]
         [DataMember]
         public string Comment { get; set; }
 
+        [IgnoreDataMember]
         [JsonIgnore()]
         public long? TrueResultParentId { get; set; }
 
+        [IgnoreDataMember]
         [JsonIgnore()]
         public long? FalseResultParentId { get; set; }
 
+        [IgnoreDataMember]
         [JsonIgnore()]
         public long? VersionId { get; set; }
 
+        [IgnoreDataMember]
         [JsonIgnore()]
         [ForeignKey("VersionId")]
         public DataTitleVersion StoryVersion { get; set; }
 
+        [IgnoreDataMember]
         [NotMapped]
         public abstract SpeechFragmentType FragmentType { get; set; }
 
         public DataSpeechFragment()
         {
-
-
         }
-
-
     }
 
     [JsonObject]
@@ -162,6 +165,7 @@ namespace Whetstone.StoryEngine.Models.Data
 
         [JsonProperty("duration", Order = 1)]
         [DataMember]
+        [Key(1)]
         public int Duration { get; set; }
 
 

@@ -11,6 +11,7 @@ namespace Whetstone.StoryEngine.Models.Story.Ssml
 {
     [JsonObject]
     [DataContract]
+    [MessagePackObject]
     public class ConditionalFragment : SpeechFragment
     {
 

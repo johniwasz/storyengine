@@ -1,10 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <AssemblyName>Whetstone.StoryEngine.Data</AssemblyName>
     <RootNamespace>Whetstone.StoryEngine.Data</RootNamespace>
-    <LangVersion>9.0</LangVersion>
     <IsPackable>true</IsPackable>
   </PropertyGroup>
 

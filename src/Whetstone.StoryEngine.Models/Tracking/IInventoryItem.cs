@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MessagePack;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Xml.Serialization;
 
@@ -24,9 +25,11 @@ namespace Whetstone.StoryEngine.Models.Tracking
         /// <summary>
         /// Internal name used to identify the item.
         /// </summary>
+        [IgnoreMember]
         [JsonProperty(PropertyName = "name")]
         public abstract string Name { get; set; }
 
+        [IgnoreMember]
         [JsonConverter(typeof(StringEnumConverter))]
         [JsonProperty(PropertyName = "itemType")]
         public abstract InventoryItemType ItemType { get; set; }

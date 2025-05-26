@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MessagePack;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,6 +8,7 @@ using System.Linq;
 namespace Whetstone.StoryEngine.Models.Story
 {
 
+    [MessagePackObject]
     [JsonObject()]
     public class LocalizedPlainText : ILocalizedItem
     {
@@ -30,10 +32,11 @@ namespace Whetstone.StoryEngine.Models.Story
 
         }
 
+        [MessagePack.Key(1)]
         [JsonProperty("locale", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Locale { get; set; }
 
-
+        [MessagePack.Key(2)]
         [Required]
         [JsonProperty("text", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Text { get; set; }

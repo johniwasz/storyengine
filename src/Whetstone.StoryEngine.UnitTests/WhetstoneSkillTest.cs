@@ -15,8 +15,6 @@ using Xunit;
 
 namespace Whetstone.UnitTests
 {
-
-
     public class WhetstoneSkillTest
     {
 
