@@ -1,17 +1,10 @@
 ﻿using Amazon;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Whetstone.StoryEngine;
 using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Models.Actions;
-using Whetstone.StoryEngine.Models.Messaging.Sms;
 using Whetstone.StoryEngine.Models.Story;
 using Whetstone.StoryEngine.Models.Tracking;
-using Whetstone.StoryEngine.Repository.Actions;
-
-using Xunit;
 
 namespace Whetstone.UnitTests
 {
@@ -32,7 +25,7 @@ namespace Whetstone.UnitTests
 
         }
 
-    
+
 
         public static (StoryRequest, List<IStoryCrumb>) BuildStoryRequest(string titleId, string phoneNumber, string phoneSlot)
         {

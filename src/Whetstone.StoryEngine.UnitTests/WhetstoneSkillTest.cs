@@ -10,8 +10,6 @@ using Whetstone.StoryEngine.Models.Data;
 using Whetstone.StoryEngine.Models.Messaging;
 using Whetstone.StoryEngine.Models.Messaging.Sms;
 using Whetstone.StoryEngine.Models.Story;
-using Whetstone.StoryEngine.Models.Story.Ssml;
-using Whetstone.StoryEngine.Models.Story.Text;
 using Whetstone.StoryEngine.Repository;
 using Xunit;
 
@@ -328,7 +326,7 @@ namespace Whetstone.UnitTests
             await ResponseHelper.WriteResponseAsync(request, resp, linker, sessLogger);
 
         }
-     
+
 
         [Fact]
         public async Task WhetstoneSkillServiceGoogleHomeShortTest()

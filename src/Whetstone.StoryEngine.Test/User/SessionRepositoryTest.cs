@@ -66,7 +66,7 @@ namespace Whetstone.StoryEngine.Test.User
 
             resp.NodeName = "A3";
 
-           // await sessionRep.LogRequestAsync(req, resp);
+            // await sessionRep.LogRequestAsync(req, resp);
         }
 
 

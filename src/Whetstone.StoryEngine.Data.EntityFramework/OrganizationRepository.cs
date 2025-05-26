@@ -9,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Cache;
 using Whetstone.StoryEngine.Models.Admin;
-using Whetstone.StoryEngine.Models.Data;
 
 namespace Whetstone.StoryEngine.Data.EntityFramework
 {

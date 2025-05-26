@@ -211,7 +211,7 @@ namespace Whetstone.StoryEngine.LambdaUtilities
                     break;
                 case ConfigEntryType.CacheSlidingExpiration:
                     retReq = UpdateCacheSlidingExpiration(bootConfig, entry.Value, logger);
-                    break;                
+                    break;
                 case ConfigEntryType.DefaultSmsSenderType:
                     retReq = UpdateEnumConfig<SmsSenderType>(entry, logger, SmsSenderType.Twilio, (
                         configVal =>

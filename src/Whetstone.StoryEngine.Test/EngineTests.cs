@@ -1,10 +1,8 @@
-﻿using Amazon.Lambda.Core;
-using Amazon.XRay.Recorder.Core;
+﻿using Amazon.XRay.Recorder.Core;
 using Amazon.XRay.Recorder.Core.Strategies;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Moq;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -16,11 +14,8 @@ using System.Threading.Tasks;
 using Whetstone.StoryEngine.Cache;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Data.Caching;
-using Whetstone.StoryEngine.Data.EntityFramework;
 using Whetstone.StoryEngine.Data.EntityFramework.EntityManager;
 using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Models.Data;
-using Whetstone.StoryEngine.Models.Messaging;
 using Whetstone.StoryEngine.Models.Serialization;
 using Whetstone.StoryEngine.Models.Story;
 using Whetstone.StoryEngine.Repository;
@@ -120,7 +115,7 @@ namespace Whetstone.StoryEngine.Test
             try
             {
 
-                TimeSpan myTimespan = new TimeSpan(30, 0, 0);
+                TimeSpan myTimespan = new(30, 0, 0);
 
 
                 await appReader.SetAsync("dev", "animalfarmpi", retTitle, new DistributedCacheEntryOptions() { SlidingExpiration = myTimespan });
@@ -136,7 +131,7 @@ namespace Whetstone.StoryEngine.Test
         }
 
 
-       
+
 
         [Fact]
         public async Task AnimalFarmPIEngineTest()

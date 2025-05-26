@@ -1,11 +1,8 @@
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.DependencyInjection;
-using Amazon.Util.Internal;
 using Microsoft.Extensions.DependencyInjection;
-using Whetstone.StoryEngine.AlexaProcessor.Configuration;
+using Microsoft.Extensions.Hosting;
 using Whetstone.StoryEngine.AlexaProcessor;
+using Whetstone.StoryEngine.AlexaProcessor.Configuration;
+using Whetstone.StoryEngine.DependencyInjection;
 var hostBuilder = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults();
 

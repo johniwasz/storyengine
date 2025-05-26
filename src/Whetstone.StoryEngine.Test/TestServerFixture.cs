@@ -517,7 +517,7 @@ namespace Whetstone.StoryEngine.Test
         }
 
 
-    
+
 
         protected IOptions<CognitoConfig> GetCognitoConfig()
         {

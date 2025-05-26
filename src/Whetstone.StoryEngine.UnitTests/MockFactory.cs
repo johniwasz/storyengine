@@ -638,7 +638,7 @@ namespace Whetstone.UnitTests
             services.AddTransient<ISkillCache>(x => skillCacheRep);
 
             ISessionStoreManager sessionStoreRep = GetSessionStoreManager();
-            services.AddTransient<ISessionStoreManager>(x => sessionStoreRep);          
+            services.AddTransient<ISessionStoreManager>(x => sessionStoreRep);
 
             services.Configure<MessagingConfig>(options =>
             {
@@ -799,7 +799,7 @@ namespace Whetstone.UnitTests
             return sessionStoreMock.Object;
         }
 
- 
+
 
         internal string GetEncryptedValue()
         {

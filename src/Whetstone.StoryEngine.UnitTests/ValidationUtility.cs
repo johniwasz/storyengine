@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Models;
