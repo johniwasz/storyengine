@@ -97,14 +97,12 @@ namespace Whetstone.StoryEngine.Models.Serialization
         /// <param name="nullableEnum">The type to check.</param>
         /// <returns>The enum type.</returns>
         /// <exception cref="ArgumentException">Thrown if the type is not an enum or nullable enum.</exception>
-        private Type GetEnumType(Type nullableEnum)
+        private Type? GetEnumType(Type nullableEnum)
         {
             if (nullableEnum.IsEnum)
                 return nullableEnum;
 
             Type? underlyingType = Nullable.GetUnderlyingType(nullableEnum);
-            if (underlyingType == null)
-                throw new ArgumentException($"The provided type '{nullableEnum.FullName}' is not a nullable enum or an enum.", nameof(nullableEnum));
 
             return underlyingType;
         }

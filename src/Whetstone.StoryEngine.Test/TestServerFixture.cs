@@ -90,18 +90,25 @@ namespace Whetstone.StoryEngine.Test
 
             System.Environment.SetEnvironmentVariable(ClientLambdaBase.STORYBUCKETCONFIG, bootConfig.Bucket);
 
-            System.Environment.SetEnvironmentVariable(ClientLambdaBase.MESSAGESTEPFUNCTIONCONFIG, bootConfig.SmsConfig.NotificationStepFunctionArn);
+            if(bootConfig.SmsConfig?.NotificationStepFunctionArn is not null)
+                System.Environment.SetEnvironmentVariable(ClientLambdaBase.MESSAGESTEPFUNCTIONCONFIG, bootConfig.SmsConfig.NotificationStepFunctionArn);
 
-            System.Environment.SetEnvironmentVariable(ClientLambdaBase.CACHETABLECONFIG, bootConfig.CacheConfig.DynamoDBTableName);
+            if (bootConfig.CacheConfig?.DynamoDBTableName is not null)
+                System.Environment.SetEnvironmentVariable(ClientLambdaBase.CACHETABLECONFIG, bootConfig.CacheConfig.DynamoDBTableName);
 
-            System.Environment.SetEnvironmentVariable(ClientLambdaBase.USERTABLECONFIG, bootConfig.DynamoDBTables.UserTable);
+            if (bootConfig.DynamoDBTables?.UserTable is not null)
+                System.Environment.SetEnvironmentVariable(ClientLambdaBase.USERTABLECONFIG, bootConfig.DynamoDBTables.UserTable);
 
-            System.Environment.SetEnvironmentVariable(ClientLambdaBase.SESSIONAUDITURLCONFIG, bootConfig.SessionAuditQueue);
+            if (bootConfig.SessionAuditQueue is not null)
+                System.Environment.SetEnvironmentVariable(ClientLambdaBase.SESSIONAUDITURLCONFIG, bootConfig.SessionAuditQueue);
 
-            System.Environment.SetEnvironmentVariable(ClientLambdaBase.LOGLEVELCONFIG, bootConfig.LogLevel.GetValueOrDefault(LogLevel.Debug).ToString());
+            if(bootConfig.LogLevel is not null)
+                System.Environment.SetEnvironmentVariable(ClientLambdaBase.LOGLEVELCONFIG, bootConfig.LogLevel.GetValueOrDefault(LogLevel.Debug).ToString());
 
             Bootstrapping.ConfigureServices(ServiceCollection, Configuration, bootConfig);
-            DataBootstrapping.ConfigureDatabaseService(this.ServiceCollection, bootConfig.DatabaseSettings);
+
+            if(bootConfig.DatabaseSettings is not null)
+                DataBootstrapping.ConfigureDatabaseService(this.ServiceCollection, bootConfig.DatabaseSettings);
 
             this.ServiceCollection.AddTransient<UserDataRepository>();
 
@@ -157,7 +164,6 @@ namespace Whetstone.StoryEngine.Test
 
             Services = ServiceCollection.BuildServiceProvider();
         }
-
 
         protected S3FileStore GetBlobRepository()
         {

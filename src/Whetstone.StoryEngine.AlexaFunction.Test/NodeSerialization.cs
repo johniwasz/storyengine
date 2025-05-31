@@ -63,11 +63,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
             string yamlText = yamlSer.Serialize(eotegTitle);
 
-
-
             List<StoryConditionBase> storyConditions = eotegTitle.Conditions;
-
-            List<string> textSuggestions = new List<string>();
 
             List<IStoryCrumb> crumbs = new List<IStoryCrumb>();
 
@@ -81,23 +77,16 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
             {
                 List<string> suggestions = node.GetSuggestions(locale, conditionInfo, storyConditions);
 
-
-
                 if (suggestions.Any())
                 {
-                    //foreach (string suggestion in suggestions)
-                    //    Debug.WriteLine($"{node.Name}: {suggestion}");
+                    foreach (string suggestion in suggestions)
+                        Debug.WriteLine($"{node.Name}: {suggestion}");
                 }
                 else
                     Debug.WriteLine($"Empty: {node.Name}");
 
 
             }
-
-            //var yamlSer = YamlSerializationBuilder.GetYamlSerializer();
-
-            //string yamlText = yamlSer.Serialize(eotegTitle);
-
         }
 
 

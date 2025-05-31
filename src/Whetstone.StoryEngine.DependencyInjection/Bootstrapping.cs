@@ -53,7 +53,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
 
         public static IConfiguration BuildConfiguration()
         {
-            return BuildConfiguration(true);
+            return BuildConfiguration(false);
 
 
         }
@@ -185,22 +185,20 @@ namespace Whetstone.StoryEngine.DependencyInjection
             DbUserType? userType = GetDbUserType(config);
 
 
-            string dynamoDbTableName = bootstrapConfig.CacheConfig.DynamoDBTableName;
+            string dynamoDbTableName = bootstrapConfig.CacheConfig is null ? "TABLENAME" : bootstrapConfig.CacheConfig.DynamoDBTableName;
 
-            int maxCacheEngineRetries = bootstrapConfig.CacheConfig.MaxEngineRetries.GetValueOrDefault(DEFAULT_CACHE_ENGINE_RETRIES);
+            int maxCacheEngineRetries = bootstrapConfig.CacheConfig?.MaxEngineRetries is null ? DEFAULT_CACHE_ENGINE_RETRIES :
+                bootstrapConfig.CacheConfig.MaxEngineRetries.GetValueOrDefault(DEFAULT_CACHE_ENGINE_RETRIES);
 
-            int engineTimeout = bootstrapConfig.CacheConfig.EngineTimeout.GetValueOrDefault(DEFAULT_CACHE_ENGINE_TIMEOUT);
-
-            //var distDbSettings = new DistributedCacheDynamoDbSettings(dynamoDbTableName, regionEnd, bootstrapConfig.CacheConfig.Timeout);
+            int engineTimeout = bootstrapConfig.CacheConfig?.EngineTimeout is null ? DEFAULT_CACHE_ENGINE_TIMEOUT : 
+                bootstrapConfig.CacheConfig.EngineTimeout.GetValueOrDefault(DEFAULT_CACHE_ENGINE_TIMEOUT);
 
             services.RegisterDynamoDbCacheService(dynamoDbTableName, maxCacheEngineRetries, engineTimeout);
 
             DistributedCacheEntryOptions distCacheOpts = new DistributedCacheEntryOptions
             {
-                SlidingExpiration = new TimeSpan(0, 0, bootstrapConfig.CacheConfig.DefaultSlidingExpirationSeconds)
-
+                SlidingExpiration = new TimeSpan(0, 0, bootstrapConfig.CacheConfig?.DefaultSlidingExpirationSeconds is null ? 10 : bootstrapConfig.CacheConfig.DefaultSlidingExpirationSeconds)
             };
-
 
             Whetstone.StoryEngine.Cache.DistributedCacheExtensions.SetDefaultCacheOptions(distCacheOpts,
                  (bootstrapConfig.CacheConfig?.IsEnabled).GetValueOrDefault(true));
@@ -218,7 +216,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
             services.Configure<Models.Configuration.StepFunctionNotificationConfig>(
             options =>
             {
-                options.ResourceName = bootstrapConfig.SmsConfig.NotificationStepFunctionArn;
+                options.ResourceName = bootstrapConfig.SmsConfig is null ? "ARNVALUE" : bootstrapConfig.SmsConfig.NotificationStepFunctionArn;
             });
 
 
@@ -229,7 +227,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
 
             services.Configure<DynamoDBTablesConfig>(options =>
                 {
-                    options.UserTable = bootstrapConfig.DynamoDBTables.UserTable;
+                    options.UserTable = (bootstrapConfig.DynamoDBTables?.UserTable) is null ? "USERTABLE" : bootstrapConfig.DynamoDBTables.UserTable;
                 });
 
             services.Configure<MessagingConfig>(
@@ -270,11 +268,7 @@ namespace Whetstone.StoryEngine.DependencyInjection
                 (bootstrapConfig.SmsConfig?.SmsSenderType).GetValueOrDefault(SmsSenderType.Twilio);
 
 
-            //    services.AddTransient<UserDataRepository>();
-
-            services.RegisterDynamoDbUserRepository(bootstrapConfig.DynamoDBTables.UserTable);
-
-
+            services.RegisterDynamoDbUserRepository(bootstrapConfig.DynamoDBTables?.UserTable is null ? "USERTABLE" : bootstrapConfig.DynamoDBTables?.UserTable);
 
             services.AddTransient<IAppMappingReader, CacheAppMappingReader>();
 
