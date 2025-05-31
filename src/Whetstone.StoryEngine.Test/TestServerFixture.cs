@@ -139,7 +139,6 @@ namespace Whetstone.StoryEngine.Test
             ServiceCollection.Configure<AmazonDynamoDBConfig>(x =>
             {
                 x.RegionEndpoint = RegionEndpoint.USEast1;
-                x.ReadWriteTimeout = new TimeSpan(0, 0, 0, 0, Bootstrapping.DEFAULT_CACHE_ENDPOINT_TIMEOUT);
                 x.Timeout = new TimeSpan(0, 0, 0, 0, Bootstrapping.DEFAULT_CACHE_ENDPOINT_TIMEOUT);
                 x.MaxErrorRetry = Bootstrapping.DEFAULT_CACHE_ENDPOINT_RETRIES;
             });

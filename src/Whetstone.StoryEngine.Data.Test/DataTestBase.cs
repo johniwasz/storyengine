@@ -110,9 +110,7 @@ namespace Whetstone.StoryEngine.Data.Tests
             {
                 RegionEndpoint = RegionEndpoint.USEast1,
                 MaxErrorRetry = 3,
-                Timeout = new TimeSpan(0, 0, 0, 2),
-                ReadWriteTimeout = new TimeSpan(0, 0, 0, 2)
-
+                Timeout = new TimeSpan(0, 0, 0, 2)
             };
 
             IOptions<AmazonS3Config> s3Options = Options.Create<AmazonS3Config>(s3Config);

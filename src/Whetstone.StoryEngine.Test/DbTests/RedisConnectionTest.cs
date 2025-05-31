@@ -78,8 +78,7 @@ namespace Whetstone.StoryEngine.Test.DbTests
 
             RedisCache redisCache = new RedisCache(new RedisCacheOptions
             {
-                InstanceName = "dev",
-                ConfigurationOptions = redisOpts
+                InstanceName = "dev"
             });
 
             return redisCache;

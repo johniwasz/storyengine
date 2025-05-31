@@ -57,7 +57,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.4" />
     <EmbeddedResource Include="Migrations\Functions\addintentaction_consolidate.sql" />
     <EmbeddedResource Include="Migrations\Functions\addsmstwiliolog.sql" />
     <EmbeddedResource Include="Migrations\Functions\addupdatephonenumber.sql" />
@@ -82,10 +81,6 @@
     <EmbeddedResource Include="Migrations\Scripts\lambdausergrants.sql" />
     <EmbeddedResource Include="Migrations\Scripts\add_messageconsentview.sql" />
     <PackageReference Include="Microsoft.EntityFrameworkCore"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational"/>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug"/>
     <PackageReference Include="Npgsql"/>
@@ -97,9 +92,4 @@
     <ProjectReference Include="..\Whetstone.StoryEngine.Data\Whetstone.StoryEngine.Data.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine.Repository\Whetstone.StoryEngine.Repository.csproj" />
   </ItemGroup>
-
-  
-  
-  
-  
 </Project>

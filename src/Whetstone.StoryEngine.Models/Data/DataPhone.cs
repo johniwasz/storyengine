@@ -370,10 +370,10 @@ namespace Whetstone.StoryEngine.Models.Data
                     retPhone = new DataPhone { Id = Guid.Parse(id) };
 
                     if (attribValues.ContainsKey(FIELD_ISVERIFIED))
-                        retPhone.IsVerified = attribValues[FIELD_ISVERIFIED].BOOL;
+                        retPhone.IsVerified = (bool)attribValues[FIELD_ISVERIFIED].BOOL;
 
                     if (attribValues.ContainsKey(FIELD_CANGETSMSMESSAGES))
-                        retPhone.CanGetSmsMessage = attribValues[FIELD_CANGETSMSMESSAGES].BOOL;
+                        retPhone.CanGetSmsMessage = (bool)attribValues[FIELD_CANGETSMSMESSAGES].BOOL;
 
                     if (attribValues.ContainsKey(FIELD_PHONETYPE))
                     {

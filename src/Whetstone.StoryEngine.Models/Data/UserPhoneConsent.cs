@@ -214,7 +214,7 @@ namespace Whetstone.StoryEngine.Models.Data
                         phoneConsent.TitleVersionId = Guid.Parse(attribValues[FIELD_TITLEVERSIONID].S);
 
                     if (attribValues.ContainsKey(FIELD_ISSMSCONSENTGRANTED))
-                        phoneConsent.IsSmsConsentGranted = attribValues[FIELD_ISSMSCONSENTGRANTED].BOOL;
+                        phoneConsent.IsSmsConsentGranted = (bool) attribValues[FIELD_ISSMSCONSENTGRANTED].BOOL;
 
                     if (attribValues.ContainsKey(FIELD_PHONEID))
                         phoneConsent.PhoneId = Guid.Parse(attribValues[FIELD_PHONEID].S);
