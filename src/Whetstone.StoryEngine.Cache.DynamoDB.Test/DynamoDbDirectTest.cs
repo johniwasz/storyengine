@@ -137,11 +137,8 @@ namespace Whetstone.StoryEngine.Cache.DynamoDB.Test
             var distCache = DynamoTestUtil.GetDynamoDbCache(2, timeout);
 
             var bag = new List<TimingResponse>();
-            List<Guid> userIds = new List<Guid>();
             for (int i = 0; i < 100; i++)
             {
-                userIds.Add(Guid.NewGuid());
-
                 TimingResponse resp = new TimingResponse();
                 resp.Exceptions = new List<Exception>();
                 resp.IndividualTimings = new List<long>();
