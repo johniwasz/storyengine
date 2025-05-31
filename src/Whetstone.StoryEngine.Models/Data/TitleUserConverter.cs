@@ -78,15 +78,14 @@ namespace Whetstone.StoryEngine.Models.Data
             DataTitleClientUser clientUser = value as DataTitleClientUser;
             object retValue = null;
 
+            Dictionary<string, AttributeValue> retAttribs = new Dictionary<string, AttributeValue>();
+
             if ((destinationType == typeof(Dictionary<string, AttributeValue>)) && clientUser != null)
             {
-                Dictionary<string, AttributeValue> retAttribs = new Dictionary<string, AttributeValue>();
-
                 if (clientUser.Id.HasValue)
                 {
                     retAttribs.Add("id", new AttributeValue() { S = clientUser.Id.ToString() });
                 }
-
 
                 if (!string.IsNullOrWhiteSpace(clientUser.UserId))
                     retAttribs.Add("clientUserId", new AttributeValue() { S = clientUser.UserId });

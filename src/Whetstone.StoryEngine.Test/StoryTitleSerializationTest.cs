@@ -1106,12 +1106,7 @@ namespace Whetstone.StoryEngine.Test
                 Console.WriteLine(e);
                 throw;
             }
-
-
         }
-
-
-
 
         [Fact(DisplayName = "AddRecordedSelection")]
         public async Task AddRecordedItemAction()
