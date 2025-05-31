@@ -1,4 +1,5 @@
 ﻿
+#nullable enable
 using System;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
@@ -13,7 +14,7 @@ namespace Whetstone.StoryEngine.Models.Serialization
             return (type == typeof(Uri));
         }
 
-        public object ReadYaml(IParser parser, Type type, ObjectDeserializer rootDeserializer)
+        public object? ReadYaml(IParser parser, Type type, ObjectDeserializer rootDeserializer)
         {
             Scalar scalar = parser.Current as Scalar;
 

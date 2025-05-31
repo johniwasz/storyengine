@@ -1,5 +1,4 @@
 ﻿using Amazon.Lambda.Core;
-using Amazon.Lambda.Serialization.Json;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -81,7 +80,7 @@ namespace Whetstone.StoryEngine.Serialization
             }
             catch (Exception ex)
             {
-                throw new JsonSerializerException(string.Format("Error converting the response object of type {0} from the Lambda function to JSON: {1}", (object)typeof(T).FullName, (object)ex.Message), ex);
+                throw new Exception(string.Format("Error converting the response object of type {0} from the Lambda function to JSON: {1}", (object)typeof(T).FullName, (object)ex.Message), ex);
             }
         }
 
@@ -110,7 +109,7 @@ namespace Whetstone.StoryEngine.Serialization
             catch (Exception ex)
             {
                 Type type = typeof(T);
-                throw new JsonSerializerException(!(type == typeof(string)) ? string.Format("Error converting the Lambda event JSON payload to type {0}: {1}", (object)type.FullName, (object)ex.Message) : string.Format("Error converting the Lambda event JSON payload to a string. JSON strings must be quoted, for example \"Hello World\" in order to be converted to a string: {0}", (object)ex.Message), ex);
+                throw new Exception(!(type == typeof(string)) ? string.Format("Error converting the Lambda event JSON payload to type {0}: {1}", (object)type.FullName, (object)ex.Message) : string.Format("Error converting the Lambda event JSON payload to a string. JSON strings must be quoted, for example \"Hello World\" in order to be converted to a string: {0}", (object)ex.Message), ex);
             }
         }
     }

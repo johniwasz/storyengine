@@ -9,7 +9,7 @@
     <AssemblyName>Whetstone.StoryEngine.LambdaHost.Test</AssemblyName>
 
     <RootNamespace>Whetstone.StoryEngine.LambdaHost.Test</RootNamespace>
-    <LangVersion>9.0</LangVersion>
+    <LangVersion>Latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -211,9 +211,10 @@
     <PackageReference Include="Amazon.Lambda.TestUtilities" Version="2.0.0" />
     <PackageReference Include="MartinCostello.Testing.AwsLambdaTestServer" Version="0.7.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.4.0" />
-    <PackageReference Include="MessagePack" Version="3.1.3" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+    <PackageReference Include="MessagePack" />
+	  <PackageReference Incude="Newtonsoft.Json" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="Moq" Version="4.18.3" />
     <PackageReference Include="Whetstone.Alexa" Version="0.1.6" />
     <PackageReference Include="xunit" Version="2.9.3" />
