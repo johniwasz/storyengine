@@ -1,20 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <LangVersion>9.0</LangVersion>
     <Product>Sonibridge</Product>
     <Company>Whetstone Technologies, Inc.</Company>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.101.14" />
-    <PackageReference Include="AWSXRayRecorder.Core" Version="2.13.0" />
-    <PackageReference Include="MessagePack" Version="2.4.59" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-    <PackageReference Include="Nito.AsyncEx.Context" Version="5.1.2" />
+    <PackageReference Include="AWSSDK.DynamoDBv2"/>
+    <PackageReference Include="AWSXRayRecorder.Core"/>
+    <PackageReference Include="MessagePack"/>
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection"/>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions"/>
+    <PackageReference Include="Newtonsoft.Json"/>
+    <PackageReference Include="Nito.AsyncEx.Context"/>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Whetstone.StoryEngine.Cache\Whetstone.StoryEngine.Cache.csproj" />

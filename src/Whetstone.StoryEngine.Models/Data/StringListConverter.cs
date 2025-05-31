@@ -69,12 +69,12 @@ namespace Whetstone.StoryEngine.Models.Data
             {
                 return ((string)value).Split(',').ToList<string>();
             }
-            if (value is string[])
+            if (value is string[] v)
             {
                 List<string> retList = null;
                 if (value != null)
                 {
-                    retList = ((string[])value).ToList<string>();
+                    retList = v.ToList<string>();
                 }
 
                 return retList;

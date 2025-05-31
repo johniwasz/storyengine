@@ -32,6 +32,7 @@ namespace Whetstone.StoryEngine.Models.Story
         [JsonProperty(PropertyName = "conditions", NullValueHandling = NullValueHandling.Ignore)]
         public virtual List<string> Conditions { get; set; }
 
+        [IgnoreMember]
         [JsonConverter(typeof(StringEnumConverter))]
         [JsonProperty("nodeMappingType", Order = 0, NullValueHandling = NullValueHandling.Ignore)]
         public abstract NodeMappingType NodeMapping { get; set; }

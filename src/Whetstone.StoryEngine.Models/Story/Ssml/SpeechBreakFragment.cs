@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MessagePack;
+using Newtonsoft.Json;
 using System.Runtime.Serialization;
 using YamlDotNet.Serialization;
 
@@ -6,6 +7,7 @@ namespace Whetstone.StoryEngine.Models.Story.Ssml
 {
     [JsonObject]
     [DataContract]
+    [MessagePackObject]
     public class SpeechBreakFragment : SpeechFragment
     {
 
@@ -15,6 +17,7 @@ namespace Whetstone.StoryEngine.Models.Story.Ssml
             FragmentType = SpeechFragmentType.Break;
         }
 
+        [Key(1)]
         [JsonProperty("duration", Order = 1)]
         [DataMember]
         public int Duration { get; set; }

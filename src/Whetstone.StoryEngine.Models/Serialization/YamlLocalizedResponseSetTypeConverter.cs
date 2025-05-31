@@ -22,11 +22,9 @@ namespace Whetstone.StoryEngine.Models.Serialization
         {
             LocalizedResponseSet result = new LocalizedResponseSet();
 
-
             var deser = YamlSerializationBuilder.GetYamlDeserializer();
 
             result.LocalizedResponses = new List<LocalizedResponse>();
-
 
             do
             {
@@ -48,8 +46,17 @@ namespace Whetstone.StoryEngine.Models.Serialization
 
         }
 
+        public object ReadYaml(IParser parser, Type type, ObjectDeserializer rootDeserializer)
+        {
+            throw new NotImplementedException();
+        }
 
         public void WriteYaml(IEmitter emitter, object value, Type type)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WriteYaml(IEmitter emitter, object value, Type type, ObjectSerializer serializer)
         {
             throw new NotImplementedException();
         }

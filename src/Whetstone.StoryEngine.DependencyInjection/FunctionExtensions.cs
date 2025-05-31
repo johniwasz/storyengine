@@ -1,20 +1,12 @@
-﻿using Autofac.Core;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Whetstone.StoryEngine.Data.Caching;
-using Whetstone.StoryEngine.Models.Configuration;
-using Whetstone.StoryEngine.Repository.Amazon;
-using Whetstone.StoryEngine.Repository;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Whetstone.StoryEngine.Data.Yaml;
+using Microsoft.Extensions.Hosting;
 using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Models.Messaging.Sms;
+using Whetstone.StoryEngine.Data.Caching;
+using Whetstone.StoryEngine.Data.Yaml;
+using Whetstone.StoryEngine.Repository;
 using Whetstone.StoryEngine.Repository.Actions;
+using Whetstone.StoryEngine.Repository.Amazon;
 
 namespace Whetstone.StoryEngine.DependencyInjection
 {

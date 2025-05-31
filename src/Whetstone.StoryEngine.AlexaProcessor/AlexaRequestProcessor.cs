@@ -1,5 +1,4 @@
-﻿using Amazon.Lambda.Core;
-using Amazon.XRay.Recorder.Core;
+﻿using Amazon.XRay.Recorder.Core;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;

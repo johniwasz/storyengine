@@ -1,5 +1,4 @@
-﻿using Amazon.Lambda.Core;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Whetstone.Alexa;
 
 namespace Whetstone.StoryEngine.AlexaProcessor

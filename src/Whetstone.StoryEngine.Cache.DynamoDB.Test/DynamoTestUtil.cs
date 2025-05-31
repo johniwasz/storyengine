@@ -98,8 +98,6 @@ namespace Whetstone.StoryEngine.Cache.DynamoDB.Test
             {
                 RegionEndpoint = RegionEndpoint.USEast1,
                 Timeout = new TimeSpan(0, 0, 0, 2, 0),
-                //   dynamoConfig.HttpClientCacheSize = 10;
-                ReadWriteTimeout = new TimeSpan(0, 0, 0, 2, 0),
                 MaxErrorRetry = 2,
                 ResignRetries = false
             };
@@ -118,8 +116,6 @@ namespace Whetstone.StoryEngine.Cache.DynamoDB.Test
             {
                 RegionEndpoint = RegionEndpoint.USEast1,
                 Timeout = new TimeSpan(0, 0, 0, 2, 0),
-                //   dynamoConfig.HttpClientCacheSize = 10;
-                ReadWriteTimeout = new TimeSpan(0, 0, 0, 2, 0),
                 MaxErrorRetry = 2,
                 ResignRetries = false
             };

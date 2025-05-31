@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MessagePack;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
@@ -31,7 +32,7 @@ namespace Whetstone.StoryEngine.Models.Story.Ssml
         [JsonProperty(PropertyName = "id", NullValueHandling = NullValueHandling.Ignore)]
         public long? Id { get; set; }
 
-        [IgnoreDataMember]
+        [IgnoreMember]
         public abstract SpeechFragmentType FragmentType { get; set; }
 
         public SpeechFragment()

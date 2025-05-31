@@ -139,7 +139,6 @@ namespace Whetstone.StoryEngine.Test
             ServiceCollection.Configure<AmazonDynamoDBConfig>(x =>
             {
                 x.RegionEndpoint = RegionEndpoint.USEast1;
-                x.ReadWriteTimeout = new TimeSpan(0, 0, 0, 0, Bootstrapping.DEFAULT_CACHE_ENDPOINT_TIMEOUT);
                 x.Timeout = new TimeSpan(0, 0, 0, 0, Bootstrapping.DEFAULT_CACHE_ENDPOINT_TIMEOUT);
                 x.MaxErrorRetry = Bootstrapping.DEFAULT_CACHE_ENDPOINT_RETRIES;
             });
@@ -148,7 +147,6 @@ namespace Whetstone.StoryEngine.Test
             ServiceCollection.Configure<AmazonS3Config>(x =>
             {
                 x.RegionEndpoint = RegionEndpoint.USEast1;
-                x.ReadWriteTimeout = new TimeSpan(0, 0, 0, 0, Bootstrapping.DEFAULT_CACHE_ENDPOINT_TIMEOUT);
                 x.Timeout = new TimeSpan(0, 0, 0, 0, Bootstrapping.DEFAULT_CACHE_ENDPOINT_TIMEOUT);
                 x.MaxErrorRetry = Bootstrapping.DEFAULT_CACHE_ENDPOINT_RETRIES;
             });
@@ -160,22 +158,6 @@ namespace Whetstone.StoryEngine.Test
             Services = ServiceCollection.BuildServiceProvider();
         }
 
-
-        protected DbContextOptions<UserDataContext> GetUserDatabaseOptions()
-        {
-
-            DbContextOptionsBuilder<UserDataContext> builder = new DbContextOptionsBuilder<UserDataContext>();
-
-            string dbCon = System.Environment.GetEnvironmentVariable("DATABASECONNECTION");
-
-
-            builder.UseNpgsql(dbCon, b => { b.EnableRetryOnFailure(); });
-
-
-            return builder.Options;
-
-
-        }
 
         protected S3FileStore GetBlobRepository()
         {
@@ -517,7 +499,7 @@ namespace Whetstone.StoryEngine.Test
         }
 
 
-    
+
 
         protected IOptions<CognitoConfig> GetCognitoConfig()
         {

@@ -1,10 +1,9 @@
-using System.Diagnostics;
-using System.Net;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System.Diagnostics;
+using System.Net;
 using Whetstone.Alexa;
 using Whetstone.StoryEngine.AlexaProcessor;
 
@@ -46,7 +45,7 @@ namespace Whetstone.StoryEngine.AlexaFunction
             var httpResp = req.CreateResponse(HttpStatusCode.OK);
 
             await httpResp.WriteAsJsonAsync(response);
-            
+
             return httpResp;
         }
     }

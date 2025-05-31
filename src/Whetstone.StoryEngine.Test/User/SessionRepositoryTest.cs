@@ -49,8 +49,6 @@ namespace Whetstone.StoryEngine.Test.User
 
             resp.NodeName = await titleReader.GetStartNodeNameAsync(req.SessionContext.TitleVersion, true);
 
-
-            var dbOptions = GetUserDatabaseOptions();
             //ISessionLogger sessionRep = Services.GetService<SessionQueueLogger>();
 
 
@@ -66,7 +64,7 @@ namespace Whetstone.StoryEngine.Test.User
 
             resp.NodeName = "A3";
 
-           // await sessionRep.LogRequestAsync(req, resp);
+            // await sessionRep.LogRequestAsync(req, resp);
         }
 
 

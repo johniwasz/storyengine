@@ -5,7 +5,6 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using ILogger = Microsoft.Extensions.Logging.ILogger;
 using Serilog;
 using Serilog.Extensions.Logging;
 using System;
@@ -23,6 +22,7 @@ using Whetstone.StoryEngine.Models.Messaging.Sms;
 using Whetstone.StoryEngine.Repository;
 using Whetstone.StoryEngine.Repository.Actions;
 using Whetstone.StoryEngine.Repository.Amazon;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 
 namespace Whetstone.StoryEngine.DependencyInjection
@@ -165,7 +165,6 @@ namespace Whetstone.StoryEngine.DependencyInjection
             services.Configure<AmazonDynamoDBConfig>(x =>
             {
                 x.RegionEndpoint = awsOptions.Region;
-                x.ReadWriteTimeout = new TimeSpan(0, 0, 0, 0, bootstrapConfig.DynamoDBTables.Timeout.GetValueOrDefault(DEFAULT_CACHE_ENDPOINT_TIMEOUT));
                 x.Timeout = new TimeSpan(0, 0, 0, 0, bootstrapConfig.DynamoDBTables.Timeout.GetValueOrDefault(DEFAULT_CACHE_ENDPOINT_TIMEOUT));
                 x.MaxErrorRetry = bootstrapConfig.DynamoDBTables.ErrorRetries.GetValueOrDefault(DEFAULT_CACHE_ENDPOINT_RETRIES);
             });
@@ -174,7 +173,6 @@ namespace Whetstone.StoryEngine.DependencyInjection
             services.Configure<AmazonS3Config>(x =>
             {
                 x.RegionEndpoint = awsOptions.Region;
-                x.ReadWriteTimeout = new TimeSpan(0, 0, 0, 0, bootstrapConfig.DynamoDBTables.Timeout.GetValueOrDefault(DEFAULT_CACHE_ENDPOINT_TIMEOUT));
                 x.Timeout = new TimeSpan(0, 0, 0, 0, bootstrapConfig.DynamoDBTables.Timeout.GetValueOrDefault(DEFAULT_CACHE_ENDPOINT_TIMEOUT));
                 x.MaxErrorRetry = bootstrapConfig.DynamoDBTables.ErrorRetries.GetValueOrDefault(DEFAULT_CACHE_ENDPOINT_RETRIES);
             });

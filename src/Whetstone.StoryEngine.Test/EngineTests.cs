@@ -1,10 +1,8 @@
-﻿using Amazon.Lambda.Core;
-using Amazon.XRay.Recorder.Core;
+﻿using Amazon.XRay.Recorder.Core;
 using Amazon.XRay.Recorder.Core.Strategies;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Moq;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -16,11 +14,8 @@ using System.Threading.Tasks;
 using Whetstone.StoryEngine.Cache;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Data.Caching;
-using Whetstone.StoryEngine.Data.EntityFramework;
 using Whetstone.StoryEngine.Data.EntityFramework.EntityManager;
 using Whetstone.StoryEngine.Models;
-using Whetstone.StoryEngine.Models.Data;
-using Whetstone.StoryEngine.Models.Messaging;
 using Whetstone.StoryEngine.Models.Serialization;
 using Whetstone.StoryEngine.Models.Story;
 using Whetstone.StoryEngine.Repository;
@@ -77,31 +72,24 @@ namespace Whetstone.StoryEngine.Test
         [Fact]
         public async Task GetVersion()
         {
-
-
             IStoryVersionRepository verRepo = Services.GetRequiredService<IStoryVersionRepository>();
-
             IAppMappingReader appReader = Services.GetRequiredService<IAppMappingReader>();
 
             var appMapping = await appReader.GetTitleAsync(Client.Alexa, "amzn1.ask.skill.b46248ca-35ad-4ddf-a2f7-333578bf9029", null);
 
-            Assert.True(appMapping.Version.Equals("0.3"));
+            Assert.Equal("0.3", appMapping.Version);
 
             appMapping = await appReader.GetTitleAsync(Client.Alexa, "amzn1.ask.skill.b46248ca-35ad-4ddf-a2f7-333578bf9029", "LIVE");
 
-
-            Assert.True(appMapping.Version.Equals("0.3"));
-
+            Assert.Equal("0.3", appMapping.Version);
 
             appMapping = await appReader.GetTitleAsync(Client.Alexa, "amzn1.ask.skill.c4cabd50-2cd5-4e4c-a03c-a57d4f2a0e5f", "LIVE");
 
-            Assert.True(appMapping.Version.Equals("0.5"));
+            Assert.Equal("0.5", appMapping.Version);
 
             ITitleCacheRepository titleCacheRep = Services.GetRequiredService<ITitleCacheRepository>();
 
             var title = await titleCacheRep.GetStoryTitleAsync(appMapping);
-
-
         }
 
 
@@ -120,7 +108,7 @@ namespace Whetstone.StoryEngine.Test
             try
             {
 
-                TimeSpan myTimespan = new TimeSpan(30, 0, 0);
+                TimeSpan myTimespan = new(30, 0, 0);
 
 
                 await appReader.SetAsync("dev", "animalfarmpi", retTitle, new DistributedCacheEntryOptions() { SlidingExpiration = myTimespan });
@@ -136,7 +124,7 @@ namespace Whetstone.StoryEngine.Test
         }
 
 
-       
+
 
         [Fact]
         public async Task AnimalFarmPIEngineTest()

@@ -46,8 +46,6 @@ namespace Whetstone.StoryEngine.DependencyInjection
             //configOpts.ConnectRetry = 0;
             RedisCache redisCache = new RedisCache(new RedisCacheOptions
             {
-                //InstanceName = environment,
-                ConfigurationOptions = configOpts
             });
 
             return redisCache;
