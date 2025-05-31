@@ -39,7 +39,7 @@ namespace Whetstone.UnitTests
 
             ISmsHandler handler = servProv.GetService<ISmsHandler>();
 
-            var context = new TestLambdaContext();
+            
 
             OutboundBatchRecord outboundMessage = SmsMessageLoggerTest.GetSmsOutboundMessage();
 
