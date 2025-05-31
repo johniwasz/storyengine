@@ -159,7 +159,6 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
         public void LeftIntent()
         {
 
-            IServiceCollection serviceCollection = new ServiceCollection();
 
 
             const string TestDataFile = @"RequestSamples\GoLeft.json";
