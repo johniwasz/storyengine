@@ -80,21 +80,6 @@ namespace Whetstone.StoryEngine.Cache.DynamoDB.Test
                 if (storyTitle == null)
                     resp.Exceptions.Add(new Exception("version:animalfarmpi-1.5 is null"));
 
-
-                //individualTimer.Restart();
-                //var whetstoneTitle = await distCache.GetAsync<StoryTitle>("title", "version:whetstonetechnologies-0.3");
-                //individualTimer.Stop();
-                //resp.IndividualTimings.Add(individualTimer.ElapsedMilliseconds);
-                //timer.Stop();
-
-
-                //if (whetstoneTitle == null)
-                //    resp.Exceptions.Add(new Exception("version:whetstonetechnologies-0.3 is null"));
-                //else
-                //    Debug.WriteLine("whetstone title is found");
-
-
-
                 resp.Milliseconds = thirdMark - markZero;
                 bag.Add(resp);
 
