@@ -125,9 +125,8 @@ namespace Whetstone.StoryEngine.Models.Data
 
             }
 
-
-
-            return retValue ?? base.ConvertTo(context, culture, value, destinationType);
+            // Return retAttribs if it was populated, otherwise fall back to base.ConvertTo
+            return retAttribs.Count > 0 ? retAttribs : base.ConvertTo(context, culture, value, destinationType);
         }
 
         private List<IStoryCrumb> GetStateCrumbs(Dictionary<string, AttributeValue> dynamoObject, string attribName)
