@@ -100,7 +100,6 @@ namespace Whetstone.StoryEngine.Data.Tests
 
 
 
-            List<string> addedTitles = new List<string>();
 
             foreach (string title in titles)
             {
@@ -113,7 +112,6 @@ namespace Whetstone.StoryEngine.Data.Tests
 
                     fullTitle = await titleReader.GetByIdAsync(titleVer);
                     isTitleRead = true;
-                    addedTitles.Add(title);
                 }
                 catch (Exception)
                 {
