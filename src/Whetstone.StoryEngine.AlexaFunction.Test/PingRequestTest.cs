@@ -20,7 +20,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
             System.Environment.SetEnvironmentVariable("ENVIRONMENT", "dev");
             System.Environment.SetEnvironmentVariable("LOGLEVEL", "Debug");
 
-            IServiceCollection serviceCollection = new ServiceCollection();
+// Removed unused serviceCollection declaration
 
             var context = new TestLambdaContext();
             AlexaRequest req = new AlexaRequest();
