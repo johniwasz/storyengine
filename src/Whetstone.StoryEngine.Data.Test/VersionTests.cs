@@ -139,14 +139,13 @@ namespace Whetstone.StoryEngine.Data.Tests
             string[] audioFileArray = audioFiles.ToArray();
 
             int portions = 10;
-            List<string[]> breakdowns = new List<string[]>();
 
             for (int i = 0; i < audioFileArray.Length; i += portions)
             {
                 int maxCount = (i + portions < audioFileArray.Length) ? portions : audioFileArray.Length % portions;
                 string[] buffer = new string[maxCount];
                 Array.Copy(audioFileArray, i, buffer, 0, maxCount);
-                breakdowns.Add(buffer);
+                // Process the buffer here if needed
             }
 
 
