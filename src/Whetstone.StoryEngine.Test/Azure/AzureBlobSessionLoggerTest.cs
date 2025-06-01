@@ -201,14 +201,15 @@ namespace Whetstone.StoryEngine.Test.Azure
 
         private async Task VerifyLogEntryExists(string sessionId)
         {
-            var logContent = await GetLogContent(sessionId);
+            var logDate = DateTime.UtcNow;
+            var logContent = await GetLogContent(sessionId, logDate);
             Assert.False(string.IsNullOrEmpty(logContent), "Log content should not be empty");
             Assert.Contains(sessionId, logContent);
         }
 
-        private async Task<string> GetLogContent(string sessionId)
+        private async Task<string> GetLogContent(string sessionId, DateTime logDate)
         {
-            var blobName = $"sessionlogs/{DateTime.UtcNow:yyyy-MM-dd}/{sessionId}.log";
+            var blobName = $"sessionlogs/{logDate:yyyy-MM-dd}/{sessionId}.log";
             var blobClient = _containerClient.GetAppendBlobClient(blobName);
             
             var exists = await blobClient.ExistsAsync();
