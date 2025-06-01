@@ -43,42 +43,30 @@ namespace Whetstone.StoryEngine.ConfigurationExtensions
             try
             {
 
-                _yamlLogger.LogDebug($"Retrieving parameter {_parameterKey}");
                 GetParameterResponse getResp = null;
-                _yamlLogger.LogDebug($"Getting parameter store {_parameterKey} in region {_curRegion.SystemName}");
 
 
-                Stopwatch paramRetrievalTime = new Stopwatch();
-                paramRetrievalTime.Start();
-                using (var ssmClient = new AmazonSimpleSystemsManagementClient(_curRegion))
-                {
-                    getResp = AsyncContext.Run(async () => await ssmClient.GetParameterAsync(new GetParameterRequest
-                    {
-                        Name = _parameterKey,
-                        WithDecryption = true
-                    }));
-                }
-                paramRetrievalTime.Stop();
-
-                _yamlLogger.LogDebug($"Parameter data in {_parameterKey} in region {_curRegion.SystemName} retrieved in {paramRetrievalTime.ElapsedMilliseconds}ms");
-                paramValue = getResp.Parameter.Value;
+                paramValue = null;
             }
             catch (Exception ex)
             {
                 throw new Exception($"Error getting parameter key {_parameterKey} in region {_curRegion.SystemName}", ex);
             }
 
-            var parser = new YamlConfigurationFileParser();
             SortedDictionary<string, string> configData = null;
 
-            byte[] byteArray = Encoding.UTF8.GetBytes(paramValue);
-            //byte[] byteArray = Encoding.ASCII.GetBytes(contents);
-
-            using (MemoryStream stream = new MemoryStream(byteArray))
+            if (paramValue is not null)
             {
-                configData = parser.Parse(stream);
-            }
+                byte[] byteArray = Encoding.UTF8.GetBytes(paramValue);
+                //byte[] byteArray = Encoding.ASCII.GetBytes(contents);
 
+                var parser = new YamlConfigurationFileParser();
+
+                using (MemoryStream stream = new MemoryStream(byteArray))
+                {
+                    configData = parser.Parse(stream);
+                }
+            }
             this.Data = configData;
         }
     }

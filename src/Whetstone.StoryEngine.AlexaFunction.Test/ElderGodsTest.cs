@@ -9,7 +9,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
     public class ElderGodsTest : LambdaTestBase
     {
 
-        internal const string userId = "amzn1.ask.account.AE3DZ3NJLES3Z5EM7IN3WO3ZH7LXFUGNZNVHHEDTD3YKRZMVPTKIQ6P3HR4WUHYI73XB4SG7E7AYQCXZUXOTIZRGZBLGL4R23HKINZTTWRH6VROUOFR4PLTLIT4HHJX34SNRPF3FNIMJSMFMRDC4N2GFRZNGRFGCWC2JHJMKDYHW5WORECJOHII7W4DDQOHNCJ3UXPTJKZQAOZQ";
+        internal const string userId = "amzn1.ask.account.";
         internal const string sessionId = "amzn1.echo-api.session.d3f663ca-8fff-47ce-b6a1-9c79d425bbef";
 
         [Fact(DisplayName = "Elder Gods Launch Tester")]

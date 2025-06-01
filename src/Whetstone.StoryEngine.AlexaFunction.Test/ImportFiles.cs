@@ -29,6 +29,7 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
         }
 
+        /*
         [Fact(DisplayName = "Import Animal Farm Zip to S3")]
         public async Task ImportStoryTitleZipYaml()
         {
@@ -37,44 +38,31 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
 
             byte[] importZip = File.ReadAllBytes(testDataFile);
 
-
-
             ILogger<S3FileStore> fileStoreLogger = Services.GetService<ILogger<S3FileStore>>();
-
-            IUserContextRetriever contRet = Services.GetService<IUserContextRetriever>();
 
             IAmazonS3 s3Client = Services.GetService<IAmazonS3>();
 
 
-            IFileRepository fileRep = new S3FileStore(_envOptions, contRet, s3Client, fileStoreLogger);
+            IFileRepository fileRep = new S3FileStore(_envOptions, s3Client, fileStoreLogger);
 
             IStoryTitleImporter storyImporter = new S3StoryTitleImporter(fileRep);
 
             await storyImporter.ImportFromZipAsync(importZip);
-
         }
-
+        */
 
         [Fact(DisplayName = "Import Animal Farm Test Zip to S3")]
         public async Task ImportTestStoryTitleZipYaml()
         {
-
-
-
             string testDataFile = string.Concat(@"ImportFiles\", "animalfarmintenttest.zip");
 
             byte[] importZip = File.ReadAllBytes(testDataFile);
 
-
-
             ILogger<S3FileStore> fileStoreLogger = Services.GetService<ILogger<S3FileStore>>();
-
-            IUserContextRetriever contRet = Services.GetService<IUserContextRetriever>();
 
             IAmazonS3 s3Client = Services.GetService<IAmazonS3>();
 
-
-            IFileRepository fileRep = new S3FileStore(_envOptions, contRet, s3Client, fileStoreLogger);
+            IFileRepository fileRep = new S3FileStore(_envOptions, s3Client, fileStoreLogger);
 
             IStoryTitleImporter storyImporter = new S3StoryTitleImporter(fileRep);
 

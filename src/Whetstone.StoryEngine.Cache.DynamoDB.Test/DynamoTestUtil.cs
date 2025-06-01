@@ -11,7 +11,6 @@ using System;
 using Whetstone.StoryEngine.Cache.Manager;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Data.Amazon;
-using Whetstone.StoryEngine.Data.EntityFramework;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Serialization;
 using Whetstone.StoryEngine.Repository.Amazon;
@@ -200,37 +199,6 @@ namespace Whetstone.StoryEngine.Cache.DynamoDB.Test
             DatabaseConfig dbConfig = bootConfig.DatabaseSettings;
 
             return Options.Create(dbConfig);
-        }
-
-        internal static IUserContextRetriever GetUserContextRetriever(DBConnectionRetreiverType connectionRetrieverType)
-        {
-            var distCacheDict = GetInMemoryCache();
-            IOptions<EnvironmentConfig> envOpts = GetEnvironmentConfig();
-
-            EnvironmentConfig envConfig = envOpts.Value;
-
-            IOptions<DatabaseConfig> dbConfig = GetDatabaseConfig(envConfig);
-
-            IUserContextRetriever userContextRetriever = null;
-
-            ILogger<UserDataContext> dataContextLogger = GetLogger<UserDataContext>();
-
-            switch (connectionRetrieverType)
-            {
-                case DBConnectionRetreiverType.IamRole:
-
-                    var iamLogger = GetLogger<IamUserContextRetriever>();
-                    userContextRetriever = new IamUserContextRetriever(envOpts, dbConfig, distCacheDict, dataContextLogger, iamLogger);
-                    break;
-                case DBConnectionRetreiverType.Direct:
-
-                    var userLogger = GetLogger<DirectUserContextRetriever>();
-                    userContextRetriever = new DirectUserContextRetriever(envOpts, dbConfig, distCacheDict, dataContextLogger, userLogger);
-                    break;
-            }
-
-
-            return userContextRetriever;
         }
     }
 }

@@ -26,20 +26,6 @@ namespace Whetstone.StoryEngine.Data.DependencyInjection
                 x.ConnectionRetrieverType =
                     dbConfig.ConnectionRetrieverType.GetValueOrDefault(DBConnectionRetreiverType.IamRole);
             });
-
-
-            switch (dbConfig.ConnectionRetrieverType.GetValueOrDefault(
-                DBConnectionRetreiverType.IamRole))
-            {
-                case DBConnectionRetreiverType.IamRole:
-                    services.AddSingleton<IUserContextRetriever, IamUserContextRetriever>();
-                    break;
-                case DBConnectionRetreiverType.Direct:
-                    services.AddSingleton<IUserContextRetriever, DirectUserContextRetriever>();
-                    break;
-                case DBConnectionRetreiverType.SecretsManager:
-                    throw new NotImplementedException("Secrets manager retriever is not yet implemented");
-            }
         }
 
     }

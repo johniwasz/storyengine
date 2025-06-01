@@ -226,22 +226,22 @@
 
   <ItemGroup>
     <PackageReference Include="AWSSDK.DynamoDBv2" />
-    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup"/>
-    <PackageReference Include="MartinCostello.Testing.AwsLambdaTestServer"/>
+    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" />
+    <PackageReference Include="MartinCostello.Testing.AwsLambdaTestServer" />
     <PackageReference Include="Amazon.Lambda.Core" />
-    <PackageReference Include="Amazon.Lambda.TestUtilities"/>
-   <PackageReference Include="AWSSDK.SimpleSystemsManagement"/>
-    <PackageReference Include="AWSSDK.SQS"/>
-    <PackageReference Include="AWSSDK.StepFunctions"/>
+    <PackageReference Include="Amazon.Lambda.TestUtilities" />
+   <PackageReference Include="AWSSDK.SimpleSystemsManagement" />
+    <PackageReference Include="AWSSDK.SQS" />
+    <PackageReference Include="AWSSDK.StepFunctions" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Common"/>
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" />
-    <PackageReference Include="Microsoft.Extensions.Options"/>
-    <PackageReference Include="Microsoft.NET.Test.Sdk"/>
-    <PackageReference Include="Moq"/>
+    <PackageReference Include="Microsoft.Extensions.Options" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Moq" />
     <PackageReference Include="NETStandard.Library" />
-    <PackageReference Include="Newtonsoft.Json"/>
-    <PackageReference Include="xunit"/>
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -259,8 +259,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Whetstone.StoryEngine.Data.DependencyInjection\Whetstone.StoryEngine.Data.DependencyInjection.csproj" />
-    <ProjectReference Include="..\Whetstone.StoryEngine.Data.EntityFramework\Whetstone.StoryEngine.Data.EntityFramework.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine.DependencyInjection\Whetstone.StoryEngine.DependencyInjection.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine.Models\Whetstone.StoryEngine.Models.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine.Repository\Whetstone.StoryEngine.Repository.csproj" />

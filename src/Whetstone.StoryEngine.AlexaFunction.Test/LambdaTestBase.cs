@@ -15,18 +15,18 @@ namespace Whetstone.StoryEngine.AlexaFunction.Test
     public abstract class LambdaTestBase : TestServerFixture
     {
 
-        internal const string InsuranceAgentDevSkillId = "amzn1.ask.skill.ae3930f5-f28e-474a-9735-2d1490491702";
+        internal const string InsuranceAgentDevSkillId = "amzn1.ask.skill.InsuranceAgent";
 
-        internal const string ElderGodsSkilId = "amzn1.ask.skill.94c3fd9c-a915-48d8-998b-b96f85604409";
+        internal const string ElderGodsSkilId = "amzn1.ask.skill.ElderGods";
 
 
-        protected const string JohnId = "amzn1.ask.account.AHFCMHMLDLYOWUSFGZISBIEFY67AEXMXKC2WYDAJ6D3VZADVIHPNXEXPRG6JMMLF3YWWIN7Z5YZDZVKFPTP3XSGIDDSFTYPZ5QYZU4N7XFBKACWSQIRXIPRE2YYZNV2YRPKHSY5MCE5VNCPYZMTSYASF6DFN4OMHTBVE3GC5LHISZ7GZR5Q3F4YGZIO47F7C35QV4FNVVIV4HUQ";
+        protected const string JohnId = "amzn1.ask.account.longidstring";
 
-        protected const string JohnSessionId = "amzn1.ask.account.AHFCMHMLDLYOWUSFGZISBIEFY67AEXMXKC2WYDAJ6D3VZADVIHPNXEXPRG6JMMLF3YWWIN7Z5YZDZVKFPTP3XSGIDDSFTYPZ5QYZU4N7XFBKACWSQIRXIPRE2YYZNV2YRPKHSY5MCE5VNCPYZMTSYASF6DFN4OMHTBVE3GC5LHISZ7GZR5Q3F4YGZIO47F7C35QV4FNVVIV4HDR";
+        protected const string JohnSessionId = "amzn1.ask.account.bogussession";
 
-        protected const string JohnTestId = "amzn1.ask.account.c55e63f1-b638-41b2-bb03-d040567aa1d9";
+        protected const string JohnTestId = "amzn1.ask.account.4321";
 
-        protected const string JohnWhetstoneId = "amzn1.ask.account.AGXP5UXVVOA3A62CF2FQXBYRE77TL2POQNU6IHZ4OTI452KS3X6ZDJ44ZUVHNIAS46RWBMQDBPQYXT2STIBPRJMGP42XPEZVTVBXULTBLDBQAQWHF4H2LUHSVHVNSU7M6TLSY6RFBLZS2VUMECKTPIYYYAS4M6BEGRWPH7AJ5LTHJLHVEZQ4Q6KMQBQF63YYCLJ3GFUTKHK7VFQ";
+        protected const string JohnWhetstoneId = "amzn1.ask.account.1234";
 
 
         public LambdaTestBase()

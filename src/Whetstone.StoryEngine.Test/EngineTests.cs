@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 using Whetstone.StoryEngine.Cache;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Data.Caching;
-using Whetstone.StoryEngine.Data.EntityFramework.EntityManager;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Serialization;
 using Whetstone.StoryEngine.Models.Story;
@@ -144,11 +143,6 @@ namespace Whetstone.StoryEngine.Test
                 Client clientType = Models.Client.Alexa;
 
                 ITitleCacheRepository titlecache = Services.GetService<ITitleCacheRepository>();
-                IUserContextRetriever userContextRetriever = Services.GetService<IUserContextRetriever>();
-
-                ILogger<DataAppMappingReader> appLogger = Services.GetService<ILogger<DataAppMappingReader>>();
-
-                DataAppMappingReader dataAppMapping = new DataAppMappingReader(userContextRetriever, titlecache, appLogger);
 
                 TitleVersion titleVer = await appReader.GetTitleAsync(clientType, clientId, null);
                 //RequestRecordMessage queueMessage = null;

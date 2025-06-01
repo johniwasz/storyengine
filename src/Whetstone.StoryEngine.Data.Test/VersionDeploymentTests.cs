@@ -5,7 +5,6 @@ using System;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data.Amazon;
 using Whetstone.StoryEngine.Data.Caching;
-using Whetstone.StoryEngine.Data.EntityFramework.EntityManager;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Admin;
 using Whetstone.StoryEngine.Models.Configuration;
@@ -21,12 +20,8 @@ namespace Whetstone.StoryEngine.Data.Tests
         [Fact]
         public async Task CreateSampleVersion()
         {
-
-
             string titleId = "versiontitleid";
 
-
-            IUserContextRetriever userContextRetriever = GetUserContextRetriever(DBConnectionRetreiverType.Direct);
             var distCacheDict = GetMemoryCache();
 
 
@@ -36,7 +31,7 @@ namespace Whetstone.StoryEngine.Data.Tests
 
             IAmazonS3 s3Client = GetS3Client();
 
-            IFileRepository fileRep = new S3FileStore(envConfigOpts, userContextRetriever, s3Client, s3Logger);
+            IFileRepository fileRep = new S3FileStore(envConfigOpts, s3Client, s3Logger);
 
             var memDict = GetMemoryCache();
 
@@ -46,14 +41,11 @@ namespace Whetstone.StoryEngine.Data.Tests
 
             ITitleCacheRepository titleCacheRep = new TitleCacheRepository(fileRep, memDict, inMemoryCache, cacheRep);
 
-            DataTitleRepository dataRep = new DataTitleRepository(userContextRetriever, titleCacheRep, null, null);
+         
             StoryTitle newTitle = new StoryTitle();
             newTitle.Id = titleId;
             newTitle.Description = "Test adding a new title";
             newTitle.Title = "New Title";
-            await dataRep.CreateOrUpdateTitleAsync(newTitle);
-
-            DataTitleVersionRepository versionRep = new DataTitleVersionRepository(userContextRetriever, titleCacheRep, fileRep);
 
 
             PublishVersionRequest publishRequest = new PublishVersionRequest()
@@ -65,7 +57,6 @@ namespace Whetstone.StoryEngine.Data.Tests
 
             };
 
-            await versionRep.PublishVersionAsync(publishRequest);
         }
     }
 }

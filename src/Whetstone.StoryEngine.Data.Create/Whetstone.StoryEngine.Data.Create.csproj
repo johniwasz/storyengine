@@ -80,15 +80,14 @@
     <EmbeddedResource Include="Migrations\Scripts\lambdausercreate.sql" />
     <EmbeddedResource Include="Migrations\Scripts\lambdausergrants.sql" />
     <EmbeddedResource Include="Migrations\Scripts\add_messageconsentview.sql" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational"/>
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug"/>
-    <PackageReference Include="Npgsql"/>
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" />
+    <PackageReference Include="Npgsql" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Whetstone.StoryEngine.Data.EntityFramework\Whetstone.StoryEngine.Data.EntityFramework.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine.Data\Whetstone.StoryEngine.Data.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine.Repository\Whetstone.StoryEngine.Repository.csproj" />
   </ItemGroup>

@@ -4,7 +4,6 @@ using Amazon.S3;
 using Amazon.XRay.Recorder.Core;
 using Amazon.XRay.Recorder.Core.Strategies;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +15,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -24,9 +22,6 @@ using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data;
 using Whetstone.StoryEngine.Data.Amazon;
 using Whetstone.StoryEngine.Data.Caching;
-using Whetstone.StoryEngine.Data.DependencyInjection;
-using Whetstone.StoryEngine.Data.EntityFramework;
-using Whetstone.StoryEngine.Data.EntityFramework.EntityManager;
 using Whetstone.StoryEngine.Data.Yaml;
 using Whetstone.StoryEngine.DependencyInjection;
 using Whetstone.StoryEngine.Models;
@@ -37,12 +32,11 @@ using Whetstone.StoryEngine.Models.Story;
 using Whetstone.StoryEngine.Models.Story.Cards;
 using Whetstone.StoryEngine.Repository;
 using Whetstone.StoryEngine.Repository.Amazon;
-using Whetstone.StoryEngine.Test.DbTests;
 
 namespace Whetstone.StoryEngine.Test
 {
 
-    public class TestServerFixture : EntityContextTestBase, IDisposable
+    public class TestServerFixture : IDisposable
     {
 
         internal const string TESTCRED01 = "dev/testcred01";
@@ -90,21 +84,24 @@ namespace Whetstone.StoryEngine.Test
 
             System.Environment.SetEnvironmentVariable(ClientLambdaBase.STORYBUCKETCONFIG, bootConfig.Bucket);
 
-            System.Environment.SetEnvironmentVariable(ClientLambdaBase.MESSAGESTEPFUNCTIONCONFIG, bootConfig.SmsConfig.NotificationStepFunctionArn);
+            if(bootConfig.SmsConfig?.NotificationStepFunctionArn is not null)
+                System.Environment.SetEnvironmentVariable(ClientLambdaBase.MESSAGESTEPFUNCTIONCONFIG, bootConfig.SmsConfig.NotificationStepFunctionArn);
 
-            System.Environment.SetEnvironmentVariable(ClientLambdaBase.CACHETABLECONFIG, bootConfig.CacheConfig.DynamoDBTableName);
+            if (bootConfig.CacheConfig?.DynamoDBTableName is not null)
+                System.Environment.SetEnvironmentVariable(ClientLambdaBase.CACHETABLECONFIG, bootConfig.CacheConfig.DynamoDBTableName);
 
-            System.Environment.SetEnvironmentVariable(ClientLambdaBase.USERTABLECONFIG, bootConfig.DynamoDBTables.UserTable);
+            if (bootConfig.DynamoDBTables?.UserTable is not null)
+                System.Environment.SetEnvironmentVariable(ClientLambdaBase.USERTABLECONFIG, bootConfig.DynamoDBTables.UserTable);
 
-            System.Environment.SetEnvironmentVariable(ClientLambdaBase.SESSIONAUDITURLCONFIG, bootConfig.SessionAuditQueue);
+            if (bootConfig.SessionAuditQueue is not null)
+                System.Environment.SetEnvironmentVariable(ClientLambdaBase.SESSIONAUDITURLCONFIG, bootConfig.SessionAuditQueue);
 
-            System.Environment.SetEnvironmentVariable(ClientLambdaBase.LOGLEVELCONFIG, bootConfig.LogLevel.GetValueOrDefault(LogLevel.Debug).ToString());
+            if(bootConfig.LogLevel is not null)
+                System.Environment.SetEnvironmentVariable(ClientLambdaBase.LOGLEVELCONFIG, bootConfig.LogLevel.GetValueOrDefault(LogLevel.Debug).ToString());
 
             Bootstrapping.ConfigureServices(ServiceCollection, Configuration, bootConfig);
-            DataBootstrapping.ConfigureDatabaseService(this.ServiceCollection, bootConfig.DatabaseSettings);
 
-            this.ServiceCollection.AddTransient<UserDataRepository>();
-
+            /*
             ServiceCollection.AddSingleton<Func<UserRepositoryType, IStoryUserRepository>>(serviceProvider => handlerKey =>
             {
                 IStoryUserRepository retUserRep = null;
@@ -123,19 +120,18 @@ namespace Whetstone.StoryEngine.Test
 
                 return retUserRep;
             });
-
-            ServiceCollection.AddTransient<IStoryVersionRepository, DataTitleVersionRepository>();
+            */
 
             ServiceCollection.AddTransient<IFileReader, S3FileReader>();
 
             ServiceCollection.AddTransient<IFileRepository, S3FileStore>();
-
+            /*
             ServiceCollection.AddTransient<IProjectRepository, ProjectRepository>();
 
             ServiceCollection.AddTransient<IStoryVersionRepository, DataTitleVersionRepository>();
 
             ServiceCollection.AddTransient<IOrganizationRepository, OrganizationRepository>();
-
+            */
             ServiceCollection.Configure<AmazonDynamoDBConfig>(x =>
             {
                 x.RegionEndpoint = RegionEndpoint.USEast1;
@@ -158,7 +154,6 @@ namespace Whetstone.StoryEngine.Test
             Services = ServiceCollection.BuildServiceProvider();
         }
 
-
         protected S3FileStore GetBlobRepository()
         {
             S3FileStore blobRep = Services.GetService<S3FileStore>();
@@ -167,53 +162,7 @@ namespace Whetstone.StoryEngine.Test
 
         protected SetCookieHeaderValue Cookie { get; set; }
 
-        protected IUserContextRetriever GetLocalUserContext()
-        {
-
-            ILogger<UserDataContext> contextLogger = this.Services.GetService<ILogger<UserDataContext>>();
-
-
-            EnvironmentConfig envConfig = new EnvironmentConfig(RegionEndpoint.USEast1, "notneeded");
-
-            IOptions<EnvironmentConfig> envOpts = Options.Create<EnvironmentConfig>(envConfig);
-
-            DatabaseConfig dbConfig = new DatabaseConfig
-            {
-                AdminUser = "postgres",
-                EngineUser = "postgres",
-                Port = 5433,
-                SessionLoggingUser = "postgres",
-                Settings = new Dictionary<string, string>()
-            };
-            dbConfig.Settings.Add("Password", "xxxxxxxx");
-            dbConfig.Settings.Add("Host", "127.0.0.1");
-            dbConfig.Settings.Add("Database", "postgres");
-            dbConfig.SmsUser = "postgres";
-            dbConfig.EnableSensitiveLogging = true;
-            dbConfig.DirectConnect = new DBDirectConnectConfig();
-            dbConfig.DirectConnect.UserName = "postgres";
-            dbConfig.DirectConnect.ClientSecret = "xxxxxxxx";
-
-
-            dbConfig.ConnectionRetrieverType =
-                    dbConfig.ConnectionRetrieverType.GetValueOrDefault(DBConnectionRetreiverType.Direct);
-
-            IOptions<DatabaseConfig> dbOptions = Options.Create<DatabaseConfig>(dbConfig);
-
-
-            ILogger<DirectUserContextRetriever> directLogger =
-                this.Services.GetService<ILogger<DirectUserContextRetriever>>();
-
-            var distCache = this.Services.GetService<IMemoryCache>();
-
-            IUserContextRetriever directRetriever = new DirectUserContextRetriever(envOpts, dbOptions, distCache, contextLogger, directLogger);
-
-
-            return directRetriever;
-
-        }
-
-
+       
         protected JsonSerializerSettings GetJsonSettings()
         {
 

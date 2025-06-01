@@ -10,7 +10,6 @@ using Microsoft.Extensions.Options;
 using System;
 using Whetstone.StoryEngine.Data.Amazon;
 using Whetstone.StoryEngine.Data.Caching;
-using Whetstone.StoryEngine.Data.EntityFramework;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Serialization;
 
@@ -132,42 +131,6 @@ namespace Whetstone.StoryEngine.Data.Tests
             return memCache;
         }
 
-
-
-
-
-        protected IUserContextRetriever GetUserContextRetriever(DBConnectionRetreiverType connectionRetrieverType)
-        {
-            var distCacheDict = GetInMemoryCache();
-            IOptions<EnvironmentConfig> envOpts = GetEnvironmentConfig();
-
-            EnvironmentConfig envConfig = envOpts.Value;
-
-            IOptions<DatabaseConfig> dbConfig = GetDatabaseConfig(envConfig);
-
-            IUserContextRetriever userContextRetriever = null;
-
-            ILogger<UserDataContext> dataContextLogger = _loggerFactory.CreateLogger<UserDataContext>();
-
-            switch (connectionRetrieverType)
-            {
-                case DBConnectionRetreiverType.IamRole:
-
-                    var iamLogger = _loggerFactory.CreateLogger<IamUserContextRetriever>();
-                    userContextRetriever = new IamUserContextRetriever(envOpts, dbConfig, distCacheDict, dataContextLogger, iamLogger);
-                    break;
-                case DBConnectionRetreiverType.Direct:
-
-                    var userLogger = _loggerFactory.CreateLogger<DirectUserContextRetriever>();
-                    userContextRetriever = new DirectUserContextRetriever(envOpts, dbConfig, distCacheDict, dataContextLogger, userLogger);
-                    break;
-            }
-
-
-            return userContextRetriever;
-        }
-
-
         protected ITitleCacheRepository GetTitleCache()
         {
 
@@ -187,10 +150,7 @@ namespace Whetstone.StoryEngine.Data.Tests
             IOptions<EnvironmentConfig> envOpt = Options.Create<EnvironmentConfig>(envConfig);
             IAmazonS3 s3Client = GetS3Client();
 
-            IUserContextRetriever contRet = GetUserContextRetriever(DBConnectionRetreiverType.Direct);
-
-            IFileRepository fileRep = new S3FileStore(envOpt, contRet, s3Client, s3Logger);
-
+            IFileRepository fileRep = new S3FileStore(envOpt,  s3Client, s3Logger);
 
             return new TitleCacheRepository(fileRep, distCacheDict, inMemoryCache, titleCacheLogger);
         }

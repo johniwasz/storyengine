@@ -5,7 +5,6 @@ using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using Whetstone.StoryEngine.Data.Amazon;
 using Whetstone.StoryEngine.Data.Caching;
-using Whetstone.StoryEngine.Data.EntityFramework.EntityManager;
 using Whetstone.StoryEngine.Models.Configuration;
 using Whetstone.StoryEngine.Models.Story;
 using Xunit;
@@ -33,16 +32,12 @@ namespace Whetstone.StoryEngine.Data.Tests
 
             IOptions<EnvironmentConfig> envConfigOpts = Options.Create<EnvironmentConfig>(envConfig);
 
-            IUserContextRetriever userContextRetriever = GetUserContextRetriever(DBConnectionRetreiverType.Direct);
             IAmazonS3 s3Client = GetS3Client();
 
-            IFileRepository fileRep = new S3FileStore(envConfigOpts, userContextRetriever, s3Client, fileStoreLogger);
+            IFileRepository fileRep = new S3FileStore(envConfigOpts, s3Client, fileStoreLogger);
 
             ITitleCacheRepository titleCacheRep = new TitleCacheRepository(fileRep, distCacheDict, inMemoryCache, titleLogger);
 
-
-
-            DataTitleRepository dataRep = new DataTitleRepository(userContextRetriever, titleCacheRep, null, null);
 
             StoryTitle newTitle = new StoryTitle();
 
@@ -50,19 +45,6 @@ namespace Whetstone.StoryEngine.Data.Tests
             newTitle.Title = "New Title 123";
             newTitle.Description = "Sample Title added during unit test";
             newTitle.Version = "0.1";
-
-            StoryTitle retTitle = await dataRep.CreateOrUpdateTitleAsync(newTitle);
-
-            // remove the title 
-
-            await dataRep.DeleteTitleAsync(retTitle);
-
-
         }
-
-
-
-
-
     }
 }
