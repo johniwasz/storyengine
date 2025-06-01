@@ -38,6 +38,7 @@
     <PackageVersion Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.3.0" />
     <PackageVersion Include="Microsoft.Azure.Functions.Worker.Sdk" Version="2.0.4" />
     <PackageVersion Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
+    <PackageVersion Include="Azure.Storage.Blobs" Version="12.19.1" />
   </ItemGroup>
   <ItemGroup Label="AWS">
     <PackageVersion Include="Amazon.Lambda.Core" Version="2.5.1" />
