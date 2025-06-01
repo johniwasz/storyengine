@@ -136,7 +136,8 @@ namespace Whetstone.StoryEngine.Test.Azure
             var sessionId = Guid.NewGuid().ToString();
             var request = CreateTestStoryRequest(sessionId);
             var response = CreateTestStoryResponse();
-            var expectedBlobName = $"sessionlogs/{DateTime.UtcNow:yyyy-MM-dd}/{sessionId}.log";
+            var currentDate = DateTime.UtcNow; // Capture the current date once
+            var expectedBlobName = $"sessionlogs/{currentDate:yyyy-MM-dd}/{sessionId}.log";
 
             // Act
             await _logger.LogRequestAsync(request, response);
