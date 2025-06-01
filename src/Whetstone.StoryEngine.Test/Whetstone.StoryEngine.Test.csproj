@@ -246,6 +246,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Azure.Storage.Blobs"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -266,6 +267,7 @@
     <ProjectReference Include="..\Whetstone.StoryEngine.Repository\Whetstone.StoryEngine.Repository.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine.Data\Whetstone.StoryEngine.Data.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine\Whetstone.StoryEngine.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.AzureServices\Whetstone.StoryEngine.Azure.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

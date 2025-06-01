@@ -91,6 +91,72 @@ namespace Whetstone.StoryEngine.Azure.Services
             string date = DateTime.UtcNow.ToString("yyyy-MM-dd");
             return $"sessionlogs/{date}/{sessionId}.log";
         }
+
+        /// <summary>
+        /// Reads log data for a specific session from blob storage.
+        /// </summary>
+        /// <param name="sessionId">Session ID to read logs for.</param>
+        /// <returns>Log content as string, or null if not found.</returns>
+        public async Task<string?> ReadSessionLogsAsync(string sessionId)
+        {
+            try
+            {
+                var blobClient = _containerClient.GetAppendBlobClient(GetBlobName(sessionId));
+                if (!await blobClient.ExistsAsync())
+                {
+                    return null;
+                }
+
+                var response = await blobClient.DownloadContentAsync();
+                return response.Value.Content.ToString();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Deletes log data for a specific session from blob storage.
+        /// </summary>
+        /// <param name="sessionId">Session ID to delete logs for.</param>
+        /// <returns>True if deleted successfully, false otherwise.</returns>
+        public async Task<bool> DeleteSessionLogsAsync(string sessionId)
+        {
+            try
+            {
+                var blobClient = _containerClient.GetAppendBlobClient(GetBlobName(sessionId));
+                if (await blobClient.ExistsAsync())
+                {
+                    await blobClient.DeleteAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Deletes all blobs in the container (useful for test cleanup).
+        /// </summary>
+        public async Task DeleteAllLogsAsync()
+        {
+            try
+            {
+                await foreach (var blobItem in _containerClient.GetBlobsAsync())
+                {
+                    var blobClient = _containerClient.GetBlobClient(blobItem.Name);
+                    await blobClient.DeleteIfExistsAsync();
+                }
+            }
+            catch (Exception)
+            {
+                // Ignore cleanup errors
+            }
+        }
     }
 
 }

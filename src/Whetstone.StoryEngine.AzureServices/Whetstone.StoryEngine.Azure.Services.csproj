@@ -9,7 +9,6 @@
   <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs"/>
     <PackageReference Include="Newtonsoft.Json"/>
-    <ProjectReference Include="..\Whetstone.StoryEngine.Data\Whetstone.StoryEngine.Data.csproj" />
   </ItemGroup>
 
 </Project>
