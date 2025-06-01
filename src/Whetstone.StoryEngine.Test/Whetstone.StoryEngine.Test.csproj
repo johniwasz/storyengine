@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
 
@@ -264,6 +264,7 @@
     <ProjectReference Include="..\Whetstone.StoryEngine.Repository\Whetstone.StoryEngine.Repository.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine.Data\Whetstone.StoryEngine.Data.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine\Whetstone.StoryEngine.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.AzureServices\Whetstone.StoryEngine.Azure.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>
