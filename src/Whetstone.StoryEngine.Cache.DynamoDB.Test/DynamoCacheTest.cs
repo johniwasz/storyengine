@@ -61,24 +61,17 @@ namespace Whetstone.StoryEngine.Cache.DynamoDB.Test
 
             IOptions<EnvironmentConfig> envConfigOpts = Options.Create<EnvironmentConfig>(envConfig);
 
-
-            IUserContextRetriever contextRet = DynamoTestUtil.GetUserContextRetriever(DBConnectionRetreiverType.Direct);
-
             IFileReader fileRep = new S3FileReader(envConfigOpts, s3Client, s3FileStore);
 
             ITitleCacheRepository titleCacheRep = new TitleCacheRepository(fileRep, distCacheDict, memCache, titleCacheLogger);
 
             IAppMappingReader appReader = new CacheAppMappingReader(titleCacheRep);
 
-
-
             IStoryUserRepository userRep = DynamoTestUtil.GetStoryUserRepository();
 
             ILogger<SessionStoreCacheManager> sessionLogger = DynamoTestUtil.GetLogger<SessionStoreCacheManager>();
 
             ISessionStoreManager storManager = new SessionStoreCacheManager(distCacheDict, sessionLogger);
-
-
 
             var bag = new ConcurrentBag<TimingResponse>();
             var tasks = userIds.Select(async item =>

@@ -5,8 +5,4 @@
 
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Whetstone.StoryEngine.Data.EntityFramework\Whetstone.StoryEngine.Data.EntityFramework.csproj" />
-  </ItemGroup>
-
 </Project>

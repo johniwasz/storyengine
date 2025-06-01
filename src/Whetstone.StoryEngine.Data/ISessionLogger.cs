@@ -13,7 +13,6 @@ namespace Whetstone.StoryEngine.Data
         /// <param name="response">Story Engine response which will be translated to the format of the calling client.</param>
         Task LogRequestAsync(StoryRequest request, StoryResponse response);
 
-
         Task LogRequestAsync(StoryRequest request, StoryResponse response, string rawClientRequestText, string rawClientResponseText);
 
         Task LogRequestAsync(StoryRequest request, CanFulfillResponse fulfillResponse);

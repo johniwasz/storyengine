@@ -206,27 +206,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Amazon.Lambda.Core"/>
-    <PackageReference Include="Amazon.Lambda.SQSEvents"/>
-    <PackageReference Include="Amazon.Lambda.TestUtilities"/>
-    <PackageReference Include="MartinCostello.Testing.AwsLambdaTestServer"/>
-    <PackageReference Include="Microsoft.CodeAnalysis.Common"/>
+    <PackageReference Include="Amazon.Lambda.Core" />
+    <PackageReference Include="Amazon.Lambda.Serialization.Json" />
+    <PackageReference Include="Amazon.Lambda.SQSEvents" />
+    <PackageReference Include="Amazon.Lambda.TestUtilities" />
+    <PackageReference Include="MartinCostello.Testing.AwsLambdaTestServer" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" />
     <PackageReference Include="MessagePack" />
 	  <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="Moq" />
-    <PackageReference Include="Whetstone.Alexa"/>
-    <PackageReference Include="xunit"/>
+    <PackageReference Include="Whetstone.Alexa" />
+    <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <DotNetCliToolReference Include="dotnet-xunit"/>
+    <DotNetCliToolReference Include="dotnet-xunit" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Whetstone.StoryEngine.AlexaFunction\Whetstone.StoryEngine.AlexaFunction.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine.AlexaProcessor\Whetstone.StoryEngine.AlexaProcessor.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine.DependencyInjection\Whetstone.StoryEngine.DependencyInjection.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine.Test\Whetstone.StoryEngine.Test.csproj" />

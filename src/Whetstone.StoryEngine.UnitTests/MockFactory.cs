@@ -1,5 +1,4 @@
 ﻿using Amazon;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -15,7 +14,6 @@ using Whetstone.StoryEngine;
 using Whetstone.StoryEngine.AlexaProcessor;
 using Whetstone.StoryEngine.AlexaProcessor.Configuration;
 using Whetstone.StoryEngine.Data;
-using Whetstone.StoryEngine.Data.EntityFramework;
 using Whetstone.StoryEngine.Models;
 using Whetstone.StoryEngine.Models.Conditions;
 using Whetstone.StoryEngine.Models.Configuration;
@@ -96,8 +94,7 @@ namespace Whetstone.UnitTests
         {
             var loggerFactory = LoggerFactory.Create(builder =>
             {
-                builder
-                       .AddConsole();
+                builder.AddConsole();
             });
 
 
@@ -109,8 +106,7 @@ namespace Whetstone.UnitTests
         {
             var loggerFactory = LoggerFactory.Create(builder =>
             {
-                builder
-                    .AddConsole();
+                builder.AddConsole();
             });
 
 
@@ -124,8 +120,6 @@ namespace Whetstone.UnitTests
 
             appMappingMock.Setup(x => x.GetTitleAsync(Client.GoogleHome, "animalfarmpi", null))
                 .ReturnsAsync(new TitleVersion("animalfarmpi", "1.5"));
-
-
 
             return appMappingMock.Object;
         }
@@ -156,7 +150,6 @@ namespace Whetstone.UnitTests
                     DataTitleClientUser user = new DataTitleClientUser
                     {
                         TitleId = request.SessionContext.TitleVersion.TitleId.GetValueOrDefault(),
-
                         UserId = request.UserId,
                         Client = request.Client,
                         LastAccessedDate = curTime,
@@ -531,13 +524,7 @@ namespace Whetstone.UnitTests
                 options.BucketName = "unittestbucket";
             });
 
-            //string dbCon = GetEncryptedValue(@"/storyengine/dev/enginedb");
-
-
             string dbCon = GetEncryptedValue();
-
-
-
 
 
             services.Configure<SessionAuditConfig>(options =>
@@ -566,21 +553,6 @@ namespace Whetstone.UnitTests
             services.AddSingleton<Func<UserRepositoryType, IStoryUserRepository>>(dispatcherFunc => key =>
             {
                 return storyUserRep;
-            });
-
-            services.AddSingleton<Func<string, DbContextOptions<UserDataContext>>>(key =>
-            {
-
-                DbContextOptionsBuilder<UserDataContext> contextBuilder = new DbContextOptionsBuilder<UserDataContext>();
-
-                contextBuilder.EnableSensitiveDataLogging();
-                contextBuilder.UseNpgsql(dbCon,
-                     b =>
-                     {
-                         b.EnableRetryOnFailure();
-                     });
-
-                return contextBuilder.Options;
             });
 
             services.Configure<SmsStepFunctionHandlerConfig>(options =>

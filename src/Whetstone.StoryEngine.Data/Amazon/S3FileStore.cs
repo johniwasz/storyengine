@@ -21,13 +21,9 @@ namespace Whetstone.StoryEngine.Data.Amazon
 
         private readonly ILogger<S3FileStore> _dataLogger;
 
-        private readonly IUserContextRetriever _contextRet;
-
-
-        public S3FileStore(IOptions<EnvironmentConfig> envConfig, IUserContextRetriever userContextRetriever, IAmazonS3 s3Client, ILogger<S3FileStore> logger) : base(envConfig, s3Client, logger)
+        public S3FileStore(IOptions<EnvironmentConfig> envConfig, IAmazonS3 s3Client, ILogger<S3FileStore> logger) : base(envConfig, s3Client, logger)
         {
             _dataLogger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _contextRet = userContextRetriever ?? throw new ArgumentNullException(nameof(userContextRetriever));
         }
 
 
@@ -96,23 +92,6 @@ namespace Whetstone.StoryEngine.Data.Amazon
 
             List<AudioFileInfo> audioFileList = new AutoConstructedList<AudioFileInfo>();
 
-            try
-            {
-                ProjectVersionFileMapping fileMapping = await GetProjectVersionMapping(projectId, versionId);
-
-                string audioPath = GetAudioPath(fileMapping);
-
-                audioFileList = await S3Storage.ListAudioFileInfoAsync(_s3Client, _bucketName, audioPath);
-
-
-            }
-            catch (Exception ex)
-            {
-
-                _dataLogger.LogError(ex, $"Error getting audio files for projectid {projectId} and versionid {versionId}");
-            }
-
-
             return audioFileList;
 
         }
@@ -136,26 +115,6 @@ namespace Whetstone.StoryEngine.Data.Amazon
 
             AudioFileInfo fileInfo = null;
 
-            try
-            {
-                ProjectVersionFileMapping fileMapping = await GetProjectVersionMapping(projectId, versionId);
-
-                string audioPath = GetAudioPath(fileMapping);
-
-                audioPath = $"{audioPath}/{fileName}";
-
-                fileInfo = await S3Storage.GetAudioFileInfoAsync(_s3Client, _bucketName, audioPath, fileName);
-
-
-            }
-            catch (Exception ex)
-            {
-
-                // BUGBUG:TODO:SANJ - Workout with John the proper way to bubble up errors here
-                _dataLogger.LogError(ex, $"Error getting audio file info for projectid {projectId} versionid {versionId} filename {fileName}");
-            }
-
-
             return fileInfo;
 
         }
@@ -177,6 +136,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
 
             string audioPath = String.Empty;
 
+            /*
             try
             {
                 ProjectVersionFileMapping fileMapping = await GetProjectVersionMapping(projectId, versionId);
@@ -196,7 +156,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
                 _dataLogger.LogError(ex, $"Error deleting file: {fileName} at path {audioPath} for projectid {projectId} and versionid {versionId}");
             }
 
-
+            */
         }
 
         public async Task<byte[]> GetFileContentAsync(TitleVersion titleVer, string fileName)
@@ -226,7 +186,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
                 throw new ArgumentNullException(nameof(fileName));
 
             FileContent retContents = null;
-
+            /*
             try
             {
                 ProjectVersionFileMapping fileMapping = await GetProjectVersionMapping(projectId, versionId);
@@ -250,7 +210,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
             {
                 _dataLogger.LogError(ex, $"Error getting audio file {fileName} for projectid {projectId} and versionid {versionId}");
             }
-
+            */
 
             return retContents;
 
@@ -285,7 +245,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
                 throw new ArgumentNullException(nameof(fileName));
 
             FileContentStream retContents = null;
-
+            /*
             try
             {
                 ProjectVersionFileMapping fileMapping = await GetProjectVersionMapping(projectId, versionId);
@@ -311,7 +271,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
                 _dataLogger.LogError(ex, $"Error getting audio file {fileName} for projectid {projectId} and versionid {versionId}");
             }
 
-
+            */
             return retContents;
 
 
@@ -348,10 +308,11 @@ namespace Whetstone.StoryEngine.Data.Amazon
 
             string audioPath;
 
-            AudioFileInfo fileInfo;
+            AudioFileInfo fileInfo = null;
 
             try
             {
+                /*
                 string mimeType = GetMimeByFileName(fileName);
 
                 ProjectVersionFileMapping fileMapping = await GetProjectVersionMapping(projectId, versionId);
@@ -364,7 +325,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
                 await S3Storage.StoreFileAsync(_s3Client, _bucketName, audioPath, mimeType, stm);
 
                 fileInfo = await S3Storage.GetAudioFileInfoAsync(_s3Client, _bucketName, audioPath, fileName);
-
+                */
             }
             catch (Exception ex)
             {
@@ -402,8 +363,9 @@ namespace Whetstone.StoryEngine.Data.Amazon
             string audioFileExtension = Path.GetExtension(fileName);
             Guid uploadFileId = Guid.NewGuid();
             string uploadFileName = String.Concat(uploadFileId, audioFileExtension);
-            UploadMediaFileInfo fileInfo;
+            UploadMediaFileInfo fileInfo = null;
 
+            /*
             try
             {
                 string mimeType = GetMimeByFileName(fileName);
@@ -431,6 +393,7 @@ namespace Whetstone.StoryEngine.Data.Amazon
                 _dataLogger.LogError(ex, $"Error storing audio file {fileName} for projectid {projectId} and versionid {versionId}");
                 throw;
             }
+            */
 
             return fileInfo;
         }
@@ -474,7 +437,8 @@ namespace Whetstone.StoryEngine.Data.Amazon
                 throw new ArgumentNullException(nameof(uploadFileInfo.FileName));
             }
 
-            AudioFileInfo fileInfo;
+            AudioFileInfo fileInfo = null;
+            /*
             try
             {
                 string mimeType = GetMimeByFileName(uploadFileInfo.OriginalFileName);
@@ -498,32 +462,9 @@ namespace Whetstone.StoryEngine.Data.Amazon
                 _dataLogger.LogError(ex, $"Error commmtting audio file {uploadFileInfo.OriginalFileName} from upload file: {uploadFileInfo.FileName} for projectid {uploadFileInfo.ProjectId} and versionid {uploadFileInfo.VersionId}");
                 throw;
             }
-
+            */
             return fileInfo;
         }
-
-        private async Task<ProjectVersionFileMapping> GetProjectVersionMapping(Guid projectId, Guid versionId)
-        {
-            if (projectId == default)
-                throw new ArgumentException($"Invalid value provided for {nameof(projectId)}");
-
-            if (versionId == default)
-            {
-                throw new ArgumentException($"Invalid value provided for {nameof(versionId)}");
-            }
-
-            ProjectVersionFileMapping fileMapping;
-            using (var userContext = await _contextRet.GetUserDataContextAsync())
-            {
-                fileMapping = await userContext.GetProjectVersionMapping(projectId, versionId);
-            }
-
-
-            return fileMapping;
-        }
-
-
-
 
         public async Task SetTextContentAsync(string fileName, string contents, string mimeType)
         {
