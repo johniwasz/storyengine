@@ -6,8 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="Amazon.AspNetCore.Identity.Cognito" Version="3.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.1" />
-    <PackageReference Include="Npgsql" Version="7.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="9.0.5" />
+    <PackageReference Include="Npgsql" Version="9.0.3" />
   </ItemGroup>
 
   <ItemGroup>
