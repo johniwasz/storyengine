@@ -54,7 +54,7 @@
     <None Remove="ImportFiles\whetstonetechnologies\0.3\whetstonetechnologies.yaml" />
     <None Remove="ImportFiles\whetstonetechnologies\0.4\whetstonetechnologies.yaml" />
     <None Remove="Messages\crxdispatch.json" />
-    <None Remove="Messages\dialogflowrequest01.json" />
+
     <None Remove="Messages\dispatchmessage.json" />
     <None Remove="Messages\inboundmsg01.json" />
     <None Remove="Messages\inboundprodsms.json" />
@@ -136,9 +136,7 @@
     <Content Include="Messages\crxdispatch.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Messages\dialogflowrequest01.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+
     <Content Include="Messages\dispatchmessage.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -264,6 +262,7 @@
     <ProjectReference Include="..\Whetstone.StoryEngine.Repository\Whetstone.StoryEngine.Repository.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine.Data\Whetstone.StoryEngine.Data.csproj" />
     <ProjectReference Include="..\Whetstone.StoryEngine\Whetstone.StoryEngine.csproj" />
+    <ProjectReference Include="..\Whetstone.StoryEngine.AzureServices\Whetstone.StoryEngine.Azure.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>
